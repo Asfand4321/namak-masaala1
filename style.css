@@ -1287,3 +1287,116 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+/* Auth pages (login / signup) */
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.auth-card {
+  padding: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-field input {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+.field-hint {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.form-note {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.form-error {
+  font-size: 0.85rem;
+  color: #b91c1c;
+}
+
+.form-switch {
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.form-switch a,
+.form-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.form-switch a:hover,
+.form-link:hover {
+  text-decoration: underline;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.auth-side {
+  padding: 18px;
+}
+
+.form-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.time-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+@media (max-width: 900px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
