@@ -810,3 +810,128 @@ img {
     height: 52px;
   }
 }
+
+/* === Cart page (compact + warm) === */
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.cart-items,
+.cart-summary {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff7ed;              /* light warm orange */
+  border: 1px solid #fed7aa;        /* soft border */
+}
+
+.cart-header-row,
+.cart-row {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) 80px 80px 80px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cart-header-row {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #fed7aa;
+  margin-bottom: 2px;
+}
+
+.cart-row {
+  padding: 6px 0;
+  border-bottom: 1px solid #fee2c5;
+}
+
+.cart-item-main {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cart-thumb {
+  flex: 0 0 52px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f97316;
+}
+
+.cart-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-text {
+  flex: 1;
+}
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.qty-btn {
+  border-radius: 999px;
+  border: 1px solid #fed7aa;
+  background: #fff;
+  padding: 1px 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.cart-price,
+.cart-line-total {
+  font-size: 0.82rem;
+  color: #111827;
+}
+
+.cart-line-total {
+  font-weight: 600;
+}
+
+.cart-empty-note {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  margin-bottom: 4px;
+}
+
+.cart-summary-total {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* mobile layout */
+@media (max-width: 768px) {
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cart-header-row,
+  .cart-row {
+    grid-template-columns: minmax(0, 3fr) 70px 70px 70px;
+  }
+
+  .cart-thumb {
+    flex: 0 0 48px;
+    height: 42px;
+  }
+}
