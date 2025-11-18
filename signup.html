@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up | Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #faf7f2;
+    }
+
+    .auth-container {
+      max-width: 420px;
+      margin: 80px auto 40px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 24px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .auth-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #2d2a24;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      font-size: 0.9rem;
+      color: #7a7468;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .auth-form-group {
+      margin-bottom: 14px;
+    }
+
+    .auth-form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #403b33;
+    }
+
+    .auth-form-group input {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 8px;
+      border: 1px solid #ddd0c0;
+      font-size: 0.95rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .auth-form-group input:focus {
+      border-color: #e67e22;
+      box-shadow: 0 0 0 2px rgba(230,126,34,0.18);
+    }
+
+    .auth-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .auth-row .auth-form-group {
+      flex: 1;
+    }
+
+    .auth-hint {
+      font-size: 0.78rem;
+      color: #8a8376;
+      margin-top: 3px;
+    }
+
+    .auth-error {
+      font-size: 0.8rem;
+      color: #c0392b;
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .auth-submit {
+      width: 100%;
+      margin-top: 4px;
+      padding: 11px 0;
+      border-radius: 999px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      background: #e67e22;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
+    }
+
+    .auth-submit:hover {
+      background: #cf6d16;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+    }
+
+    .auth-submit:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .auth-bottom-text {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 14px;
+      color: #6b6458;
+    }
+
+    .auth-bottom-text a {
+      color: #e67e22;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-bottom-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Simple header (match with rest of site later) */
+    header.navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #e67e22;
+    }
+    .nav-links a {
+      margin-left: 16px;
+      font-size: 0.95rem;
+      color: #4a4338;
+      text-decoration: none;
+    }
+    .nav-links a:hover {
+      color: #e67e22;
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <!-- Simple header -->
+  <header class="navbar">
+    <div class="brand">Namak Masaala</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">Email ya phone number se sign up kar sakte ho. WhatsApp optional hai.</p>
+
+      <div id="signup-error" class="auth-error"></div>
+
+      <form id="signup-form">
+        <div class="auth-row">
+          <div class="auth-form-group">
+            <label for="first_name">First Name *</label>
+            <input type="text" id="first_name" name="first_name" required />
+          </div>
+          <div class="auth-form-group">
+            <label for="last_name">Last Name *</label>
+            <input type="text" id="last_name" name="last_name" required />
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="email">Email (optional if phone diya hai)</label>
+          <input type="email" id="email" name="email" placeholder="example@mail.com" />
+          <div class="auth-hint">Email ya phone me se kam az kam 1 dena zaroori hai.</div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="phone">Phone Number (optional if email diya hai)</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 234 567 890" />
+        </div>
+
+        <div class="auth-form-group">
+          <label for="whatsapp">WhatsApp Number (optional)</label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="Same as phone or different" />
+        </div>
+
+        <div class="auth-form-group">
+          <label for="password">Password *</label>
+          <input type="password" id="password" name="password" required minlength="6" />
+          <div class="auth-hint">Kam az kam 6 characters.</div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="confirm_password">Confirm Password *</label>
+          <input type="password" id="confirm_password" name="confirm_password" required minlength="6" />
+        </div>
+
+        <button type="submit" class="auth-submit">Create Account</button>
+      </form>
+
+      <p class="auth-bottom-text">
+        Already have an account?
+        <a href="login.html">Log in</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const signupForm = document.getElementById('signup-form');
+    const signupError = document.getElementById('signup-error');
+
+    signupForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('first_name').value.trim();
+      const lastName = document.getElementById('last_name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      signupError.style.display = 'none';
+      signupError.textContent = '';
+
+      // At least email or phone required
+      if (!email && !phone) {
+        signupError.textContent = 'Email ya Phone me se kam az kam 1 dena zaroori hai.';
+        signupError.style.display = 'block';
+        return;
+      }
+
+      if (password.length < 6) {
+        signupError.textContent = 'Password kam az kam 6 characters ka hona chahiye.';
+        signupError.style.display = 'block';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        signupError.textContent = 'Password aur Confirm Password match nahi kar rahe.';
+        signupError.style.display = 'block';
+        return;
+      }
+
+      // Yahan baad me Supabase sign-up call add karenge
+      alert('Signup form ready hai. Ab hum isko Supabase k sath connect karenge 🔐');
+    });
+  </script>
+</body>
+</html>
