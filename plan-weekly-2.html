@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weekly 2 Meals Plan - Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <div class="logo-mark">N</div>
+        <div class="brand-text">
+          <span class="brand-name">Namak Masaala</span>
+          <span class="brand-tagline">Home-made Tiffin</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
+        <a href="customer-care.html">Customer Care</a>
+      </nav>
+      <div class="nav-auth">
+        <button class="btn btn-outline">Login</button>
+        <button class="btn btn-primary">Sign up</button>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+    <div class="container nav-mobile">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Weekly • 2 Meals</div>
+          <h1 class="section-title">Weekly 2 Meals Plan</h1>
+          <p class="section-subtitle">
+            Two tiffins per day (Lunch + Dinner) from Monday to Saturday. Choose separate time windows
+            for lunch and dinner based on your routine.
+          </p>
+        </div>
+
+        <div class="plan-layout">
+          <!-- LEFT: SUMMARY CARD -->
+          <aside class="plan-summary card">
+            <div class="badge-soft">Plan summary</div>
+            <h2 class="card-title" style="margin-bottom:8px;">Weekly 2 Meals Plan</h2>
+            <p class="card-line">2 tiffins per day • Monday to Saturday</p>
+            <p class="card-line">Includes one Lunch and one Dinner delivery per day.</p>
+
+            <div class="price-tag" style="margin-top:10px;">
+              Rs 4,000 <span>/ week</span>
+            </div>
+
+            <p class="card-meta" style="margin-top:8px;">
+              If a friend signs up with your referral code, they get <strong>Rs 400 off</strong> on this plan.
+            </p>
+
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0;">
+
+            <h3 class="card-title" style="font-size:0.95rem;margin-bottom:6px;">Choose your time windows</h3>
+            <p class="card-meta">
+              Set one window for lunch and one for dinner. For example:
+              lunch 11:00–12:00, dinner 7:00–8:00.
+            </p>
+
+            <form class="time-window-form">
+              <div class="time-window-block">
+                <div class="form-label" style="font-weight:600;margin-bottom:4px;">Lunch window</div>
+                <div class="time-window-row">
+                  <div class="form-field">
+                    <label class="form-label">Start time</label>
+                    <input class="form-input" type="time" value="11:00">
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">End time</label>
+                    <input class="form-input" type="time" value="12:00">
+                  </div>
+                </div>
+              </div>
+
+              <div class="time-window-block">
+                <div class="form-label" style="font-weight:600;margin-bottom:4px;">Dinner window</div>
+                <div class="time-window-row">
+                  <div class="form-field">
+                    <label class="form-label">Start time</label>
+                    <input class="form-input" type="time" value="19:00">
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">End time</label>
+                    <input class="form-input" type="time" value="20:00">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label">Plan start date</label>
+                <input class="form-input" type="date">
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+                <button type="button" class="btn btn-primary">Confirm this plan (demo)</button>
+                <a href="plans.html" class="btn btn-outline">Back to plans</a>
+              </div>
+
+              <p class="card-meta" style="margin-top:8px;">
+                This is a front-end preview only. Actual plan selection and payment will be handled in the checkout flow.
+              </p>
+            </form>
+          </aside>
+
+          <!-- RIGHT: MON–SAT MENU -->
+          <div class="plan-details">
+            <h2 class="section-title" style="font-size:1.05rem;margin-bottom:8px;">Sample weekly menu (Lunch + Dinner)</h2>
+            <p class="section-subtitle" style="max-width:520px;">
+              Example lunch and dinner combinations for Monday to Saturday.
+              You can adjust dishes later based on your real menu.
+            </p>
+
+            <div class="week-grid">
+              <!-- Monday -->
+              <div class="day-card">
+                <div class="day-tag">Monday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=500&q=80"
+                           alt="Lunch - Chicken Karahi">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Chicken Karahi + Roti</div>
+                      <div class="meal-meta-line">Medium spice, raita &amp; salad.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1588167865096-71c620227d92?auto=format&fit=crop&w=500&q=80"
+                           alt="Dinner - Biryani">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Chicken Biryani</div>
+                      <div class="meal-meta-line">Served with raita.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tuesday -->
+              <div class="day-card">
+                <div class="day-tag">Tuesday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=500&q=80"
+                           alt="Daal Fry + Rice">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Daal Fry + Rice</div>
+                      <div class="meal-meta-line">Comfort veg combo.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1603899122634-2f24c0c47e26?auto=format&fit=crop&w=500&q=80"
+                           alt="Mix Sabzi + Chapati">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Mix Sabzi + Chapati</div>
+                      <div class="meal-meta-line">Light dinner option.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wednesday -->
+              <div class="day-card">
+                <div class="day-tag">Wednesday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
+                           alt="Chana Masala + Rice">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Chana Masala + Rice</div>
+                      <div class="meal-meta-line">High protein lunch.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1604908553729-79704bfeae01?auto=format&fit=crop&w=500&q=80"
+                           alt="Qorma + Naan">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Qorma + Naan</div>
+                      <div class="meal-meta-line">Richer dinner day.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thursday -->
+              <div class="day-card">
+                <div class="day-tag">Thursday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=500&q=80"
+                           alt="Chicken Karahi">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Chicken Karahi + Roti</div>
+                      <div class="meal-meta-line">Home-style.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1588167865096-71c620227d92?auto=format&fit=crop&w=500&q=80"
+                           alt="Biryani">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Biryani + Raita</div>
+                      <div class="meal-meta-line">End-of-week style dinner.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Friday -->
+              <div class="day-card">
+                <div class="day-tag">Friday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=500&q=80"
+                           alt="Daal Fry">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Daal + Chapati</div>
+                      <div class="meal-meta-line">Lighter lunch.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
+                           alt="Chana + Rice">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Chana Masala + Rice</div>
+                      <div class="meal-meta-line">Protein-focused dinner.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Saturday -->
+              <div class="day-card">
+                <div class="day-tag">Saturday</div>
+                <div class="day-content two-meals">
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1588167865096-71c620227d92?auto=format&fit=crop&w=500&q=80"
+                           alt="Biryani">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Lunch: Biryani + Raita</div>
+                      <div class="meal-meta-line">Weekend lunch.</div>
+                    </div>
+                  </div>
+                  <div class="half">
+                    <div class="day-image">
+                      <img src="https://images.unsplash.com/photo-1603899122634-2f24c0c47e26?auto=format&fit=crop&w=500&q=80"
+                           alt="Veg Sabzi">
+                    </div>
+                    <div class="day-text">
+                      <div class="meal-name-main">Dinner: Mix Veg + Chapati</div>
+                      <div class="meal-meta-line">Light close to the week.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="section-subtitle" style="margin-top:14px;">
+              You can change lunch/dinner dishes for each day according to your real tiffin rotation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
