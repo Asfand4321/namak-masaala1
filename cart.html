@@ -21,6 +21,7 @@
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
         <a href="referral.html">Referral</a>
         <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
@@ -37,6 +38,7 @@
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
       <a href="referral.html">Referral</a>
       <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
@@ -52,7 +54,7 @@
           <div class="section-kicker">Cart</div>
           <h1 class="section-title">Your cart</h1>
           <p class="section-subtitle">
-            Ye front-end demo cart hai. Qty change / remove yahan se ho sakta hai (static), 
+            Ye front-end demo cart hai. Qty change / remove yahan se ho sakta hai (visual),
             future me isko real backend / checkout se connect kar sakte hain.
           </p>
         </div>
@@ -77,6 +79,7 @@
                 <div class="cart-item-text">
                   <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
                   <div class="meal-meta-line">Lunch • Today • Medium spice</div>
+                  <button class="cart-remove" type="button">Remove</button>
                 </div>
               </div>
               <div class="cart-qty">
@@ -98,6 +101,7 @@
                 <div class="cart-item-text">
                   <div class="meal-name-main">Daal Fry + Jeera Rice</div>
                   <div class="meal-meta-line">Lunch • Tomorrow • Veg</div>
+                  <button class="cart-remove" type="button">Remove</button>
                 </div>
               </div>
               <div class="cart-qty">
@@ -119,6 +123,7 @@
                 <div class="cart-item-text">
                   <div class="meal-name-main">Chana Masala + Rice</div>
                   <div class="meal-meta-line">Dinner • Today • High protein</div>
+                  <button class="cart-remove" type="button">Remove</button>
                 </div>
               </div>
               <div class="cart-qty">
@@ -147,7 +152,7 @@
               <span>Rs 120</span>
             </div>
             <div class="cart-summary-row">
-              <span>Referral credit</span>
+              <span>Referral discount</span>
               <span>- Rs 200</span>
             </div>
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 0;">
@@ -163,7 +168,7 @@
 
             <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
               <button class="btn btn-primary" type="button">Proceed to checkout</button>
-              <button class="btn btn-outline" type="button">Continue browsing meals</button>
+              <a href="meals.html" class="btn btn-outline" type="button">Continue browsing meals</a>
             </div>
 
             <p class="card-meta" style="margin-top:10px;">
