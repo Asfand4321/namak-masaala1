@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #faf7f2;
+    }
+
+    .auth-container {
+      max-width: 380px;
+      margin: 80px auto 40px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 24px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .auth-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #2d2a24;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      font-size: 0.9rem;
+      color: #7a7468;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .auth-form-group {
+      margin-bottom: 14px;
+    }
+
+    .auth-form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #403b33;
+    }
+
+    .auth-form-group input {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 8px;
+      border: 1px solid #ddd0c0;
+      font-size: 0.95rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .auth-form-group input:focus {
+      border-color: #e67e22;
+      box-shadow: 0 0 0 2px rgba(230,126,34,0.18);
+    }
+
+    .auth-error {
+      font-size: 0.8rem;
+      color: #c0392b;
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .auth-submit {
+      width: 100%;
+      margin-top: 4px;
+      padding: 11px 0;
+      border-radius: 999px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      background: #e67e22;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
+    }
+
+    .auth-submit:hover {
+      background: #cf6d16;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+    }
+
+    .auth-submit:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .auth-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .auth-bottom-text {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      color: #6b6458;
+    }
+
+    .auth-bottom-text a,
+    .auth-bottom-row a {
+      color: #e67e22;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-bottom-text a:hover,
+    .auth-bottom-row a:hover {
+      text-decoration: underline;
+    }
+
+    header.navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #e67e22;
+    }
+    .nav-links a {
+      margin-left: 16px;
+      font-size: 0.95rem;
+      color: #4a4338;
+      text-decoration: none;
+    }
+    .nav-links a:hover {
+      color: #e67e22;
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <header class="navbar">
+    <div class="brand">Namak Masaala</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Email ya phone number + password se login karo.</p>
+
+      <div id="login-error" class="auth-error"></div>
+
+      <form id="login-form">
+        <div class="auth-form-group">
+          <label for="identifier">Email ya Phone *</label>
+          <input
+            type="text"
+            id="identifier"
+            name="identifier"
+            placeholder="example@mail.com / +1 234 567 890"
+            required
+          />
+        </div>
+
+        <div class="auth-form-group">
+          <label for="login_password">Password *</label>
+          <input type="password" id="login_password" name="password" required />
+        </div>
+
+        <button type="submit" class="auth-submit">Login</button>
+
+        <div class="auth-bottom-row">
+          <span></span>
+          <a href="#">Forgot password?</a> <!-- baad me Supabase se connect karenge -->
+        </div>
+      </form>
+
+      <p class="auth-bottom-text">
+        New to Namak Masaala?
+        <a href="signup.html">Create an account</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const identifier = document.getElementById('identifier').value.trim();
+      const password = document.getElementById('login_password').value;
+
+      loginError.style.display = 'none';
+      loginError.textContent = '';
+
+      if (!identifier) {
+        loginError.textContent = 'Email ya Phone required hai.';
+        loginError.style.display = 'block';
+        return;
+      }
+
+      if (!password) {
+        loginError.textContent = 'Password required hai.';
+        loginError.style.display = 'block';
+        return;
+      }
+
+      // Yahan baad me Supabase login call add karenge
+      alert('Login form ready hai. Ab isko Supabase Auth se connect karenge 🔐');
+    });
+  </script>
+</body>
+</html>
