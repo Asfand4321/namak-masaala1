@@ -54,125 +54,47 @@
           <div class="section-kicker">Cart</div>
           <h1 class="section-title">Your cart</h1>
           <p class="section-subtitle">
-            Ye front-end demo cart hai. Qty change / remove yahan se ho sakta hai (visual),
-            future me isko real backend / checkout se connect kar sakte hain.
+            This is a placeholder cart screen. Once a real cart / checkout flow is added, items from the
+            Meals or Plans pages will appear here.
           </p>
         </div>
 
         <div class="cart-layout">
-          <!-- LEFT: CART ITEMS -->
+          <!-- Left: cart items (currently empty state only) -->
           <div class="cart-items card">
-            <div class="cart-header-row">
-              <span>Item</span>
-              <span>Qty</span>
-              <span>Price</span>
-              <span>Total</span>
-            </div>
-
-            <!-- Item 1 -->
-            <div class="cart-row">
-              <div class="cart-item-main">
-                <div class="cart-thumb">
-                  <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=400&q=80"
-                       alt="Chicken Karahi + 2 Roti">
-                </div>
-                <div class="cart-item-text">
-                  <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
-                  <div class="meal-meta-line">Lunch • Today • Medium spice</div>
-                  <button class="cart-remove" type="button">Remove</button>
-                </div>
-              </div>
-              <div class="cart-qty">
-                <button class="qty-btn" type="button">-</button>
-                <span>1</span>
-                <button class="qty-btn" type="button">+</button>
-              </div>
-              <div class="cart-price">Rs 650</div>
-              <div class="cart-line-total">Rs 650</div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="cart-row">
-              <div class="cart-item-main">
-                <div class="cart-thumb">
-                  <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=400&q=80"
-                       alt="Daal Fry + Jeera Rice">
-                </div>
-                <div class="cart-item-text">
-                  <div class="meal-name-main">Daal Fry + Jeera Rice</div>
-                  <div class="meal-meta-line">Lunch • Tomorrow • Veg</div>
-                  <button class="cart-remove" type="button">Remove</button>
-                </div>
-              </div>
-              <div class="cart-qty">
-                <button class="qty-btn" type="button">-</button>
-                <span>2</span>
-                <button class="qty-btn" type="button">+</button>
-              </div>
-              <div class="cart-price">Rs 520</div>
-              <div class="cart-line-total">Rs 1,040</div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="cart-row">
-              <div class="cart-item-main">
-                <div class="cart-thumb">
-                  <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=400&q=80"
-                       alt="Chana Masala + Rice">
-                </div>
-                <div class="cart-item-text">
-                  <div class="meal-name-main">Chana Masala + Rice</div>
-                  <div class="meal-meta-line">Dinner • Today • High protein</div>
-                  <button class="cart-remove" type="button">Remove</button>
-                </div>
-              </div>
-              <div class="cart-qty">
-                <button class="qty-btn" type="button">-</button>
-                <span>1</span>
-                <button class="qty-btn" type="button">+</button>
-              </div>
-              <div class="cart-price">Rs 540</div>
-              <div class="cart-line-total">Rs 540</div>
-            </div>
-
-            <div class="cart-empty-note">
-              Remove / add items directly from Meals page. Ye sirf sample data hai.
+            <h2 class="card-title">Items</h2>
+            <div class="empty-cart">
+              <div class="empty-icon">🧺</div>
+              <p class="card-line">
+                Your cart is currently empty.
+              </p>
+              <p class="card-meta">
+                Add items from the <a href="meals.html" class="link-inline">Meals</a> page
+                or select a <a href="plans.html" class="link-inline">subscription plan</a>.
+              </p>
             </div>
           </div>
 
-          <!-- RIGHT: SUMMARY -->
+          <!-- Right: summary -->
           <aside class="cart-summary card">
-            <h2 class="card-title" style="margin-bottom:10px;">Order summary</h2>
-            <div class="cart-summary-row">
+            <h2 class="card-title">Order summary</h2>
+            <div class="summary-row">
               <span>Subtotal</span>
-              <span>Rs 2,230</span>
+              <span>Rs 0</span>
             </div>
-            <div class="cart-summary-row">
-              <span>Delivery fee</span>
-              <span>Rs 120</span>
+            <div class="summary-row">
+              <span>Delivery charges</span>
+              <span>Rs 0</span>
             </div>
-            <div class="cart-summary-row">
-              <span>Referral discount</span>
-              <span>- Rs 200</span>
+            <div class="summary-row summary-total">
+              <span>Total</span>
+              <span>Rs 0</span>
             </div>
-            <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 0;">
-            <div class="cart-summary-row cart-summary-total">
-              <span>Total payable</span>
-              <span>Rs 2,150</span>
-            </div>
-
-            <div class="form-field" style="margin-top:14px;">
-              <label class="form-label">Promo / referral code</label>
-              <input class="form-input" type="text" placeholder="Enter code">
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
-              <button class="btn btn-primary" type="button">Proceed to checkout</button>
-              <a href="meals.html" class="btn btn-outline" type="button">Continue browsing meals</a>
-            </div>
-
-            <p class="card-meta" style="margin-top:10px;">
-              COD &amp; card payments supported. Plan-based checkout ke liye “Plans” page use karein.
+            <button class="btn btn-primary" disabled>
+              Checkout (coming soon)
+            </button>
+            <p class="card-meta" style="margin-top:8px;">
+              When the cart is connected to the backend, this page will show real items, quantities and totals.
             </p>
           </aside>
         </div>
