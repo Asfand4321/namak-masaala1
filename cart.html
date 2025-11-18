@@ -56,51 +56,36 @@
 
   <main>
     <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker">Cart</div>
-          <h1 class="section-title">Your selected items</h1>
-          <p class="section-subtitle">
-            This is a simple demo cart. Items are stored in your browser only (localStorage) – not on the server yet.
-          </p>
-        </div>
-
+      <div class="container cart-layout">
         <div class="card">
-          <div id="cart-empty" class="card-meta" style="display:none;">
-            Your cart is empty. Please add a plan or meals first.
-          </div>
+          <div class="section-kicker">Cart</div>
+          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
+            Your selected items
+          </h1>
+          <p class="section-subtitle">
+            These are the meals and plans you have added. You can update quantity or remove items before checkout.
+          </p>
 
-          <div id="cart-table-wrapper">
-            <table class="cart-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Qty</th>
-                  <th>Price</th>
-                  <th>Total</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="cart-body">
-                <!-- JS will inject rows here -->
-              </tbody>
-            </table>
-          </div>
+          <div id="cart-items"></div>
 
-          <div class="cart-footer">
-            <div class="cart-total">
-              <span>Subtotal:</span>
+          <div class="order-totals" style="margin-top:16px;">
+            <div class="order-row">
+              <span>Subtotal</span>
               <span id="cart-subtotal">Rs 0</span>
             </div>
-            <div class="cart-actions">
-              <a href="meals.html" class="btn btn-outline">Continue browsing</a>
-              <button class="btn btn-primary" id="checkout-btn">
-                Go to checkout
-              </button>
+            <div class="order-row">
+              <span>Delivery</span>
+              <span>Rs 0</span>
             </div>
-            <p class="form-note" style="margin-top:6px;">
-              Checkout will open a separate page where you can enter address and payment details.
-            </p>
+            <div class="order-row order-total">
+              <span>Total</span>
+              <span id="cart-total">Rs 0</span>
+            </div>
+          </div>
+
+          <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="meals.html" class="btn btn-outline">Continue browsing meals</a>
+            <a href="checkout.html" class="btn btn-primary">Go to checkout</a>
           </div>
         </div>
       </div>
@@ -119,96 +104,95 @@
   </footer>
 
   <script>
-    // SAME KEY as used in checkout.html
     const CART_KEY = 'nm_cart_items';
-    let cartItems = [];
 
     function loadCart() {
-      const raw = localStorage.getItem(CART_KEY);
       try {
-        cartItems = raw ? JSON.parse(raw) : [];
+        const raw = localStorage.getItem(CART_KEY);
+        return raw ? JSON.parse(raw) : [];
       } catch (e) {
-        cartItems = [];
+        return [];
       }
-      renderCart();
     }
 
-    function saveCart() {
-      localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
-    }
-
-    function removeItem(index) {
-      cartItems.splice(index, 1);
-      saveCart();
-      renderCart();
+    function saveCart(cart) {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
     }
 
     function renderCart() {
-      const body = document.getElementById('cart-body');
+      const container = document.getElementById('cart-items');
       const subtotalEl = document.getElementById('cart-subtotal');
-      const emptyEl = document.getElementById('cart-empty');
-      const tableWrapper = document.getElementById('cart-table-wrapper');
+      const totalEl = document.getElementById('cart-total');
 
-      body.innerHTML = '';
-      let subtotal = 0;
+      let items = loadCart();
 
-      if (!cartItems || cartItems.length === 0) {
-        emptyEl.style.display = 'block';
-        tableWrapper.style.display = 'none';
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p class="card-meta">Your cart is empty. Add some meals or plans from the menu.</p>';
         subtotalEl.textContent = 'Rs 0';
+        totalEl.textContent = 'Rs 0';
         return;
-      } else {
-        emptyEl.style.display = 'none';
-        tableWrapper.style.display = 'block';
       }
 
-      cartItems.forEach((item, index) => {
-        const tr = document.createElement('tr');
-        const name = item.name || 'Item';
+      container.innerHTML = '';
+      let subtotal = 0;
+
+      items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
+
         const price = Number(item.price) || 0;
         const qty = item.quantity || 1;
         const lineTotal = price * qty;
         subtotal += lineTotal;
 
-        tr.innerHTML = `
-          <td>${name}</td>
-          <td>${qty}</td>
-          <td>Rs ${price}</td>
-          <td>Rs ${lineTotal}</td>
-          <td>
-            <button class="btn btn-sm btn-outline" data-index="${index}">
-              Remove
-            </button>
-          </td>
+        row.innerHTML = `
+          <div>
+            <div class="order-item-name">${item.name || 'Item'}</div>
+            <div class="order-item-meta">
+              Price: Rs ${price} · 
+              Qty: 
+              <input type="number" min="1" value="${qty}" data-index="${index}" class="cart-qty-input">
+            </div>
+          </div>
+          <div class="order-item-actions">
+            <span class="order-item-price">Rs ${lineTotal}</span>
+            <button class="btn btn-sm btn-outline cart-remove-btn" data-index="${index}">Remove</button>
+          </div>
         `;
 
-        body.appendChild(tr);
+        container.appendChild(row);
       });
 
       subtotalEl.textContent = 'Rs ' + subtotal;
+      totalEl.textContent = 'Rs ' + subtotal; // delivery 0 for now
 
-      // hook remove buttons
-      document.querySelectorAll('button[data-index]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const i = parseInt(btn.getAttribute('data-index'), 10);
-          removeItem(i);
+      // Attach events for qty change + remove
+      container.querySelectorAll('.cart-qty-input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const idx = parseInt(e.target.getAttribute('data-index'), 10);
+          let val = parseInt(e.target.value, 10);
+          if (isNaN(val) || val < 1) val = 1;
+          items = loadCart();
+          if (items[idx]) {
+            items[idx].quantity = val;
+            saveCart(items);
+            renderCart();
+          }
+        });
+      });
+
+      container.querySelectorAll('.cart-remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.getAttribute('data-index'), 10);
+          items = loadCart();
+          items.splice(idx, 1);
+          saveCart(items);
+          renderCart();
         });
       });
     }
 
-    // Checkout button → go to checkout.html if cart not empty
-    document.addEventListener('DOMContentLoaded', () => {
-      loadCart();
-
-      const checkoutBtn = document.getElementById('checkout-btn');
-      checkoutBtn.addEventListener('click', () => {
-        if (!cartItems || cartItems.length === 0) {
-          alert('Your cart is empty. Please add something before checking out.');
-          return;
-        }
-        window.location.href = 'checkout.html';
-      });
-    });
+    document.addEventListener('DOMContentLoaded', renderCart);
   </script>
 </body>
 </html>
