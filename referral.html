@@ -21,6 +21,7 @@
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
         <a href="referral.html">Referral</a>
         <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
@@ -37,6 +38,7 @@
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
       <a href="referral.html">Referral</a>
       <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
@@ -50,64 +52,84 @@
       <div class="container">
         <div class="section-header">
           <div class="section-kicker">Referral</div>
-          <h1 class="section-title">Refer a friend, earn free meals</h1>
+          <h1 class="section-title">Refer a friend, get plan-based discounts</h1>
           <p class="section-subtitle">
-            Share your referral code with friends. Jab wo apna pehla weekly / monthly plan activate karenge,
-            aapko credits milenge jo next invoice me adjust ho jayenge.
+            Ye referral system sirf <strong>plans</strong> ke liye hai (weekly / monthly tiffin plans),
+            <strong>single meals pe apply nahi hota</strong>. Backend / admin panel se ye amounts baad me
+            easily change kiye ja sakte hain.
           </p>
         </div>
 
+        <!-- PLANS & BASE PRICING -->
         <div class="card-grid">
+          <div class="card">
+            <div class="badge-soft">Current plan pricing (demo)</div>
+            <div class="card-line"><strong>Weekly 1 meal plan</strong> — Rs 2,000</div>
+            <div class="card-line"><strong>Weekly 2 meals plan</strong> — Rs 4,000</div>
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 8px;">
+            <div class="card-line"><strong>Monthly 1 meal plan</strong> — Rs 8,000</div>
+            <div class="card-line"><strong>Monthly 2 meals plan</strong> — Rs 16,000</div>
+            <p class="card-meta" style="margin-top:8px;">
+              Ye base prices sirf plans ke liye hain. Simple meals / one-off orders in pricing ka part nahi.
+            </p>
+          </div>
+
+          <!-- REFERRAL CODE & DISCOUNT LOGIC -->
           <div class="card">
             <div class="badge-soft">Your referral code</div>
             <div class="card-title">NMKFRIEND50</div>
-            <p class="card-line">Copy this code and share on WhatsApp, SMS or email.</p>
-            <div class="card-footer">
-              <span class="badge-soft">₹ 500 credit per successful referral</span>
-              <span class="card-meta">Applied on next plan invoice</span>
-            </div>
+            <p class="card-line">
+              Jab koi dost <strong>aapke code se signup karke plan activate karega</strong>,
+              to usko niche wale table ke hisaab se <strong>flat discount</strong> milega.
+            </p>
+
+            <div class="card-line" style="margin-top:6px;"><strong>Discount mapping:</strong></div>
+            <div class="card-line">• Weekly 1 meal (Rs 2,000) → <strong>Rs 200 discount</strong></div>
+            <div class="card-line">• Weekly 2 meals (Rs 4,000) → <strong>Rs 400 discount</strong></div>
+            <div class="card-line">• Monthly 1 meal (Rs 8,000) → <strong>Rs 800 discount</strong></div>
+            <div class="card-line">• Monthly 2 meals (Rs 16,000) → <strong>Rs 1,600 discount</strong></div>
+
+            <p class="card-meta" style="margin-top:8px;">
+              Ye discount <strong>sirf plan invoice pe apply</strong> hoga, meals / cart items pe nahi.
+              Admin panel se future me in amounts ko update / increase / decrease kiya ja sakta hai.
+            </p>
           </div>
 
+          <!-- HOW IT WORKS / LOGIC DESCRIPTION -->
           <div class="card">
             <div class="badge-soft">How it works</div>
-            <div class="card-line">1. Friend signs up using your code.</div>
-            <div class="card-line">2. They purchase any weekly or monthly plan.</div>
-            <div class="card-line">3. Aapke wallet me referral credit add ho jata hai.</div>
-          </div>
-
-          <div class="card">
-            <div class="badge-soft">Share via email (demo)</div>
-            <form>
-              <div class="form-field">
-                <label class="form-label">Friend's email</label>
-                <input class="form-input" type="email" placeholder="friend@example.com">
-              </div>
-              <div class="form-field">
-                <label class="form-label">Note (optional)</label>
-                <textarea class="form-textarea" placeholder="Hey! Try this tiffin service, use my code NMKFRIEND50."></textarea>
-              </div>
-              <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
-                <button type="button" class="btn btn-outline">Reset</button>
-                <button type="button" class="btn btn-primary">Send invite (demo)</button>
-              </div>
-            </form>
+            <div class="card-line">1. Aap apne dost ko invite karte hain aur apna referral code share karte hain.</div>
+            <div class="card-line">2. Dost signup karta hai aur koi bhi <strong>weekly ya monthly plan</strong> choose karta hai.</div>
+            <div class="card-line">3. Checkout par wo aapka referral code use karta hai.</div>
+            <div class="card-line">4. System plan ke type ko dekhta hai (Weekly 1, Weekly 2, Monthly 1, Monthly 2)</div>
+            <div class="card-line">5. Usi ke hisaab se <strong>Rs 200 / 400 / 800 / 1600</strong> discount apply hota hai.</div>
+            <p class="card-meta" style="margin-top:8px;">
+              Optional: Backend me aapko bhi same amount wallet credit ke taur par mil sakta hai
+              (ye part admin side se define hoga).
+            </p>
           </div>
         </div>
 
+        <!-- HISTORY SECTION SAME STYLE ME -->
         <div class="section-header" style="margin-top:28px;">
-          <h2 class="section-title">Referral history</h2>
-          <p class="section-subtitle">Static demo data — actual integration baad me hogi.</p>
+          <h2 class="section-title">Referral history (demo)</h2>
+          <p class="section-subtitle">
+            Neeche sirf sample data hai. Actual referrals / discounts baad me database se fetch honge.
+          </p>
         </div>
 
         <div class="card">
-          <div class="card-line"><strong>Friends referred:</strong> 3</div>
-          <div class="card-line"><strong>Total credits earned:</strong> Rs 1,500</div>
-          <div class="card-line"><strong>Credits usable on next invoice:</strong> Rs 1,000</div>
-          <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 0;">
-          <div class="card-line"><strong>Recent referrals</strong></div>
-          <div class="card-line">Ali • Weekly 1-meal plan • Status: <span class="badge-soft">Completed</span></div>
-          <div class="card-line">Sara • Monthly 1-meal plan • Status: <span class="badge-soft">Completed</span></div>
-          <div class="card-line">Usman • Invited • Status: <span class="badge-soft">Pending</span></div>
+          <div class="card-line"><strong>Active referrals (plans):</strong> 3</div>
+          <div class="card-line">
+            Example: Ali ne <strong>Weekly 1 meal plan</strong> liya → usko <strong>Rs 200 off</strong> mila.
+          </div>
+          <div class="card-line">
+            Sara ne <strong>Monthly 2 meals plan</strong> liya → usko <strong>Rs 1,600 off</strong> mila.
+          </div>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 10px;">
+          <div class="card-line"><strong>Note:</strong> Referral discount <strong>meals / single orders pe nahi</strong> lagta,
+            sirf plans par apply hota hai.
+          </div>
         </div>
       </div>
     </section>
@@ -125,4 +147,3 @@
   </footer>
 </body>
 </html>
-
