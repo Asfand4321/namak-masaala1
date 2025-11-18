@@ -61,8 +61,7 @@
             Sign up for Namak Masaala
           </h1>
           <p class="section-subtitle">
-            You can sign up using <strong>email</strong> or <strong>mobile number</strong>.
-            At least <strong>one</strong> of them is required.
+            Sign up using your <strong>email address</strong>. WhatsApp number and referral code are optional.
           </p>
 
           <form class="auth-form" onsubmit="return validateSignup(event)">
@@ -79,43 +78,66 @@
 
             <div class="form-field">
               <label for="email">
-                Email
-                <span class="field-hint">(optional, but recommended)</span>
+                Email address *
               </label>
-              <input id="email" name="email" type="email" placeholder="you@example.com">
-            </div>
-
-            <div class="form-field">
-              <label for="phone">
-                Mobile number
-                <span class="field-hint">(you can also sign in with this)</span>
-              </label>
-              <input id="phone" name="phone" type="tel" placeholder="+92XXXXXXXXXX">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@example.com">
             </div>
 
             <div class="form-field">
               <label for="whatsapp">
                 WhatsApp number
-                <span class="field-hint">(optional – can be same as mobile)</span>
+                <span class="field-hint">(optional – can be used for order updates)</span>
               </label>
-              <input id="whatsapp" name="whatsapp" type="tel" placeholder="+92XXXXXXXXXX">
+              <input
+                id="whatsapp"
+                name="whatsapp"
+                type="tel"
+                placeholder="+92XXXXXXXXXX">
+            </div>
+
+            <div class="form-field">
+              <label for="referral">
+                Referral code
+                <span class="field-hint">
+                  (optional – discount applies on plans if this code is valid)
+                </span>
+              </label>
+              <input
+                id="referral"
+                name="referral"
+                type="text"
+                placeholder="Enter friend’s referral code">
             </div>
 
             <div class="form-grid">
               <div class="form-field">
                 <label for="password">Password *</label>
-                <input id="password" name="password" type="password" required minlength="6">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  minlength="6">
               </div>
               <div class="form-field">
                 <label for="confirmPassword">Confirm password *</label>
-                <input id="confirmPassword" name="confirmPassword" type="password" required minlength="6">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  required
+                  minlength="6">
               </div>
             </div>
 
             <p class="form-note">
-              * At least <strong>email or mobile number</strong> must be provided.  
-              Password must be minimum 6 characters. This is a demo form – actual account creation
-              will be wired up later by the admin.
+              * Email and password are required. Password must be minimum 6 characters.
+              This is a demo form – actual account creation will be connected to a backend later.
             </p>
 
             <p id="signup-error" class="form-error" style="display:none;"></p>
@@ -132,16 +154,15 @@
         </div>
 
         <div class="auth-side card">
-          <h2 class="card-title">Why create an account?</h2>
+          <h2 class="card-title">Account benefits</h2>
           <ul class="card-list">
             <li>Save your weekly / monthly plan configuration.</li>
-            <li>Track your active tiffin plan and pause / resume easily.</li>
-            <li>View order history and invoices.</li>
-            <li>Apply referral codes and see your discounts.</li>
+            <li>Track active plans and upcoming renewals.</li>
+            <li>Apply referral codes and see discounts on plans.</li>
+            <li>Receive important updates on email or WhatsApp.</li>
           </ul>
           <p class="card-meta">
-            Note: This is a front-end preview. Actual login / sign up functionality will be
-            connected to a backend (for example WhatsApp + admin approval) as per your business flow.
+            Referral code is applied only on subscription plans (Weekly / Monthly), not on individual meals.
           </p>
         </div>
       </div>
@@ -162,17 +183,15 @@
   <script>
     function validateSignup(event) {
       const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const errorEl = document.getElementById('signup-error');
 
-      // Reset message
       errorEl.style.display = 'none';
       errorEl.textContent = '';
 
-      if (!email && !phone) {
-        errorEl.textContent = 'Please provide at least an email address or a mobile number.';
+      if (!email) {
+        errorEl.textContent = 'Email address is required.';
         errorEl.style.display = 'block';
         event.preventDefault();
         return false;
@@ -185,7 +204,7 @@
         return false;
       }
 
-      // Demo only
+      // Demo only: no real backend yet
       alert('This is a demo sign-up form – in real deployment this will send data to the backend.');
       event.preventDefault();
       return false;
