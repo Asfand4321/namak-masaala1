@@ -935,3 +935,17 @@ img {
     height: 42px;
   }
 }
+
+.cart-remove {
+  margin-top: 2px;
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.cart-remove:hover {
+  text-decoration: underline;
+}
