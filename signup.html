@@ -1,302 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sign Up | Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-
-  <style>
-    .auth-page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #faf7f2;
-    }
-
-    .auth-container {
-      max-width: 420px;
-      margin: 80px auto 40px;
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px 24px 28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-
-    .auth-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #2d2a24;
-      text-align: center;
-    }
-
-    .auth-subtitle {
-      font-size: 0.9rem;
-      color: #7a7468;
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .auth-form-group {
-      margin-bottom: 14px;
-    }
-
-    .auth-form-group label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: #403b33;
-    }
-
-    .auth-form-group input {
-      width: 100%;
-      padding: 10px 11px;
-      border-radius: 8px;
-      border: 1px solid #ddd0c0;
-      font-size: 0.95rem;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    .auth-form-group input:focus {
-      border-color: #e67e22;
-      box-shadow: 0 0 0 2px rgba(230,126,34,0.18);
-    }
-
-    .auth-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    .auth-row .auth-form-group {
-      flex: 1;
-    }
-
-    .auth-hint {
-      font-size: 0.78rem;
-      color: #8a8376;
-      margin-top: 3px;
-    }
-
-    .auth-error {
-      font-size: 0.8rem;
-      color: #c0392b;
-      margin-bottom: 8px;
-      display: none;
-    }
-
-    .auth-submit {
-      width: 100%;
-      margin-top: 4px;
-      padding: 11px 0;
-      border-radius: 999px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      background: #e67e22;
-      color: #fff;
-      cursor: pointer;
-      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
-    }
-
-    .auth-submit:hover {
-      background: #cf6d16;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-      transform: translateY(-1px);
-    }
-
-    .auth-submit:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-
-    .auth-bottom-text {
-      text-align: center;
-      font-size: 0.9rem;
-      margin-top: 14px;
-      color: #6b6458;
-    }
-
-    .auth-bottom-text a {
-      color: #e67e22;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .auth-bottom-text a:hover {
-      text-decoration: underline;
-    }
-
-    /* Simple header */
-    header.navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .brand {
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: #e67e22;
-    }
-    .nav-links a {
-      margin-left: 16px;
-      font-size: 0.95rem;
-      color: #4a4338;
-      text-decoration: none;
-    }
-    .nav-links a:hover {
-      color: #e67e22;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Sign up – Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
-<body class="auth-page">
-
-  <!-- Header -->
+<body>
+  <!-- NAVBAR -->
   <header class="navbar">
-    <div class="brand">Namak Masaala</div>
-    <nav class="nav-links">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
+        <a href="customer-care.html">Customer Care</a>
+      </nav>
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+    <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="signup.html">Sign Up</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
       <a href="login.html">Login</a>
-    </nav>
+      <a href="signup.html">Sign up</a>
+    </div>
   </header>
 
   <main>
-    <div class="auth-container">
-      <h1 class="auth-title">Create your account</h1>
-      <p class="auth-subtitle">
-        Sign up with your email or phone number. WhatsApp and referral code are optional.
-      </p>
+    <section class="section">
+      <div class="container auth-layout">
+        <div class="auth-card card">
+          <div class="section-kicker">Create account</div>
+          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
+            Sign up for Namak Masaala
+          </h1>
+          <p class="section-subtitle">
+            You can sign up using <strong>email</strong> or <strong>mobile number</strong>.
+            At least <strong>one</strong> of them is required.
+          </p>
 
-      <div id="signup-error" class="auth-error"></div>
+          <form class="auth-form" onsubmit="return validateSignup(event)">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="firstName">First name *</label>
+                <input id="firstName" name="firstName" type="text" required>
+              </div>
+              <div class="form-field">
+                <label for="lastName">Last name *</label>
+                <input id="lastName" name="lastName" type="text" required>
+              </div>
+            </div>
 
-      <form id="signup-form">
-        <div class="auth-row">
-          <div class="auth-form-group">
-            <label for="first_name">First Name *</label>
-            <input type="text" id="first_name" name="first_name" required />
-          </div>
-          <div class="auth-form-group">
-            <label for="last_name">Last Name *</label>
-            <input type="text" id="last_name" name="last_name" required />
-          </div>
+            <div class="form-field">
+              <label for="email">
+                Email
+                <span class="field-hint">(optional, but recommended)</span>
+              </label>
+              <input id="email" name="email" type="email" placeholder="you@example.com">
+            </div>
+
+            <div class="form-field">
+              <label for="phone">
+                Mobile number
+                <span class="field-hint">(you can also sign in with this)</span>
+              </label>
+              <input id="phone" name="phone" type="tel" placeholder="+92XXXXXXXXXX">
+            </div>
+
+            <div class="form-field">
+              <label for="whatsapp">
+                WhatsApp number
+                <span class="field-hint">(optional – can be same as mobile)</span>
+              </label>
+              <input id="whatsapp" name="whatsapp" type="tel" placeholder="+92XXXXXXXXXX">
+            </div>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="password">Password *</label>
+                <input id="password" name="password" type="password" required minlength="6">
+              </div>
+              <div class="form-field">
+                <label for="confirmPassword">Confirm password *</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" required minlength="6">
+              </div>
+            </div>
+
+            <p class="form-note">
+              * At least <strong>email or mobile number</strong> must be provided.  
+              Password must be minimum 6 characters. This is a demo form – actual account creation
+              will be wired up later by the admin.
+            </p>
+
+            <p id="signup-error" class="form-error" style="display:none;"></p>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Create account
+            </button>
+
+            <p class="form-switch">
+              Already have an account?
+              <a href="login.html">Login here</a>.
+            </p>
+          </form>
         </div>
 
-        <div class="auth-form-group">
-          <label for="identifier">Email or Phone *</label>
-          <input
-            type="text"
-            id="identifier"
-            name="identifier"
-            placeholder="Enter your email or phone number"
-            required
-          />
-          <div class="auth-hint">
-            You can sign up using either your email address or your phone number.
-          </div>
+        <div class="auth-side card">
+          <h2 class="card-title">Why create an account?</h2>
+          <ul class="card-list">
+            <li>Save your weekly / monthly plan configuration.</li>
+            <li>Track your active tiffin plan and pause / resume easily.</li>
+            <li>View order history and invoices.</li>
+            <li>Apply referral codes and see your discounts.</li>
+          </ul>
+          <p class="card-meta">
+            Note: This is a front-end preview. Actual login / sign up functionality will be
+            connected to a backend (for example WhatsApp + admin approval) as per your business flow.
+          </p>
         </div>
-
-        <div class="auth-form-group">
-          <label for="whatsapp">WhatsApp Number (optional)</label>
-          <input
-            type="tel"
-            id="whatsapp"
-            name="whatsapp"
-            placeholder="WhatsApp number (if different)"
-          />
-        </div>
-
-        <div class="auth-form-group">
-          <label for="referral">Referral Code (optional)</label>
-          <input
-            type="text"
-            id="referral"
-            name="referral"
-            placeholder="If someone referred you"
-          />
-        </div>
-
-        <div class="auth-form-group">
-          <label for="password">Password *</label>
-          <input type="password" id="password" name="password" required minlength="6" />
-          <div class="auth-hint">Password must be at least 6 characters long.</div>
-        </div>
-
-        <div class="auth-form-group">
-          <label for="confirm_password">Confirm Password *</label>
-          <input type="password" id="confirm_password" name="confirm_password" required minlength="6" />
-        </div>
-
-        <button type="submit" class="auth-submit">Create Account</button>
-      </form>
-
-      <p class="auth-bottom-text">
-        Already have an account?
-        <a href="login.html">Log in</a>
-      </p>
-    </div>
+      </div>
+    </section>
   </main>
 
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    const signupForm = document.getElementById('signup-form');
-    const signupError = document.getElementById('signup-error');
-
-    signupForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const firstName = document.getElementById('first_name').value.trim();
-      const lastName = document.getElementById('last_name').value.trim();
-      const identifier = document.getElementById('identifier').value.trim(); // email OR phone
-      const whatsapp = document.getElementById('whatsapp').value.trim();
-      const referral = document.getElementById('referral').value.trim();
+    function validateSignup(event) {
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm_password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const errorEl = document.getElementById('signup-error');
 
-      signupError.style.display = 'none';
-      signupError.textContent = '';
+      // Reset message
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
 
-      if (!firstName || !lastName) {
-        signupError.textContent = 'First name and last name are required.';
-        signupError.style.display = 'block';
-        return;
-      }
-
-      if (!identifier) {
-        signupError.textContent = 'Email or phone number is required.';
-        signupError.style.display = 'block';
-        return;
-      }
-
-      if (password.length < 6) {
-        signupError.textContent = 'Password must be at least 6 characters long.';
-        signupError.style.display = 'block';
-        return;
+      if (!email && !phone) {
+        errorEl.textContent = 'Please provide at least an email address or a mobile number.';
+        errorEl.style.display = 'block';
+        event.preventDefault();
+        return false;
       }
 
       if (password !== confirmPassword) {
-        signupError.textContent = 'Password and Confirm Password do not match.';
-        signupError.style.display = 'block';
-        return;
+        errorEl.textContent = 'Password and confirm password do not match.';
+        errorEl.style.display = 'block';
+        event.preventDefault();
+        return false;
       }
 
-      // Later we will connect this to Supabase signup API
-      alert('Signup form is ready. Next step: connect it with Supabase authentication 🔐');
-      console.log({
-        firstName,
-        lastName,
-        identifier,
-        whatsapp,
-        referral,
-        password
-      });
-    });
+      // Demo only
+      alert('This is a demo sign-up form – in real deployment this will send data to the backend.');
+      event.preventDefault();
+      return false;
+    }
   </script>
 </body>
 </html>
