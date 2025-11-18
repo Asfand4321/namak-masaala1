@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
@@ -20,6 +21,10 @@
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
         <a href="customer-care.html">Customer Care</a>
       </nav>
       <div class="nav-auth">
@@ -31,7 +36,12 @@
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
-      <a href="customer-care.html">Support</a>
+      <a href="meals.html">Meals</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
     </div>
   </header>
 
@@ -42,39 +52,136 @@
           <div class="section-kicker">Meals</div>
           <h1 class="section-title">Browse sample meals</h1>
           <p class="section-subtitle">
-            Rotating home-style menu with veg &amp; non-veg options. Actual menu may change week to week.
+            Rectangular meal list — left side image, right side details &amp; add to cart button.
+            Actual menu week to week change ho sakta hai.
           </p>
         </div>
 
-        <div class="meals-grid">
-          <div class="meal-card">
-            <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
-            <div class="meal-meta-line">Non-veg • Medium spice</div>
+        <div class="meals-list">
+          <!-- Row 1 -->
+          <div class="meal-row">
+            <div class="meal-thumb">
+              <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=400&q=80"
+                   alt="Chicken Karahi + 2 Roti">
+            </div>
+            <div class="meal-main">
+              <div class="meal-header">
+                <div>
+                  <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
+                  <div class="meal-meta-line">Non-veg • Medium spice • Includes raita &amp; salad</div>
+                </div>
+                <div class="meal-price">Rs 650</div>
+              </div>
+              <div class="meal-extra">
+                Classic ghar-wali chicken karahi with soft tandoori roti. Perfect for lunch or dinner.
+              </div>
+              <div class="meal-actions">
+                <button class="btn btn-sm btn-outline">Details</button>
+                <button class="btn btn-sm btn-primary">Add to cart</button>
+              </div>
+            </div>
           </div>
-          <div class="meal-card">
-            <div class="meal-name-main">Daal Fry + Jeera Rice</div>
-            <div class="meal-meta-line">Veg • Comfort food</div>
+
+          <!-- Row 2 -->
+          <div class="meal-row">
+            <div class="meal-thumb">
+              <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=400&q=80"
+                   alt="Daal Fry + Jeera Rice">
+            </div>
+            <div class="meal-main">
+              <div class="meal-header">
+                <div>
+                  <div class="meal-name-main">Daal Fry + Jeera Rice</div>
+                  <div class="meal-meta-line">Veg • Comfort food • Protein rich</div>
+                </div>
+                <div class="meal-price">Rs 520</div>
+              </div>
+              <div class="meal-extra">
+                Yellow daal tarka with jeera rice, light tadka and simple salad on the side.
+              </div>
+              <div class="meal-actions">
+                <button class="btn btn-sm btn-outline">Details</button>
+                <button class="btn btn-sm btn-primary">Add to cart</button>
+              </div>
+            </div>
           </div>
-          <div class="meal-card">
-            <div class="meal-name-main">Mix Sabzi + 2 Chapati</div>
-            <div class="meal-meta-line">Veg • Light lunch</div>
+
+          <!-- Row 3 -->
+          <div class="meal-row">
+            <div class="meal-thumb">
+              <img src="https://images.unsplash.com/photo-1603899122634-2f24c0c47e26?auto=format&fit=crop&w=400&q=80"
+                   alt="Mix Sabzi + 2 Chapati">
+            </div>
+            <div class="meal-main">
+              <div class="meal-header">
+                <div>
+                  <div class="meal-name-main">Mix Sabzi + 2 Chapati</div>
+                  <div class="meal-meta-line">Veg • Light lunch option</div>
+                </div>
+                <div class="meal-price">Rs 480</div>
+              </div>
+              <div class="meal-extra">
+                Seasonal mixed vegetables cooked in low oil, served with fresh chapati.
+              </div>
+              <div class="meal-actions">
+                <button class="btn btn-sm btn-outline">Details</button>
+                <button class="btn btn-sm btn-primary">Add to cart</button>
+              </div>
+            </div>
           </div>
-          <div class="meal-card">
-            <div class="meal-name-main">Qorma + Naan</div>
-            <div class="meal-meta-line">Non-veg • Weekend style</div>
+
+          <!-- Row 4 -->
+          <div class="meal-row">
+            <div class="meal-thumb">
+              <img src="https://images.unsplash.com/photo-1604908553729-79704bfeae01?auto=format&fit=crop&w=400&q=80"
+                   alt="Qorma + Naan">
+            </div>
+            <div class="meal-main">
+              <div class="meal-header">
+                <div>
+                  <div class="meal-name-main">Qorma + Naan</div>
+                  <div class="meal-meta-line">Non-veg • Weekend style rich curry</div>
+                </div>
+                <div class="meal-price">Rs 720</div>
+              </div>
+              <div class="meal-extra">
+                Traditional chicken/beef qorma with tandoori naan, perfect for dawat or treat day.
+              </div>
+              <div class="meal-actions">
+                <button class="btn btn-sm btn-outline">Details</button>
+                <button class="btn btn-sm btn-primary">Add to cart</button>
+              </div>
+            </div>
           </div>
-          <div class="meal-card">
-            <div class="meal-name-main">Chana Masala + Rice</div>
-            <div class="meal-meta-line">Veg • Protein rich</div>
+
+          <!-- Row 5 -->
+          <div class="meal-row">
+            <div class="meal-thumb">
+              <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=400&q=80"
+                   alt="Chana Masala + Rice">
+            </div>
+            <div class="meal-main">
+              <div class="meal-header">
+                <div>
+                  <div class="meal-name-main">Chana Masala + Rice</div>
+                  <div class="meal-meta-line">Veg • High protein • Filling</div>
+                </div>
+                <div class="meal-price">Rs 540</div>
+              </div>
+              <div class="meal-extra">
+                Spiced chickpeas with steamed rice and salad — great for office lunch.
+              </div>
+              <div class="meal-actions">
+                <button class="btn btn-sm btn-outline">Details</button>
+                <button class="btn btn-sm btn-primary">Add to cart</button>
+              </div>
+            </div>
           </div>
-          <div class="meal-card">
-            <div class="meal-name-main">Grilled Chicken + Veggies</div>
-            <div class="meal-meta-line">Non-veg • Lighter option</div>
-          </div>
+
         </div>
 
         <p class="section-subtitle" style="margin-top:18px;">
-          For one-off orders, payment options: Cash on Delivery or Card (advance). For plans, subscription is paid online in advance.
+          “Add to cart” abhi frontend demo hai — future me isko actual cart / checkout flow se connect kiya ja sakta hai.
         </p>
       </div>
     </section>
