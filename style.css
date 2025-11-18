@@ -949,3 +949,119 @@ img {
 .cart-remove:hover {
   text-decoration: underline;
 }
+
+/* === Plan detail layout === */
+
+.plan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr);
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.plan-summary {
+  padding: 14px 16px;
+}
+
+.plan-details {
+  padding: 0;
+}
+
+.time-window-form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-window-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.time-window-block {
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+/* week grid */
+
+.week-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.day-card {
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  padding: 10px 12px;
+}
+
+.day-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.day-content {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.day-image {
+  flex: 0 0 80px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.day-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.day-text {
+  flex: 1;
+}
+
+/* for 2-meals per day */
+
+.day-content.two-meals {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.day-content.two-meals .half {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* responsive */
+
+@media (max-width: 900px) {
+  .plan-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .day-content {
+    align-items: flex-start;
+  }
+
+  .day-image {
+    flex: 0 0 70px;
+    height: 56px;
+  }
+}
