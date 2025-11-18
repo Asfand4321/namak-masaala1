@@ -666,89 +666,91 @@
   </footer>
 
   <script>
-    // ===== CART HELPERS (shared key with cart/checkout) =====
-    const CART_KEY = 'nm_cart_items';
+    document.addEventListener('DOMContentLoaded', function () {
+      // ===== CART HELPERS (shared key with cart/checkout) =====
+      const CART_KEY = 'nm_cart_items';
 
-    function loadCart() {
-      try {
-        const raw = localStorage.getItem(CART_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
+      function loadCart() {
+        try {
+          const raw = localStorage.getItem(CART_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
       }
-    }
 
-    function saveCart(cart) {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    }
+      function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      }
 
-    // ===== FILTERING =====
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const mealRows = document.querySelectorAll('.meal-row');
+      // ===== FILTERING =====
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const mealRows = document.querySelectorAll('.meal-row');
 
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-filter');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
 
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+          filterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
 
-        mealRows.forEach(row => {
-          const type = row.getAttribute('data-type');
-          if (filter === 'all' || type === filter) {
-            row.style.display = 'flex';
-          } else {
-            row.style.display = 'none';
-          }
+          mealRows.forEach(row => {
+            const type = row.getAttribute('data-type');
+            if (filter === 'all' || type === filter) {
+              row.style.display = 'flex';
+            } else {
+              row.style.display = 'none';
+            }
+          });
         });
       });
-    });
 
-    // ===== ADD TO CART =====
-    const addButtons = document.querySelectorAll('.add-to-cart-btn');
-    addButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.getAttribute('data-name');
-        const price = parseInt(btn.getAttribute('data-price'), 10);
+      // ===== ADD TO CART =====
+      const addButtons = document.querySelectorAll('.add-to-cart-btn');
+      addButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.getAttribute('data-name');
+          const price = parseInt(btn.getAttribute('data-price'), 10);
 
-        let cart = loadCart();
-        const existing = cart.find(item => item.name === name && item.price === price);
+          let cart = loadCart();
+          const existing = cart.find(item => item.name === name && item.price === price);
 
-        if (existing) {
-          existing.quantity = (existing.quantity || 1) + 1;
-        } else {
-          cart.push({ name, price, quantity: 1 });
+          if (existing) {
+            existing.quantity = (existing.quantity || 1) + 1;
+          } else {
+            cart.push({ name, price, quantity: 1 });
+          }
+
+          saveCart(cart);
+          alert('"' + name + '" added to cart. Open the Cart or Checkout page to review.');
+        });
+      });
+
+      // ===== APPLY IMAGES FROM ADMIN LOCALSTORAGE =====
+      const MEAL_IMAGE_KEY = 'nm_meal_images';
+
+      function applyMealImages() {
+        let map = {};
+        try {
+          const raw = localStorage.getItem(MEAL_IMAGE_KEY);
+          map = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          map = {};
         }
 
-        saveCart(cart);
-        alert('"' + name + '" added to cart. Open the Cart or Checkout page to review.');
-      });
-    });
-
-    // ===== APPLY IMAGES FROM ADMIN LOCALSTORAGE =====
-    const MEAL_IMAGE_KEY = 'nm_meal_images';
-
-    function applyMealImages() {
-      let map = {};
-      try {
-        const raw = localStorage.getItem(MEAL_IMAGE_KEY);
-        map = raw ? JSON.parse(raw) : {};
-      } catch (e) {
-        map = {};
+        document.querySelectorAll('.meal-thumb[data-meal-id]').forEach(el => {
+          const id = el.getAttribute('data-meal-id');
+          const name = el.getAttribute('data-meal-name') || 'Meal image';
+          const url = map[id];
+          if (url) {
+            el.innerHTML = '<img src="' + url + '" alt="' + name + '">';
+            el.classList.remove('meal-thumb-empty');
+          }
+        });
       }
 
-      document.querySelectorAll('.meal-thumb[data-meal-id]').forEach(el => {
-        const id = el.getAttribute('data-meal-id');
-        const name = el.getAttribute('data-meal-name') || 'Meal image';
-        const url = map[id];
-        if (url) {
-          el.innerHTML = '<img src="' + url + '" alt="' + name + '">';
-          el.classList.remove('meal-thumb-empty');
-        }
-      });
-    }
-
-    applyMealImages();
+      applyMealImages();
+    });
   </script>
 </body>
 </html>
