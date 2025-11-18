@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Choose a Plan - Namak Masaala</title>
+  <title>Plans - Namak Masaala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
@@ -20,6 +21,11 @@
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
         <a href="customer-care.html">Customer Care</a>
       </nav>
       <div class="nav-auth">
@@ -30,8 +36,14 @@
     </div>
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="customer-care.html">Support</a>
+      <a href="cart.html">Cart</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
     </div>
   </header>
 
@@ -40,60 +52,92 @@
       <div class="container">
         <div class="section-header">
           <div class="section-kicker">Plans</div>
-          <h1 class="section-title">Choose a plan</h1>
+          <h1 class="section-title">Weekly &amp; Monthly Tiffin Plans</h1>
           <p class="section-subtitle">
-            Weekly or Monthly • 1 or 2 meals per day. Delivery Mon–Sat in your selected time slot.
+            Fixed pricing for all subscription plans. Referral discounts apply only on these plans,
+            not on one-off meals.
           </p>
         </div>
 
+        <!-- WEEKLY PLANS -->
+        <h2 class="section-title" style="font-size:1.1rem;margin-bottom:10px;">Weekly plans</h2>
         <div class="card-grid">
+          <!-- Weekly 1 meal -->
           <div class="card">
-            <div class="card-title">Weekly • 1 Meal</div>
-            <div class="card-meta">Mon–Sat • one slot (Lunch or Dinner)</div>
-            <div class="price-tag">Rs 4,000 <span>/ week</span></div>
-            <p class="card-line">Best for solo users who want one hot meal per day.</p>
+            <div class="badge-soft">Weekly • 1 Meal</div>
+            <div class="card-title">Weekly 1 Meal Plan</div>
+            <p class="card-line">One tiffin per day, Monday to Saturday. Lunch or dinner slot.</p>
+            <div class="price-tag" style="margin-top:6px;">
+              Rs 2,000 <span>/ week</span>
+            </div>
+            <p class="card-meta" style="margin-top:6px;">
+              If a friend signs up with your referral code, they get <strong>Rs 200 off</strong> on this plan.
+            </p>
             <div class="card-footer">
-              <a href="#" class="link-inline">Select →</a>
-              <span class="badge-soft">Most popular starter</span>
+              <a href="referral.html" class="link-inline">See referral rules →</a>
+              <a href="cart.html" class="btn btn-sm btn-primary">Select plan</a>
             </div>
           </div>
 
+          <!-- Weekly 2 meals -->
           <div class="card">
-            <div class="card-title">Weekly • 2 Meals</div>
-            <div class="card-meta">Lunch + Dinner • Mon–Sat</div>
-            <div class="price-tag">Rs 7,600 <span>/ week</span></div>
-            <p class="card-line">Full coverage, no cooking all week.</p>
-            <div class="card-footer">
-              <a href="#" class="link-inline">Select →</a>
-              <span class="badge-soft">Recommended</span>
+            <div class="badge-soft">Weekly • 2 Meals</div>
+            <div class="card-title">Weekly 2 Meals Plan</div>
+            <p class="card-line">Two tiffins per day (Lunch + Dinner), Monday to Saturday.</p>
+            <div class="price-tag" style="margin-top:6px;">
+              Rs 4,000 <span>/ week</span>
             </div>
-          </div>
-
-          <div class="card">
-            <div class="card-title">Monthly • 1 Meal</div>
-            <div class="card-meta">4 weeks • one slot</div>
-            <div class="price-tag">Rs 15,500 <span>/ month</span></div>
-            <p class="card-line">Save more with monthly subscription.</p>
+            <p class="card-meta" style="margin-top:6px;">
+              If a friend signs up with your code, they get <strong>Rs 400 off</strong> on this plan.
+            </p>
             <div class="card-footer">
-              <a href="#" class="link-inline">Select →</a>
-              <span class="badge-soft">Save vs weekly</span>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-title">Monthly • 2 Meals</div>
-            <div class="card-meta">Lunch + Dinner • 4 weeks</div>
-            <div class="price-tag">Rs 29,500 <span>/ month</span></div>
-            <p class="card-line">Best value if you eat all meals at home/office.</p>
-            <div class="card-footer">
-              <a href="#" class="link-inline">Select →</a>
-              <span class="badge-soft">Max savings</span>
+              <a href="referral.html" class="link-inline">See referral rules →</a>
+              <a href="cart.html" class="btn btn-sm btn-primary">Select plan</a>
             </div>
           </div>
         </div>
 
-        <p class="section-subtitle" style="margin-top:18px;">
-          Use code <strong>NAMAK10</strong> to get 10% off your first weekly plan at checkout.
+        <!-- MONTHLY PLANS -->
+        <h2 class="section-title" style="font-size:1.1rem;margin:24px 0 10px;">Monthly plans</h2>
+        <div class="card-grid">
+          <!-- Monthly 1 meal -->
+          <div class="card">
+            <div class="badge-soft">Monthly • 1 Meal</div>
+            <div class="card-title">Monthly 1 Meal Plan</div>
+            <p class="card-line">One tiffin per day, 4 weeks (Mon–Sat). Lunch or dinner slot.</p>
+            <div class="price-tag" style="margin-top:6px;">
+              Rs 8,000 <span>/ month</span>
+            </div>
+            <p class="card-meta" style="margin-top:6px;">
+              Friend using your referral code gets <strong>Rs 800 off</strong> on this plan.
+            </p>
+            <div class="card-footer">
+              <a href="referral.html" class="link-inline">See referral rules →</a>
+              <a href="cart.html" class="btn btn-sm btn-primary">Select plan</a>
+            </div>
+          </div>
+
+          <!-- Monthly 2 meals -->
+          <div class="card">
+            <div class="badge-soft">Monthly • 2 Meals</div>
+            <div class="card-title">Monthly 2 Meals Plan</div>
+            <p class="card-line">Two tiffins per day (Lunch + Dinner), 4 weeks (Mon–Sat).</p>
+            <div class="price-tag" style="margin-top:6px;">
+              Rs 16,000 <span>/ month</span>
+            </div>
+            <p class="card-meta" style="margin-top:6px;">
+              Friend using your referral code gets <strong>Rs 1,600 off</strong> on this plan.
+            </p>
+            <div class="card-footer">
+              <a href="referral.html" class="link-inline">See referral rules →</a>
+              <a href="cart.html" class="btn btn-sm btn-primary">Select plan</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="section-subtitle" style="margin-top:20px;">
+          This page only shows base pricing and referral benefit. Next step, we can design detailed “plan window”
+          with Monday–Saturday dishes for each plan.
         </p>
       </div>
     </section>
