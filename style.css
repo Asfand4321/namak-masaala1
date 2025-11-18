@@ -1135,3 +1135,35 @@ img {
     height: 60px;
   }
 }
+
+.hero-promo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.hero-promo {
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.hero-promo:last-child {
+  border-bottom: none;
+}
+
+.hero-promo .card-title {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.hero-promo .card-line {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 768px) {
+  .hero-promo-grid {
+    gap: 8px;
+  }
+}
