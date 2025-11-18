@@ -1431,6 +1431,19 @@ img {
   margin-bottom: 10px;
 }
 
+.pay-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+}
+
+.pay-icon img {
+  height: 18px;
+  width: auto;
+  display: block;
+}
+
 .payment-options {
   display: flex;
   flex-wrap: wrap;
