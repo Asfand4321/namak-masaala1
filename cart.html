@@ -54,16 +54,19 @@
           <div class="section-kicker">Cart</div>
           <h1 class="section-title">Your cart</h1>
           <p class="section-subtitle">
-            This is a placeholder cart screen. Once a real cart / checkout flow is added, items from the
-            Meals or Plans pages will appear here.
+            Items you add from the Meals page are stored in your browser and shown here. This is still
+            a front-end preview – no real checkout or payment yet.
           </p>
         </div>
 
         <div class="cart-layout">
-          <!-- Left: cart items (currently empty state only) -->
+          <!-- Left: cart items -->
           <div class="cart-items card">
             <h2 class="card-title">Items</h2>
-            <div class="empty-cart">
+
+            <div id="cart-items-container"></div>
+
+            <div class="empty-cart" id="empty-cart">
               <div class="empty-icon">🧺</div>
               <p class="card-line">
                 Your cart is currently empty.
@@ -73,6 +76,10 @@
                 or select a <a href="plans.html" class="link-inline">subscription plan</a>.
               </p>
             </div>
+
+            <button class="btn btn-outline" id="clear-cart-btn" style="margin-top:10px;display:none;">
+              Clear cart
+            </button>
           </div>
 
           <!-- Right: summary -->
@@ -80,7 +87,7 @@
             <h2 class="card-title">Order summary</h2>
             <div class="summary-row">
               <span>Subtotal</span>
-              <span>Rs 0</span>
+              <span id="subtotal-amount">Rs 0</span>
             </div>
             <div class="summary-row">
               <span>Delivery charges</span>
@@ -88,13 +95,13 @@
             </div>
             <div class="summary-row summary-total">
               <span>Total</span>
-              <span>Rs 0</span>
+              <span id="total-amount">Rs 0</span>
             </div>
             <button class="btn btn-primary" disabled>
               Checkout (coming soon)
             </button>
             <p class="card-meta" style="margin-top:8px;">
-              When the cart is connected to the backend, this page will show real items, quantities and totals.
+              Once the backend is connected, this page will handle real orders, addresses and payments.
             </p>
           </aside>
         </div>
@@ -112,5 +119,94 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    function loadCart() {
+      try {
+        return JSON.parse(localStorage.getItem('nm_cart') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('nm_cart', JSON.stringify(cart));
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items-container');
+      const emptyState = document.getElementById('empty-cart');
+      const clearBtn = document.getElementById('clear-cart-btn');
+      const subtotalEl = document.getElementById('subtotal-amount');
+      const totalEl = document.getElementById('total-amount');
+
+      const cart = loadCart();
+      container.innerHTML = '';
+
+      if (!cart.length) {
+        emptyState.style.display = 'flex';
+        clearBtn.style.display = 'none';
+        subtotalEl.textContent = 'Rs 0';
+        totalEl.textContent = 'Rs 0';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      clearBtn.style.display = 'inline-flex';
+
+      let subtotal = 0;
+
+      cart.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+
+        const left = document.createElement('div');
+        left.className = 'cart-item-main';
+        left.innerHTML = `
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-meta">Qty: ${item.qty} × Rs ${item.price}</div>
+        `;
+
+        const right = document.createElement('div');
+        right.className = 'cart-item-right';
+        const lineTotal = item.price * item.qty;
+        subtotal += lineTotal;
+        right.innerHTML = `
+          <div class="cart-item-total">Rs ${lineTotal}</div>
+          <button class="btn btn-sm btn-outline cart-remove-btn" data-index="${index}">
+            Remove
+          </button>
+        `;
+
+        row.appendChild(left);
+        row.appendChild(right);
+        container.appendChild(row);
+      });
+
+      subtotalEl.textContent = 'Rs ' + subtotal;
+      totalEl.textContent = 'Rs ' + subtotal;
+
+      // attach remove handlers
+      container.querySelectorAll('.cart-remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.getAttribute('data-index'), 10);
+          const c = loadCart();
+          c.splice(idx, 1);
+          saveCart(c);
+          renderCart();
+        });
+      });
+    }
+
+    document.getElementById('clear-cart-btn').addEventListener('click', () => {
+      if (confirm('Clear all items from cart?')) {
+        saveCart([]);
+        renderCart();
+      }
+    });
+
+    // initial render
+    renderCart();
+  </script>
 </body>
 </html>
