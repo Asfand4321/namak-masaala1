@@ -5,17 +5,22 @@
   <title>Meals - Namak Masaala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
-        <div class="logo-mark">N</div>
-        <div class="brand-text">
-          <span class="brand-name">Namak Masaala</span>
-          <span class="brand-tagline">Home-made Tiffin</span>
-        </div>
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
       </div>
       <nav class="nav-links">
         <a href="index.html">Home</a>
@@ -29,8 +34,8 @@
         <a href="customer-care.html">Customer Care</a>
       </nav>
       <div class="nav-auth">
-        <button class="btn btn-outline">Login</button>
-        <button class="btn btn-primary">Sign up</button>
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
       <div class="nav-menu-icon">☰</div>
     </div>
@@ -44,6 +49,8 @@
       <a href="orders.html">My Orders</a>
       <a href="my-plans.html">My Plans</a>
       <a href="customer-care.html">Customer Care</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
     </div>
   </header>
 
@@ -54,8 +61,7 @@
           <div class="section-kicker">Meals</div>
           <h1 class="section-title">Daily à la carte menu</h1>
           <p class="section-subtitle">
-            Use the filters to view Veg or Non-Veg dishes. Images are placeholders for now and can
-            be managed later from an admin panel or CMS.
+            Use the filters to view Veg or Non-Veg dishes. Images are controlled from the internal admin meals page.
           </p>
         </div>
 
@@ -69,9 +75,10 @@
         <div class="meals-list">
 
           <!-- ================= NON VEG ================= -->
+
           <!-- Chicken Qorma -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-qorma" data-meal-name="Chicken Qorma">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -92,7 +99,7 @@
 
           <!-- Chicken Karahi -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-karahi" data-meal-name="Chicken Karahi">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -113,7 +120,7 @@
 
           <!-- Chicken Achari -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-achari" data-meal-name="Chicken Achari">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -134,7 +141,7 @@
 
           <!-- Chicken Hyderabadi -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-hyderabadi" data-meal-name="Chicken Hyderabadi">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -155,7 +162,7 @@
 
           <!-- Aloo Gosht -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-gosht" data-meal-name="Aloo Gosht">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -176,7 +183,7 @@
 
           <!-- Anda Kofta -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="anda-kofta" data-meal-name="Anda Kofta">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -197,7 +204,7 @@
 
           <!-- Daal Gosht -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="daal-gosht" data-meal-name="Daal Gosht">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -218,7 +225,7 @@
 
           <!-- Bhindi Gosht -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="bhindi-gosht" data-meal-name="Bhindi Gosht">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -239,7 +246,7 @@
 
           <!-- Chicken Biryani -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-biryani" data-meal-name="Chicken Biryani">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -260,7 +267,7 @@
 
           <!-- Chicken Pulao -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="chicken-pulao" data-meal-name="Chicken Pulao">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -281,7 +288,7 @@
 
           <!-- Vegetable Rice -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="vegetable-rice" data-meal-name="Vegetable Rice">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -302,7 +309,7 @@
 
           <!-- Matar Pulao -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="matar-pulao" data-meal-name="Matar Pulao">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -323,7 +330,7 @@
 
           <!-- Sajji -->
           <div class="meal-row" data-type="non-veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="sajji" data-meal-name="Sajji">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -343,9 +350,10 @@
           </div>
 
           <!-- ================= VEG ================= -->
+
           <!-- Daal Mash -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="daal-mash" data-meal-name="Daal Mash">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -366,7 +374,7 @@
 
           <!-- Daal Channa -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="daal-channa" data-meal-name="Daal Channa">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -387,7 +395,7 @@
 
           <!-- Lobia -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="lobia" data-meal-name="Lobia">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -408,7 +416,7 @@
 
           <!-- White Channa -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="white-channa" data-meal-name="White Channa">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -429,7 +437,7 @@
 
           <!-- Aloo Shimla -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-shimla" data-meal-name="Aloo Shimla">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -450,7 +458,7 @@
 
           <!-- Kari Pakora -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="kari-pakora" data-meal-name="Kari Pakora">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -471,7 +479,7 @@
 
           <!-- Aloo Anda -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-anda" data-meal-name="Aloo Anda">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -492,7 +500,7 @@
 
           <!-- Mix Vegetable -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="mix-vegetable" data-meal-name="Mix Vegetable">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -513,7 +521,7 @@
 
           <!-- Bhindi -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="bhindi" data-meal-name="Bhindi">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -534,7 +542,7 @@
 
           <!-- Aloo Palak -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-palak" data-meal-name="Aloo Palak">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -555,7 +563,7 @@
 
           <!-- Aloo Gobhi -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-gobhi" data-meal-name="Aloo Gobhi">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -576,7 +584,7 @@
 
           <!-- Aloo Bhujia -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-bhujia" data-meal-name="Aloo Bhujia">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -597,7 +605,7 @@
 
           <!-- Aloo Matar -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="aloo-matar" data-meal-name="Aloo Matar">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -618,7 +626,7 @@
 
           <!-- Karelay -->
           <div class="meal-row" data-type="veg">
-            <div class="meal-thumb meal-thumb-empty">
+            <div class="meal-thumb meal-thumb-empty" data-meal-id="karelay" data-meal-name="Karelay">
               <span>Image</span>
             </div>
             <div class="meal-main">
@@ -640,7 +648,7 @@
         </div>
 
         <p class="section-subtitle" style="margin-top:18px;">
-          “Add to cart” now stores items in your browser. Open the Cart page to see your current selection.
+          “Add to cart” stores items in your browser. Open the Cart or Checkout page to see your current selection.
         </p>
       </div>
     </section>
@@ -657,22 +665,24 @@
     </div>
   </footer>
 
-  <!-- Filter + real add-to-cart using localStorage -->
   <script>
-    // Helper: load / save cart in localStorage
+    // ===== CART HELPERS (shared key with cart/checkout) =====
+    const CART_KEY = 'nm_cart_items';
+
     function loadCart() {
       try {
-        return JSON.parse(localStorage.getItem('nm_cart') || '[]');
+        const raw = localStorage.getItem(CART_KEY);
+        return raw ? JSON.parse(raw) : [];
       } catch (e) {
         return [];
       }
     }
 
     function saveCart(cart) {
-      localStorage.setItem('nm_cart', JSON.stringify(cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
     }
 
-    // Filtering
+    // ===== FILTERING =====
     const filterButtons = document.querySelectorAll('.filter-btn');
     const mealRows = document.querySelectorAll('.meal-row');
 
@@ -694,7 +704,7 @@
       });
     });
 
-    // Add to cart buttons
+    // ===== ADD TO CART =====
     const addButtons = document.querySelectorAll('.add-to-cart-btn');
     addButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -705,15 +715,40 @@
         const existing = cart.find(item => item.name === name && item.price === price);
 
         if (existing) {
-          existing.qty += 1;
+          existing.quantity = (existing.quantity || 1) + 1;
         } else {
-          cart.push({ name, price, qty: 1 });
+          cart.push({ name, price, quantity: 1 });
         }
 
         saveCart(cart);
-        alert('"' + name + '" added to cart. Open the Cart page to review.');
+        alert('"' + name + '" added to cart. Open the Cart or Checkout page to review.');
       });
     });
+
+    // ===== APPLY IMAGES FROM ADMIN LOCALSTORAGE =====
+    const MEAL_IMAGE_KEY = 'nm_meal_images';
+
+    function applyMealImages() {
+      let map = {};
+      try {
+        const raw = localStorage.getItem(MEAL_IMAGE_KEY);
+        map = raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        map = {};
+      }
+
+      document.querySelectorAll('.meal-thumb[data-meal-id]').forEach(el => {
+        const id = el.getAttribute('data-meal-id');
+        const name = el.getAttribute('data-meal-name') || 'Meal image';
+        const url = map[id];
+        if (url) {
+          el.innerHTML = '<img src="' + url + '" alt="' + name + '">';
+          el.classList.remove('meal-thumb-empty');
+        }
+      });
+    }
+
+    applyMealImages();
   </script>
 </body>
 </html>
