@@ -2,26 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Namak Masaala - Home-made Tiffin</title>
+  <title>Namak Masaala – Home-made Tiffin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <!-- Favicon using the same logo -->
+  <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
-        <div class="logo-mark">N</div>
-        <div class="brand-text">
-          <span class="brand-name">Namak Masaala</span>
-          <span class="brand-tagline">Home-made Tiffin</span>
-        </div>
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
       </div>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="cart.html">Cart</a>
         <a href="referral.html">Referral</a>
         <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
@@ -38,7 +43,6 @@
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="cart.html">Cart</a>
       <a href="referral.html">Referral</a>
       <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
@@ -47,104 +51,137 @@
     </div>
   </header>
 
+  <!-- HERO SECTION -->
   <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-inner">
+    <section class="section hero">
+      <div class="container hero-grid">
         <div class="hero-left">
-          <div class="section-kicker">Home-made tiffin service</div>
-          <h1 class="hero-title">
-            Fresh, simple food<br>
-            for busy weekdays
+          <div class="hero-badge">Home-made Tiffin • Office friendly</div>
+          <h1 class="hero-heading">
+            Fresh desi food,<br>packed like home.
           </h1>
-          <p class="hero-subtitle">
-            Office-going customers ke liye daily tiffin. Weekly &amp; monthly plans choose karo,
-            ya one-off meals à la carte order karo – menu regularly change hota rahta hai.
+          <p class="hero-text">
+            Weekly &amp; monthly plans for busy professionals in Karachi.
+            Choose veg / non-veg combo, fixed timing, and let us handle the rest.
           </p>
           <div class="hero-actions">
-            <a href="plans.html" class="btn btn-primary">View subscription plans</a>
-            <a href="meals.html" class="btn btn-outline">Browse meals menu</a>
+            <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
+            <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
           </div>
-          <p class="hero-footnote">
-            Pricing and menu details are shown on the Plans and Meals pages. This hero highlights
-            your current offerings.
+          <p class="hero-subtext">
+            Referral discount applies only on plans: Weekly 1 / 2 meals &amp; Monthly 1 / 2 meals.
           </p>
         </div>
 
-        <!-- RIGHT: REAL ADS / HIGHLIGHTS -->
-        <div class="hero-right card">
-          <div class="badge-soft">Today’s highlights</div>
+        <div class="hero-right">
+          <div class="card hero-plan-card">
+            <div class="section-kicker">Popular plans</div>
 
-          <div class="hero-promo-grid">
-            <!-- Non-veg promo -->
-            <div class="hero-promo">
-              <div class="card-title">Non-Veg curries</div>
-              <p class="card-line">
-                Chicken Qorma, Karahi, Achari, Hyderabadi &amp; more from
-                <strong>Rs 300–350</strong>.
-              </p>
-              <a href="meals.html" class="link-inline">View non-veg menu →</a>
+            <div class="hero-plan-row">
+              <div>
+                <div class="hero-plan-name">Weekly 1 Meal Plan</div>
+                <div class="hero-plan-meta">Mon–Sat • 1 meal per day</div>
+              </div>
+              <div class="hero-plan-price">Rs 2,000 / week</div>
             </div>
 
-            <!-- Veg promo -->
-            <div class="hero-promo">
-              <div class="card-title">Veg options</div>
-              <p class="card-line">
-                Daal Mash, Daal Channa, Lobia, Mix Vegetable, Aloo Palak, Aloo Gobhi and others
-                starting at <strong>Rs 250</strong>.
-              </p>
-              <a href="meals.html" class="link-inline">View veg menu →</a>
+            <div class="hero-plan-row">
+              <div>
+                <div class="hero-plan-name">Weekly 2 Meals Plan</div>
+                <div class="hero-plan-meta">Mon–Sat • 2 meals per day</div>
+              </div>
+              <div class="hero-plan-price">Rs 4,000 / week</div>
             </div>
 
-            <!-- Plans promo -->
-            <div class="hero-promo">
-              <div class="card-title">Subscription plans</div>
-              <p class="card-line">
-                Weekly plans from <strong>Rs 2,000</strong> and monthly plans from
-                <strong>Rs 8,000</strong>. 1-meal and 2-meals per day options available.
-              </p>
-              <a href="plans.html" class="link-inline">See all plans →</a>
+            <div class="hero-plan-row">
+              <div>
+                <div class="hero-plan-name">Monthly 1 Meal Plan</div>
+                <div class="hero-plan-meta">Approx. weekly pattern repeated</div>
+              </div>
+              <div class="hero-plan-price">Rs 8,000 / month</div>
             </div>
+
+            <div class="hero-plan-row">
+              <div>
+                <div class="hero-plan-name">Monthly 2 Meals Plan</div>
+                <div class="hero-plan-meta">Ideal for full office days</div>
+              </div>
+              <div class="hero-plan-price">Rs 16,000 / month</div>
+            </div>
+
+            <a href="plans.html" class="btn btn-primary btn-full" style="margin-top:10px;">
+              See full plan details
+            </a>
           </div>
-
-          <p class="card-meta" style="margin-top:10px;">
-            Referral discounts apply only on plans. See the Referral page for exact discount
-            percentages per plan.
-          </p>
         </div>
       </div>
     </section>
 
-    <!-- FEATURES (generic) -->
+    <!-- SMALL SECTION: Royal menu tease -->
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Why Namak Masaala?</h2>
+          <div class="section-kicker">Royal menu preview</div>
+          <h2 class="section-title">Non-veg &amp; veg rotation</h2>
+          <p class="section-subtitle">
+            Your Royal Menu idea is used inside each plan page. Customers can pick one dish per day
+            (Monday to Saturday) with a simple non-veg / veg rule.
+          </p>
         </div>
-        <div class="card-grid">
+
+        <div class="hero-menu-grid">
           <div class="card">
-            <div class="card-title">Home-style cooking</div>
-            <p class="card-line">
-              No heavy restaurant gravies. Simple recipes suitable for everyday office lunches and light dinners.
-            </p>
+            <h3 class="card-title">Non-veg highlights</h3>
+            <ul class="card-list">
+              <li>Chicken Qorma</li>
+              <li>Chicken Karahi</li>
+              <li>Aloo Gosht</li>
+              <li>Chicken Biryani / Pulao</li>
+            </ul>
           </div>
           <div class="card">
-            <div class="card-title">Fixed plans, flexible menu</div>
-            <p class="card-line">
-              Plans have fixed pricing, but dishes can rotate week to week. Update the menu whenever you need.
-            </p>
+            <h3 class="card-title">Veg highlights</h3>
+            <ul class="card-list">
+              <li>Daal Mash / Daal Channa</li>
+              <li>Lobia / White Channa</li>
+              <li>Mix Vegetable, Aloo Palak</li>
+              <li>Aloo Gobhi, Aloo Matar, etc.</li>
+            </ul>
           </div>
           <div class="card">
-            <div class="card-title">Referral benefits</div>
-            <p class="card-line">
-              Share your referral code and your friends get a discount on weekly or monthly plans.
-            </p>
+            <h3 class="card-title">Referral logic</h3>
+            <ul class="card-list">
+              <li>Referral applies only on plans, not individual meals.</li>
+              <li>Weekly 1 meal: Rs 200 off with friend’s code.</li>
+              <li>Weekly 2 meals: Rs 400 off.</li>
+              <li>Monthly 1 &amp; 2 meals: Rs 800 / Rs 1,600 off.</li>
+            </ul>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section">
+      <div class="container cta-strip">
+        <div>
+          <div class="section-kicker">Ready to start?</div>
+          <h2 class="section-title" style="font-size:1.4rem;margin-bottom:4px;">
+            Lock your slot for next week’s tiffin.
+          </h2>
+          <p class="section-subtitle">
+            Pick a plan now and finalize exact dishes + timing with our team on WhatsApp or call.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
+          <a href="customer-care.html" class="btn btn-outline btn-lg">Contact customer care</a>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
       <div>© 2025 Namak Masaala. All rights reserved.</div>
