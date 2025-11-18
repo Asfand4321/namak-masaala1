@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <div class="logo-mark">N</div>
+        <div class="brand-text">
+          <span class="brand-name">Namak Masaala</span>
+          <span class="brand-tagline">Home-made Tiffin</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
+        <a href="customer-care.html">Customer Care</a>
+      </nav>
+      <div class="nav-auth">
+        <button class="btn btn-outline">Login</button>
+        <button class="btn btn-primary">Sign up</button>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+    <div class="container nav-mobile">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Cart</div>
+          <h1 class="section-title">Your cart</h1>
+          <p class="section-subtitle">
+            Ye front-end demo cart hai. Qty change / remove yahan se ho sakta hai (static), 
+            future me isko real backend / checkout se connect kar sakte hain.
+          </p>
+        </div>
+
+        <div class="cart-layout">
+          <!-- LEFT: CART ITEMS -->
+          <div class="cart-items card">
+            <div class="cart-header-row">
+              <span>Item</span>
+              <span>Qty</span>
+              <span>Price</span>
+              <span>Total</span>
+            </div>
+
+            <!-- Item 1 -->
+            <div class="cart-row">
+              <div class="cart-item-main">
+                <div class="cart-thumb">
+                  <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=400&q=80"
+                       alt="Chicken Karahi + 2 Roti">
+                </div>
+                <div class="cart-item-text">
+                  <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
+                  <div class="meal-meta-line">Lunch • Today • Medium spice</div>
+                </div>
+              </div>
+              <div class="cart-qty">
+                <button class="qty-btn" type="button">-</button>
+                <span>1</span>
+                <button class="qty-btn" type="button">+</button>
+              </div>
+              <div class="cart-price">Rs 650</div>
+              <div class="cart-line-total">Rs 650</div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="cart-row">
+              <div class="cart-item-main">
+                <div class="cart-thumb">
+                  <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=400&q=80"
+                       alt="Daal Fry + Jeera Rice">
+                </div>
+                <div class="cart-item-text">
+                  <div class="meal-name-main">Daal Fry + Jeera Rice</div>
+                  <div class="meal-meta-line">Lunch • Tomorrow • Veg</div>
+                </div>
+              </div>
+              <div class="cart-qty">
+                <button class="qty-btn" type="button">-</button>
+                <span>2</span>
+                <button class="qty-btn" type="button">+</button>
+              </div>
+              <div class="cart-price">Rs 520</div>
+              <div class="cart-line-total">Rs 1,040</div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="cart-row">
+              <div class="cart-item-main">
+                <div class="cart-thumb">
+                  <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=400&q=80"
+                       alt="Chana Masala + Rice">
+                </div>
+                <div class="cart-item-text">
+                  <div class="meal-name-main">Chana Masala + Rice</div>
+                  <div class="meal-meta-line">Dinner • Today • High protein</div>
+                </div>
+              </div>
+              <div class="cart-qty">
+                <button class="qty-btn" type="button">-</button>
+                <span>1</span>
+                <button class="qty-btn" type="button">+</button>
+              </div>
+              <div class="cart-price">Rs 540</div>
+              <div class="cart-line-total">Rs 540</div>
+            </div>
+
+            <div class="cart-empty-note">
+              Remove / add items directly from Meals page. Ye sirf sample data hai.
+            </div>
+          </div>
+
+          <!-- RIGHT: SUMMARY -->
+          <aside class="cart-summary card">
+            <h2 class="card-title" style="margin-bottom:10px;">Order summary</h2>
+            <div class="cart-summary-row">
+              <span>Subtotal</span>
+              <span>Rs 2,230</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Delivery fee</span>
+              <span>Rs 120</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Referral credit</span>
+              <span>- Rs 200</span>
+            </div>
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:10px 0;">
+            <div class="cart-summary-row cart-summary-total">
+              <span>Total payable</span>
+              <span>Rs 2,150</span>
+            </div>
+
+            <div class="form-field" style="margin-top:14px;">
+              <label class="form-label">Promo / referral code</label>
+              <input class="form-input" type="text" placeholder="Enter code">
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+              <button class="btn btn-primary" type="button">Proceed to checkout</button>
+              <button class="btn btn-outline" type="button">Continue browsing meals</button>
+            </div>
+
+            <p class="card-meta" style="margin-top:10px;">
+              COD &amp; card payments supported. Plan-based checkout ke liye “Plans” page use karein.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
