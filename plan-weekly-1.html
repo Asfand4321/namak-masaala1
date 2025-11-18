@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weekly 1 Meal Plan - Namak Masaala</title>
+  <title>Weekly 1 Meal Plan – Namak Masaala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -49,179 +49,149 @@
 
   <main>
     <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker">Weekly • 1 Meal</div>
-          <h1 class="section-title">Weekly 1 Meal Plan</h1>
-          <p class="section-subtitle">
-            One tiffin per day (Mon–Sat). Choose your time window based on your office break.
-            Example: 11:00 AM – 12:00 PM. This page is a static demo for how the plan window will look.
+      <div class="container plan-layout">
+        <!-- LEFT: summary -->
+        <aside class="card plan-summary-card">
+          <div class="section-kicker">Weekly plan</div>
+          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
+            1 Meal Plan – Royal Menu
+          </h1>
+          <p class="card-line">
+            One meal per day, Monday to Saturday. This configuration is for the standard 1-meal pack.
           </p>
-        </div>
 
-        <div class="plan-layout">
-          <!-- LEFT: SUMMARY CARD -->
-          <aside class="plan-summary card">
-            <div class="badge-soft">Plan summary</div>
-            <h2 class="card-title" style="margin-bottom:8px;">Weekly 1 Meal Plan</h2>
-            <p class="card-line">1 tiffin per day • Monday to Saturday</p>
-            <p class="card-line">Choose either Lunch or Dinner slot.</p>
-
-            <div class="price-tag" style="margin-top:10px;">
-              Rs 2,000 <span>/ week</span>
+          <div class="plan-price-block">
+            <div>
+              <div class="plan-price-main">Rs 2,000<span class="plan-price-tag">/ week</span></div>
+              <div class="plan-price-note">Rs 8,000 / month (approx)</div>
             </div>
+          </div>
 
-            <p class="card-meta" style="margin-top:8px;">
-              If a friend signs up with your referral code, they get <strong>Rs 200 off</strong> on this plan.
+          <div class="plan-rule-box">
+            <p class="card-title" style="margin-bottom:4px;">Non-veg / veg rule</p>
+            <p class="card-line">
+              Base price includes up to <strong>2 non-veg days</strong> in a week.
+              If you select <strong>3 or more non-veg days</strong>, pricing may increase
+              and needs to be confirmed with the kitchen.
             </p>
 
-            <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0;">
-
-            <h3 class="card-title" style="font-size:0.95rem;margin-bottom:6px;">Choose your time window</h3>
             <p class="card-meta">
-              Set a single daily window for delivery, for example 11:00–12:00 if your office break starts at 11 AM.
+              Current selection:
+              <strong><span id="nonveg-count">3</span> non-veg</strong>,
+              <strong><span id="veg-count">3</span> veg</strong>.
             </p>
-
-            <form class="time-window-form">
-              <div class="form-field">
-                <label class="form-label">Preferred meal type</label>
-                <select class="form-input">
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                </select>
-              </div>
-
-              <div class="time-window-row">
-                <div class="form-field">
-                  <label class="form-label">Start time</label>
-                  <input class="form-input" type="time" value="11:00">
-                </div>
-                <div class="form-field">
-                  <label class="form-label">End time</label>
-                  <input class="form-input" type="time" value="12:00">
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label class="form-label">Plan start date</label>
-                <input class="form-input" type="date">
-              </div>
-
-              <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
-                <button type="button" class="btn btn-primary">Confirm this plan (demo)</button>
-                <a href="plans.html" class="btn btn-outline">Back to plans</a>
-              </div>
-
-              <p class="card-meta" style="margin-top:8px;">
-                This is a front-end preview only. Actual plan selection and payment will be handled in the checkout flow.
-              </p>
-            </form>
-          </aside>
-
-          <!-- RIGHT: MON–SAT MENU -->
-          <div class="plan-details">
-            <h2 class="section-title" style="font-size:1.05rem;margin-bottom:8px;">Sample weekly menu (Mon–Sat)</h2>
-            <p class="section-subtitle" style="max-width:520px;">
-              This is an example menu. Actual dishes can be changed per week. Each day has one main tiffin aligned
-              with your selected time window.
-            </p>
-
-            <div class="week-grid">
-              <!-- Monday -->
-              <div class="day-card">
-                <div class="day-tag">Monday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1604908176997-1251884b08a3?auto=format&fit=crop&w=500&q=80"
-                         alt="Chicken Karahi + 2 Roti">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Chicken Karahi + 2 Roti</div>
-                    <div class="meal-meta-line">Home-style chicken karahi, raita &amp; salad.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tuesday -->
-              <div class="day-card">
-                <div class="day-tag">Tuesday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?auto=format&fit=crop&w=500&q=80"
-                         alt="Daal Fry + Jeera Rice">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Daal Fry + Jeera Rice</div>
-                    <div class="meal-meta-line">Comfort dal with jeera rice and salad.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Wednesday -->
-              <div class="day-card">
-                <div class="day-tag">Wednesday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1603899122634-2f24c0c47e26?auto=format&fit=crop&w=500&q=80"
-                         alt="Mix Sabzi + Chapati">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Mix Sabzi + Chapati</div>
-                    <div class="meal-meta-line">Seasonal vegetables cooked in low oil.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Thursday -->
-              <div class="day-card">
-                <div class="day-tag">Thursday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1604908553729-79704bfeae01?auto=format&fit=crop&w=500&q=80"
-                         alt="Qorma + Naan">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Qorma + Naan</div>
-                    <div class="meal-meta-line">Rich qorma with tandoori naan.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Friday -->
-              <div class="day-card">
-                <div class="day-tag">Friday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
-                         alt="Chana Masala + Rice">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Chana Masala + Rice</div>
-                    <div class="meal-meta-line">High-protein chickpea curry with rice.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Saturday -->
-              <div class="day-card">
-                <div class="day-tag">Saturday</div>
-                <div class="day-content">
-                  <div class="day-image">
-                    <img src="https://images.unsplash.com/photo-1588167865096-71c620227d92?auto=format&fit=crop&w=500&q=80"
-                         alt="Biryani + Raita">
-                  </div>
-                  <div class="day-text">
-                    <div class="meal-name-main">Weekend Biryani + Raita</div>
-                    <div class="meal-meta-line">Simple weekend treat biryani.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="section-subtitle" style="margin-top:14px;">
-              You can update dish names, images and descriptions any time to match your actual weekly rotation.
+            <p id="rule-status" class="rule-status alert">
+              You are above the base rule. Please use “Customize plan” to confirm final pricing.
             </p>
           </div>
+
+          <div class="plan-time-block">
+            <p class="card-title" style="margin-bottom:4px;">Preferred delivery window</p>
+            <p class="card-line">
+              Choose your usual break time. Exact slot can be adjusted later with support.
+            </p>
+            <select class="time-select">
+              <option>11:00 – 11:30</option>
+              <option>11:30 – 12:00</option>
+              <option>12:00 – 12:30</option>
+              <option>12:30 – 13:00</option>
+            </select>
+          </div>
+
+          <div class="custom-plan-cta">
+            <p>Need a customized version of this plan (extra non-veg days, different schedule, etc.)?</p>
+            <a href="customer-care.html" class="btn btn-outline">
+              Talk to us about a custom plan
+            </a>
+          </div>
+        </aside>
+
+        <!-- RIGHT: weekly dish selector -->
+        <div class="card plan-week-card">
+          <div class="section-header" style="padding:0;margin-bottom:12px;">
+            <div class="section-kicker">Menu configuration</div>
+            <h2 class="section-title" style="font-size:1.3rem;margin-bottom:4px;">
+              Choose one dish per day
+            </h2>
+            <p class="section-subtitle">
+              Each dropdown shows the dishes available for that day. The first option in every list
+              matches the Royal Menu card you shared. You can swap dishes but the non-veg rule above
+              will apply.
+            </p>
+          </div>
+
+          <div class="day-select-grid">
+            <!-- Monday -->
+            <div class="day-row">
+              <div class="day-label">Monday</div>
+              <select class="day-select" data-day="Monday">
+                <option value="Chicken Qorma" data-type="non-veg">Chicken Qorma (Non-veg)</option>
+                <option value="Chicken Karahi" data-type="non-veg">Chicken Karahi (Non-veg)</option>
+                <option value="Chicken Achari" data-type="non-veg">Chicken Achari (Non-veg)</option>
+                <option value="Chicken Hyderabadi" data-type="non-veg">Chicken Hyderabadi (Non-veg)</option>
+              </select>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="day-row">
+              <div class="day-label">Tuesday</div>
+              <select class="day-select" data-day="Tuesday">
+                <option value="Daal Mash" data-type="veg">Daal Mash (Veg)</option>
+                <option value="Daal Channa" data-type="veg">Daal Channa (Veg)</option>
+                <option value="Lobia" data-type="veg">Lobia (Veg)</option>
+                <option value="White Channa" data-type="veg">White Channa (Veg)</option>
+              </select>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="day-row">
+              <div class="day-label">Wednesday</div>
+              <select class="day-select" data-day="Wednesday">
+                <option value="Aloo Gosht" data-type="non-veg">Aloo Gosht (Non-veg)</option>
+                <option value="Anda Kofta" data-type="non-veg">Anda Kofta (Non-veg)</option>
+                <option value="Haleem" data-type="non-veg">Haleem (Non-veg)</option>
+                <option value="Kari Pakora" data-type="veg">Kari Pakora (Veg)</option>
+              </select>
+            </div>
+
+            <!-- Thursday -->
+            <div class="day-row">
+              <div class="day-label">Thursday</div>
+              <select class="day-select" data-day="Thursday">
+                <option value="Aloo Shimla" data-type="veg">Aloo Shimla (Veg)</option>
+                <option value="Aloo Anda" data-type="veg">Aloo Anda (Veg / Egg)</option>
+                <option value="Mix Vegetable" data-type="veg">Mix Vegetable (Veg)</option>
+                <option value="Aloo Palak" data-type="veg">Aloo Palak (Veg)</option>
+              </select>
+            </div>
+
+            <!-- Friday -->
+            <div class="day-row">
+              <div class="day-label">Friday</div>
+              <select class="day-select" data-day="Friday">
+                <option value="Chicken Biryani" data-type="non-veg">Chicken Biryani (Non-veg)</option>
+                <option value="Chicken Pulao" data-type="non-veg">Chicken Pulao (Non-veg)</option>
+                <option value="Vegetable Rice" data-type="veg">Vegetable Rice (Veg)</option>
+                <option value="Chicken Sajji" data-type="non-veg">Chicken Sajji (Non-veg)</option>
+              </select>
+            </div>
+
+            <!-- Saturday -->
+            <div class="day-row">
+              <div class="day-label">Saturday</div>
+              <select class="day-select" data-day="Saturday">
+                <option value="Aloo Gobhi" data-type="veg">Aloo Gobhi (Veg)</option>
+                <option value="Aloo Bhujia" data-type="veg">Aloo Bhujia (Veg)</option>
+                <option value="Aloo Matar" data-type="veg">Aloo Matar (Veg)</option>
+                <option value="Mix Vegetable" data-type="veg">Mix Vegetable (Veg)</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="section-subtitle" style="margin-top:16px;">
+            This page is a configuration preview only. Final confirmation, delivery address
+            and any price changes (for extra non-veg days) will be handled by the kitchen / admin.
+          </p>
         </div>
       </div>
     </section>
@@ -237,5 +207,47 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Count veg / non-veg based on current selection
+    function updateDayCounts() {
+      const selects = document.querySelectorAll('.day-select');
+      let nonVeg = 0;
+      let veg = 0;
+
+      selects.forEach(sel => {
+        const option = sel.options[sel.selectedIndex];
+        const type = option.dataset.type;
+        if (type === 'non-veg') nonVeg++;
+        else veg++;
+      });
+
+      const nonVegSpan = document.getElementById('nonveg-count');
+      const vegSpan = document.getElementById('veg-count');
+      const statusEl = document.getElementById('rule-status');
+
+      nonVegSpan.textContent = nonVeg;
+      vegSpan.textContent = veg;
+
+      if (nonVeg <= 2) {
+        statusEl.textContent =
+          'Your selection is within the base rule: up to 2 non-veg days are included in Rs 2,000 per week.';
+        statusEl.className = 'rule-status ok';
+      } else {
+        statusEl.textContent =
+          'You selected ' + nonVeg +
+          ' non-veg days. This is above the base rule and the weekly price may increase. ' +
+          'Please use “Customize plan” to confirm final pricing.';
+        statusEl.className = 'rule-status alert';
+      }
+    }
+
+    document.querySelectorAll('.day-select').forEach(sel => {
+      sel.addEventListener('change', updateDayCounts);
+    });
+
+    // initial state on page load
+    updateDayCounts();
+  </script>
 </body>
 </html>
