@@ -279,7 +279,7 @@
             </div>
           </div>
 
-          <!-- Vegetable Rice (Non-veg section list mai hai, but pure veg dish) -->
+          <!-- Vegetable Rice -->
           <div class="meal-row" data-type="veg">
             <div class="meal-thumb meal-thumb-empty">
               <span>Image</span>
@@ -469,7 +469,7 @@
             </div>
           </div>
 
-          <!-- Aloo Anda (veg list me likha hai, egg-based) -->
+          <!-- Aloo Anda -->
           <div class="meal-row" data-type="veg">
             <div class="meal-thumb meal-thumb-empty">
               <span>Image</span>
@@ -640,8 +640,7 @@
         </div>
 
         <p class="section-subtitle" style="margin-top:18px;">
-          “Add to cart” is a front-end demo. In the future this can be connected to a real cart and admin panel
-          where you can update prices, availability and images.
+          “Add to cart” now stores items in your browser. Open the Cart page to see your current selection.
         </p>
       </div>
     </section>
@@ -658,8 +657,21 @@
     </div>
   </footer>
 
-  <!-- Simple filter + demo add-to-cart script -->
+  <!-- Filter + real add-to-cart using localStorage -->
   <script>
+    // Helper: load / save cart in localStorage
+    function loadCart() {
+      try {
+        return JSON.parse(localStorage.getItem('nm_cart') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('nm_cart', JSON.stringify(cart));
+    }
+
     // Filtering
     const filterButtons = document.querySelectorAll('.filter-btn');
     const mealRows = document.querySelectorAll('.meal-row');
@@ -682,12 +694,24 @@
       });
     });
 
-    // Demo add-to-cart click (just a small alert for now)
+    // Add to cart buttons
     const addButtons = document.querySelectorAll('.add-to-cart-btn');
     addButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const name = btn.getAttribute('data-name');
-        alert('"' + name + '" added to cart (demo only).');
+        const price = parseInt(btn.getAttribute('data-price'), 10);
+
+        let cart = loadCart();
+        const existing = cart.find(item => item.name === name && item.price === price);
+
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({ name, price, qty: 1 });
+        }
+
+        saveCart(cart);
+        alert('"' + name + '" added to cart. Open the Cart page to review.');
       });
     });
   </script>
