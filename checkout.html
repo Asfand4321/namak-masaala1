@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout – Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="namak-logo.png" type="image/png">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
+        <a href="customer-care.html">Customer Care</a>
+      </nav>
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+    <div class="container nav-mobile">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container checkout-layout">
+        <!-- LEFT: checkout form -->
+        <div class="card checkout-card">
+          <div class="section-kicker">Checkout</div>
+          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
+            Delivery &amp; payment details
+          </h1>
+          <p class="section-subtitle">
+            Please provide your delivery address and choose your payment method. This is a demo checkout – actual order confirmation will be handled by the admin.
+          </p>
+
+          <form class="checkout-form" onsubmit="return handleCheckout(event)">
+            <!-- Delivery details -->
+            <div class="checkout-block">
+              <h2 class="checkout-block-title">Delivery address</h2>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="fullName">Full name *</label>
+                  <input id="fullName" name="fullName" type="text" required>
+                </div>
+                <div class="form-field">
+                  <label for="phone">Mobile number *</label>
+                  <input id="phone" name="phone" type="tel" required placeholder="+92XXXXXXXXXX">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="address1">Address line 1 *</label>
+                <input id="address1" name="address1" type="text" required placeholder="House / Flat, Street, Building">
+              </div>
+
+              <div class="form-field">
+                <label for="address2">Address line 2 (optional)</label>
+                <input id="address2" name="address2" type="text" placeholder="Block, landmark, etc.">
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="area">Area / locality *</label>
+                  <input id="area" name="area" type="text" required placeholder="DHA, Gulshan, etc.">
+                </div>
+                <div class="form-field">
+                  <label for="city">City *</label>
+                  <input id="city" name="city" type="text" value="Karachi" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="instructions">
+                  Delivery instructions
+                  <span class="field-hint">(optional – gate code, office floor, etc.)</span>
+                </label>
+                <textarea id="instructions" name="instructions" rows="2"></textarea>
+              </div>
+            </div>
+
+            <!-- Payment method -->
+            <div class="checkout-block">
+              <h2 class="checkout-block-title">Payment method</h2>
+
+              <div class="payment-options">
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="card" checked>
+                  <span>Credit / debit card</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="jazzcash">
+                  <span>JazzCash (manual transfer)</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="easypaisa">
+                  <span>Easypaisa (manual transfer)</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="bank">
+                  <span>Direct bank transfer</span>
+                </label>
+              </div>
+
+              <!-- Card details -->
+              <div id="card-section" class="payment-section">
+                <div class="form-field">
+                  <label for="cardName">Name on card *</label>
+                  <input id="cardName" name="cardName" type="text">
+                </div>
+
+                <div class="form-field">
+                  <label for="cardNumber">Card number *</label>
+                  <input id="cardNumber" name="cardNumber" type="text" placeholder="XXXX XXXX XXXX XXXX">
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="cardExpiry">Expiry (MM/YY) *</label>
+                    <input id="cardExpiry" name="cardExpiry" type="text" placeholder="MM/YY">
+                  </div>
+                  <div class="form-field">
+                    <label for="cardCvv">CVV *</label>
+                    <input id="cardCvv" name="cardCvv" type="password" placeholder="***">
+                  </div>
+                </div>
+
+                <p class="form-note">
+                  This is a visual demo only. Do not enter real card details on this preview website.
+                </p>
+              </div>
+
+              <!-- JazzCash / Easypaisa / Bank info -->
+              <div id="manual-section" class="payment-section" style="display:none;">
+                <p class="form-note">
+                  For JazzCash, Easypaisa or direct bank transfer, please send the amount to the account below.
+                  JazzCash / Easypaisa users will also send to this bank account (via wallet to bank transfer).
+                </p>
+
+                <div class="bank-info-box">
+                  <p class="bank-line"><strong>Bank name:</strong> Meezan Bank</p>
+                  <p class="bank-line"><strong>Account title:</strong> Namak Masaala</p>
+                  <p class="bank-line"><strong>Account number:</strong> 0000000000000</p>
+                  <p class="bank-line"><strong>IBAN (optional):</strong> PK00MEZN0000000000000000</p>
+                </div>
+
+                <div class="form-field">
+                  <label for="manualMethod">
+                    Transfer method
+                  </label>
+                  <input id="manualMethod" name="manualMethod" type="text"
+                         placeholder="JazzCash, Easypaisa or Bank">
+                </div>
+
+                <div class="form-field">
+                  <label for="transactionId">
+                    Transaction ID / reference
+                    <span class="field-hint">(after sending payment, type the reference here)</span>
+                  </label>
+                  <input id="transactionId" name="transactionId" type="text">
+                </div>
+
+                <p class="form-note">
+                  After payment, the admin will verify your transfer and confirm your plan or order manually.
+                </p>
+              </div>
+            </div>
+
+            <p id="checkout-error" class="form-error" style="display:none;"></p>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Place order (demo)
+            </button>
+
+            <p class="form-note" style="margin-top:8px;">
+              This checkout is a front-end preview. In the real system, orders and payments will be confirmed
+              by the admin or via an integrated payment gateway.
+            </p>
+          </form>
+        </div>
+
+        <!-- RIGHT: order summary -->
+        <aside class="card order-summary-card">
+          <h2 class="card-title">Order summary</h2>
+          <div id="order-items" class="order-items">
+            <!-- Items will be loaded from localStorage or show empty state -->
+          </div>
+
+          <div class="order-totals">
+            <div class="order-row">
+              <span>Subtotal</span>
+              <span id="order-subtotal">Rs 0</span>
+            </div>
+            <div class="order-row">
+              <span>Delivery</span>
+              <span>Rs 0</span>
+            </div>
+            <div class="order-row order-total">
+              <span>Total</span>
+              <span id="order-total">Rs 0</span>
+            </div>
+          </div>
+
+          <p class="card-meta">
+            Summary above is for preview only. Actual pricing, discounts and referral benefits will be
+            confirmed by the admin before starting your tiffin service.
+          </p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle payment sections
+    function updatePaymentSections() {
+      const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+      const cardSection = document.getElementById('card-section');
+      const manualSection = document.getElementById('manual-section');
+
+      if (method === 'card') {
+        cardSection.style.display = 'block';
+        manualSection.style.display = 'none';
+      } else {
+        cardSection.style.display = 'none';
+        manualSection.style.display = 'block';
+      }
+    }
+
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+      radio.addEventListener('change', updatePaymentSections);
+    });
+
+    updatePaymentSections();
+
+    // Simple checkout validation (demo)
+    function handleCheckout(event) {
+      const errorEl = document.getElementById('checkout-error');
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address1 = document.getElementById('address1').value.trim();
+      const area = document.getElementById('area').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      if (!fullName || !phone || !address1 || !area || !city) {
+        errorEl.textContent = 'Please fill in all required delivery fields.';
+        errorEl.style.display = 'block';
+        event.preventDefault();
+        return false;
+      }
+
+      if (method === 'card') {
+        const cardName = document.getElementById('cardName').value.trim();
+        const cardNumber = document.getElementById('cardNumber').value.trim();
+        const cardExpiry = document.getElementById('cardExpiry').value.trim();
+        const cardCvv = document.getElementById('cardCvv').value.trim();
+
+        if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+          errorEl.textContent = 'Please fill in all required card details.';
+          errorEl.style.display = 'block';
+          event.preventDefault();
+          return false;
+        }
+      } else {
+        const transactionId = document.getElementById('transactionId').value.trim();
+        if (!transactionId) {
+          errorEl.textContent = 'Please enter the transaction ID / reference for your transfer.';
+          errorEl.style.display = 'block';
+          event.preventDefault();
+          return false;
+        }
+      }
+
+      alert('This is a demo checkout – in production this would create an order and notify the admin.');
+      event.preventDefault();
+      return false;
+    }
+
+    // Load order summary from localStorage (demo)
+    function loadOrderSummary() {
+      const itemsContainer = document.getElementById('order-items');
+      const subtotalEl = document.getElementById('order-subtotal');
+      const totalEl = document.getElementById('order-total');
+
+      // NOTE: Make sure this key matches whatever you used in cart.js
+      const raw = localStorage.getItem('nm_cart_items');
+      let items = [];
+
+      try {
+        if (raw) {
+          items = JSON.parse(raw);
+        }
+      } catch (e) {
+        items = [];
+      }
+
+      if (!items || items.length === 0) {
+        itemsContainer.innerHTML = '<p class="card-meta">No items found in cart. Please add a plan or meals before checking out.</p>';
+        subtotalEl.textContent = 'Rs 0';
+        totalEl.textContent = 'Rs 0';
+        return;
+      }
+
+      let subtotal = 0;
+      itemsContainer.innerHTML = '';
+
+      items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
+
+        const name = item.name || 'Item';
+        const price = Number(item.price) || 0;
+        const qty = item.quantity || 1;
+        const lineTotal = price * qty;
+
+        subtotal += lineTotal;
+
+        row.innerHTML = `
+          <div>
+            <div class="order-item-name">${name}</div>
+            <div class="order-item-meta">Qty: ${qty}</div>
+          </div>
+          <div class="order-item-price">Rs ${lineTotal}</div>
+        `;
+
+        itemsContainer.appendChild(row);
+      });
+
+      subtotalEl.textContent = 'Rs ' + subtotal;
+      totalEl.textContent = 'Rs ' + subtotal; // delivery = 0 for now
+    }
+
+    loadOrderSummary();
+  </script>
+</body>
+</html>
