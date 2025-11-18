@@ -57,13 +57,13 @@
             1 Meal Plan – Royal Menu
           </h1>
           <p class="card-line">
-            One meal per day, Monday to Saturday. This configuration is for the standard 1-meal pack.
+            One meal per day, Monday to Saturday. This configuration follows your Royal Menu idea.
           </p>
 
           <div class="plan-price-block">
             <div>
               <div class="plan-price-main">Rs 2,000<span class="plan-price-tag">/ week</span></div>
-              <div class="plan-price-note">Rs 8,000 / month (approx)</div>
+              <div class="plan-price-note">Rs 8,000 / month (approx.)</div>
             </div>
           </div>
 
@@ -71,7 +71,7 @@
             <p class="card-title" style="margin-bottom:4px;">Non-veg / veg rule</p>
             <p class="card-line">
               Base price includes up to <strong>2 non-veg days</strong> in a week.
-              If you select <strong>3 or more non-veg days</strong>, pricing may increase
+              If you select <strong>3 or more non-veg days</strong>, weekly price may increase
               and needs to be confirmed with the kitchen.
             </p>
 
@@ -86,7 +86,7 @@
           </div>
 
           <div class="plan-time-block">
-            <p class="card-title" style="margin-bottom:4px;">Preferred delivery window</p>
+            <p class="card-title" style="margin-bottom:4px;">Preferred delivery window (1 meal)</p>
             <p class="card-line">
               Choose your usual break time. Exact slot can be adjusted later with support.
             </p>
@@ -99,7 +99,7 @@
           </div>
 
           <div class="custom-plan-cta">
-            <p>Need a customized version of this plan (extra non-veg days, different schedule, etc.)?</p>
+            <p>Need a customized version of this plan (extra non-veg days, different timing, etc.)?</p>
             <a href="customer-care.html" class="btn btn-outline">
               Talk to us about a custom plan
             </a>
@@ -114,9 +114,8 @@
               Choose one dish per day
             </h2>
             <p class="section-subtitle">
-              Each dropdown shows the dishes available for that day. The first option in every list
-              matches the Royal Menu card you shared. You can swap dishes but the non-veg rule above
-              will apply.
+              Each dropdown shows the dishes available for that day. The first option matches your
+              Royal Menu image. You can change dishes but the non-veg rule on the left still applies.
             </p>
           </div>
 
@@ -124,6 +123,7 @@
             <!-- Monday -->
             <div class="day-row">
               <div class="day-label">Monday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Monday">
                 <option value="Chicken Qorma" data-type="non-veg">Chicken Qorma (Non-veg)</option>
                 <option value="Chicken Karahi" data-type="non-veg">Chicken Karahi (Non-veg)</option>
@@ -135,6 +135,7 @@
             <!-- Tuesday -->
             <div class="day-row">
               <div class="day-label">Tuesday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Tuesday">
                 <option value="Daal Mash" data-type="veg">Daal Mash (Veg)</option>
                 <option value="Daal Channa" data-type="veg">Daal Channa (Veg)</option>
@@ -146,6 +147,7 @@
             <!-- Wednesday -->
             <div class="day-row">
               <div class="day-label">Wednesday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Wednesday">
                 <option value="Aloo Gosht" data-type="non-veg">Aloo Gosht (Non-veg)</option>
                 <option value="Anda Kofta" data-type="non-veg">Anda Kofta (Non-veg)</option>
@@ -157,6 +159,7 @@
             <!-- Thursday -->
             <div class="day-row">
               <div class="day-label">Thursday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Thursday">
                 <option value="Aloo Shimla" data-type="veg">Aloo Shimla (Veg)</option>
                 <option value="Aloo Anda" data-type="veg">Aloo Anda (Veg / Egg)</option>
@@ -168,6 +171,7 @@
             <!-- Friday -->
             <div class="day-row">
               <div class="day-label">Friday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Friday">
                 <option value="Chicken Biryani" data-type="non-veg">Chicken Biryani (Non-veg)</option>
                 <option value="Chicken Pulao" data-type="non-veg">Chicken Pulao (Non-veg)</option>
@@ -179,6 +183,7 @@
             <!-- Saturday -->
             <div class="day-row">
               <div class="day-label">Saturday</div>
+              <div class="day-thumb">Image</div>
               <select class="day-select" data-day="Saturday">
                 <option value="Aloo Gobhi" data-type="veg">Aloo Gobhi (Veg)</option>
                 <option value="Aloo Bhujia" data-type="veg">Aloo Bhujia (Veg)</option>
@@ -188,9 +193,17 @@
             </div>
           </div>
 
-          <p class="section-subtitle" style="margin-top:16px;">
-            This page is a configuration preview only. Final confirmation, delivery address
-            and any price changes (for extra non-veg days) will be handled by the kitchen / admin.
+          <!-- Button directly under Saturday / weekly grid -->
+          <div class="custom-plan-cta custom-plan-cta-inline">
+            <p>Want to change more days or add extra non-veg dishes?</p>
+            <a href="customer-care.html" class="btn btn-outline">
+              Request a customized version of this plan
+            </a>
+          </div>
+
+          <p class="section-subtitle" style="margin-top:10px;">
+            This screen is a configuration preview only. Final confirmation, delivery address and any
+            change in price will be handled manually by the admin / kitchen team.
           </p>
         </div>
       </div>
@@ -237,7 +250,7 @@
         statusEl.textContent =
           'You selected ' + nonVeg +
           ' non-veg days. This is above the base rule and the weekly price may increase. ' +
-          'Please use “Customize plan” to confirm final pricing.';
+          'Please use “Customize plan” or contact support to confirm final pricing.';
         statusEl.className = 'rule-status alert';
       }
     }
