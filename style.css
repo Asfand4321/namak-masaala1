@@ -1167,3 +1167,97 @@ img {
     gap: 8px;
   }
 }
+
+.plan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+  gap: 16px;
+}
+
+.plan-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.plan-price-block {
+  margin-top: 6px;
+}
+
+.plan-price-main {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.plan-price-tag {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-left: 4px;
+  color: #6b7280;
+}
+
+.plan-price-note {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.plan-rule-box {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.rule-status {
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+.rule-status.ok {
+  color: #059669;
+}
+
+.rule-status.alert {
+  color: #b91c1c;
+}
+
+.plan-time-block .time-select {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+.day-select-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.day-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.day-label {
+  width: 90px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.day-select {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .plan-layout {
+    grid-template-columns: 1fr;
+  }
+}
