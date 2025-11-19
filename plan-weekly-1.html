@@ -51,8 +51,7 @@
             Weekly 1 Meal Plan
           </h1>
           <p class="section-subtitle" style="margin-top:6px;">
-            One tiffin per day (Monday to Saturday). Ideal if you want a single fixed lunch or dinner
-            time during office or home.
+            One tiffin per day (Monday to Saturday). Good for a single fixed lunch or dinner slot.
           </p>
 
           <div class="plan-price-box">
@@ -61,6 +60,7 @@
             </div>
           </div>
 
+          <!-- ⬇ yaha non-veg rule tha, uski jaga naya note -->
           <div class="plan-note">
             <strong>Schedule start rule:</strong><br>
             If you subscribe to this plan today (for example on Monday), your tiffin schedule will
@@ -70,7 +70,25 @@
           <div class="plan-meta-list">
             <div>• 6 days a week (Mon–Sat)</div>
             <div>• 1 delivery time window of your choice</div>
-            <div>• Menu can rotate but follows the pattern shown on the right</div>
+            <div>• Menu can rotate but follows similar pattern</div>
+          </div>
+
+          <!-- TIME WINDOW INPUT (insert box) -->
+          <div class="plan-time-box">
+            <h2 class="card-title" style="font-size:1rem;margin-top:14px;">Preferred delivery time</h2>
+            <p class="card-meta">
+              Select your one daily time window. Final timing will be confirmed on call / WhatsApp.
+            </p>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="timeFrom">From</label>
+                <input id="timeFrom" type="time">
+              </div>
+              <div class="form-field">
+                <label for="timeTo">To</label>
+                <input id="timeTo" type="time">
+              </div>
+            </div>
           </div>
 
           <button
@@ -82,64 +100,95 @@
           </button>
         </div>
 
-        <!-- RIGHT: weekly menu -->
+        <!-- RIGHT: weekly menu with CARDS + IMAGE PLACEHOLDER (no dropdown) -->
         <div class="card plan-menu-card">
           <h2 class="card-title">Sample weekly menu (1 meal per day)</h2>
           <p class="card-meta">
-            This is an example menu. Actual dishes may change based on availability, but you will
-            receive similar non-veg / veg rotation.
+            Example menu for this plan. One dish per day is shown here — there is no dropdown selection.
           </p>
 
-          <div class="weekly-menu">
-            <div class="day-row">
-              <div class="day-name">Monday</div>
-              <div class="day-dish">
-                Chicken Qorma <span class="dish-tag">Non-veg</span>
+          <div class="plan-day-grid">
+            <!-- Monday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Monday</div>
+                <div class="day-dish">
+                  Chicken Qorma <span class="dish-tag">Non-veg</span>
+                </div>
               </div>
             </div>
-            <div class="day-row">
-              <div class="day-name">Tuesday</div>
-              <div class="day-dish">
-                Daal Mash <span class="dish-tag">Veg</span>
+
+            <!-- Tuesday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Tuesday</div>
+                <div class="day-dish">
+                  Daal Mash <span class="dish-tag">Veg</span>
+                </div>
               </div>
             </div>
-            <div class="day-row">
-              <div class="day-name">Wednesday</div>
-              <div class="day-dish">
-                Chicken Karahi <span class="dish-tag">Non-veg</span>
+
+            <!-- Wednesday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Wednesday</div>
+                <div class="day-dish">
+                  Chicken Karahi <span class="dish-tag">Non-veg</span>
+                </div>
               </div>
             </div>
-            <div class="day-row">
-              <div class="day-name">Thursday</div>
-              <div class="day-dish">
-                Mix Vegetable <span class="dish-tag">Veg</span>
+
+            <!-- Thursday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Thursday</div>
+                <div class="day-dish">
+                  Mix Vegetable <span class="dish-tag">Veg</span>
+                </div>
               </div>
             </div>
-            <div class="day-row">
-              <div class="day-name">Friday</div>
-              <div class="day-dish">
-                Chicken Biryani <span class="dish-tag">Non-veg</span>
+
+            <!-- Friday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Friday</div>
+                <div class="day-dish">
+                  Chicken Biryani <span class="dish-tag">Non-veg</span>
+                </div>
               </div>
             </div>
-            <div class="day-row">
-              <div class="day-name">Saturday</div>
-              <div class="day-dish">
-                Aloo Palak <span class="dish-tag">Veg</span>
+
+            <!-- Saturday -->
+            <div class="day-card">
+              <div class="day-thumb meal-thumb-empty">
+                <span>Image</span>
+              </div>
+              <div class="day-info">
+                <div class="day-name">Saturday</div>
+                <div class="day-dish">
+                  Aloo Palak <span class="dish-tag">Veg</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <h3 class="card-title" style="font-size:1rem;margin-top:16px;">Delivery time window</h3>
-          <p class="card-meta">
-            You can set one daily time window for delivery, for example:
-          </p>
-          <ul class="plan-meta-list">
-            <li>11:00 AM – 12:00 PM</li>
-            <li>12:30 PM – 1:30 PM</li>
-            <li>7:30 PM – 8:30 PM</li>
-          </ul>
-          <p class="card-meta">
-            Exact timing will be confirmed with you by phone or WhatsApp after subscription.
+          <p class="card-meta" style="margin-top:10px;">
+            Images above are placeholders. In future, these can be controlled through an admin panel.
           </p>
         </div>
       </div>
