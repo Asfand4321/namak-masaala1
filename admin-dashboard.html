@@ -69,9 +69,17 @@
             WhatsApp widget
           </button>
 
+          <div class="admin-nav-section-label">Orders</div>
+          <button class="admin-nav-item" data-panel="orders">
+            Orders &amp; tracking
+          </button>
+
           <div class="admin-nav-section-label">Accounts</div>
           <button class="admin-nav-item" data-panel="users">
             Users &amp; accounts
+          </button>
+          <button class="admin-nav-item" data-panel="child-accounts">
+            Child admin accounts
           </button>
 
           <a href="admin-meals.html" class="admin-nav-link">
@@ -114,6 +122,7 @@
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="meals">Change meal images</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="referral">Edit referral discounts</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="payment">Change bank details</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="orders">Review pending orders</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="home">Edit home page text</a>
               </div>
             </div>
@@ -369,6 +378,88 @@ If your friend signs up using your referral code, they get a discount on their f
             </form>
           </section>
 
+          <!-- ORDERS & TRACKING -->
+          <section class="card admin-panel" id="panel-orders" hidden>
+            <h2 class="card-title">Orders &amp; tracking</h2>
+            <p class="card-meta">
+              Yahan se tum orders ka high-level status dekh sakte ho – TRX ID verify karna,
+              delivery status, waghera. Abhi data static hai, baad me backend se aayega.
+            </p>
+
+            <div class="form-grid" style="margin-bottom:8px;">
+              <div class="form-field">
+                <label>Filter by payment status</label>
+                <select>
+                  <option>All</option>
+                  <option>Pending verification</option>
+                  <option>Paid</option>
+                  <option>Failed / Cancelled</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Filter by delivery</label>
+                <select>
+                  <option>All</option>
+                  <option>Not started</option>
+                  <option>In progress</option>
+                  <option>Completed</option>
+                </select>
+              </div>
+            </div>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Plan / Meals</th>
+                  <th>Amount (Rs)</th>
+                  <th>Payment</th>
+                  <th>TRX ID</th>
+                  <th>Delivery</th>
+                  <th>Last update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#NM-2025-0012</td>
+                  <td>Demo User</td>
+                  <td>Weekly 1 Meal</td>
+                  <td>2,000</td>
+                  <td><span class="admin-status-pill admin-status-pending">Pending verification</span></td>
+                  <td>JC123456789</td>
+                  <td><span class="admin-status-pill">Not started</span></td>
+                  <td>Today, 11:45 AM</td>
+                </tr>
+                <tr>
+                  <td>#NM-2025-0011</td>
+                  <td>Sample User</td>
+                  <td>Monthly 2 Meals</td>
+                  <td>16,000</td>
+                  <td><span class="admin-status-pill admin-status-ok">Paid</span></td>
+                  <td>EP987654321</td>
+                  <td><span class="admin-status-pill admin-status-ok">In progress</span></td>
+                  <td>Yesterday, 4:10 PM</td>
+                </tr>
+                <tr>
+                  <td>#NM-2025-0010</td>
+                  <td>Test User</td>
+                  <td>Meals cart (3 items)</td>
+                  <td>1,350</td>
+                  <td><span class="admin-status-pill admin-status-failed">Failed</span></td>
+                  <td>-</td>
+                  <td><span class="admin-status-pill">Not started</span></td>
+                  <td>2 days ago</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="card-meta">
+              Real system me yahan se tum:
+              payment approve, delivery status change, tracking note add, waghera kar sakte ho.
+            </p>
+          </section>
+
           <!-- USERS -->
           <section class="card admin-panel" id="panel-users" hidden>
             <h2 class="card-title">Users &amp; accounts</h2>
@@ -408,6 +499,108 @@ If your friend signs up using your referral code, they get a discount on their f
             <p class="card-meta">
               Real implementation me yahan se:
               reset password, block account, referral history, etc. handle kar sakte ho.
+            </p>
+          </section>
+
+          <!-- CHILD ADMIN ACCOUNTS -->
+          <section class="card admin-panel" id="panel-child-accounts" hidden>
+            <h2 class="card-title">Child admin accounts</h2>
+            <p class="card-meta">
+              Child admin = aise log jo tumhare liye site manage karen (kitchen staff, manager, etc.)
+              lekin unko limited access mile. Philhal sirf layout hai, baad me permissions backend se
+              control hongi.
+            </p>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Allowed modules</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Kitchen Manager</td>
+                  <td>kitchen@example.com</td>
+                  <td>Meals admin</td>
+                  <td>Meals, Orders (read), Plans (read)</td>
+                </tr>
+                <tr>
+                  <td>Support Agent</td>
+                  <td>support@example.com</td>
+                  <td>Support</td>
+                  <td>Orders, Users (read), WhatsApp replies</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="admin-section-heading" style="margin-top:14px;">Create / edit child admin</h3>
+
+            <form class="admin-form">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Full name</label>
+                  <input type="text" placeholder="e.g. Ali Raza">
+                </div>
+                <div class="form-field">
+                  <label>Email</label>
+                  <input type="email" placeholder="ali@example.com">
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Role</label>
+                  <select>
+                    <option>Meals admin</option>
+                    <option>Orders manager</option>
+                    <option>Support agent</option>
+                    <option>Viewer only</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label>Temporary password</label>
+                  <input type="text" placeholder="Will be sent manually (demo)">
+                </div>
+              </div>
+
+              <div class="admin-perms-grid">
+                <label class="admin-perm-item">
+                  <input type="checkbox" checked>
+                  <span>Can edit meals &amp; images</span>
+                </label>
+                <label class="admin-perm-item">
+                  <input type="checkbox">
+                  <span>Can edit plans &amp; pricing</span>
+                </label>
+                <label class="admin-perm-item">
+                  <input type="checkbox" checked>
+                  <span>Can view &amp; update orders</span>
+                </label>
+                <label class="admin-perm-item">
+                  <input type="checkbox">
+                  <span>Can change payment settings</span>
+                </label>
+                <label class="admin-perm-item">
+                  <input type="checkbox">
+                  <span>Can manage users</span>
+                </label>
+                <label class="admin-perm-item">
+                  <input type="checkbox">
+                  <span>Read-only (no edits)</span>
+                </label>
+              </div>
+
+              <button type="button" class="btn btn-primary">
+                Save child admin (preview)
+              </button>
+            </form>
+
+            <p class="card-meta">
+              Future plan: yahan se Supabase / backend me separate role table banega, aur har
+              child admin ke liye permissions check ki ja sakti hain (e.g. only meals page open kare, etc.).
             </p>
           </section>
         </div>
