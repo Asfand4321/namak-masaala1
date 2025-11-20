@@ -1698,3 +1698,133 @@ img {
     transform: translateY(-6px) scale(1.01);
   }
 }
+
+/* === WhatsApp floating chat widget (global) === */
+
+.nm-whatsapp-container {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  font-family: inherit;
+}
+
+/* Round WhatsApp button */
+.nm-whatsapp-button {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: #25D366; /* WhatsApp green */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  font-size: 26px;
+}
+
+/* Simple WhatsApp icon style */
+.nm-whatsapp-button span {
+  font-weight: 700;
+}
+
+/* Chat popup card */
+.nm-whatsapp-popup {
+  position: absolute;
+  right: 0;
+  bottom: 66px;
+  width: 280px;
+  max-width: 90vw;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: none; /* default hidden */
+}
+
+/* Header */
+.nm-whatsapp-header {
+  background: #075E54;
+  color: #fff;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nm-whatsapp-header-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.nm-whatsapp-header-sub {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.nm-whatsapp-header-close {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Body */
+.nm-whatsapp-body {
+  padding: 10px 14px 12px;
+  background: #f5f7f9;
+  font-size: 0.85rem;
+}
+
+.nm-whatsapp-bubble {
+  background: #ffffff;
+  border-radius: 12px 12px 12px 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.nm-whatsapp-bubble span {
+  display: block;
+}
+
+.nm-whatsapp-bubble-hello {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.nm-whatsapp-footer-text {
+  font-size: 0.7rem;
+  color: #777;
+  margin-top: 4px;
+}
+
+/* Start chat button inside popup */
+.nm-whatsapp-start {
+  margin-top: 8px;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: #25D366;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.nm-whatsapp-start-icon {
+  font-size: 1rem;
+}
+
+/* Mobile thora upar utha do button ko */
+@media (max-width: 600px) {
+  .nm-whatsapp-container {
+    right: 12px;
+    bottom: 12px;
+  }
+}
