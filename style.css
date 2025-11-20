@@ -1666,3 +1666,35 @@ img {
   background: #fffaf3;
   border: 1px solid #ffe2b8;
 }
+
+/* -------- Auth illustration (login / signup) -------- */
+
+.auth-illustration-wrap {
+  border-radius: 18px;
+  padding: 16px;
+  background: radial-gradient(circle at top, #fff7e6 0%, #ffe0c2 40%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.auth-illustration-img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Soft floating effect – not too crazy */
+.animate-tiffin {
+  animation: tiffinFloat 4.5s ease-in-out infinite;
+}
+
+@keyframes tiffinFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
