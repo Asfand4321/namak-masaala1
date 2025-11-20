@@ -32,6 +32,7 @@
   <main>
     <section class="section">
       <div class="container auth-layout">
+        <!-- LEFT: LOGIN FORM -->
         <div class="card auth-card">
           <div class="section-kicker">Welcome back</div>
           <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
@@ -72,6 +73,28 @@
             </p>
           </form>
         </div>
+
+        <!-- RIGHT: ILLUSTRATION / INFO -->
+        <div class="card auth-side">
+          <div class="auth-illustration">
+            <img
+              src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80"
+              alt="Home-made tiffin delivery"
+              style="width:100%;border-radius:16px;object-fit:cover;max-height:260px;">
+          </div>
+          <h2 class="card-title" style="margin-top:16px;">On-time office delivery</h2>
+          <p class="card-line">
+            Fresh home-made tiffins packed in hygienic containers and delivered within your selected time window.
+          </p>
+          <ul class="card-list">
+            <li>Fixed daily timing (lunch / dinner).</li>
+            <li>Weekly &amp; monthly plans with simple menus.</li>
+            <li>Easy WhatsApp support for changes.</li>
+          </ul>
+          <p class="card-meta">
+            Login to view your plans, orders and upcoming deliveries in one place.
+          </p>
+        </div>
       </div>
     </section>
   </main>
@@ -100,7 +123,7 @@
         return;
       }
 
-      // TODO: yahin backend (Supabase) call ayega
+      // TODO: yahin par backend (Supabase) call ayega
 
       // Temporary front-end login
       localStorage.setItem('nm_logged_in', '1');
