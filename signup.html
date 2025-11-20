@@ -30,7 +30,7 @@
         <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
         <a href="my-plans.html">My Plans</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="checkout.html">Checkout</a>
       </nav>
       <div class="nav-auth">
         <a href="login.html" class="btn btn-outline">Login</a>
@@ -46,7 +46,7 @@
       <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
       <a href="my-plans.html">My Plans</a>
-      <a href="customer-care.html">Customer Care</a>
+      <a href="checkout.html">Checkout</a>
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
     </div>
@@ -138,7 +138,8 @@
 
             <p class="form-note">
               * Email and password are required. Password must be minimum 6 characters.
-              This is a demo form – actual account creation will be connected to a backend later.
+              This version stores data in your browser only (for testing). For production
+              you will connect it to a real backend.
             </p>
 
             <p id="signup-error" class="form-error" style="display:none;"></p>
@@ -194,8 +195,32 @@
   <script src="auth.js"></script>
 
   <script>
+    function loadUsers() {
+      try {
+        const raw = localStorage.getItem('nm_users');
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('nm_users', JSON.stringify(users));
+    }
+
+    function generateReferralCode() {
+      const rand = Math.floor(100000 + Math.random() * 900000); // 6 digits
+      return 'NM' + rand;
+    }
+
     function validateSignup(event) {
-      const email = document.getElementById('email').value.trim();
+      event.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const referralUsed = document.getElementById('referral').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const errorEl = document.getElementById('signup-error');
@@ -206,20 +231,40 @@
       if (!email) {
         errorEl.textContent = 'Email address is required.';
         errorEl.style.display = 'block';
-        event.preventDefault();
         return false;
       }
 
       if (password !== confirmPassword) {
         errorEl.textContent = 'Password and confirm password do not match.';
         errorEl.style.display = 'block';
-        event.preventDefault();
         return false;
       }
 
-      // Demo only – yahan baad mein backend connect hoga
-      alert('Account created (demo). In production this will be saved to the backend.');
-      event.preventDefault();
+      const users = loadUsers();
+      if (users.some(u => u.email === email)) {
+        errorEl.textContent = 'An account with this email already exists. Please login instead.';
+        errorEl.style.display = 'block';
+        return false;
+      }
+
+      const newUser = {
+        firstName,
+        lastName,
+        email,
+        whatsapp,
+        referralUsed,
+        password,
+        ownReferralCode: generateReferralCode()
+      };
+
+      users.push(newUser);
+      saveUsers(users);
+
+      // Auto-login after signup
+      localStorage.setItem('nm_logged_in', '1');
+      localStorage.setItem('nm_current_email', email);
+
+      window.location.href = 'account.html';
       return false;
     }
   </script>
