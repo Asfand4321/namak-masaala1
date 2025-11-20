@@ -17,7 +17,7 @@
             <img src="namak-logo.png" alt="Namak Masaala logo">
           </div>
           <div class="brand-text">
-            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-name">NAMAK MASAALA</span>
             <span class="brand-tagline">Home-made Tiffin</span>
           </div>
         </a>
@@ -39,156 +39,109 @@
       </div>
       <div class="nav-menu-icon">☰</div>
     </div>
+    <div class="container nav-mobile">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
+    </div>
   </header>
 
   <main>
     <section class="section">
       <div class="container plan-layout">
-        <!-- LEFT: summary -->
-        <div class="card plan-summary">
+        <!-- LEFT: plan summary -->
+        <div class="card plan-summary-card">
           <div class="badge-soft">Weekly • 1 Meal</div>
-          <h1 class="section-title" style="font-size:1.4rem;margin-top:8px;">
-            Weekly 1 Meal Plan
-          </h1>
-          <p class="section-subtitle" style="margin-top:6px;">
+          <h1 class="section-title" style="margin-bottom:4px;">Weekly 1 Meal Plan</h1>
+          <p class="card-line">
             One tiffin per day (Monday to Saturday). Good for a single fixed lunch or dinner slot.
           </p>
 
-          <div class="plan-price-box">
-            <div class="price-tag">
-              Rs 2,000 <span>/ week</span>
+          <div class="price-tag" style="margin-top:10px;">
+            Rs 2,000 <span>/ week</span>
+          </div>
+
+          <h2 class="plan-subheading" style="margin-top:12px;">Schedule start rule</h2>
+          <p class="card-line">
+            If you subscribe to this plan today (for example on <strong>Monday</strong>),
+            your tiffin schedule will start from the next working day (<strong>Tuesday</strong>).
+            The same rule applies for any day you subscribe.
+          </p>
+          <ul class="plan-bullets">
+            <li>6 days a week (Mon–Sat)</li>
+            <li>1 delivery time window of your choice</li>
+            <li>Menu can rotate but follows similar pattern</li>
+          </ul>
+
+          <h2 class="plan-subheading" style="margin-top:14px;">Preferred delivery time</h2>
+          <p class="card-meta">
+            Select your one daily time window. Final timing will be confirmed on call / WhatsApp.
+          </p>
+
+          <div class="time-grid">
+            <div class="form-field">
+              <label for="timeFrom">From</label>
+              <input id="timeFrom" type="time">
+            </div>
+            <div class="form-field">
+              <label for="timeTo">To</label>
+              <input id="timeTo" type="time">
             </div>
           </div>
 
-          <!-- ⬇ yaha non-veg rule tha, uski jaga naya note -->
-          <div class="plan-note">
-            <strong>Schedule start rule:</strong><br>
-            If you subscribe to this plan today (for example on Monday), your tiffin schedule will
-            start from the next working day (Tuesday). The same applies for any day you subscribe.
-          </div>
-
-          <div class="plan-meta-list">
-            <div>• 6 days a week (Mon–Sat)</div>
-            <div>• 1 delivery time window of your choice</div>
-            <div>• Menu can rotate but follows similar pattern</div>
-          </div>
-
-          <!-- TIME WINDOW INPUT (insert box) -->
-          <div class="plan-time-box">
-            <h2 class="card-title" style="font-size:1rem;margin-top:14px;">Preferred delivery time</h2>
-            <p class="card-meta">
-              Select your one daily time window. Final timing will be confirmed on call / WhatsApp.
-            </p>
-            <div class="form-grid">
-              <div class="form-field">
-                <label for="timeFrom">From</label>
-                <input id="timeFrom" type="time">
-              </div>
-              <div class="form-field">
-                <label for="timeTo">To</label>
-                <input id="timeTo" type="time">
-              </div>
-            </div>
-          </div>
-
-          <button
-            class="btn btn-primary btn-full"
-            style="margin-top:12px;"
-            onclick="addPlanToCart('Weekly 1 Meal Plan', 2000)"
-          >
+          <button class="btn btn-primary btn-full" style="margin-top:18px;">
             Add this plan to cart
           </button>
         </div>
 
-        <!-- RIGHT: weekly menu with CARDS + IMAGE PLACEHOLDER (no dropdown) -->
+        <!-- RIGHT: simple sample menu card -->
         <div class="card plan-menu-card">
-          <h2 class="card-title">Sample weekly menu (1 meal per day)</h2>
+          <h2 class="card-title">Sample weekly menu</h2>
           <p class="card-meta">
-            Example menu for this plan. One dish per day is shown here — there is no dropdown selection.
+            This is a sample 1-meal menu (lunch or dinner). Exact dishes can rotate with similar style.
           </p>
 
-          <div class="plan-day-grid">
-            <!-- Monday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Monday</div>
-                <div class="day-dish">
-                  Chicken Qorma <span class="dish-tag">Non-veg</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tuesday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Tuesday</div>
-                <div class="day-dish">
-                  Daal Mash <span class="dish-tag">Veg</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Wednesday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Wednesday</div>
-                <div class="day-dish">
-                  Chicken Karahi <span class="dish-tag">Non-veg</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Thursday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Thursday</div>
-                <div class="day-dish">
-                  Mix Vegetable <span class="dish-tag">Veg</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Friday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Friday</div>
-                <div class="day-dish">
-                  Chicken Biryani <span class="dish-tag">Non-veg</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Saturday -->
-            <div class="day-card">
-              <div class="day-thumb meal-thumb-empty">
-                <span>Image</span>
-              </div>
-              <div class="day-info">
-                <div class="day-name">Saturday</div>
-                <div class="day-dish">
-                  Aloo Palak <span class="dish-tag">Veg</span>
-                </div>
-              </div>
-            </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Monday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Chicken Qorma (Non-veg)</div>
+          </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Tuesday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Daal Mash (Veg)</div>
+          </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Wednesday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Aloo Gosht (Non-veg)</div>
+          </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Thursday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Aloo Shimla (Veg)</div>
+          </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Friday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Chicken Biryani (Non-veg)</div>
+          </div>
+          <div class="plan-menu-day">
+            <div class="day-label">Saturday</div>
+            <div class="day-image">Image</div>
+            <div class="day-dish">Aloo Gobhi (Veg)</div>
           </div>
 
-          <p class="card-meta" style="margin-top:10px;">
-            Images above are placeholders. In future, these can be controlled through an admin panel.
+          <p class="card-meta" style="margin-top:12px;">
+            Images and exact dishes can be managed later from the admin panel.
           </p>
         </div>
       </div>
@@ -205,37 +158,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    const CART_KEY = 'nm_cart_items';
-
-    function loadCart() {
-      try {
-        const raw = localStorage.getItem(CART_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveCart(cart) {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    }
-
-    function addPlanToCart(name, price) {
-      let cart = loadCart();
-      const existing = cart.find(item => item.name === name && item.price === price);
-
-      if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
-      } else {
-        cart.push({ name, price, quantity: 1 });
-      }
-
-      saveCart(cart);
-      alert('"' + name + '" added to cart. You can review it on the Cart or Checkout page.');
-      window.location.href = 'cart.html';
-    }
-  </script>
 </body>
 </html>
