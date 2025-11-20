@@ -1726,8 +1726,12 @@ img {
 }
 
 /* Simple WhatsApp icon style */
-.nm-whatsapp-button span {
-  font-weight: 700;
+/* WhatsApp icon inside round button */
+.nm-whatsapp-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  fill: #ffffff; /* icon white */
 }
 
 /* Chat popup card */
