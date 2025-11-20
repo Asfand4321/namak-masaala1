@@ -53,16 +53,17 @@
   <main>
     <section class="section">
       <div class="container account-layout">
-        <!-- Profile summary -->
+        <!-- MAIN ACCOUNT CARD -->
         <div class="card account-main-card">
           <div class="section-kicker">My Account</div>
           <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
             Profile &amp; security
           </h1>
           <p class="section-subtitle">
-            View your basic details, referral information and update your password.
+            View your basic details, referral information and update your login email or password.
           </p>
 
+          <!-- PROFILE DETAILS -->
           <div class="account-block">
             <h2 class="account-block-title">Profile details</h2>
             <div class="account-row">
@@ -70,15 +71,39 @@
               <span id="acc-name">–</span>
             </div>
             <div class="account-row">
-              <span>Email</span>
-              <span id="acc-email">–</span>
-            </div>
-            <div class="account-row">
               <span>WhatsApp number</span>
               <span id="acc-whatsapp">Not added</span>
             </div>
           </div>
 
+          <!-- EMAIL CHANGE BLOCK -->
+          <div class="account-block">
+            <h2 class="account-block-title">Email &amp; login</h2>
+            <p class="card-meta">
+              You use this email to login and receive updates. You can change it here if needed.
+            </p>
+
+            <form class="auth-form" onsubmit="return handleChangeEmail(event)">
+              <div class="form-field">
+                <label for="acc-email-input">Email address</label>
+                <input
+                  id="acc-email-input"
+                  name="acc-email-input"
+                  type="email"
+                  required
+                  placeholder="you@example.com">
+              </div>
+
+              <p id="email-error" class="form-error" style="display:none;"></p>
+              <p id="email-success" class="form-success" style="display:none;"></p>
+
+              <button type="submit" class="btn btn-primary">
+                Update email
+              </button>
+            </form>
+          </div>
+
+          <!-- REFERRAL INFO -->
           <div class="account-block">
             <h2 class="account-block-title">Referral</h2>
             <div class="account-row">
@@ -95,6 +120,7 @@
             </p>
           </div>
 
+          <!-- PASSWORD CHANGE -->
           <div class="account-block">
             <h2 class="account-block-title">Password</h2>
             <p class="card-meta">
@@ -127,7 +153,7 @@
           </div>
         </div>
 
-        <!-- Side card: small summary -->
+        <!-- SIDE SUMMARY CARD -->
         <aside class="card account-side-card">
           <h2 class="card-title">Account snapshot</h2>
           <ul class="card-list">
@@ -178,18 +204,81 @@
       const user = users.find(u => u.email === email);
 
       if (!user) {
-        // safety: agar user missing ho to logout
         nmLogout();
         return;
       }
 
       const name = (user.firstName || '') + ' ' + (user.lastName || '');
       document.getElementById('acc-name').textContent = name.trim() || '—';
-      document.getElementById('acc-email').textContent = user.email || '—';
-      document.getElementById('acc-email-short').textContent = 'Signed in as ' + (user.email || '—');
       document.getElementById('acc-whatsapp').textContent = user.whatsapp || 'Not added';
+
+      // email-related fields
+      document.getElementById('acc-email-input').value = user.email || '';
+      document.getElementById('acc-email-short').textContent =
+        'Signed in as ' + (user.email || '—');
+
+      // referral
       document.getElementById('acc-own-ref').textContent = user.ownReferralCode || '—';
       document.getElementById('acc-used-ref').textContent = user.referralUsed || 'None';
+    }
+
+    function handleChangeEmail(event) {
+      event.preventDefault();
+
+      const newEmailRaw = document.getElementById('acc-email-input').value.trim();
+      const newEmail = newEmailRaw.toLowerCase();
+      const emailError = document.getElementById('email-error');
+      const emailSuccess = document.getElementById('email-success');
+
+      emailError.style.display = 'none';
+      emailError.textContent = '';
+      emailSuccess.style.display = 'none';
+      emailSuccess.textContent = '';
+
+      if (!newEmail) {
+        emailError.textContent = 'Please enter a valid email address.';
+        emailError.style.display = 'block';
+        return false;
+      }
+
+      if (!newEmail.includes('@') || !newEmail.includes('.')) {
+        emailError.textContent = 'Email format looks incorrect.';
+        emailError.style.display = 'block';
+        return false;
+      }
+
+      const currentEmail = localStorage.getItem('nm_current_email');
+      const users = loadUsers();
+      const currentIndex = users.findIndex(u => u.email === currentEmail);
+
+      if (currentIndex === -1) {
+        emailError.textContent = 'Session expired. Please login again.';
+        emailError.style.display = 'block';
+        return false;
+      }
+
+      // check duplicate email with other users
+      const duplicate = users.some(
+        (u, idx) => idx !== currentIndex && u.email === newEmail
+      );
+      if (duplicate) {
+        emailError.textContent = 'Another account is already using this email.';
+        emailError.style.display = 'block';
+        return false;
+      }
+
+      // update user email
+      users[currentIndex].email = newEmail;
+      saveUsers(users);
+
+      // update current email + UI
+      localStorage.setItem('nm_current_email', newEmail);
+      document.getElementById('acc-email-short').textContent = 'Signed in as ' + newEmail;
+
+      emailSuccess.textContent = 'Email updated successfully.';
+      emailSuccess.style.display = 'block';
+
+      return false;
     }
 
     function handleChangePassword(event) {
@@ -242,7 +331,6 @@
       successEl.textContent = 'Password updated successfully.';
       successEl.style.display = 'block';
 
-      // clear fields
       document.getElementById('currentPassword').value = '';
       document.getElementById('newPassword').value = '';
       document.getElementById('confirmNewPassword').value = '';
@@ -250,7 +338,7 @@
       return false;
     }
 
-    // Page load
+    // page load
     populateAccount();
   </script>
 </body>
