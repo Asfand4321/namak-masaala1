@@ -2004,3 +2004,45 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+/* Status pills used in Orders panel */
+.admin-status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: #eee;
+}
+
+.admin-status-pending {
+  background: #fff3cd;
+  color: #8a6d3b;
+}
+
+.admin-status-ok {
+  background: #d4edda;
+  color: #155724;
+}
+
+.admin-status-failed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Permissions chips in child admin panel */
+.admin-perms-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 10px;
+}
+
+.admin-perm-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f6f6f6;
+  font-size: 0.8rem;
+}
