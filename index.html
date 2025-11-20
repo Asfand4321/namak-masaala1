@@ -192,6 +192,73 @@
       </div>
     </div>
   </footer>
+    <!-- WhatsApp floating chat widget (global) -->
+  <div class="nm-whatsapp-container">
+    <!-- Popup -->
+    <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
+      <div class="nm-whatsapp-header">
+        <div>
+          <div class="nm-whatsapp-header-title">Namak Masaala</div>
+          <div class="nm-whatsapp-header-sub">Home-made Tiffin • Online</div>
+        </div>
+        <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
+      </div>
+      <div class="nm-whatsapp-body">
+        <div class="nm-whatsapp-bubble">
+          <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
+          <span>How can we help with your tiffin plan or meals today?</span>
+        </div>
+        <button class="nm-whatsapp-start" id="nmWhatsAppStart">
+          <span class="nm-whatsapp-start-icon">💬</span>
+          <span>Start chat on WhatsApp</span>
+        </button>
+        <div class="nm-whatsapp-footer-text">
+          Chat will open in WhatsApp with our number.
+        </div>
+      </div>
+    </div>
+
+    <!-- Round button -->
+    <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
+      <span>W</span>
+    </button>
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('nmWhatsAppButton');
+      const popup = document.getElementById('nmWhatsAppPopup');
+      const closeBtn = document.getElementById('nmWhatsAppClose');
+      const startBtn = document.getElementById('nmWhatsAppStart');
+
+      if (!btn || !popup) return;
+
+      // toggle popup
+      btn.addEventListener('click', function () {
+        const isVisible = popup.style.display === 'block';
+        popup.style.display = isVisible ? 'none' : 'block';
+      });
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          popup.style.display = 'none';
+        });
+      }
+
+      if (startBtn) {
+        startBtn.addEventListener('click', function () {
+          // Pakistan number: +92 324 7477704  => 923247477704
+          const phone = '923247477704';
+          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
+          const url = 'https://wa.me/' + phone + '?text=' + text;
+          window.open(url, '_blank');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
+
    <script src="auth.js"></script>
 </body>
 </html>
