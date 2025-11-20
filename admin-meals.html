@@ -6,81 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="namak-logo.png" type="image/png">
-  <style>
-    /* Thoda extra styling specifically admin table ke liye */
-    .admin-table-wrapper {
-      overflow-x: auto;
-      margin-top: 1.5rem;
-    }
-
-    table.meals-admin-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    table.meals-admin-table thead {
-      background: #f5f5f5;
-    }
-
-    table.meals-admin-table th,
-    table.meals-admin-table td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #ececec;
-      text-align: left;
-      vertical-align: middle;
-    }
-
-    table.meals-admin-table th {
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    table.meals-admin-table tbody tr:nth-child(even) {
-      background: #fafafa;
-    }
-
-    .meal-type-pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .meal-type-nonveg {
-      background: #b13131;
-    }
-
-    .meal-type-veg {
-      background: #258c4a;
-    }
-
-    .img-url-input {
-      width: 100%;
-      max-width: 320px;
-      padding: 4px 6px;
-      font-size: 0.85rem;
-    }
-
-    .admin-actions-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-secondary {
-      background-color: #f3f4f6;
-      color: #111827;
-      border: 1px solid #e5e7eb;
-    }
-
-    .btn-secondary:hover {
-      background-color: #e5e7eb;
-    }
-  </style>
 </head>
 <body>
   <!-- NAVBAR -->
@@ -98,31 +23,13 @@
         </a>
       </div>
       <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="cart.html">Cart</a>
-        <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="admin-dashboard.html">Admin dashboard</a>
+        <a href="meals.html">Public meals page</a>
       </nav>
       <div class="nav-auth">
-        <span class="nav-admin-label">Admin view</span>
+        <button class="btn btn-outline" onclick="nmLogout()">Logout</button>
       </div>
       <div class="nav-menu-icon">☰</div>
-    </div>
-    <div class="container nav-mobile">
-      <a href="index.html">Home</a>
-      <a href="plans.html">Plans</a>
-      <a href="meals.html">Meals</a>
-      <a href="cart.html">Cart</a>
-      <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
-      <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="customer-care.html">Customer Care</a>
     </div>
   </header>
 
@@ -130,49 +37,139 @@
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <div class="section-kicker">Admin · Meals</div>
-          <h1 class="section-title">Meals library</h1>
+          <div class="section-kicker">Meals admin</div>
+          <h1 class="section-title">Manage meals (add / edit / delete)</h1>
           <p class="section-subtitle">
-            This page is only for internal use. You can view all meals and attach an image URL to each dish.
-            Later the public Meals page can use these image URLs to display photos.
+            Yahan se tum new meals add kar sakte ho, price change kar sakte ho, description aur image URL
+            update kar sakte ho. Sab data browser ke <strong>localStorage</strong> me save ho raha hai (demo).
           </p>
         </div>
 
-        <div class="card">
-          <h2 class="card-title">Existing meals</h2>
+        <!-- FILTERS + SORT -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="admin-filters-row">
+            <div class="form-field">
+              <label for="filterType">Filter by type</label>
+              <select id="filterType">
+                <option value="all">All</option>
+                <option value="non-veg">Non-veg</option>
+                <option value="veg">Veg</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="sortBy">Sort</label>
+              <select id="sortBy">
+                <option value="name-asc">Name A → Z</option>
+                <option value="price-asc">Price low → high</option>
+                <option value="price-desc">Price high → low</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- CREATE / EDIT FORM -->
+        <div class="card" style="margin-bottom:16px;">
+          <h2 class="card-title">Create / edit meal</h2>
           <p class="card-meta">
-            Paste a full image URL (for example from your storage, CDN, or Imgur) for each item.
-            When you click “Save all images”, the data will be stored in your browser's local storage
-            under the key <code>nm_meal_images</code>.
+            Agar tum kisi row pe <strong>Edit</strong> dabao ge to yahi form us meal ke data se fill ho jayega.
+          </p>
+
+          <form class="admin-form" id="mealForm">
+            <!-- Hidden field for edit index -->
+            <input type="hidden" id="editIndex" value="">
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="mealName">Meal name *</label>
+                <input id="mealName" type="text" required placeholder="e.g. Chicken Qorma">
+              </div>
+              <div class="form-field">
+                <label for="mealType">Type *</label>
+                <select id="mealType" required>
+                  <option value="non-veg">Non-veg</option>
+                  <option value="veg">Veg</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="mealPrice">Price (Rs) *</label>
+                <input id="mealPrice" type="number" min="0" step="10" required placeholder="e.g. 300">
+              </div>
+              <div class="form-field">
+                <label for="mealSlug">
+                  Meal ID / slug
+                  <span class="field-hint">(optional, auto-generate from name)</span>
+                </label>
+                <input id="mealSlug" type="text" placeholder="e.g. chicken-qorma">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="mealDesc">Description</label>
+              <textarea id="mealDesc" rows="2" placeholder="Short description for this dish"></textarea>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="mealImageUrl">
+                  Image URL
+                  <span class="field-hint">(used on public meals page)</span>
+                </label>
+                <input id="mealImageUrl" type="url" placeholder="https://...">
+              </div>
+              <div class="form-field">
+                <label for="mealImageFile">
+                  Upload image (gallery)
+                  <span class="field-hint">
+                    (demo only – file upload backend se connect hoga)
+                  </span>
+                </label>
+                <input id="mealImageFile" type="file" accept="image/*">
+              </div>
+            </div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn btn-primary" id="saveMealBtn">
+                Save meal
+              </button>
+              <button type="button" class="btn btn-outline" id="resetMealFormBtn">
+                Reset form
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- MEALS LIST -->
+        <div class="card">
+          <h2 class="card-title">Meals list</h2>
+          <p class="card-meta">
+            Neeche saare meals list ho rahe hain. Har row pe <strong>Edit</strong> ya <strong>Delete</strong> kar sakte ho.
           </p>
 
           <div class="admin-table-wrapper">
-            <table class="meals-admin-table" id="mealsAdminTable">
+            <table class="admin-table" id="mealsTable">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Meal name</th>
+                  <th>Image</th>
+                  <th>Name</th>
                   <th>Type</th>
                   <th>Price (Rs)</th>
-                  <th>Image URL</th>
+                  <th>Description</th>
+                  <th>ID / slug</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <!-- Rows will be injected by JS -->
+              <tbody id="mealsTableBody">
+                <!-- Rows injected by JS -->
               </tbody>
             </table>
           </div>
 
-          <div class="admin-actions-row">
-            <button id="saveImagesBtn" class="btn btn-primary">
-              Save all images
-            </button>
-            <button id="clearImagesBtn" class="btn btn-secondary">
-              Clear stored image URLs
-            </button>
-          </div>
-
-          <p class="card-meta" id="adminStatusMessage" style="margin-top:0.75rem;"></p>
+          <p class="card-meta">
+            Sab changes browser ke localStorage me key <code>nm_admin_meals</code> ke andar store ho rahe hain.
+          </p>
         </div>
       </div>
     </section>
@@ -180,91 +177,128 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© 2025 Namak Masaala. Admin view.</div>
-      <div class="footer-links">
-        <a href="meals.html">Public Meals page</a>
-        <a href="plans.html">Plans</a>
-      </div>
+      <div>© 2025 Namak Masaala. Meals admin (preview).</div>
     </div>
   </footer>
 
+  <script src="auth.js"></script>
   <script>
-    // Same meals list as meals.html – id, name, type, price
-    const MEALS = [
-      { id: 'chicken-qorma',      name: 'Chicken Qorma',      type: 'non-veg', price: 320 },
-      { id: 'chicken-karahi',     name: 'Chicken Karahi',     type: 'non-veg', price: 350 },
-      { id: 'chicken-achari',     name: 'Chicken Achari',     type: 'non-veg', price: 350 },
-      { id: 'chicken-hyderabadi', name: 'Chicken Hyderabadi', type: 'non-veg', price: 350 },
-      { id: 'aloo-gosht',         name: 'Aloo Gosht',         type: 'non-veg', price: 300 },
-      { id: 'anda-kofta',         name: 'Anda Kofta',         type: 'non-veg', price: 300 },
-      { id: 'daal-gosht',         name: 'Daal Gosht',         type: 'non-veg', price: 300 },
-      { id: 'bhindi-gosht',       name: 'Bhindi Gosht',       type: 'non-veg', price: 300 },
-      { id: 'chicken-biryani',    name: 'Chicken Biryani',    type: 'non-veg', price: 350 },
-      { id: 'chicken-pulao',      name: 'Chicken Pulao',      type: 'non-veg', price: 350 },
-      { id: 'vegetable-rice',     name: 'Vegetable Rice',     type: 'veg',     price: 300 },
-      { id: 'matar-pulao',        name: 'Matar Pulao',        type: 'veg',     price: 300 },
-      { id: 'sajji',              name: 'Sajji',              type: 'non-veg', price: 350 },
+    const ADMIN_MEALS_KEY = 'nm_admin_meals';
+    const MEAL_IMAGE_KEY = 'nm_meal_images'; // existing mapping for public meals page
 
-      { id: 'daal-mash',          name: 'Daal Mash',          type: 'veg',     price: 300 },
-      { id: 'daal-channa',        name: 'Daal Channa',        type: 'veg',     price: 250 },
-      { id: 'lobia',              name: 'Lobia',              type: 'veg',     price: 250 },
-      { id: 'white-channa',       name: 'White Channa',       type: 'veg',     price: 250 },
-      { id: 'aloo-shimla',        name: 'Aloo Shimla',        type: 'veg',     price: 250 },
-      { id: 'kari-pakora',        name: 'Kari Pakora',        type: 'veg',     price: 250 },
-      { id: 'aloo-anda',          name: 'Aloo Anda',          type: 'veg',     price: 250 },
-      { id: 'mix-vegetable',      name: 'Mix Vegetable',      type: 'veg',     price: 250 },
-      { id: 'bhindi',             name: 'Bhindi',             type: 'veg',     price: 250 },
-      { id: 'aloo-palak',         name: 'Aloo Palak',         type: 'veg',     price: 250 },
-      { id: 'aloo-gobhi',         name: 'Aloo Gobhi',         type: 'veg',     price: 250 },
-      { id: 'aloo-bhujia',        name: 'Aloo Bhujia',        type: 'veg',     price: 250 },
-      { id: 'aloo-matar',         name: 'Aloo Matar',         type: 'veg',     price: 250 },
-      { id: 'karelay',            name: 'Karelay',            type: 'veg',     price: 250 }
-    ];
+    let meals = [];
 
-    const STORAGE_KEY = 'nm_meal_images';
+    function defaultMeals() {
+      return [
+        { name: 'Chicken Qorma',      type: 'non-veg', price: 320, desc: '', slug: 'chicken-qorma',      imageUrl: '' },
+        { name: 'Chicken Karahi',     type: 'non-veg', price: 350, desc: '', slug: 'chicken-karahi',     imageUrl: '' },
+        { name: 'Chicken Achari',     type: 'non-veg', price: 350, desc: '', slug: 'chicken-achari',     imageUrl: '' },
+        { name: 'Chicken Hyderabadi', type: 'non-veg', price: 350, desc: '', slug: 'chicken-hyderabadi', imageUrl: '' },
+        { name: 'Aloo Gosht',         type: 'non-veg', price: 300, desc: '', slug: 'aloo-gosht',         imageUrl: '' },
+        { name: 'Anda Kofta',         type: 'non-veg', price: 300, desc: '', slug: 'anda-kofta',         imageUrl: '' },
+        { name: 'Daal Gosht',         type: 'non-veg', price: 300, desc: '', slug: 'daal-gosht',         imageUrl: '' },
+        { name: 'Bhindi Gosht',       type: 'non-veg', price: 300, desc: '', slug: 'bhindi-gosht',       imageUrl: '' },
+        { name: 'Chicken Biryani',    type: 'non-veg', price: 350, desc: '', slug: 'chicken-biryani',    imageUrl: '' },
+        { name: 'Chicken Pulao',      type: 'non-veg', price: 350, desc: '', slug: 'chicken-pulao',      imageUrl: '' },
+        { name: 'Sajji',              type: 'non-veg', price: 350, desc: '', slug: 'sajji',              imageUrl: '' },
 
-    function loadStoredImages() {
+        { name: 'Vegetable Rice',     type: 'veg', price: 300, desc: '', slug: 'vegetable-rice',  imageUrl: '' },
+        { name: 'Matar Pulao',        type: 'veg', price: 300, desc: '', slug: 'matar-pulao',     imageUrl: '' },
+        { name: 'Daal Mash',          type: 'veg', price: 300, desc: '', slug: 'daal-mash',       imageUrl: '' },
+        { name: 'Daal Channa',        type: 'veg', price: 250, desc: '', slug: 'daal-channa',     imageUrl: '' },
+        { name: 'Lobia',              type: 'veg', price: 250, desc: '', slug: 'lobia',           imageUrl: '' },
+        { name: 'White Channa',       type: 'veg', price: 250, desc: '', slug: 'white-channa',    imageUrl: '' },
+        { name: 'Aloo Shimla',        type: 'veg', price: 250, desc: '', slug: 'aloo-shimla',     imageUrl: '' },
+        { name: 'Kari Pakora',        type: 'veg', price: 250, desc: '', slug: 'kari-pakora',     imageUrl: '' },
+        { name: 'Aloo Anda',          type: 'veg', price: 250, desc: '', slug: 'aloo-anda',       imageUrl: '' },
+        { name: 'Mix Vegetable',      type: 'veg', price: 250, desc: '', slug: 'mix-vegetable',   imageUrl: '' },
+        { name: 'Bhindi',             type: 'veg', price: 250, desc: '', slug: 'bhindi',          imageUrl: '' },
+        { name: 'Aloo Palak',         type: 'veg', price: 250, desc: '', slug: 'aloo-palak',      imageUrl: '' },
+        { name: 'Aloo Gobhi',         type: 'veg', price: 250, desc: '', slug: 'aloo-gobhi',      imageUrl: '' },
+        { name: 'Aloo Bhujia',        type: 'veg', price: 250, desc: '', slug: 'aloo-bhujia',     imageUrl: '' },
+        { name: 'Aloo Matar',         type: 'veg', price: 250, desc: '', slug: 'aloo-matar',      imageUrl: '' },
+        { name: 'Karelay',            type: 'veg', price: 250, desc: '', slug: 'karelay',         imageUrl: '' }
+      ];
+    }
+
+    function loadMeals() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
+        const raw = localStorage.getItem(ADMIN_MEALS_KEY);
+        if (raw) {
+          meals = JSON.parse(raw);
+        } else {
+          meals = defaultMeals();
+        }
       } catch (e) {
-        return {};
+        meals = defaultMeals();
       }
     }
 
-    function saveStoredImages(data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    function saveMeals() {
+      localStorage.setItem(ADMIN_MEALS_KEY, JSON.stringify(meals));
+
+      // Also update nm_meal_images map for public meals page
+      const imagesMap = {};
+      meals.forEach(m => {
+        if (m.slug && m.imageUrl) {
+          imagesMap[m.slug] = m.imageUrl;
+        }
+      });
+      localStorage.setItem(MEAL_IMAGE_KEY, JSON.stringify(imagesMap));
     }
 
-    function renderTable() {
-      const tbody = document.querySelector('#mealsAdminTable tbody');
+    function slugify(text) {
+      return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function renderMeals() {
+      const tbody = document.getElementById('mealsTableBody');
+      const filterType = document.getElementById('filterType').value;
+      const sortBy = document.getElementById('sortBy').value;
+
+      let list = [...meals];
+
+      // filter
+      if (filterType !== 'all') {
+        list = list.filter(m => m.type === filterType);
+      }
+
+      // sort
+      if (sortBy === 'name-asc') {
+        list.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === 'price-asc') {
+        list.sort((a, b) => (a.price || 0) - (b.price || 0));
+      } else if (sortBy === 'price-desc') {
+        list.sort((a, b) => (b.price || 0) - (a.price || 0));
+      }
+
       tbody.innerHTML = '';
 
-      const stored = loadStoredImages();
-
-      MEALS.forEach((meal, index) => {
+      list.forEach((meal, index) => {
         const tr = document.createElement('tr');
 
-        const typeClass = meal.type === 'non-veg' ? 'meal-type-nonveg' : 'meal-type-veg';
-        const storedUrl = stored[meal.id] || '';
+        // find real index in original meals array
+        const realIndex = meals.findIndex(m => m.slug === meal.slug && m.name === meal.name);
+
+        const imgHtml = meal.imageUrl
+          ? `<img src="${meal.imageUrl}" alt="${meal.name}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+          : `<div style="width:48px;height:48px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">No image</div>`;
 
         tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${meal.name}</td>
+          <td>${imgHtml}</td>
+          <td>${meal.name || ''}</td>
+          <td>${meal.type === 'veg' ? 'Veg' : 'Non-veg'}</td>
+          <td>${meal.price ? 'Rs ' + meal.price : '-'}</td>
+          <td>${meal.desc || ''}</td>
+          <td>${meal.slug || ''}</td>
           <td>
-            <span class="meal-type-pill ${typeClass}">
-              ${meal.type === 'non-veg' ? 'Non-veg' : 'Veg'}
-            </span>
-          </td>
-          <td>Rs ${meal.price}</td>
-          <td>
-            <input
-              type="text"
-              class="img-url-input"
-              data-meal-id="${meal.id}"
-              placeholder="https://example.com/image.jpg"
-              value="${storedUrl}"
-            >
+            <button type="button" class="btn btn-sm btn-outline" data-action="edit" data-index="${realIndex}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline" data-action="delete" data-index="${realIndex}" style="margin-top:4px;">Delete</button>
           </td>
         `;
 
@@ -272,39 +306,90 @@
       });
     }
 
-    function handleSave() {
-      const inputs = document.querySelectorAll('.img-url-input');
-      const data = {};
-      inputs.forEach(input => {
-        const id = input.getAttribute('data-meal-id');
-        const value = input.value.trim();
-        if (value) {
-          data[id] = value;
+    function resetMealForm() {
+      document.getElementById('editIndex').value = '';
+      document.getElementById('mealName').value = '';
+      document.getElementById('mealType').value = 'non-veg';
+      document.getElementById('mealPrice').value = '';
+      document.getElementById('mealSlug').value = '';
+      document.getElementById('mealDesc').value = '';
+      document.getElementById('mealImageUrl').value = '';
+      document.getElementById('mealImageFile').value = '';
+      document.getElementById('saveMealBtn').textContent = 'Save meal';
+    }
+
+    function handleMealFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('mealName').value.trim();
+      const type = document.getElementById('mealType').value;
+      const price = parseInt(document.getElementById('mealPrice').value, 10) || 0;
+      const slugInput = document.getElementById('mealSlug').value.trim();
+      const desc = document.getElementById('mealDesc').value.trim();
+      const imageUrl = document.getElementById('mealImageUrl').value.trim();
+      const editIndex = document.getElementById('editIndex').value;
+
+      if (!name) {
+        alert('Meal name is required.');
+        return;
+      }
+
+      const slug = slugInput || slugify(name);
+
+      const mealData = { name, type, price, desc, slug, imageUrl };
+
+      if (editIndex !== '') {
+        // update existing
+        const idx = parseInt(editIndex, 10);
+        meals[idx] = mealData;
+      } else {
+        // add new
+        meals.push(mealData);
+      }
+
+      saveMeals();
+      renderMeals();
+      resetMealForm();
+    }
+
+    function handleMealsTableClick(e) {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+
+      const action = btn.getAttribute('data-action');
+      const index = parseInt(btn.getAttribute('data-index'), 10);
+      if (isNaN(index) || index < 0 || index >= meals.length) return;
+
+      if (action === 'edit') {
+        const meal = meals[index];
+        document.getElementById('editIndex').value = index;
+        document.getElementById('mealName').value = meal.name || '';
+        document.getElementById('mealType').value = meal.type || 'non-veg';
+        document.getElementById('mealPrice').value = meal.price || '';
+        document.getElementById('mealSlug').value = meal.slug || '';
+        document.getElementById('mealDesc').value = meal.desc || '';
+        document.getElementById('mealImageUrl').value = meal.imageUrl || '';
+        document.getElementById('mealImageFile').value = '';
+        document.getElementById('saveMealBtn').textContent = 'Update meal';
+      } else if (action === 'delete') {
+        if (confirm('Delete this meal?')) {
+          meals.splice(index, 1);
+          saveMeals();
+          renderMeals();
         }
-      });
-      saveStoredImages(data);
-
-      const msg = document.getElementById('adminStatusMessage');
-      msg.textContent = 'Image URLs saved to local storage.';
+      }
     }
 
-    function handleClear() {
-      if (!confirm('Clear all stored image URLs from this browser?')) return;
-      localStorage.removeItem(STORAGE_KEY);
-      renderTable();
-      const msg = document.getElementById('adminStatusMessage');
-      msg.textContent = 'Stored image URLs cleared.';
-    }
+    // init
+    (function () {
+      loadMeals();
+      renderMeals();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderTable();
-
-      document.getElementById('saveImagesBtn')
-        .addEventListener('click', handleSave);
-
-      document.getElementById('clearImagesBtn')
-        .addEventListener('click', handleClear);
-    });
+      document.getElementById('filterType').addEventListener('change', renderMeals);
+      document.getElementById('sortBy').addEventListener('change', renderMeals);
+      document.getElementById('mealForm').addEventListener('submit', handleMealFormSubmit);
+      document.getElementById('resetMealFormBtn').addEventListener('click', resetMealForm);
+      document.getElementById('mealsTableBody').addEventListener('click', handleMealsTableClick);
+    })();
   </script>
 </body>
 </html>
