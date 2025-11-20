@@ -93,8 +93,7 @@
           <section class="card admin-panel" id="panel-overview">
             <h1 class="section-title" style="font-size:1.4rem;">Admin dashboard</h1>
             <p class="section-subtitle">
-              High level overview of your tiffin business. Numbers below are demo for now –
-              later they can come from your real backend / database.
+              High level overview of your tiffin business. Numbers below are demo – future me backend se aayenge.
             </p>
 
             <div class="admin-stats-grid">
@@ -122,7 +121,7 @@
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="meals">Change meal images</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="referral">Edit referral discounts</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="payment">Change bank details</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="orders">Review pending orders</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="orders">Review orders</a>
                 <a href="#" class="btn btn-sm btn-outline" data-panel-jump="home">Edit home page text</a>
               </div>
             </div>
@@ -132,8 +131,7 @@
           <section class="card admin-panel" id="panel-home" hidden>
             <h2 class="card-title">Home page content</h2>
             <p class="card-meta">
-              Yeh fields <code>index.html</code> ke hero section se match karte hain. Abhi yeh
-              sirf front-end preview hai – future me yahan se values ko backend me save kar sakte ho.
+              Yeh fields <code>index.html</code> ke hero section se match karte hain. Abhi front-end preview hai.
             </p>
 
             <form class="admin-form">
@@ -176,7 +174,6 @@ Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, f
             <h2 class="card-title">Plans &amp; pricing</h2>
             <p class="card-meta">
               Yeh prices <code>plans.html</code> aur individual plan pages me use ho rahe hain.
-              Future me yahan se values ko database se sync kiya ja sakta hai.
             </p>
 
             <form class="admin-form">
@@ -224,8 +221,8 @@ Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, f
           <section class="card admin-panel" id="panel-meals" hidden>
             <h2 class="card-title">Meals &amp; images</h2>
             <p class="card-meta">
-              Yahan se tum main dishes ki basic list dekh sakte ho. Detailed image / price editing
-              ke liye <strong>Admin Meals</strong> page open karo.
+              High-level meals list. Detailed CRUD (add / edit / delete) ke liye
+              <strong>Meals admin</strong> page use karo.
             </p>
 
             <div class="admin-two-col">
@@ -246,10 +243,10 @@ Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, f
                   For each meal you can set:
                 </p>
                 <ul class="card-list small">
-                  <li>Image URL (admin-meals page se)</li>
+                  <li>Image URL</li>
                   <li>Veg / Non-veg flag</li>
                   <li>Base price</li>
-                  <li>Active / Inactive status</li>
+                  <li>Description</li>
                 </ul>
 
                 <a href="admin-meals.html" class="btn btn-primary btn-full" style="margin-top:8px;">
@@ -266,8 +263,7 @@ Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, f
           <section class="card admin-panel" id="panel-referral" hidden>
             <h2 class="card-title">Referral rules</h2>
             <p class="card-meta">
-              Yeh values <code>referral.html</code> me explain ki ja sakti hain. Yahan sirf
-              configuration preview hai.
+              Yeh values <code>referral.html</code> me explain ho sakti hain. Yahan config preview hai.
             </p>
 
             <form class="admin-form">
@@ -360,7 +356,7 @@ If your friend signs up using your referral code, they get a discount on their f
           <section class="card admin-panel" id="panel-whatsapp" hidden>
             <h2 class="card-title">WhatsApp widget settings</h2>
             <p class="card-meta">
-              Yeh settings tumhare floating WhatsApp chat button (saare pages par) ke liye hain.
+              Floating WhatsApp chat button ki basic settings.
             </p>
 
             <form class="admin-form">
@@ -382,39 +378,21 @@ If your friend signs up using your referral code, they get a discount on their f
           <section class="card admin-panel" id="panel-orders" hidden>
             <h2 class="card-title">Orders &amp; tracking</h2>
             <p class="card-meta">
-              Yahan se tum orders ka high-level status dekh sakte ho – TRX ID verify karna,
-              delivery status, waghera. Abhi data static hai, baad me backend se aayega.
+              Plans ke orders aur meals ke orders alag-alag dikh rahe hain. Payment method bhi clearly show ho raha hai
+              (JazzCash / Easypaisa / Bank transfer).
             </p>
 
-            <div class="form-grid" style="margin-bottom:8px;">
-              <div class="form-field">
-                <label>Filter by payment status</label>
-                <select>
-                  <option>All</option>
-                  <option>Pending verification</option>
-                  <option>Paid</option>
-                  <option>Failed / Cancelled</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label>Filter by delivery</label>
-                <select>
-                  <option>All</option>
-                  <option>Not started</option>
-                  <option>In progress</option>
-                  <option>Completed</option>
-                </select>
-              </div>
-            </div>
-
+            <!-- PLAN ORDERS -->
+            <h3 class="admin-section-heading">Plan orders</h3>
             <table class="admin-table">
               <thead>
                 <tr>
                   <th>Order ID</th>
                   <th>Customer</th>
-                  <th>Plan / Meals</th>
+                  <th>Plan</th>
                   <th>Amount (Rs)</th>
-                  <th>Payment</th>
+                  <th>Payment method</th>
+                  <th>Payment status</th>
                   <th>TRX ID</th>
                   <th>Delivery</th>
                   <th>Last update</th>
@@ -422,41 +400,74 @@ If your friend signs up using your referral code, they get a discount on their f
               </thead>
               <tbody>
                 <tr>
-                  <td>#NM-2025-0012</td>
+                  <td>#PLAN-2025-0012</td>
                   <td>Demo User</td>
                   <td>Weekly 1 Meal</td>
                   <td>2,000</td>
+                  <td>JazzCash</td>
                   <td><span class="admin-status-pill admin-status-pending">Pending verification</span></td>
                   <td>JC123456789</td>
                   <td><span class="admin-status-pill">Not started</span></td>
                   <td>Today, 11:45 AM</td>
                 </tr>
                 <tr>
-                  <td>#NM-2025-0011</td>
+                  <td>#PLAN-2025-0011</td>
                   <td>Sample User</td>
                   <td>Monthly 2 Meals</td>
                   <td>16,000</td>
+                  <td>Easypaisa</td>
                   <td><span class="admin-status-pill admin-status-ok">Paid</span></td>
                   <td>EP987654321</td>
                   <td><span class="admin-status-pill admin-status-ok">In progress</span></td>
                   <td>Yesterday, 4:10 PM</td>
                 </tr>
+              </tbody>
+            </table>
+
+            <!-- MEALS ORDERS -->
+            <h3 class="admin-section-heading" style="margin-top:16px;">Meals orders (à la carte)</h3>
+            <table class="admin-table">
+              <thead>
                 <tr>
-                  <td>#NM-2025-0010</td>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Amount (Rs)</th>
+                  <th>Payment method</th>
+                  <th>Payment status</th>
+                  <th>TRX ID</th>
+                  <th>Delivery</th>
+                  <th>Last update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#MEAL-2025-0008</td>
                   <td>Test User</td>
-                  <td>Meals cart (3 items)</td>
+                  <td>Chicken Qorma x1, Daal Mash x2</td>
                   <td>1,350</td>
+                  <td>Bank transfer</td>
                   <td><span class="admin-status-pill admin-status-failed">Failed</span></td>
                   <td>-</td>
                   <td><span class="admin-status-pill">Not started</span></td>
                   <td>2 days ago</td>
                 </tr>
+                <tr>
+                  <td>#MEAL-2025-0009</td>
+                  <td>Another User</td>
+                  <td>Chicken Biryani x2</td>
+                  <td>700</td>
+                  <td>JazzCash</td>
+                  <td><span class="admin-status-pill admin-status-ok">Paid</span></td>
+                  <td>JC555777999</td>
+                  <td><span class="admin-status-pill admin-status-ok">Completed</span></td>
+                  <td>Today, 01:20 PM</td>
+                </tr>
               </tbody>
             </table>
 
             <p class="card-meta">
-              Real system me yahan se tum:
-              payment approve, delivery status change, tracking note add, waghera kar sakte ho.
+              Future backend ke saath: yahan se tum payment verify, delivery status update aur order details open kar sakte ho.
             </p>
           </section>
 
@@ -464,8 +475,7 @@ If your friend signs up using your referral code, they get a discount on their f
           <section class="card admin-panel" id="panel-users" hidden>
             <h2 class="card-title">Users &amp; accounts</h2>
             <p class="card-meta">
-              Future me yahan tum Supabase / backend se real users list show kar sakte ho.
-              Abhi placeholder table hai.
+              Future me yahan Supabase / backend se real users list aaye gi.
             </p>
 
             <table class="admin-table">
@@ -497,8 +507,7 @@ If your friend signs up using your referral code, they get a discount on their f
             </table>
 
             <p class="card-meta">
-              Real implementation me yahan se:
-              reset password, block account, referral history, etc. handle kar sakte ho.
+              Real implementation me yahan se reset password, block account, referral history waghera handle ho sakta hai.
             </p>
           </section>
 
@@ -506,9 +515,8 @@ If your friend signs up using your referral code, they get a discount on their f
           <section class="card admin-panel" id="panel-child-accounts" hidden>
             <h2 class="card-title">Child admin accounts</h2>
             <p class="card-meta">
-              Child admin = aise log jo tumhare liye site manage karen (kitchen staff, manager, etc.)
-              lekin unko limited access mile. Philhal sirf layout hai, baad me permissions backend se
-              control hongi.
+              Child admin = aise log jo tumhare liye site manage karen (kitchen staff, manager, support)
+              lekin limited access ke saath. Abhi front-end layout hai.
             </p>
 
             <table class="admin-table">
@@ -599,8 +607,7 @@ If your friend signs up using your referral code, they get a discount on their f
             </form>
 
             <p class="card-meta">
-              Future plan: yahan se Supabase / backend me separate role table banega, aur har
-              child admin ke liye permissions check ki ja sakti hain (e.g. only meals page open kare, etc.).
+              Future plan: roles & permissions table backend me banega, jahan se check hoga child admin kis module tak ja sakta hai.
             </p>
           </section>
         </div>
@@ -625,11 +632,7 @@ If your friend signs up using your referral code, they get a discount on their f
 
       function showPanel(name) {
         panels.forEach(p => {
-          if (p.id === 'panel-' + name) {
-            p.hidden = false;
-          } else {
-            p.hidden = true;
-          }
+          p.hidden = (p.id !== 'panel-' + name);
         });
 
         navButtons.forEach(btn => {
