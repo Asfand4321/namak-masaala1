@@ -8,11 +8,11 @@
   <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
 <body>
-  <!-- NAVBAR -->
+  <!-- SIMPLE NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
-        <a href="index.html" class="brand-link">
+        <a href="login.html" class="brand-link">
           <div class="logo-mark">
             <img src="namak-logo.png" alt="Namak Masaala logo">
           </div>
@@ -22,66 +22,42 @@
           </div>
         </a>
       </div>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="customer-care.html">Customer Care</a>
-      </nav>
       <div class="nav-auth">
         <a href="login.html" class="btn btn-outline">Login</a>
         <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
-      <div class="nav-menu-icon">☰</div>
-    </div>
-    <div class="container nav-mobile">
-      <a href="index.html">Home</a>
-      <a href="plans.html">Plans</a>
-      <a href="meals.html">Meals</a>
-      <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
-      <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="customer-care.html">Customer Care</a>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign up</a>
     </div>
   </header>
 
   <main>
     <section class="section">
       <div class="container auth-layout">
-        <div class="auth-card card">
+        <div class="card auth-card">
           <div class="section-kicker">Welcome back</div>
           <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
-            Login to your account
+            Login to continue
           </h1>
           <p class="section-subtitle">
-            Use the same <strong>email</strong> or <strong>mobile number</strong> you used during sign-up.
+            Please sign in with your email and password. Later this will connect to the real backend.
           </p>
 
-          <form class="auth-form" onsubmit="return handleLogin(event)">
+          <form id="login-form" class="auth-form">
             <div class="form-field">
-              <label for="identifier">Email or mobile number *</label>
-              <input id="identifier" name="identifier" type="text" required
-                     placeholder="you@example.com or +92XXXXXXXXXX">
+              <label for="loginEmail">Email *</label>
+              <input
+                id="loginEmail"
+                type="email"
+                required
+                placeholder="you@example.com">
             </div>
 
             <div class="form-field">
               <label for="loginPassword">Password *</label>
-              <input id="loginPassword" name="password" type="password" required minlength="6">
-            </div>
-
-            <div class="form-field form-inline">
-              <label class="checkbox-label">
-                <input type="checkbox" name="remember">
-                <span>Keep me signed in on this device</span>
-              </label>
-              <a href="#" class="form-link">Forgot password?</a>
+              <input
+                id="loginPassword"
+                type="password"
+                required
+                placeholder="••••••••">
             </div>
 
             <p id="login-error" class="form-error" style="display:none;"></p>
@@ -91,23 +67,10 @@
             </button>
 
             <p class="form-switch">
-              New to Namak Masaala?
-              <a href="signup.html">Create an account</a>.
+              Don’t have an account?
+              <a href="signup.html">Create one</a>.
             </p>
           </form>
-        </div>
-
-        <div class="auth-side card">
-          <h2 class="card-title">Account &amp; plans</h2>
-          <ul class="card-list">
-            <li>View and manage your active tiffin plans.</li>
-            <li>Update delivery window and address.</li>
-            <li>Access referral codes and discounts.</li>
-          </ul>
-          <p class="card-meta">
-            This login screen is a visual demo. Actual authentication (OTP, password reset, etc.)
-            will be connected to your chosen backend or admin workflow later.
-          </p>
         </div>
       </div>
     </section>
@@ -116,35 +79,36 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>© 2025 Namak Masaala. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
-      </div>
     </div>
   </footer>
 
   <script>
-    function handleLogin(event) {
-      const identifier = document.getElementById('identifier').value.trim();
-      const password = document.getElementById('loginPassword').value;
-      const errorEl = document.getElementById('login-error');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
 
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      loginError.style.display = 'none';
+      loginError.textContent = '';
 
-      if (!identifier || !password) {
-        errorEl.textContent = 'Please enter your email / mobile and password.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
-        return false;
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!email || !password) {
+        loginError.textContent = 'Please enter your email and password.';
+        loginError.style.display = 'block';
+        return;
       }
 
-      // Demo only
-      alert('This is a demo login form – in real deployment this will check your account on the backend.');
-      event.preventDefault();
-      return false;
-    }
+      // TODO: yahin backend (Supabase) call ayega
+
+      // Temporary front-end login
+      localStorage.setItem('nm_logged_in', '1');
+      localStorage.setItem('nm_user_email', email);
+
+      // login ke baad home page
+      window.location.href = 'index.html';
+    });
   </script>
 </body>
 </html>
