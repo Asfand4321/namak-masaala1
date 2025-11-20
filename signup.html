@@ -64,7 +64,7 @@
             Sign up using your <strong>email address</strong>. WhatsApp number and referral code are optional.
           </p>
 
-          <form class="auth-form" onsubmit="return validateSignup(event)">
+          <form id="signup-form" class="auth-form">
             <div class="form-grid">
               <div class="form-field">
                 <label for="firstName">First name *</label>
@@ -137,7 +137,7 @@
 
             <p class="form-note">
               * Email and password are required. Password must be minimum 6 characters.
-              This is a demo form – actual account creation will be connected to a backend later.
+              This is a front-end preview – backend integration will be added later.
             </p>
 
             <p id="signup-error" class="form-error" style="display:none;"></p>
@@ -181,34 +181,47 @@
   </footer>
 
   <script>
-    function validateSignup(event) {
+    const signupForm = document.getElementById('signup-form');
+    const signupError = document.getElementById('signup-error');
+
+    signupForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      signupError.style.display = 'none';
+      signupError.textContent = '';
+
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
-      const errorEl = document.getElementById('signup-error');
-
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
 
       if (!email) {
-        errorEl.textContent = 'Email address is required.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
+        signupError.textContent = 'Email address is required.';
+        signupError.style.display = 'block';
+        return false;
+      }
+
+      if (password.length < 6) {
+        signupError.textContent = 'Password must be at least 6 characters.';
+        signupError.style.display = 'block';
         return false;
       }
 
       if (password !== confirmPassword) {
-        errorEl.textContent = 'Password and confirm password do not match.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
+        signupError.textContent = 'Password and confirm password do not match.';
+        signupError.style.display = 'block';
         return false;
       }
 
-      // Demo only: no real backend yet
-      alert('This is a demo sign-up form – in real deployment this will send data to the backend.');
-      event.preventDefault();
+      // TODO: yahan real signup API call aayegi (Supabase, etc.)
+
+      // Front-end side pe user ko logged-in mark kar do
+      localStorage.setItem('nm_logged_in', '1');
+      localStorage.setItem('nm_user_email', email);
+
+      // Signup ke baad home page
+      window.location.href = 'index.html';
       return false;
-    }
+    });
   </script>
 </body>
 </html>
