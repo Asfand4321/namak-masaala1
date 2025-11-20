@@ -1832,3 +1832,175 @@ img {
     bottom: 12px;
   }
 }
+
+/* ===== ADMIN DASHBOARD LAYOUT ===== */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.admin-sidebar {
+  padding: 16px;
+}
+
+.admin-sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.admin-nav-section-label {
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #888;
+}
+
+.admin-nav-item {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: #f6f6f6;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.admin-nav-item.active {
+  background: #ff7b2a;
+  color: #fff;
+}
+
+.admin-nav-item:hover {
+  background: #ececec;
+}
+
+.admin-nav-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #ff7b2a;
+}
+
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-panel {
+  padding: 18px 20px;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 14px 0 6px;
+}
+
+.admin-stat-card {
+  background: #f8f8ff;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.admin-stat-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.admin-stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.admin-stat-meta {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.admin-quick-links {
+  margin-top: 14px;
+}
+
+.admin-quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.admin-form .form-field {
+  margin-bottom: 10px;
+}
+
+.admin-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.admin-plan-block {
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fafafa;
+  border: 1px solid #eee;
+}
+
+.admin-plan-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.admin-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+  gap: 16px;
+}
+
+.admin-section-heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.admin-meals-actions .card-list.small li {
+  font-size: 0.8rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #eee;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.admin-table th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}
