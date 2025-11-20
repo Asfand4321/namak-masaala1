@@ -1,27 +1,24 @@
-<!-- auth.js -->
-<script>
-// IIFE: turant run hone wala function
-(function () {
-  // Konsi pages without login allowed hain:
-  const publicPages = ["login.html", "signup.html", ""]; // "" for root "/"
+// auth.js
 
-  // Current page ka naam nikaalo (eg: "plans.html")
+(function () {
+  // Ye pages bina login allow hain
+  const publicPages = ["login.html", "signup.html", ""];
+
+  // current file name nikaalo (e.g. "plans.html")
   const path = window.location.pathname.split("/").pop();
 
   const isPublic = publicPages.includes(path);
-
-  // localStorage me flag check karo
   const isLoggedIn = !!localStorage.getItem("nm_logged_in");
 
   if (!isLoggedIn && !isPublic) {
-    // Agar login nahi hai aur page public nahi
+    // agar login nahi hai aur page public nahi
     window.location.href = "login.html";
   }
 })();
 
-// simple logout helper (optional)
+// simple logout helper (navbar button se call kar sakte ho)
 function nmLogout() {
   localStorage.removeItem("nm_logged_in");
+  localStorage.removeItem("nm_user_email");
   window.location.href = "login.html";
 }
-</script>
