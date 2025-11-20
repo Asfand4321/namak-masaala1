@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Monthly 2 Meals Plan - Namak Masaala</title>
+  <title>Monthly 2 Meal Plan – Namak Masaala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
 <body>
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
@@ -38,6 +39,7 @@
       </div>
       <div class="nav-menu-icon">☰</div>
     </div>
+
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
@@ -56,106 +58,176 @@
   <main>
     <section class="section">
       <div class="container plan-layout">
-        <!-- LEFT -->
-        <div class="card plan-summary-card">
+        <!-- LEFT: plan summary -->
+        <div class="card plan-main-card">
           <div class="badge-soft">Monthly • 2 Meals</div>
-          <h1 class="section-title" style="margin-bottom:4px;">Monthly 2 Meals Plan</h1>
-          <p class="card-line">
-            Two tiffins per day (Lunch + Dinner), 4 weeks (Mon–Sat). Best for full-day coverage.
+          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:4px;">
+            Monthly 2 Meal Plan
+          </h1>
+          <p class="section-subtitle" style="margin-bottom:10px;">
+            Two tiffins per day (lunch + dinner), 4 weeks (Mon–Sat). Good for full-day coverage.
           </p>
 
-          <div class="price-tag" style="margin-top:10px;">
+          <div class="price-tag" style="margin-bottom:12px;">
             Rs 16,000 <span>/ month</span>
           </div>
 
-          <h2 class="plan-subheading" style="margin-top:12px;">Schedule start rule</h2>
+          <h2 class="plan-subheading">Schedule start rule</h2>
           <p class="card-line">
-            If you subscribe to this plan today (for example on <strong>Monday</strong>),
-            your first tiffin set (lunch + dinner) will start from the next working day
-            (<strong>Tuesday</strong>) and continue for four weeks (Mon–Sat).
+            If you subscribe to this plan today, your monthly schedule will start from the next
+            working day. Example: subscribe on Monday → first lunch &amp; dinner from Tuesday.
           </p>
-
           <ul class="plan-bullets">
-            <li>4 weeks × 6 days (approx. 48 meals)</li>
-            <li>Separate time windows for lunch and dinner</li>
-            <li>Menu rotates across weeks with similar dishes</li>
+            <li>6 days a week (Mon–Sat), for 4 weeks</li>
+            <li>2 delivery time windows per day (lunch + dinner)</li>
+            <li>Menu can rotate each week but stays in similar pattern</li>
           </ul>
 
-          <h2 class="plan-subheading" style="margin-top:14px;">Preferred delivery time</h2>
-          <p class="card-meta">
+          <h2 class="plan-subheading" style="margin-top:18px;">Preferred daily times</h2>
+          <p class="card-line">
             Select your two daily time windows. Final timing will be confirmed on call / WhatsApp.
           </p>
 
-          <div class="time-grid">
+          <div class="form-grid">
             <div class="form-field">
-              <label for="m2From1">Lunch – From</label>
-              <input id="m2From1" type="time">
+              <label>Lunch — From</label>
+              <select>
+                <option>--:-- --</option>
+                <option>11:00 AM</option>
+                <option>11:30 AM</option>
+                <option>12:00 PM</option>
+                <option>12:30 PM</option>
+                <option>01:00 PM</option>
+              </select>
             </div>
             <div class="form-field">
-              <label for="m2To1">Lunch – To</label>
-              <input id="m2To1" type="time">
+              <label>Lunch — To</label>
+              <select>
+                <option>--:-- --</option>
+                <option>12:00 PM</option>
+                <option>12:30 PM</option>
+                <option>01:00 PM</option>
+                <option>01:30 PM</option>
+                <option>02:00 PM</option>
+              </select>
             </div>
           </div>
 
-          <div class="time-grid">
+          <div class="form-grid">
             <div class="form-field">
-              <label for="m2From2">Dinner – From</label>
-              <input id="m2From2" type="time">
+              <label>Dinner — From</label>
+              <select>
+                <option>--:-- --</option>
+                <option>07:00 PM</option>
+                <option>07:30 PM</option>
+                <option>08:00 PM</option>
+                <option>08:30 PM</option>
+              </select>
             </div>
             <div class="form-field">
-              <label for="m2To2">Dinner – To</label>
-              <input id="m2To2" type="time">
+              <label>Dinner — To</label>
+              <select>
+                <option>--:-- --</option>
+                <option>08:00 PM</option>
+                <option>08:30 PM</option>
+                <option>09:00 PM</option>
+                <option>09:30 PM</option>
+              </select>
             </div>
           </div>
 
-          <button class="btn btn-primary btn-full" style="margin-top:18px;">
+          <button
+            class="btn btn-primary btn-full"
+            style="margin-top:18px;"
+            onclick="addPlanToCart('monthly-2', 'Monthly 2 Meal Plan', 16000, 'month')"
+          >
             Add this plan to cart
           </button>
         </div>
 
-        <!-- RIGHT -->
+        <!-- RIGHT: weekly menu preview -->
         <div class="card plan-menu-card">
-          <h2 class="card-title">Sample Week-1 menu</h2>
-          <p class="card-meta">
-            This shows the main dish focus for each day in Week-1. Extra variety and other weeks
-            can follow the same layout.
+          <div class="badge-soft">Week 1 sample menu</div>
+          <h2 class="card-title">First week – Monday to Saturday</h2>
+          <p class="card-line">
+            Example lunch / dinner pair for each day. Exact dishes can rotate in later weeks.
           </p>
 
-          <div class="plan-menu-day">
-            <div class="day-label">Monday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Chicken Qorma (Non-veg)</div>
-          </div>
-          <div class="plan-menu-day">
-            <div class="day-label">Tuesday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Daal Mash (Veg)</div>
-          </div>
-          <div class="plan-menu-day">
-            <div class="day-label">Wednesday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Aloo Gosht (Non-veg)</div>
-          </div>
-          <div class="plan-menu-day">
-            <div class="day-label">Thursday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Aloo Shimla (Veg)</div>
-          </div>
-          <div class="plan-menu-day">
-            <div class="day-label">Friday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Chicken Biryani (Non-veg)</div>
-          </div>
-          <div class="plan-menu-day">
-            <div class="day-label">Saturday</div>
-            <div class="day-image">Image</div>
-            <div class="day-dish">Aloo Gobhi (Veg)</div>
+          <div class="plan-days-grid">
+            <div class="plan-day-card">
+              <div class="plan-day-header">Monday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Chicken Qorma + Daal (Non-veg + Veg)</div>
+                  <div class="plan-day-note">Lunch &amp; dinner combo</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Tuesday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Daal Mash + Mix Vegetable (Veg)</div>
+                  <div class="plan-day-note">Light veg day</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Wednesday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Aloo Gosht + Sabzi (Non-veg + Veg)</div>
+                  <div class="plan-day-note">Balanced combo</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Thursday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Aloo Shimla + Daal (Veg)</div>
+                  <div class="plan-day-note">Light sabzi + daal</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Friday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Chicken Biryani + Raita (Non-veg)</div>
+                  <div class="plan-day-note">Main focus biryani</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Saturday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Aloo Gobhi + Rice (Veg)</div>
+                  <div class="plan-day-note">Weekend comfort</div>
+                </div>
+                <div class="plan-day-image">Image</div>
+              </div>
+            </div>
           </div>
 
-          <p class="card-meta" style="margin-top:12px;">
-            Later you can expand this card into Week-1 / Week-2 / Week-3 / Week-4 sections for the
-            full monthly schedule.
-          </p>
+          <button
+            class="btn btn-primary btn-full"
+            style="margin-top:18px;"
+            onclick="window.location.href='customize-plan.html'"
+          >
+            Customize this plan
+          </button>
         </div>
       </div>
     </section>
@@ -171,5 +243,32 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const CART_KEY = 'nm_cart_items';
+
+    function addPlanToCart(id, name, price, billing) {
+      let cart = [];
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        cart = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        cart = [];
+      }
+
+      const existing = cart.find(
+        item => item.type === 'plan' && item.id === id && item.price === price
+      );
+
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        cart.push({ type: 'plan', id, name, price, billing, quantity: 1 });
+      }
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      alert('"' + name + '" added to cart. You can review it on Cart / Checkout page.');
+    }
+  </script>
 </body>
 </html>
