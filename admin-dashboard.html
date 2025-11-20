@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard – Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="namak-logo.png" type="image/png">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Site Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="orders.html">Orders</a>
+        <a href="admin-dashboard.html" class="active-link">Admin</a>
+      </nav>
+      <div class="nav-auth">
+        <button class="btn btn-outline" onclick="nmLogout()">Logout</button>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="card admin-sidebar">
+          <h2 class="admin-sidebar-title">Admin menu</h2>
+
+          <button class="admin-nav-item active" data-panel="overview">
+            Dashboard overview
+          </button>
+
+          <div class="admin-nav-section-label">Content</div>
+          <button class="admin-nav-item" data-panel="home">
+            Home page / Hero text
+          </button>
+          <button class="admin-nav-item" data-panel="plans">
+            Plans &amp; pricing
+          </button>
+          <button class="admin-nav-item" data-panel="meals">
+            Meals &amp; images
+          </button>
+
+          <div class="admin-nav-section-label">Logic &amp; settings</div>
+          <button class="admin-nav-item" data-panel="referral">
+            Referral rules
+          </button>
+          <button class="admin-nav-item" data-panel="payment">
+            Bank &amp; payment details
+          </button>
+          <button class="admin-nav-item" data-panel="whatsapp">
+            WhatsApp widget
+          </button>
+
+          <div class="admin-nav-section-label">Accounts</div>
+          <button class="admin-nav-item" data-panel="users">
+            Users &amp; accounts
+          </button>
+
+          <a href="admin-meals.html" class="admin-nav-link">
+            Open full Meals admin &rsaquo;
+          </a>
+        </aside>
+
+        <!-- MAIN PANELS -->
+        <div class="admin-main">
+          <!-- OVERVIEW -->
+          <section class="card admin-panel" id="panel-overview">
+            <h1 class="section-title" style="font-size:1.4rem;">Admin dashboard</h1>
+            <p class="section-subtitle">
+              High level overview of your tiffin business. Numbers below are demo for now –
+              later they can come from your real backend / database.
+            </p>
+
+            <div class="admin-stats-grid">
+              <div class="admin-stat-card">
+                <div class="admin-stat-label">Active plans</div>
+                <div class="admin-stat-value">24</div>
+                <div class="admin-stat-meta">Weekly + monthly combined</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-label">Registered users</div>
+                <div class="admin-stat-value">58</div>
+                <div class="admin-stat-meta">Email sign-ups</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-label">Pending payments</div>
+                <div class="admin-stat-value">7</div>
+                <div class="admin-stat-meta">TRX ID verification required</div>
+              </div>
+            </div>
+
+            <div class="admin-quick-links">
+              <h2 class="card-title">Quick actions</h2>
+              <div class="admin-quick-grid">
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="plans">Update plan prices</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="meals">Change meal images</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="referral">Edit referral discounts</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="payment">Change bank details</a>
+                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="home">Edit home page text</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- HOME / HERO CONTENT -->
+          <section class="card admin-panel" id="panel-home" hidden>
+            <h2 class="card-title">Home page content</h2>
+            <p class="card-meta">
+              Yeh fields <code>index.html</code> ke hero section se match karte hain. Abhi yeh
+              sirf front-end preview hai – future me yahan se values ko backend me save kar sakte ho.
+            </p>
+
+            <form class="admin-form">
+              <div class="form-field">
+                <label for="heroBadge">Hero badge text</label>
+                <input id="heroBadge" type="text" value="Home-made Tiffin • Office friendly">
+              </div>
+
+              <div class="form-field">
+                <label for="heroHeading">Main heading</label>
+                <textarea id="heroHeading" rows="2">Fresh home made, hygienic food.</textarea>
+              </div>
+
+              <div class="form-field">
+                <label for="heroText">Sub heading paragraph</label>
+                <textarea id="heroText" rows="3">
+Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, fixed timing, and let us handle the rest.
+                </textarea>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="heroCta1">Primary CTA label</label>
+                  <input id="heroCta1" type="text" value="View meal plans">
+                </div>
+                <div class="form-field">
+                  <label for="heroCta2">Secondary CTA label</label>
+                  <input id="heroCta2" type="text" value="Browse menu">
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary">
+                Save changes (preview only)
+              </button>
+            </form>
+          </section>
+
+          <!-- PLANS -->
+          <section class="card admin-panel" id="panel-plans" hidden>
+            <h2 class="card-title">Plans &amp; pricing</h2>
+            <p class="card-meta">
+              Yeh prices <code>plans.html</code> aur individual plan pages me use ho rahe hain.
+              Future me yahan se values ko database se sync kiya ja sakta hai.
+            </p>
+
+            <form class="admin-form">
+              <div class="admin-plan-grid">
+                <div class="admin-plan-block">
+                  <h3 class="admin-plan-title">Weekly 1 Meal</h3>
+                  <div class="form-field">
+                    <label>Price per week (Rs)</label>
+                    <input type="number" value="2000">
+                  </div>
+                </div>
+
+                <div class="admin-plan-block">
+                  <h3 class="admin-plan-title">Weekly 2 Meals</h3>
+                  <div class="form-field">
+                    <label>Price per week (Rs)</label>
+                    <input type="number" value="4000">
+                  </div>
+                </div>
+
+                <div class="admin-plan-block">
+                  <h3 class="admin-plan-title">Monthly 1 Meal</h3>
+                  <div class="form-field">
+                    <label>Price per month (Rs)</label>
+                    <input type="number" value="8000">
+                  </div>
+                </div>
+
+                <div class="admin-plan-block">
+                  <h3 class="admin-plan-title">Monthly 2 Meals</h3>
+                  <div class="form-field">
+                    <label>Price per month (Rs)</label>
+                    <input type="number" value="16000">
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary">
+                Save plan prices (preview)
+              </button>
+            </form>
+          </section>
+
+          <!-- MEALS -->
+          <section class="card admin-panel" id="panel-meals" hidden>
+            <h2 class="card-title">Meals &amp; images</h2>
+            <p class="card-meta">
+              Yahan se tum main dishes ki basic list dekh sakte ho. Detailed image / price editing
+              ke liye <strong>Admin Meals</strong> page open karo.
+            </p>
+
+            <div class="admin-two-col">
+              <div>
+                <h3 class="admin-section-heading">Meals overview</h3>
+                <ul class="card-list">
+                  <li>Chicken Qorma, Chicken Karahi, Chicken Achari, Chicken Hyderabadi</li>
+                  <li>Aloo Gosht, Anda Kofta, Daal Gosht, Bhindi Gosht</li>
+                  <li>Chicken Biryani, Chicken Pulao, Sajji</li>
+                  <li>Daal Mash, Daal Channa, Lobia, White Channa</li>
+                  <li>Aloo Shimla, Kari Pakora, Aloo Anda</li>
+                  <li>Mix Vegetable, Bhindi, Aloo Palak, Aloo Gobhi, Aloo Bhujia, Aloo Matar, Karelay</li>
+                </ul>
+              </div>
+
+              <div class="admin-meals-actions">
+                <p class="card-meta">
+                  For each meal you can set:
+                </p>
+                <ul class="card-list small">
+                  <li>Image URL (admin-meals page se)</li>
+                  <li>Veg / Non-veg flag</li>
+                  <li>Base price</li>
+                  <li>Active / Inactive status</li>
+                </ul>
+
+                <a href="admin-meals.html" class="btn btn-primary btn-full" style="margin-top:8px;">
+                  Open detailed Meals admin
+                </a>
+                <a href="meals.html" class="btn btn-outline btn-full" style="margin-top:6px;">
+                  View public meals page
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- REFERRAL -->
+          <section class="card admin-panel" id="panel-referral" hidden>
+            <h2 class="card-title">Referral rules</h2>
+            <p class="card-meta">
+              Yeh values <code>referral.html</code> me explain ki ja sakti hain. Yahan sirf
+              configuration preview hai.
+            </p>
+
+            <form class="admin-form">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Weekly 1 Meal discount (Rs)</label>
+                  <input type="number" value="200">
+                </div>
+                <div class="form-field">
+                  <label>Weekly 2 Meals discount (Rs)</label>
+                  <input type="number" value="400">
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Monthly 1 Meal discount (Rs)</label>
+                  <input type="number" value="800">
+                </div>
+                <div class="form-field">
+                  <label>Monthly 2 Meals discount (Rs)</label>
+                  <input type="number" value="1600">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Referral note shown to users</label>
+                <textarea rows="3">
+If your friend signs up using your referral code, they get a discount on their first plan and you earn credit for the next renewal.
+                </textarea>
+              </div>
+
+              <button type="button" class="btn btn-primary">
+                Save referral config (preview)
+              </button>
+            </form>
+          </section>
+
+          <!-- PAYMENT -->
+          <section class="card admin-panel" id="panel-payment" hidden>
+            <h2 class="card-title">Bank &amp; payment details</h2>
+            <p class="card-meta">
+              Yeh fields <code>checkout.html</code> me use ho rahe hain (JazzCash / Easypaisa / Bank).
+            </p>
+
+            <form class="admin-form">
+              <div class="form-field">
+                <label>Bank name</label>
+                <input type="text" value="Bank Alfalah">
+              </div>
+
+              <div class="form-field">
+                <label>Account title</label>
+                <input type="text" value="NAMAK MASAALA">
+              </div>
+
+              <div class="form-field">
+                <label>IBAN</label>
+                <input type="text" value="PK77ALFH0063001010497163">
+              </div>
+
+              <div class="form-field">
+                <label>Account number (digits only)</label>
+                <input type="text" value="770063001010497163">
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>JazzCash logo URL</label>
+                  <input type="url" value="https://i.imgur.com/7zE0f2b.png">
+                </div>
+                <div class="form-field">
+                  <label>Easypaisa logo URL</label>
+                  <input type="url" value="https://i.imgur.com/tYJqCvj.png">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Bank icon URL</label>
+                <input type="url" value="https://i.imgur.com/9tXDD8h.png">
+              </div>
+
+              <button type="button" class="btn btn-primary">
+                Save payment settings (preview)
+              </button>
+            </form>
+          </section>
+
+          <!-- WHATSAPP -->
+          <section class="card admin-panel" id="panel-whatsapp" hidden>
+            <h2 class="card-title">WhatsApp widget settings</h2>
+            <p class="card-meta">
+              Yeh settings tumhare floating WhatsApp chat button (saare pages par) ke liye hain.
+            </p>
+
+            <form class="admin-form">
+              <div class="form-field">
+                <label>WhatsApp number (international format)</label>
+                <input type="text" value="+92 324 7477704">
+              </div>
+              <div class="form-field">
+                <label>Default greeting text</label>
+                <textarea rows="2">Hi Namak Masaala, I want to ask about tiffin plans.</textarea>
+              </div>
+              <button type="button" class="btn btn-primary">
+                Save WhatsApp settings (preview)
+              </button>
+            </form>
+          </section>
+
+          <!-- USERS -->
+          <section class="card admin-panel" id="panel-users" hidden>
+            <h2 class="card-title">Users &amp; accounts</h2>
+            <p class="card-meta">
+              Future me yahan tum Supabase / backend se real users list show kar sakte ho.
+              Abhi placeholder table hai.
+            </p>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>WhatsApp</th>
+                  <th>Status</th>
+                  <th>Plans</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Demo User</td>
+                  <td>demo@example.com</td>
+                  <td>+92 300 0000000</td>
+                  <td>Active</td>
+                  <td>Weekly 1 Meal</td>
+                </tr>
+                <tr>
+                  <td>Sample User</td>
+                  <td>sample@example.com</td>
+                  <td>+92 322 1111111</td>
+                  <td>Pending payment</td>
+                  <td>Monthly 2 Meals</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="card-meta">
+              Real implementation me yahan se:
+              reset password, block account, referral history, etc. handle kar sakte ho.
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. Admin dashboard (preview).</div>
+    </div>
+  </footer>
+
+  <!-- auth guard -->
+  <script src="auth.js"></script>
+
+  <script>
+    // Sidebar panel switching
+    (function () {
+      const navButtons = document.querySelectorAll('.admin-nav-item');
+      const panels = document.querySelectorAll('.admin-panel');
+
+      function showPanel(name) {
+        panels.forEach(p => {
+          if (p.id === 'panel-' + name) {
+            p.hidden = false;
+          } else {
+            p.hidden = true;
+          }
+        });
+
+        navButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-panel') === name);
+        });
+      }
+
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          showPanel(this.getAttribute('data-panel'));
+        });
+      });
+
+      // Quick links
+      document.querySelectorAll('[data-panel-jump]').forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = this.getAttribute('data-panel-jump');
+          showPanel(target);
+        });
+      });
+
+      // Default panel
+      showPanel('overview');
+    })();
+  </script>
+</body>
+</html>
