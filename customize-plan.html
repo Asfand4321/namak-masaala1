@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customize Plan – Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="namak-logo.png" type="image/png">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">NAMAK MASAALA</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="cart.html">Cart</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+        <a href="orders.html">My Orders</a>
+        <a href="my-plans.html">My Plans</a>
+        <a href="customer-care.html">Customer Care</a>
+      </nav>
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
+      </div>
+      <div class="nav-menu-icon">☰</div>
+    </div>
+
+    <div class="container nav-mobile">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="cart.html">Cart</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+      <a href="orders.html">My Orders</a>
+      <a href="my-plans.html">My Plans</a>
+      <a href="customer-care.html">Customer Care</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container plan-layout">
+        <!-- LEFT: rule + info -->
+        <div class="card plan-main-card">
+          <div class="badge-soft">Customize plan</div>
+          <h1 class="section-title" style="font-size:1.4rem;margin-bottom:4px;">
+            Veg / Non-veg selection rule
+          </h1>
+          <p class="card-line">
+            Base price of your plan includes up to <strong>2 non-veg days</strong> in a week.
+            If you select <strong>3 or more non-veg days</strong>, extra kitchen charges will apply.
+          </p>
+          <p class="card-line">
+            For example, every extra non-veg day (above 2) can add around
+            <strong>Rs 50</strong> to your weekly bill. Final amount will always be confirmed by
+            admin / kitchen team on WhatsApp.
+          </p>
+
+          <ul class="plan-bullets">
+            <li>Choose Veg / Non-veg for each day below.</li>
+            <li>We will calculate how many non-veg days you selected.</li>
+            <li>Admin will confirm final price before starting your service.</li>
+          </ul>
+
+          <div class="card note-card" style="margin-top:12px;">
+            <div class="card-title" style="font-size:0.95rem;">Current selection summary</div>
+            <p id="veg-summary" class="card-line" style="margin-bottom:4px;">
+              Non-veg days: 0, Veg days: 6
+            </p>
+            <p id="veg-warning" class="card-meta">
+              You are within the base rule (up to 2 non-veg days included).
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT: selection UI -->
+        <div class="card plan-menu-card">
+          <div class="badge-soft">Select Veg / Non-veg per day</div>
+          <h2 class="card-title">Monday to Saturday preference</h2>
+          <p class="card-line">
+            This helps kitchen understand your pattern. Exact dishes will still be decided with
+            the chef according to your plan (weekly / monthly, 1 meal or 2 meals).
+          </p>
+
+          <form class="plan-days-grid" onsubmit="handleCustomizeSubmit(event)">
+            <!-- For each day: select Veg / Non-veg -->
+            <div class="plan-day-card">
+              <div class="plan-day-header">Monday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Chicken Qorma or Daal Mash</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="mon" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Tuesday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Daal / Sabzi</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="tue" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Wednesday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Aloo Gosht / Mix Veg</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="wed" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Thursday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Aloo Shimla / Daal</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="thu" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Friday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Biryani / Qorma</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="fri" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-day-card">
+              <div class="plan-day-header">Saturday</div>
+              <div class="plan-day-body">
+                <div class="plan-day-text">
+                  <div class="plan-day-dish">Preference</div>
+                  <div class="plan-day-note">Example: Aloo Gobhi / Channa</div>
+                </div>
+                <div class="plan-day-image">
+                  <select name="sat" class="veg-select">
+                    <option value="veg">Veg</option>
+                    <option value="non">Non-veg</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">
+              Save customization (demo)
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function updateVegSummary() {
+      const selects = document.querySelectorAll('.veg-select');
+      let non = 0;
+      let veg = 0;
+
+      selects.forEach(sel => {
+        if (sel.value === 'non') {
+          non++;
+        } else {
+          veg++;
+        }
+      });
+
+      const summary = document.getElementById('veg-summary');
+      const warning = document.getElementById('veg-warning');
+
+      summary.textContent =
+        'Non-veg days: ' + non + ', Veg days: ' + veg;
+
+      if (non <= 2) {
+        warning.textContent =
+          'You are within the base rule (up to 2 non-veg days included in base price).';
+      } else {
+        const extra = non - 2;
+        const extraAmount = extra * 50;
+        warning.textContent =
+          'You selected ' + non +
+          ' non-veg days. This is above the base rule. Approx extra charges: Rs ' +
+          extraAmount +
+          ' (Rs 50 per extra non-veg day). Final amount will be confirmed by admin.';
+      }
+    }
+
+    document.querySelectorAll('.veg-select').forEach(sel => {
+      sel.addEventListener('change', updateVegSummary);
+    });
+
+    updateVegSummary();
+
+    function handleCustomizeSubmit(e) {
+      e.preventDefault();
+      alert(
+        'Customization saved (front-end demo only).\n\n' +
+        'In real system, these preferences will be sent to admin so they can finalize menu and price.'
+      );
+    }
+  </script>
+</body>
+</html>
