@@ -139,10 +139,18 @@
   <script src="auth.js"></script>
 
   <script>
-    // Simple front-end demo login:
+    function loadUsers() {
+      try {
+        const raw = localStorage.getItem('nm_users');
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
     function handleLogin(event) {
       event.preventDefault();
-      const email = document.getElementById('loginEmail').value.trim();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
       const errorEl = document.getElementById('login-error');
 
@@ -155,18 +163,20 @@
         return false;
       }
 
-      if (password.length < 6) {
-        errorEl.textContent = 'Password must be at least 6 characters.';
+      const users = loadUsers();
+      const user = users.find(u => u.email === email);
+
+      if (!user || user.password !== password) {
+        errorEl.textContent = 'Invalid email or password.';
         errorEl.style.display = 'block';
         return false;
       }
 
-      // Demo: mark user as logged in (no real backend yet)
+      // Mark logged in user
       localStorage.setItem('nm_logged_in', '1');
-      localStorage.setItem('nm_user_email', email);
+      localStorage.setItem('nm_current_email', email);
 
-      // Redirect to home (or plans) after login
-      window.location.href = 'index.html';
+      window.location.href = 'account.html';
       return false;
     }
   </script>
