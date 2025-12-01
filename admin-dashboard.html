@@ -1,663 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard – Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="namak-logo.png" type="image/png">
-</head>
-<body>
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand-link">
-          <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo">
+// app/product/[slug]/page.tsx
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { createClient } from '@supabase/supabase-js';
+import ProductActions from '@/components/ProductActions';
+import ProductGallery from '@/components/ProductGallery';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+/* ------------ helpers (server) ------------ */
+function money(n: number, cur = 'PKR') {
+  try {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(n);
+  } catch {
+    return `${cur} ${n}`;
+  }
+}
+function slugify(s: string) {
+  return (s || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
+
+async function fetchProductBySmartSlug(slugParam: string) {
+  const supabase = getSupabase();
+  if (!supabase) return null;
+
+  const raw = (slugParam || '').toString();
+  const decoded = decodeURIComponent(raw);
+
+  const candidates = Array.from(
+    new Set(
+      [
+        decoded,
+        raw,
+        slugify(decoded),
+        decoded.replace(/-/g, ' '),
+        decoded.replace(/%20/g, ' '),
+        decoded.toLowerCase(),
+        decoded.trim(),
+      ].filter(Boolean)
+    )
+  );
+
+  for (const s of candidates) {
+    const bySlug = await supabase.from('products').select('*').eq('slug', s).limit(1).maybeSingle();
+    if (bySlug.data) return bySlug.data;
+
+    const byId = await supabase.from('products').select('*').eq('id', s).limit(1).maybeSingle();
+    if (byId.data) return byId.data;
+  }
+
+  const cleaned = slugify(decoded);
+  if (cleaned) {
+    const ilike = await supabase
+      .from('products')
+      .select('*')
+      .ilike('slug', `%${cleaned}%`)
+      .limit(1)
+      .maybeSingle();
+    if (ilike.data) return ilike.data;
+  }
+
+  return null;
+}
+
+/* ------------ page (server) ------------ */
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await fetchProductBySmartSlug(params.slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const price = money(Number(product.price) || 0, product.currency || 'PKR');
+  const compare = product.compare_at
+    ? money(Number(product.compare_at) || 0, product.currency || 'PKR')
+    : null;
+  const availability =
+    (product as any).availability === 'out_of_stock'
+      ? { text: 'Out of Stock', tone: 'rose' }
+      : { text: 'In Stock', tone: 'emerald' };
+
+  return (
+    <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* left: gallery */}
+        <div className="rounded-2xl border bg-white p-3">
+          <ProductGallery
+            primary={product.image}
+            images={(product as any).images || []}
+            alt={product.title}
+          />
+        </div>
+
+        {/* right: info */}
+        <div className="space-y-4">
+          <div className="text-sm text-gray-500">
+            {product.category ? <span className="capitalize">{product.category}</span> : '—'}
           </div>
-          <div class="brand-text">
-            <span class="brand-name">Namak Masaala</span>
-            <span class="brand-tagline">Home-made Tiffin</span>
+
+          <h1 className="text-2xl md:text-3xl font-semibold leading-tight">{product.title}</h1>
+
+          <div className="text-sm">
+            <span className="text-gray-500">0 Reviews</span>{' '}
+            <Link href="#" className="underline hover:no-underline">
+              Write a review
+            </Link>
           </div>
-        </a>
-      </div>
-      <nav class="nav-links">
-        <a href="index.html">Site Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="orders.html">Orders</a>
-        <a href="admin-dashboard.html" class="active-link">Admin</a>
-      </nav>
-      <div class="nav-auth">
-        <button class="btn btn-outline" onclick="nmLogout()">Logout</button>
-      </div>
-      <div class="nav-menu-icon">☰</div>
-    </div>
-  </header>
 
-  <main>
-    <section class="section">
-      <div class="container admin-layout">
-        <!-- SIDEBAR -->
-        <aside class="card admin-sidebar">
-          <h2 class="admin-sidebar-title">Admin menu</h2>
+          <div className="flex items-center gap-4">
+            <span
+              className={`rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ${
+                availability.tone === 'rose'
+                  ? 'ring-rose-200 text-rose-700 bg-rose-50'
+                  : 'ring-emerald-200 text-emerald-700 bg-emerald-50'
+              }`}
+            >
+              {availability.text}
+            </span>
+          </div>
 
-          <button class="admin-nav-item active" data-panel="overview">
-            Dashboard overview
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="text-3xl font-semibold">{price}</div>
+            {compare ? <div className="text-xl text-gray-400 line-through">{compare}</div> : null}
+            {product.compare_at ? (
+              <span className="text-xs px-2 py-1 rounded-md bg-amber-400/30 text-amber-900 font-semibold">
+                {`-${Math.round(
+                  ((Number(product.compare_at) - Number(product.price)) / Number(product.compare_at)) * 100
+                )}%`}
+              </span>
+            ) : null}
+          </div>
 
-          <div class="admin-nav-section-label">Content</div>
-          <button class="admin-nav-item" data-panel="home">
-            Home page / Hero text
-          </button>
-          <button class="admin-nav-item" data-panel="plans">
-            Plans &amp; pricing
-          </button>
-          <button class="admin-nav-item" data-panel="meals">
-            Meals &amp; images
-          </button>
+          <div className="border-b border-[var(--border)] my-2" />
 
-          <div class="admin-nav-section-label">Logic &amp; settings</div>
-          <button class="admin-nav-item" data-panel="referral">
-            Referral rules
-          </button>
-          <button class="admin-nav-item" data-panel="payment">
-            Bank &amp; payment details
-          </button>
-          <button class="admin-nav-item" data-panel="whatsapp">
-            WhatsApp widget
-          </button>
-
-          <div class="admin-nav-section-label">Orders</div>
-          <button class="admin-nav-item" data-panel="orders">
-            Orders &amp; tracking
-          </button>
-
-          <div class="admin-nav-section-label">Accounts</div>
-          <button class="admin-nav-item" data-panel="users">
-            Users &amp; accounts
-          </button>
-          <button class="admin-nav-item" data-panel="child-accounts">
-            Child admin accounts
-          </button>
-
-          <a href="admin-meals.html" class="admin-nav-link">
-            Open full Meals admin &rsaquo;
-          </a>
-        </aside>
-
-        <!-- MAIN PANELS -->
-        <div class="admin-main">
-          <!-- OVERVIEW -->
-          <section class="card admin-panel" id="panel-overview">
-            <h1 class="section-title" style="font-size:1.4rem;">Admin dashboard</h1>
-            <p class="section-subtitle">
-              High level overview of your tiffin business. Numbers below are demo – future me backend se aayenge.
-            </p>
-
-            <div class="admin-stats-grid">
-              <div class="admin-stat-card">
-                <div class="admin-stat-label">Active plans</div>
-                <div class="admin-stat-value">24</div>
-                <div class="admin-stat-meta">Weekly + monthly combined</div>
-              </div>
-              <div class="admin-stat-card">
-                <div class="admin-stat-label">Registered users</div>
-                <div class="admin-stat-value">58</div>
-                <div class="admin-stat-meta">Email sign-ups</div>
-              </div>
-              <div class="admin-stat-card">
-                <div class="admin-stat-label">Pending payments</div>
-                <div class="admin-stat-value">7</div>
-                <div class="admin-stat-meta">TRX ID verification required</div>
-              </div>
-            </div>
-
-            <div class="admin-quick-links">
-              <h2 class="card-title">Quick actions</h2>
-              <div class="admin-quick-grid">
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="plans">Update plan prices</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="meals">Change meal images</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="referral">Edit referral discounts</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="payment">Change bank details</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="orders">Review orders</a>
-                <a href="#" class="btn btn-sm btn-outline" data-panel-jump="home">Edit home page text</a>
-              </div>
-            </div>
-          </section>
-
-          <!-- HOME / HERO CONTENT -->
-          <section class="card admin-panel" id="panel-home" hidden>
-            <h2 class="card-title">Home page content</h2>
-            <p class="card-meta">
-              Yeh fields <code>index.html</code> ke hero section se match karte hain. Abhi front-end preview hai.
-            </p>
-
-            <form class="admin-form">
-              <div class="form-field">
-                <label for="heroBadge">Hero badge text</label>
-                <input id="heroBadge" type="text" value="Home-made Tiffin • Office friendly">
-              </div>
-
-              <div class="form-field">
-                <label for="heroHeading">Main heading</label>
-                <textarea id="heroHeading" rows="2">Fresh home made, hygienic food.</textarea>
-              </div>
-
-              <div class="form-field">
-                <label for="heroText">Sub heading paragraph</label>
-                <textarea id="heroText" rows="3">
-Weekly & monthly plans for busy professionals in Lahore. Choose your own plan, fixed timing, and let us handle the rest.
-                </textarea>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-field">
-                  <label for="heroCta1">Primary CTA label</label>
-                  <input id="heroCta1" type="text" value="View meal plans">
-                </div>
-                <div class="form-field">
-                  <label for="heroCta2">Secondary CTA label</label>
-                  <input id="heroCta2" type="text" value="Browse menu">
-                </div>
-              </div>
-
-              <button type="button" class="btn btn-primary">
-                Save changes (preview only)
-              </button>
-            </form>
-          </section>
-
-          <!-- PLANS -->
-          <section class="card admin-panel" id="panel-plans" hidden>
-            <h2 class="card-title">Plans &amp; pricing</h2>
-            <p class="card-meta">
-              Yeh prices <code>plans.html</code> aur individual plan pages me use ho rahe hain.
-            </p>
-
-            <form class="admin-form">
-              <div class="admin-plan-grid">
-                <div class="admin-plan-block">
-                  <h3 class="admin-plan-title">Weekly 1 Meal</h3>
-                  <div class="form-field">
-                    <label>Price per week (Rs)</label>
-                    <input type="number" value="2000">
-                  </div>
-                </div>
-
-                <div class="admin-plan-block">
-                  <h3 class="admin-plan-title">Weekly 2 Meals</h3>
-                  <div class="form-field">
-                    <label>Price per week (Rs)</label>
-                    <input type="number" value="4000">
-                  </div>
-                </div>
-
-                <div class="admin-plan-block">
-                  <h3 class="admin-plan-title">Monthly 1 Meal</h3>
-                  <div class="form-field">
-                    <label>Price per month (Rs)</label>
-                    <input type="number" value="8000">
-                  </div>
-                </div>
-
-                <div class="admin-plan-block">
-                  <h3 class="admin-plan-title">Monthly 2 Meals</h3>
-                  <div class="form-field">
-                    <label>Price per month (Rs)</label>
-                    <input type="number" value="16000">
-                  </div>
-                </div>
-              </div>
-
-              <button type="button" class="btn btn-primary">
-                Save plan prices (preview)
-              </button>
-            </form>
-          </section>
-
-          <!-- MEALS -->
-          <section class="card admin-panel" id="panel-meals" hidden>
-            <h2 class="card-title">Meals &amp; images</h2>
-            <p class="card-meta">
-              High-level meals list. Detailed CRUD (add / edit / delete) ke liye
-              <strong>Meals admin</strong> page use karo.
-            </p>
-
-            <div class="admin-two-col">
-              <div>
-                <h3 class="admin-section-heading">Meals overview</h3>
-                <ul class="card-list">
-                  <li>Chicken Qorma, Chicken Karahi, Chicken Achari, Chicken Hyderabadi</li>
-                  <li>Aloo Gosht, Anda Kofta, Daal Gosht, Bhindi Gosht</li>
-                  <li>Chicken Biryani, Chicken Pulao, Sajji</li>
-                  <li>Daal Mash, Daal Channa, Lobia, White Channa</li>
-                  <li>Aloo Shimla, Kari Pakora, Aloo Anda</li>
-                  <li>Mix Vegetable, Bhindi, Aloo Palak, Aloo Gobhi, Aloo Bhujia, Aloo Matar, Karelay</li>
-                </ul>
-              </div>
-
-              <div class="admin-meals-actions">
-                <p class="card-meta">
-                  For each meal you can set:
-                </p>
-                <ul class="card-list small">
-                  <li>Image URL</li>
-                  <li>Veg / Non-veg flag</li>
-                  <li>Base price</li>
-                  <li>Description</li>
-                </ul>
-
-                <a href="admin-meals.html" class="btn btn-primary btn-full" style="margin-top:8px;">
-                  Open detailed Meals admin
-                </a>
-                <a href="meals.html" class="btn btn-outline btn-full" style="margin-top:6px;">
-                  View public meals page
-                </a>
-              </div>
-            </div>
-          </section>
-
-          <!-- REFERRAL -->
-          <section class="card admin-panel" id="panel-referral" hidden>
-            <h2 class="card-title">Referral rules</h2>
-            <p class="card-meta">
-              Yeh values <code>referral.html</code> me explain ho sakti hain. Yahan config preview hai.
-            </p>
-
-            <form class="admin-form">
-              <div class="form-grid">
-                <div class="form-field">
-                  <label>Weekly 1 Meal discount (Rs)</label>
-                  <input type="number" value="200">
-                </div>
-                <div class="form-field">
-                  <label>Weekly 2 Meals discount (Rs)</label>
-                  <input type="number" value="400">
-                </div>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-field">
-                  <label>Monthly 1 Meal discount (Rs)</label>
-                  <input type="number" value="800">
-                </div>
-                <div class="form-field">
-                  <label>Monthly 2 Meals discount (Rs)</label>
-                  <input type="number" value="1600">
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label>Referral note shown to users</label>
-                <textarea rows="3">
-If your friend signs up using your referral code, they get a discount on their first plan and you earn credit for the next renewal.
-                </textarea>
-              </div>
-
-              <button type="button" class="btn btn-primary">
-                Save referral config (preview)
-              </button>
-            </form>
-          </section>
-
-          <!-- PAYMENT -->
-          <section class="card admin-panel" id="panel-payment" hidden>
-            <h2 class="card-title">Bank &amp; payment details</h2>
-            <p class="card-meta">
-              Yeh fields <code>checkout.html</code> me use ho rahe hain (JazzCash / Easypaisa / Bank).
-            </p>
-
-            <form class="admin-form">
-              <div class="form-field">
-                <label>Bank name</label>
-                <input type="text" value="Bank Alfalah">
-              </div>
-
-              <div class="form-field">
-                <label>Account title</label>
-                <input type="text" value="NAMAK MASAALA">
-              </div>
-
-              <div class="form-field">
-                <label>IBAN</label>
-                <input type="text" value="PK77ALFH0063001010497163">
-              </div>
-
-              <div class="form-field">
-                <label>Account number (digits only)</label>
-                <input type="text" value="770063001010497163">
-              </div>
-
-              <div class="form-grid">
-                <div class="form-field">
-                  <label>JazzCash logo URL</label>
-                  <input type="url" value="https://i.imgur.com/7zE0f2b.png">
-                </div>
-                <div class="form-field">
-                  <label>Easypaisa logo URL</label>
-                  <input type="url" value="https://i.imgur.com/tYJqCvj.png">
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label>Bank icon URL</label>
-                <input type="url" value="https://i.imgur.com/9tXDD8h.png">
-              </div>
-
-              <button type="button" class="btn btn-primary">
-                Save payment settings (preview)
-              </button>
-            </form>
-          </section>
-
-          <!-- WHATSAPP -->
-          <section class="card admin-panel" id="panel-whatsapp" hidden>
-            <h2 class="card-title">WhatsApp widget settings</h2>
-            <p class="card-meta">
-              Floating WhatsApp chat button ki basic settings.
-            </p>
-
-            <form class="admin-form">
-              <div class="form-field">
-                <label>WhatsApp number (international format)</label>
-                <input type="text" value="+92 324 7477704">
-              </div>
-              <div class="form-field">
-                <label>Default greeting text</label>
-                <textarea rows="2">Hi Namak Masaala, I want to ask about tiffin plans.</textarea>
-              </div>
-              <button type="button" class="btn btn-primary">
-                Save WhatsApp settings (preview)
-              </button>
-            </form>
-          </section>
-
-          <!-- ORDERS & TRACKING -->
-          <section class="card admin-panel" id="panel-orders" hidden>
-            <h2 class="card-title">Orders &amp; tracking</h2>
-            <p class="card-meta">
-              Plans ke orders aur meals ke orders alag-alag dikh rahe hain. Payment method bhi clearly show ho raha hai
-              (JazzCash / Easypaisa / Bank transfer).
-            </p>
-
-            <!-- PLAN ORDERS -->
-            <h3 class="admin-section-heading">Plan orders</h3>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Plan</th>
-                  <th>Amount (Rs)</th>
-                  <th>Payment method</th>
-                  <th>Payment status</th>
-                  <th>TRX ID</th>
-                  <th>Delivery</th>
-                  <th>Last update</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#PLAN-2025-0012</td>
-                  <td>Demo User</td>
-                  <td>Weekly 1 Meal</td>
-                  <td>2,000</td>
-                  <td>JazzCash</td>
-                  <td><span class="admin-status-pill admin-status-pending">Pending verification</span></td>
-                  <td>JC123456789</td>
-                  <td><span class="admin-status-pill">Not started</span></td>
-                  <td>Today, 11:45 AM</td>
-                </tr>
-                <tr>
-                  <td>#PLAN-2025-0011</td>
-                  <td>Sample User</td>
-                  <td>Monthly 2 Meals</td>
-                  <td>16,000</td>
-                  <td>Easypaisa</td>
-                  <td><span class="admin-status-pill admin-status-ok">Paid</span></td>
-                  <td>EP987654321</td>
-                  <td><span class="admin-status-pill admin-status-ok">In progress</span></td>
-                  <td>Yesterday, 4:10 PM</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- MEALS ORDERS -->
-            <h3 class="admin-section-heading" style="margin-top:16px;">Meals orders (à la carte)</h3>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Items</th>
-                  <th>Amount (Rs)</th>
-                  <th>Payment method</th>
-                  <th>Payment status</th>
-                  <th>TRX ID</th>
-                  <th>Delivery</th>
-                  <th>Last update</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#MEAL-2025-0008</td>
-                  <td>Test User</td>
-                  <td>Chicken Qorma x1, Daal Mash x2</td>
-                  <td>1,350</td>
-                  <td>Bank transfer</td>
-                  <td><span class="admin-status-pill admin-status-failed">Failed</span></td>
-                  <td>-</td>
-                  <td><span class="admin-status-pill">Not started</span></td>
-                  <td>2 days ago</td>
-                </tr>
-                <tr>
-                  <td>#MEAL-2025-0009</td>
-                  <td>Another User</td>
-                  <td>Chicken Biryani x2</td>
-                  <td>700</td>
-                  <td>JazzCash</td>
-                  <td><span class="admin-status-pill admin-status-ok">Paid</span></td>
-                  <td>JC555777999</td>
-                  <td><span class="admin-status-pill admin-status-ok">Completed</span></td>
-                  <td>Today, 01:20 PM</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <p class="card-meta">
-              Future backend ke saath: yahan se tum payment verify, delivery status update aur order details open kar sakte ho.
-            </p>
-          </section>
-
-          <!-- USERS -->
-          <section class="card admin-panel" id="panel-users" hidden>
-            <h2 class="card-title">Users &amp; accounts</h2>
-            <p class="card-meta">
-              Future me yahan Supabase / backend se real users list aaye gi.
-            </p>
-
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>WhatsApp</th>
-                  <th>Status</th>
-                  <th>Plans</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Demo User</td>
-                  <td>demo@example.com</td>
-                  <td>+92 300 0000000</td>
-                  <td>Active</td>
-                  <td>Weekly 1 Meal</td>
-                </tr>
-                <tr>
-                  <td>Sample User</td>
-                  <td>sample@example.com</td>
-                  <td>+92 322 1111111</td>
-                  <td>Pending payment</td>
-                  <td>Monthly 2 Meals</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <p class="card-meta">
-              Real implementation me yahan se reset password, block account, referral history waghera handle ho sakta hai.
-            </p>
-          </section>
-
-          <!-- CHILD ADMIN ACCOUNTS -->
-          <section class="card admin-panel" id="panel-child-accounts" hidden>
-            <h2 class="card-title">Child admin accounts</h2>
-            <p class="card-meta">
-              Child admin = aise log jo tumhare liye site manage karen (kitchen staff, manager, support)
-              lekin limited access ke saath. Abhi front-end layout hai.
-            </p>
-
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Allowed modules</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Kitchen Manager</td>
-                  <td>kitchen@example.com</td>
-                  <td>Meals admin</td>
-                  <td>Meals, Orders (read), Plans (read)</td>
-                </tr>
-                <tr>
-                  <td>Support Agent</td>
-                  <td>support@example.com</td>
-                  <td>Support</td>
-                  <td>Orders, Users (read), WhatsApp replies</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <h3 class="admin-section-heading" style="margin-top:14px;">Create / edit child admin</h3>
-
-            <form class="admin-form">
-              <div class="form-grid">
-                <div class="form-field">
-                  <label>Full name</label>
-                  <input type="text" placeholder="e.g. Ali Raza">
-                </div>
-                <div class="form-field">
-                  <label>Email</label>
-                  <input type="email" placeholder="ali@example.com">
-                </div>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-field">
-                  <label>Role</label>
-                  <select>
-                    <option>Meals admin</option>
-                    <option>Orders manager</option>
-                    <option>Support agent</option>
-                    <option>Viewer only</option>
-                  </select>
-                </div>
-                <div class="form-field">
-                  <label>Temporary password</label>
-                  <input type="text" placeholder="Will be sent manually (demo)">
-                </div>
-              </div>
-
-              <div class="admin-perms-grid">
-                <label class="admin-perm-item">
-                  <input type="checkbox" checked>
-                  <span>Can edit meals &amp; images</span>
-                </label>
-                <label class="admin-perm-item">
-                  <input type="checkbox">
-                  <span>Can edit plans &amp; pricing</span>
-                </label>
-                <label class="admin-perm-item">
-                  <input type="checkbox" checked>
-                  <span>Can view &amp; update orders</span>
-                </label>
-                <label class="admin-perm-item">
-                  <input type="checkbox">
-                  <span>Can change payment settings</span>
-                </label>
-                <label class="admin-perm-item">
-                  <input type="checkbox">
-                  <span>Can manage users</span>
-                </label>
-                <label class="admin-perm-item">
-                  <input type="checkbox">
-                  <span>Read-only (no edits)</span>
-                </label>
-              </div>
-
-              <button type="button" class="btn btn-primary">
-                Save child admin (preview)
-              </button>
-            </form>
-
-            <p class="card-meta">
-              Future plan: roles & permissions table backend me banega, jahan se check hoga child admin kis module tak ja sakta hai.
-            </p>
-          </section>
+          {/* Actions (client) */}
+          <ProductActions
+            product={{
+              id: product.id,
+              slug: product.slug,
+              title: product.title,
+              price: Number(product.price) || 0,
+              currency: product.currency || 'PKR',
+              image: product.image || null,
+              availability: (product as any).availability || 'in_stock',
+            }}
+          />
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© 2025 Namak Masaala. Admin dashboard (preview).</div>
+      {/* Description */}
+      {product.description ? (
+        <div className="mt-10">
+          <h2 className="text-xl font-semibold mb-3">Description</h2>
+          <div
+            className="prose max-w-none"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </div>
+      ) : null}
     </div>
-  </footer>
-
-  <!-- auth guard -->
-  <script src="auth.js"></script>
-
-  <script>
-    // Sidebar panel switching
-    (function () {
-      const navButtons = document.querySelectorAll('.admin-nav-item');
-      const panels = document.querySelectorAll('.admin-panel');
-
-      function showPanel(name) {
-        panels.forEach(p => {
-          p.hidden = (p.id !== 'panel-' + name);
-        });
-
-        navButtons.forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-panel') === name);
-        });
-      }
-
-      navButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-          showPanel(this.getAttribute('data-panel'));
-        });
-      });
-
-      // Quick links
-      document.querySelectorAll('[data-panel-jump]').forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = this.getAttribute('data-panel-jump');
-          showPanel(target);
-        });
-      });
-
-      // Default panel
-      showPanel('overview');
-    })();
-  </script>
-</body>
-</html>
+  );
+}
