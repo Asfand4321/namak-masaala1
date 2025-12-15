@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Weekly 1 Meal Plan – Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="namak-logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <title>Namak Masaala – Weekly 1 Meal Plan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
 </head>
+
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
@@ -14,203 +15,290 @@
       <div class="nav-left">
         <a href="index.html" class="brand-link">
           <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo">
+            <img src="namak-logo.png" alt="Namak Masaala logo" />
           </div>
           <div class="brand-text">
-            <span class="brand-name">NAMAK MASAALA</span>
+            <span class="brand-name">Namak Masaala</span>
             <span class="brand-tagline">Home-made Tiffin</span>
           </div>
         </a>
       </div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="cart.html">Cart</a>
         <a href="referral.html">Referral</a>
         <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
         <a href="my-plans.html">My Plans</a>
         <a href="checkout.html">Checkout</a>
       </nav>
+
       <div class="nav-auth">
-        <a href="login.html" class="btn btn-outline">Login</a>
-        <a href="signup.html" class="btn btn-primary">Sign up</a>
+        <button class="btn btn-outline">Login</button>
+        <button class="btn btn-primary">Sign up</button>
       </div>
-      <div class="nav-menu-icon">☰</div>
+
+      <div class="nav-menu-icon" id="navMenuBtn">☰</div>
     </div>
 
-    <div class="container nav-mobile">
+    <div class="container nav-mobile" id="navMobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="cart.html">Cart</a>
       <a href="referral.html">Referral</a>
       <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
       <a href="my-plans.html">My Plans</a>
       <a href="checkout.html">Checkout</a>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign up</a>
     </div>
   </header>
 
   <main>
+    <!-- PAGE HERO -->
     <section class="section">
-      <div class="container plan-layout">
-        <!-- LEFT: plan summary -->
-        <div class="card plan-main-card">
-          <div class="badge-soft">Weekly • 1 Meal</div>
-          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:4px;">
-            Weekly 1 Meal Plan
-          </h1>
-          <p class="section-subtitle" style="margin-bottom:10px;">
-            One tiffin per day, Monday to Saturday. Good for a single fixed lunch or dinner slot.
-          </p>
-
-          <div class="price-tag" style="margin-bottom:12px;">
-            Rs 2,000 <span>/ week</span>
+      <div class="container">
+        <div class="plan-hero">
+          <div class="plan-hero-left">
+            <div class="plan-pill">Weekly • 1 Meal</div>
+            <h1 class="plan-hero-title">Weekly 1 Meal Plan</h1>
+            <p class="plan-hero-sub">
+              One tiffin per day (Mon–Sat). Perfect for a fixed lunch/dinner slot.
+              Hygienic, home-made, office-friendly portions.
+            </p>
           </div>
 
-          <h2 class="plan-subheading">Schedule start rule</h2>
-          <p class="card-line">
-            If you subscribe to this plan today (for example on Monday), your tiffin schedule will
-            start from the next working day (Tuesday). The same applies for any day you subscribe.
-          </p>
-          <ul class="plan-bullets">
-            <li>6 days a week (Mon–Sat)</li>
-            <li>1 delivery time window of your choice</li>
-            <li>Menu can rotate but follows a similar pattern</li>
-          </ul>
-
-          <h2 class="plan-subheading" style="margin-top:18px;">Preferred delivery time</h2>
-          <p class="card-line">
-            Select your one daily time window. Final timing will be confirmed on call / WhatsApp.
-          </p>
-
-          <div class="form-grid">
-            <div class="form-field">
-              <label>From</label>
-              <select>
-                <option>--:-- --</option>
-                <option>11:00 AM</option>
-                <option>11:30 AM</option>
-                <option>12:00 PM</option>
-                <option>12:30 PM</option>
-                <option>01:00 PM</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label>To</label>
-              <select>
-                <option>--:-- --</option>
-                <option>12:00 PM</option>
-                <option>12:30 PM</option>
-                <option>01:00 PM</option>
-                <option>01:30 PM</option>
-                <option>02:00 PM</option>
-              </select>
+          <div class="plan-hero-right">
+            <div class="plan-price-badge">
+              <div class="ppb-big">Rs 2,000</div>
+              <div class="ppb-small">per week</div>
             </div>
           </div>
-
-          <button
-            class="btn btn-primary btn-full"
-            style="margin-top:18px;"
-            onclick="addPlanToCart('weekly-1', 'Weekly 1 Meal Plan', 2000, 'week')"
-          >
-            Add this plan to cart
-          </button>
         </div>
+      </div>
+    </section>
 
-        <!-- RIGHT: weekly menu preview -->
-        <div class="card plan-menu-card">
-          <div class="badge-soft">Weekly menu preview</div>
-          <h2 class="card-title">Sample Monday–Saturday schedule</h2>
-          <p class="card-line">
-            Below is one example of the menu. Exact dishes can change week to week, but
-            non-veg / veg balance will be similar.
-          </p>
+    <!-- MAIN LAYOUT -->
+    <section class="section">
+      <div class="container">
+        <div class="plan-wrap">
 
-          <div class="plan-days-grid">
-            <div class="plan-day-card">
-              <div class="plan-day-header">Monday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Chicken Qorma (Non-veg)</div>
-                  <div class="plan-day-note">With 2 chapati + salad</div>
-                </div>
-                <div class="plan-day-image">Image</div>
+          <!-- LEFT: SUMMARY (sticky) -->
+          <aside class="card plan-summary-new">
+            <div class="section-kicker">Plan summary</div>
+
+            <div class="ps-row">
+              <div class="ps-label">Duration</div>
+              <div class="ps-value">Mon–Sat (6 days)</div>
+            </div>
+
+            <div class="ps-row">
+              <div class="ps-label">Meals/day</div>
+              <div class="ps-value">1 tiffin</div>
+            </div>
+
+            <div class="ps-row">
+              <div class="ps-label">Payment</div>
+              <div class="ps-value">Online / WhatsApp confirm</div>
+            </div>
+
+            <div class="ps-divider"></div>
+
+            <div class="ps-heading">What’s included</div>
+            <ul class="ps-list">
+              <li>✅ 1 meal daily (Mon–Sat)</li>
+              <li>✅ 1 delivery time window (your choice)</li>
+              <li>✅ Menu rotates weekly (same pattern)</li>
+              <li>✅ Hygienic packing • Office friendly</li>
+            </ul>
+
+            <div class="ps-divider"></div>
+
+            <div class="ps-heading">Schedule start rule</div>
+            <p class="ps-text">
+              If you subscribe today (e.g. Monday), your schedule starts from the next working day (Tuesday).
+            </p>
+
+            <div class="ps-divider"></div>
+
+            <div class="ps-heading">Preferred delivery time</div>
+            <p class="ps-text">
+              Select your one daily time window. Final timing will be confirmed on call / WhatsApp.
+            </p>
+
+            <div class="ps-time-grid">
+              <div>
+                <label class="ps-time-label" for="timeFrom">From</label>
+                <select id="timeFrom" class="ps-select">
+                  <option value="">--:--</option>
+                  <option>12:00 PM</option>
+                  <option>12:30 PM</option>
+                  <option>01:00 PM</option>
+                  <option>01:30 PM</option>
+                  <option>02:00 PM</option>
+                  <option>07:00 PM</option>
+                  <option>07:30 PM</option>
+                  <option>08:00 PM</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="ps-time-label" for="timeTo">To</label>
+                <select id="timeTo" class="ps-select">
+                  <option value="">--:--</option>
+                  <option>01:00 PM</option>
+                  <option>01:30 PM</option>
+                  <option>02:00 PM</option>
+                  <option>02:30 PM</option>
+                  <option>03:00 PM</option>
+                  <option>08:00 PM</option>
+                  <option>08:30 PM</option>
+                  <option>09:00 PM</option>
+                </select>
               </div>
             </div>
 
-            <div class="plan-day-card">
-              <div class="plan-day-header">Tuesday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Daal Mash (Veg)</div>
-                  <div class="plan-day-note">Comfort food style</div>
+            <button class="btn btn-primary btn-full ps-btn" id="addPlanToCart">
+              Add this plan to cart
+            </button>
+
+            <div class="ps-note">
+              Tip: Time window choose kar lo — baqi confirm WhatsApp pe ho jayega.
+            </div>
+          </aside>
+
+          <!-- RIGHT: MENU PREVIEW -->
+          <section class="card plan-menu-new">
+            <div class="menu-top">
+              <div>
+                <div class="section-kicker">Weekly menu preview</div>
+                <h2 class="menu-title">Sample Monday–Saturday schedule</h2>
+                <p class="menu-sub">
+                  Below is one example of the menu. Exact dishes can change week to week,
+                  but veg/non-veg balance will be similar.
+                </p>
+              </div>
+              <a href="meals.html" class="btn btn-outline">Browse all meals</a>
+            </div>
+
+            <div class="menu-days">
+              <!-- Day card -->
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Monday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge red">Non-veg</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Chicken Qorma</div>
+                  <div class="menu-desc">With 2 chapati + salad</div>
                 </div>
-                <div class="plan-day-image">Image</div>
+                <div class="menu-day-thumb">
+                  <img src="images/qorma.jpg" alt="Chicken Qorma"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
+              </div>
+
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Tuesday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge green">Veg</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Daal Mash</div>
+                  <div class="menu-desc">Comfort food style</div>
+                </div>
+                <div class="menu-day-thumb">
+                  <img src="images/daal.jpg" alt="Daal Mash"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
+              </div>
+
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Wednesday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge red">Non-veg</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Aloo Gosht</div>
+                  <div class="menu-desc">Home-style curry</div>
+                </div>
+                <div class="menu-day-thumb">
+                  <img src="images/aloo-gosht.jpg" alt="Aloo Gosht"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
+              </div>
+
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Thursday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge green">Veg</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Aloo Shimla</div>
+                  <div class="menu-desc">Light sabzi option</div>
+                </div>
+                <div class="menu-day-thumb">
+                  <img src="images/aloo-shimla.jpg" alt="Aloo Shimla"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
+              </div>
+
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Friday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge red">Non-veg</span>
+                      <span class="menu-badge orange">Special</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Chicken Biryani</div>
+                  <div class="menu-desc">Biryani day • Limited</div>
+                </div>
+                <div class="menu-day-thumb">
+                  <img src="images/biryani.jpg" alt="Chicken Biryani"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
+              </div>
+
+              <div class="menu-day-card">
+                <div class="menu-day-left">
+                  <div class="menu-day-head">
+                    <div class="menu-day-name">Saturday</div>
+                    <div class="menu-badges">
+                      <span class="menu-badge green">Veg</span>
+                    </div>
+                  </div>
+                  <div class="menu-dish">Mix Vegetable</div>
+                  <div class="menu-desc">Seasonal vegetables</div>
+                </div>
+                <div class="menu-day-thumb">
+                  <img src="images/mix-veg.jpg" alt="Mix Vegetable"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('thumb-fallback');" />
+                </div>
               </div>
             </div>
 
-            <div class="plan-day-card">
-              <div class="plan-day-header">Wednesday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Aloo Gosht (Non-veg)</div>
-                  <div class="plan-day-note">Home-style curry</div>
-                </div>
-                <div class="plan-day-image">Image</div>
-              </div>
+            <div class="menu-footer-note">
+              Note: Images optional hain. Agar images folder me pics nahi hongi to card “image placeholder” style me hi clean lagega.
             </div>
+          </section>
 
-            <div class="plan-day-card">
-              <div class="plan-day-header">Thursday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Aloo Shimla (Veg)</div>
-                  <div class="plan-day-note">Light sabzi option</div>
-                </div>
-                <div class="plan-day-image">Image</div>
-              </div>
-            </div>
-
-            <div class="plan-day-card">
-              <div class="plan-day-header">Friday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Chicken Biryani (Non-veg)</div>
-                  <div class="plan-day-note">Biryani day!</div>
-                </div>
-                <div class="plan-day-image">Image</div>
-              </div>
-            </div>
-
-            <div class="plan-day-card">
-              <div class="plan-day-header">Saturday</div>
-              <div class="plan-day-body">
-                <div class="plan-day-text">
-                  <div class="plan-day-dish">Aloo Gobhi (Veg)</div>
-                  <div class="plan-day-note">Simple weekend style</div>
-                </div>
-                <div class="plan-day-image">Image</div>
-              </div>
-            </div>
-          </div>
-
-          <button
-            class="btn btn-primary btn-full"
-            style="margin-top:18px;"
-            onclick="window.location.href='customize-plan.html'"
-          >
-            Customize this plan
-          </button>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
       <div>© 2025 Namak Masaala. All rights reserved.</div>
@@ -222,35 +310,8 @@
     </div>
   </footer>
 
-  <script>
-    const CART_KEY = 'nm_cart_items';
-
-    function addPlanToCart(id, name, price, billing) {
-      let cart = [];
-      try {
-        const raw = localStorage.getItem(CART_KEY);
-        cart = raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        cart = [];
-      }
-
-      const existing = cart.find(
-        item => item.type === 'plan' && item.id === id && item.price === price
-      );
-
-      if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
-      } else {
-        cart.push({ type: 'plan', id, name, price, billing, quantity: 1 });
-      }
-
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-      alert('"' + name + '" added to cart. You can review it on Cart / Checkout page.');
-    }
-  </script>
-      <!-- WhatsApp floating chat widget (global) -->
+  <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
-    <!-- Popup -->
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
       <div class="nm-whatsapp-header">
         <div>
@@ -268,18 +329,13 @@
           <span class="nm-whatsapp-start-icon">💬</span>
           <span>Start chat on WhatsApp</span>
         </button>
-        <div class="nm-whatsapp-footer-text">
-          Chat will open in WhatsApp with our number.
-        </div>
+        <div class="nm-whatsapp-footer-text">Chat will open in WhatsApp with our number.</div>
       </div>
     </div>
 
-    <!-- Round button with WhatsApp-style icon -->
     <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
       <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
         <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
         <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
                  .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
                  .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
@@ -289,6 +345,19 @@
   </div>
 
   <script>
+    // Mobile nav toggle
+    (function () {
+      const btn = document.getElementById('navMenuBtn');
+      const mobile = document.getElementById('navMobile');
+      if (!btn || !mobile) return;
+      let open = false;
+      btn.addEventListener('click', function () {
+        open = !open;
+        mobile.style.display = open ? 'block' : 'none';
+      });
+    })();
+
+    // WhatsApp widget
     (function () {
       const btn = document.getElementById('nmWhatsAppButton');
       const popup = document.getElementById('nmWhatsAppPopup');
@@ -297,7 +366,6 @@
 
       if (!btn || !popup) return;
 
-      // toggle popup
       btn.addEventListener('click', function () {
         const isVisible = popup.style.display === 'block';
         popup.style.display = isVisible ? 'none' : 'block';
@@ -311,17 +379,45 @@
 
       if (startBtn) {
         startBtn.addEventListener('click', function () {
-          // Pakistan number: +92 324 7477704  => 923247477704
           const phone = '923247477704';
-          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
+          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about Weekly 1 Meal Plan.');
+          window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
         });
       }
     })();
+
+    // Add plan (simple)
+    (function () {
+      const btn = document.getElementById('addPlanToCart');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        const from = (document.getElementById('timeFrom') || {}).value || '';
+        const to = (document.getElementById('timeTo') || {}).value || '';
+        if (!from || !to) {
+          alert('Please select your delivery time window (From / To).');
+          return;
+        }
+        // If you already have cart logic elsewhere, you can remove this block.
+        try {
+          const key = 'nm_cart';
+          const cart = JSON.parse(localStorage.getItem(key) || '[]');
+          cart.push({
+            type: 'plan',
+            slug: 'weekly-1',
+            title: 'Weekly 1 Meal Plan',
+            price: 2000,
+            qty: 1,
+            meta: { from, to }
+          });
+          localStorage.setItem(key, JSON.stringify(cart));
+        } catch (e) {}
+
+        window.location.href = 'checkout.html';
+      });
+    })();
   </script>
-</body>
-</html>
+
   <script src="auth.js"></script>
 </body>
 </html>
