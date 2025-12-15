@@ -5,41 +5,27 @@
   <title>Namak Masaala – Home-made Tiffin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <!-- Favicon using the same logo -->
   <link rel="icon" href="namak-logo.png" type="image/png">
 </head>
+
 <body>
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand-link">
-          <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo">
-          </div>
-          <div class="brand-text">
-            <span class="brand-name">Namak Masaala</span>
-            <span class="brand-tagline">Home-made Tiffin</span>
-          </div>
-        </a>
-      </div>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="checkout.html">Checkout</a>
-      </nav>
-      <div class="nav-auth">
-        <button class="btn btn-outline">Login</button>
-        <button class="btn btn-primary">Sign up</button>
-      </div>
-      <div class="nav-menu-icon">☰</div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="container nav-inner">
+    <div class="nav-left">
+      <a href="index.html" class="brand-link">
+        <div class="logo-mark">
+          <img src="namak-logo.png" alt="Namak Masaala logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Namak Masaala</span>
+          <span class="brand-tagline">Home-made Tiffin</span>
+        </div>
+      </a>
     </div>
-    <div class="container nav-mobile">
+
+    <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
@@ -48,304 +34,162 @@
       <a href="orders.html">My Orders</a>
       <a href="my-plans.html">My Plans</a>
       <a href="checkout.html">Checkout</a>
-    </div>
-  </header>
+    </nav>
 
-  <!-- HERO SECTION -->
-  <main>
-    <section class="section hero">
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <div class="hero-badge">Home-made Tiffin • Office friendly</div>
-          <h1 class="hero-heading">
-            Fresh home made,<br>hygienic food.
-          </h1>
-          <p class="hero-text">
-            Weekly &amp; monthly plans for busy professionals in Lahore.
-            Choose your own plan, fixed timing, and let us handle the rest.
-          </p>
-          <div class="hero-actions">
-            <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
-            <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
-          </div>
-          <p class="hero-subtext">.</p>
-        </div>
-
-        <div class="hero-right">
-          <div class="card hero-plan-card">
-            <div class="section-kicker">Popular plans</div>
-
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Weekly 1 Meal Plan</div>
-                <div class="hero-plan-meta">Mon–Sat • 1 meal per day</div>
-              </div>
-              <div class="hero-plan-price">Rs 2,000 / week</div>
-            </div>
-
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Weekly 2 Meals Plan</div>
-                <div class="hero-plan-meta">Mon–Sat • 2 meals per day</div>
-              </div>
-              <div class="hero-plan-price">Rs 4,000 / week</div>
-            </div>
-
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Monthly 1 Meal Plan</div>
-                <div class="hero-plan-meta">Approx. weekly pattern repeated</div>
-              </div>
-              <div class="hero-plan-price">Rs 8,000 / month</div>
-            </div>
-
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Monthly 2 Meals Plan</div>
-                <div class="hero-plan-meta">Ideal for full office days</div>
-              </div>
-              <div class="hero-plan-price">Rs 16,000 / month</div>
-            </div>
-
-            <a href="plans.html" class="btn btn-primary btn-full" style="margin-top:10px;">
-              See full plan details
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ✅ TODAY'S FRESH MEAL BANNER (NEW) -->
-    <section class="section nm-today-section">
-      <div class="container">
-        <div class="nm-today-banner" aria-label="Today's fresh meal">
-          <div class="nm-today-text">
-            <div class="nm-today-badge">Today’s Fresh Meal</div>
-            <h2 class="nm-today-title" id="nmTodayTitle">Chicken Karahi</h2>
-            <p class="nm-today-desc" id="nmTodayDesc">
-              Freshly cooked, hot &amp; ready — order now for fast delivery.
-            </p>
-
-            <div class="nm-today-meta">
-              <span class="nm-today-price" id="nmTodayPrice">Rs 499</span>
-              <span class="nm-today-pill" id="nmTodayTag">Fresh • Home-style</span>
-            </div>
-
-            <div class="nm-today-actions">
-              <a class="nm-btn nm-btn-primary" id="nmTodayBtn" href="meals.html">Order Today’s Meal</a>
-              <a class="nm-btn nm-btn-ghost" href="plans.html">View Plans</a>
-            </div>
-          </div>
-
-          <div class="nm-today-media">
-            <img
-              id="nmTodayImg"
-              src="https://images.unsplash.com/photo-1604909052743-94e838986d24?auto=format&fit=crop&w=1200&q=70"
-              alt="Today's fresh meal"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <script>
-      // OPTIONAL: Daily rotation (edit meals list whenever you want)
-      (function () {
-        const meals = [
-          {
-            title: "Chicken Karahi",
-            desc: "Freshly cooked, hot & ready — order now for fast delivery.",
-            price: "Rs 499",
-            tag: "Fresh • Home-style",
-            img: "https://images.unsplash.com/photo-1604909052743-94e838986d24?auto=format&fit=crop&w=1200&q=70",
-            link: "meals.html"
-          },
-          {
-            title: "Daal Chawal",
-            desc: "Light, healthy & comforting — perfect for lunch.",
-            price: "Rs 349",
-            tag: "Healthy • Comfort",
-            img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=1200&q=70",
-            link: "meals.html"
-          },
-          {
-            title: "Biryani Bowl",
-            desc: "Aromatic spices + tender chicken — limited fresh batch.",
-            price: "Rs 549",
-            tag: "Spicy • Bestseller",
-            img: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=1200&q=70",
-            link: "meals.html"
-          }
-        ];
-
-        const idx = new Date().getDate() % meals.length;
-        const m = meals[idx];
-
-        const t = document.getElementById("nmTodayTitle");
-        const d = document.getElementById("nmTodayDesc");
-        const p = document.getElementById("nmTodayPrice");
-        const g = document.getElementById("nmTodayTag");
-        const img = document.getElementById("nmTodayImg");
-        const btn = document.getElementById("nmTodayBtn");
-
-        if (t) t.textContent = m.title;
-        if (d) d.textContent = m.desc;
-        if (p) p.textContent = m.price;
-        if (g) g.textContent = m.tag;
-        if (img) img.src = m.img;
-        if (btn) btn.href = m.link;
-      })();
-    </script>
-
-    <!-- SMALL SECTION: Royal menu tease -->
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker">Royal menu preview</div>
-          <h2 class="section-title">Non-veg &amp; veg rotation</h2>
-          <p class="section-subtitle">
-            Your Royal Menu idea is used inside each plan page. Customers can pick one dish per day
-            (Monday to Saturday) with a simple non-veg / veg rule.
-          </p>
-        </div>
-
-        <div class="hero-menu-grid">
-          <div class="card">
-            <h3 class="card-title">Non-veg highlights</h3>
-            <ul class="card-list">
-              <li>Chicken Qorma</li>
-              <li>Chicken Karahi</li>
-              <li>Aloo Gosht</li>
-              <li>Chicken Biryani / Pulao</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Veg highlights</h3>
-            <ul class="card-list">
-              <li>Daal Mash / Daal Channa</li>
-              <li>Lobia / White Channa</li>
-              <li>Mix Vegetable, Aloo Palak</li>
-              <li>Aloo Gobhi, Aloo Matar, etc.</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Referral logic</h3>
-            <ul class="card-list">
-              <li>Referral applies only on plans, not individual meals.</li>
-              <li>Weekly 1 meal: Rs 200 off with friend’s code.</li>
-              <li>Weekly 2 meals: Rs 400 off.</li>
-              <li>Monthly 1 &amp; 2 meals: Rs 800 / Rs 1,600 off.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA SECTION -->
-    <section class="section">
-      <div class="container cta-strip">
-        <div>
-          <div class="section-kicker">Ready to start?</div>
-          <h2 class="section-title" style="font-size:1.4rem;margin-bottom:4px;">
-            Lock your slot for next week’s tiffin.
-          </h2>
-          <p class="section-subtitle">
-            Pick a plan now and finalize exact dishes + timing with our team on WhatsApp or call.
-          </p>
-        </div>
-        <div class="cta-actions">
-          <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
-          <a href="customer-care.html" class="btn btn-outline btn-lg">Contact customer care</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© 2025 Namak Masaala. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- WhatsApp floating chat widget (global) -->
-  <div class="nm-whatsapp-container">
-    <!-- Popup -->
-    <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
-      <div class="nm-whatsapp-header">
-        <div>
-          <div class="nm-whatsapp-header-title">Namak Masaala</div>
-          <div class="nm-whatsapp-header-sub">Home-made Tiffin • Online</div>
-        </div>
-        <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
-      </div>
-      <div class="nm-whatsapp-body">
-        <div class="nm-whatsapp-bubble">
-          <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
-          <span>How can we help with your tiffin plan or meals today?</span>
-        </div>
-        <button class="nm-whatsapp-start" id="nmWhatsAppStart">
-          <span class="nm-whatsapp-start-icon">💬</span>
-          <span>Start chat on WhatsApp</span>
-        </button>
-        <div class="nm-whatsapp-footer-text">
-          Chat will open in WhatsApp with our number.
-        </div>
-      </div>
+    <div class="nav-auth">
+      <button class="btn btn-outline">Login</button>
+      <button class="btn btn-primary">Sign up</button>
     </div>
 
-    <!-- Round button with WhatsApp-style icon -->
-    <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
-      <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
-                 .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
-                 .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
-              fill="#25D366"></path>
-      </svg>
-    </button>
+    <div class="nav-menu-icon">☰</div>
   </div>
 
-  <script>
-    (function () {
-      const btn = document.getElementById('nmWhatsAppButton');
-      const popup = document.getElementById('nmWhatsAppPopup');
-      const closeBtn = document.getElementById('nmWhatsAppClose');
-      const startBtn = document.getElementById('nmWhatsAppStart');
+  <div class="container nav-mobile">
+    <a href="index.html">Home</a>
+    <a href="plans.html">Plans</a>
+    <a href="meals.html">Meals</a>
+    <a href="referral.html">Referral</a>
+    <a href="account.html">My Account</a>
+    <a href="orders.html">My Orders</a>
+    <a href="my-plans.html">My Plans</a>
+    <a href="checkout.html">Checkout</a>
+  </div>
+</header>
 
-      if (!btn || !popup) return;
+<main>
 
-      // toggle popup
-      btn.addEventListener('click', function () {
-        const isVisible = popup.style.display === 'block';
-        popup.style.display = isVisible ? 'none' : 'block';
-      });
+<!-- HERO SECTION -->
+<section class="section hero">
+  <div class="container hero-grid">
 
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
-      }
+    <div class="hero-left">
+      <div class="hero-badge">Home-made Tiffin • Office friendly</div>
 
-      if (startBtn) {
-        startBtn.addEventListener('click', function () {
-          // Pakistan number: +92 324 7477704  => 923247477704
-          const phone = '923247477704';
-          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
-        });
-      }
-    })();
-  </script>
+      <h1 class="hero-heading">
+        Fresh home made,<br>hygienic food.
+      </h1>
 
-  <!-- ✅ auth.js should be inside body, just before closing -->
-  <script src="auth.js"></script>
+      <p class="hero-text">
+        Weekly & monthly plans for busy professionals in Lahore.
+        Fixed timing, fresh food, zero tension.
+      </p>
+
+      <div class="hero-actions">
+        <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
+        <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
+      </div>
+    </div>
+
+    <!-- POPULAR PLANS (Clean Version) -->
+    <div class="hero-right">
+      <div class="card hero-plan-card">
+        <div class="section-kicker">Popular plans</div>
+
+        <div class="hero-plan-row">
+          <div>
+            <div class="hero-plan-name">Weekly 1 Meal Plan</div>
+            <div class="hero-plan-meta">Mon–Sat • 1 meal per day</div>
+          </div>
+          <div class="hero-plan-price">Rs 2,000 / week</div>
+        </div>
+
+        <div class="hero-plan-row">
+          <div>
+            <div class="hero-plan-name">Weekly 2 Meals Plan</div>
+            <div class="hero-plan-meta">Mon–Sat • 2 meals per day</div>
+          </div>
+          <div class="hero-plan-price">Rs 4,000 / week</div>
+        </div>
+
+        <div class="hero-plan-row">
+          <div>
+            <div class="hero-plan-name">Monthly 1 Meal Plan</div>
+            <div class="hero-plan-meta">Approx. weekly pattern repeated</div>
+          </div>
+          <div class="hero-plan-price">Rs 8,000 / month</div>
+        </div>
+
+        <div class="hero-plan-row">
+          <div>
+            <div class="hero-plan-name">Monthly 2 Meals Plan</div>
+            <div class="hero-plan-meta">Ideal for full office days</div>
+          </div>
+          <div class="hero-plan-price">Rs 16,000 / month</div>
+        </div>
+
+        <a href="plans.html" class="btn btn-primary btn-full" style="margin-top:10px;">
+          See full plan details
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 🔥 FRESH MEAL BANNER -->
+<section class="section">
+  <div class="container">
+    <div class="card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      
+      <div style="flex:1;">
+        <div class="section-kicker">Today’s Fresh Meal</div>
+        <h2 class="section-title">Home-made Chicken Special</h2>
+        <p class="section-subtitle">
+          Freshly cooked today with desi masalay, hygienic kitchen
+          aur office-friendly portion.
+        </p>
+
+        <a href="meals.html" class="btn btn-primary" style="margin-top:10px;">
+          Order today’s meal
+        </a>
+      </div>
+
+      <div style="flex:1;max-width:320px;">
+        <img
+          src="a257b129-b619-4fec-8a10-8a28360fe721.png"
+          alt="Fresh Chicken Meal"
+          style="border-radius:18px;width:100%;box-shadow:0 12px 30px rgba(0,0,0,0.15);"
+        >
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container cta-strip">
+    <div>
+      <div class="section-kicker">Ready to start?</div>
+      <h2 class="section-title" style="font-size:1.4rem;">
+        Lock your slot for next week’s tiffin.
+      </h2>
+      <p class="section-subtitle">
+        Pick a plan now and finalize dishes + timing on WhatsApp.
+      </p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
+      <a href="customer-care.html" class="btn btn-outline btn-lg">Customer care</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© 2025 Namak Masaala. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="customer-care.html">Customer Care</a>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
 </body>
 </html>
