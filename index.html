@@ -40,10 +40,10 @@
         <button class="btn btn-primary">Sign up</button>
       </div>
 
-      <div class="nav-menu-icon">☰</div>
+      <div class="nav-menu-icon" id="navMenuBtn">☰</div>
     </div>
 
-    <div class="container nav-mobile">
+    <div class="container nav-mobile" id="navMobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
@@ -59,95 +59,116 @@
     <!-- HERO SECTION -->
     <section class="section hero">
       <div class="container hero-grid">
+        <!-- LEFT -->
         <div class="hero-main">
           <div class="hero-badge">Home-made Tiffin • Office friendly</div>
+
           <h1 class="hero-title">
             Fresh home made,<br />hygienic food.
           </h1>
+
           <p class="hero-subtitle">
             Weekly &amp; monthly plans for busy professionals in Lahore.
             Choose your own plan, fixed timing, and let us handle the rest.
           </p>
+
           <div class="hero-actions">
             <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
             <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
           </div>
+
           <p class="hero-note">.</p>
         </div>
 
+        <!-- RIGHT: MINI DISHES CARD -->
         <div class="hero-side">
-          <div class="card hero-plan-card">
-            <div class="section-kicker">Popular plans</div>
+          <div class="card hero-menu-card">
+            <div class="section-kicker">Today’s menu snapshot</div>
 
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Weekly 1 Meal Plan</div>
-                <div class="hero-plan-meta">Mon–Sat • 1 meal per day</div>
+            <div class="mini-dish">
+              <div class="mini-thumb">
+                <img
+                  src="https://images.unsplash.com/photo-1604908554105-088645debe26?auto=format&fit=crop&w=320&q=70"
+                  alt="Chicken Karahi"
+                  loading="lazy"
+                />
               </div>
-              <div class="hero-plan-price">Rs 2,000 / week</div>
+              <div class="mini-info">
+                <div class="mini-name">Chicken Karahi</div>
+                <div class="mini-meta">Desi masalay • Fresh today</div>
+              </div>
+              <div class="mini-tag">Hot</div>
             </div>
 
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Weekly 2 Meals Plan</div>
-                <div class="hero-plan-meta">Mon–Sat • 2 meals per day</div>
+            <div class="mini-dish">
+              <div class="mini-thumb">
+                <img
+                  src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=320&q=70"
+                  alt="Daal"
+                  loading="lazy"
+                />
               </div>
-              <div class="hero-plan-price">Rs 4,000 / week</div>
+              <div class="mini-info">
+                <div class="mini-name">Daal (Mash/Channa)</div>
+                <div class="mini-meta">Light • Office-friendly</div>
+              </div>
+              <div class="mini-tag green">Veg</div>
             </div>
 
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Monthly 1 Meal Plan</div>
-                <div class="hero-plan-meta">Approx. weekly pattern repeated</div>
+            <div class="mini-dish">
+              <div class="mini-thumb">
+                <img
+                  src="https://images.unsplash.com/photo-1631515242808-497c3fbd3972?auto=format&fit=crop&w=320&q=70"
+                  alt="Chicken Biryani"
+                  loading="lazy"
+                />
               </div>
-              <div class="hero-plan-price">Rs 8,000 / month</div>
+              <div class="mini-info">
+                <div class="mini-name">Chicken Biryani</div>
+                <div class="mini-meta">Weekly special • Limited</div>
+              </div>
+              <div class="mini-tag">Special</div>
             </div>
 
-            <div class="hero-plan-row">
-              <div>
-                <div class="hero-plan-name">Monthly 2 Meals Plan</div>
-                <div class="hero-plan-meta">Ideal for full office days</div>
-              </div>
-              <div class="hero-plan-price">Rs 16,000 / month</div>
-            </div>
-
-            <a href="plans.html" class="btn btn-primary btn-full" style="margin-top:10px;">
-              See full plan details
+            <a href="meals.html" class="btn btn-primary btn-full" style="margin-top:12px;">
+              See full menu
             </a>
+
+            <div class="mini-note">Menu rotates Mon–Sat. Exact dish depends on plan/day.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 🔥 FRESH MEAL BANNER (Chicken Karahi) -->
+    <!-- 🔥 FRESH MEAL BANNER -->
     <section class="section">
       <div class="container">
-        <div class="card fresh-banner">
-          <div class="fresh-content">
+        <div class="card fresh-banner" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <div class="fresh-content" style="flex:1;min-width:240px;">
             <div class="section-kicker">Today’s Fresh Meal</div>
-            <h2 class="section-title">Chicken Karahi (Fresh &amp; Desi)</h2>
+            <h2 class="section-title">Home-made Chicken Special</h2>
             <p class="section-subtitle">
               Freshly cooked today with desi masalay, hygienic kitchen
               aur office-friendly portion.
             </p>
-
             <a href="meals.html" class="btn btn-primary" style="margin-top:10px;">
               Order today’s meal
             </a>
           </div>
 
-          <div class="fresh-media">
+          <div class="fresh-media" style="flex:1;max-width:340px;min-width:240px;">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Punjabi_Chicken_Karahi.JPG/960px-Punjabi_Chicken_Karahi.JPG"
-              alt="Chicken Karahi"
+              src="https://images.unsplash.com/photo-1604908554105-088645debe26?auto=format&fit=crop&w=900&q=70"
+              alt="Fresh Chicken Karahi"
               loading="lazy"
+              style="border-radius:18px;width:100%;box-shadow:0 12px 30px rgba(0,0,0,0.15);object-fit:cover;"
             />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Royal menu tease -->
+    <!-- SMALL SECTION: Royal menu tease -->
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -169,6 +190,7 @@
               <li>Chicken Biryani / Pulao</li>
             </ul>
           </div>
+
           <div class="card">
             <h3 class="card-title">Veg highlights</h3>
             <ul class="card-list">
@@ -178,6 +200,7 @@
               <li>Aloo Gobhi, Aloo Matar, etc.</li>
             </ul>
           </div>
+
           <div class="card">
             <h3 class="card-title">Referral logic</h3>
             <ul class="card-list">
@@ -203,6 +226,7 @@
             Pick a plan now and finalize exact dishes + timing with our team on WhatsApp or call.
           </p>
         </div>
+
         <div class="cta-actions">
           <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
           <a href="customer-care.html" class="btn btn-outline btn-lg">Contact customer care</a>
@@ -225,6 +249,7 @@
 
   <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
+    <!-- Popup -->
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
       <div class="nm-whatsapp-header">
         <div>
@@ -248,6 +273,7 @@
       </div>
     </div>
 
+    <!-- Round button -->
     <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
       <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
         <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
@@ -260,6 +286,20 @@
   </div>
 
   <script>
+    // Mobile nav toggle
+    (function () {
+      const btn = document.getElementById('navMenuBtn');
+      const mobile = document.getElementById('navMobile');
+      if (btn && mobile) {
+        let open = false;
+        btn.addEventListener('click', function () {
+          open = !open;
+          mobile.style.display = open ? 'block' : 'none';
+        });
+      }
+    })();
+
+    // WhatsApp widget
     (function () {
       const btn = document.getElementById('nmWhatsAppButton');
       const popup = document.getElementById('nmWhatsAppPopup');
