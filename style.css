@@ -2355,3 +2355,23 @@ img {
   font-size:0.78rem;
   color:#6b7280;
 }
+
+/* ===== Footer chef image ===== */
+.footer-chef{
+  display:flex;
+  justify-content:center;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--border);
+}
+
+.footer-chef-img{
+  width:100%;
+  max-width:240px;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  background:#fff7ed;
+  padding:10px;
+  box-shadow:0 10px 22px rgba(15,23,42,0.10);
+}
