@@ -2261,3 +2261,20 @@ img {
   color: #6b7280;
   text-align: center;
 }
+
+/* ===== Fresh Meal Banner ===== */
+.fresh-banner{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  padding:18px 16px;
+}
+.fresh-content{ flex: 1; min-width: 240px; }
+.fresh-media{ flex:1; min-width:240px; max-width:340px; }
+.fresh-media img{
+  width:100%;
+  border-radius:18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  display:block;
+}
