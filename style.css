@@ -2278,3 +2278,80 @@ img {
   box-shadow: 0 12px 30px rgba(0,0,0,0.15);
   display:block;
 }
+
+/* ===== Hero mini dishes card ===== */
+.hero-menu-card{
+  padding:18px 16px;
+}
+
+.mini-dish{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.mini-dish:last-of-type{
+  border-bottom:none;
+}
+
+.mini-thumb{
+  width:56px;
+  height:44px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#f3f4f6;
+  flex:0 0 56px;
+}
+
+.mini-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.mini-info{
+  flex:1;
+  min-width:0;
+}
+
+.mini-name{
+  font-weight:700;
+  font-size:0.92rem;
+  color:#0f172a;
+  line-height:1.15;
+}
+
+.mini-meta{
+  font-size:0.8rem;
+  color:#6b7280;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.mini-tag{
+  font-size:0.72rem;
+  font-weight:700;
+  padding:3px 8px;
+  border-radius:999px;
+  background:#fff7ed;
+  color:#9a3412;
+  border:1px solid #fed7aa;
+  flex:0 0 auto;
+}
+
+.mini-tag.green{
+  background:#dcfce7;
+  color:#166534;
+  border-color:#bbf7d0;
+}
+
+.mini-note{
+  margin-top:10px;
+  font-size:0.78rem;
+  color:#6b7280;
+}
