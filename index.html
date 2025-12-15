@@ -68,9 +68,7 @@
             <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
             <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
           </div>
-          <p class="hero-subtext">
-          .
-          </p>
+          <p class="hero-subtext">.</p>
         </div>
 
         <div class="hero-right">
@@ -116,6 +114,89 @@
         </div>
       </div>
     </section>
+
+    <!-- ✅ TODAY'S FRESH MEAL BANNER (NEW) -->
+    <section class="section nm-today-section">
+      <div class="container">
+        <div class="nm-today-banner" aria-label="Today's fresh meal">
+          <div class="nm-today-text">
+            <div class="nm-today-badge">Today’s Fresh Meal</div>
+            <h2 class="nm-today-title" id="nmTodayTitle">Chicken Karahi</h2>
+            <p class="nm-today-desc" id="nmTodayDesc">
+              Freshly cooked, hot &amp; ready — order now for fast delivery.
+            </p>
+
+            <div class="nm-today-meta">
+              <span class="nm-today-price" id="nmTodayPrice">Rs 499</span>
+              <span class="nm-today-pill" id="nmTodayTag">Fresh • Home-style</span>
+            </div>
+
+            <div class="nm-today-actions">
+              <a class="nm-btn nm-btn-primary" id="nmTodayBtn" href="meals.html">Order Today’s Meal</a>
+              <a class="nm-btn nm-btn-ghost" href="plans.html">View Plans</a>
+            </div>
+          </div>
+
+          <div class="nm-today-media">
+            <img
+              id="nmTodayImg"
+              src="https://images.unsplash.com/photo-1604909052743-94e838986d24?auto=format&fit=crop&w=1200&q=70"
+              alt="Today's fresh meal"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // OPTIONAL: Daily rotation (edit meals list whenever you want)
+      (function () {
+        const meals = [
+          {
+            title: "Chicken Karahi",
+            desc: "Freshly cooked, hot & ready — order now for fast delivery.",
+            price: "Rs 499",
+            tag: "Fresh • Home-style",
+            img: "https://images.unsplash.com/photo-1604909052743-94e838986d24?auto=format&fit=crop&w=1200&q=70",
+            link: "meals.html"
+          },
+          {
+            title: "Daal Chawal",
+            desc: "Light, healthy & comforting — perfect for lunch.",
+            price: "Rs 349",
+            tag: "Healthy • Comfort",
+            img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=1200&q=70",
+            link: "meals.html"
+          },
+          {
+            title: "Biryani Bowl",
+            desc: "Aromatic spices + tender chicken — limited fresh batch.",
+            price: "Rs 549",
+            tag: "Spicy • Bestseller",
+            img: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=1200&q=70",
+            link: "meals.html"
+          }
+        ];
+
+        const idx = new Date().getDate() % meals.length;
+        const m = meals[idx];
+
+        const t = document.getElementById("nmTodayTitle");
+        const d = document.getElementById("nmTodayDesc");
+        const p = document.getElementById("nmTodayPrice");
+        const g = document.getElementById("nmTodayTag");
+        const img = document.getElementById("nmTodayImg");
+        const btn = document.getElementById("nmTodayBtn");
+
+        if (t) t.textContent = m.title;
+        if (d) d.textContent = m.desc;
+        if (p) p.textContent = m.price;
+        if (g) g.textContent = m.tag;
+        if (img) img.src = m.img;
+        if (btn) btn.href = m.link;
+      })();
+    </script>
 
     <!-- SMALL SECTION: Royal menu tease -->
     <section class="section">
@@ -192,7 +273,8 @@
       </div>
     </div>
   </footer>
-      <!-- WhatsApp floating chat widget (global) -->
+
+  <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
     <!-- Popup -->
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
@@ -221,9 +303,7 @@
     <!-- Round button with WhatsApp-style icon -->
     <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
       <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
         <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
         <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
                  .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
                  .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
@@ -264,8 +344,8 @@
       }
     })();
   </script>
-</body>
-</html>
-   <script src="auth.js"></script>
+
+  <!-- ✅ auth.js should be inside body, just before closing -->
+  <script src="auth.js"></script>
 </body>
 </html>
