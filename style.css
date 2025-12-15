@@ -2046,3 +2046,120 @@ img {
   background: #f6f6f6;
   font-size: 0.8rem;
 }
+
+/* ===== Today's Fresh Meal Banner (Home) ===== */
+.nm-today-section{
+  padding-top: 0;
+}
+
+.nm-today-banner{
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 14px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0f172a;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.16);
+}
+
+.nm-today-text{
+  padding: 16px 16px 18px;
+  color: #fff;
+}
+
+.nm-today-badge{
+  display:inline-block;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  margin-bottom: 10px;
+}
+
+.nm-today-title{
+  font-size: 26px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+
+.nm-today-desc{
+  margin: 0 0 12px;
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+.nm-today-meta{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.nm-today-price{
+  font-size: 18px;
+  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+}
+
+.nm-today-pill{
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+}
+
+.nm-today-actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nm-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.nm-btn-primary{
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.nm-btn-ghost{
+  background: transparent;
+  color: #ffffff;
+}
+
+.nm-today-media{
+  min-height: 220px;
+  background: #111827;
+}
+
+.nm-today-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+}
+
+@media (max-width: 900px){
+  .nm-today-banner{
+    grid-template-columns: 1fr;
+  }
+  .nm-today-media{
+    min-height: 200px;
+  }
+  .nm-today-title{
+    font-size: 22px;
+  }
+}
