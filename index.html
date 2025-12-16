@@ -40,10 +40,10 @@
         <button class="btn btn-primary">Sign up</button>
       </div>
 
-      <div class="nav-menu-icon" id="navMenuBtn">☰</div>
+      <div class="nav-menu-icon">☰</div>
     </div>
 
-    <div class="container nav-mobile" id="navMobile">
+    <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
@@ -56,116 +56,59 @@
   </header>
 
   <main>
-    <!-- HERO SECTION -->
-    <section class="section hero">
-      <div class="container hero-grid">
-        <!-- LEFT -->
-        <div class="hero-main">
-          <div class="hero-badge">Home-made Tiffin • Office friendly</div>
+    <!-- ===== TOP POSTER + SIDE SLIDERS ===== -->
+    <section class="nm-billboard">
+      <div class="container nm-billboard-wrap">
 
-          <h1 class="hero-title">
-            Fresh home made,<br />hygienic food.
-          </h1>
+        <!-- LEFT SLIDER -->
+        <div class="nm-side nm-side-left">
+          <div class="nm-track">
+            <img src="images/dish1.jpg" alt="Dish 1">
+            <img src="images/dish2.jpg" alt="Dish 2">
+            <img src="images/dish3.jpg" alt="Dish 3">
+            <img src="images/dish4.jpg" alt="Dish 4">
+            <img src="images/dish5.jpg" alt="Dish 5">
 
-          <p class="hero-subtitle">
-            Weekly &amp; monthly plans for busy professionals in Lahore.
-            Choose your own plan, fixed timing, and let us handle the rest.
-          </p>
+            <!-- duplicate for smooth loop -->
+            <img src="images/dish1.jpg" alt="">
+            <img src="images/dish2.jpg" alt="">
+            <img src="images/dish3.jpg" alt="">
+            <img src="images/dish4.jpg" alt="">
+            <img src="images/dish5.jpg" alt="">
+          </div>
+        </div>
 
-          <div class="hero-actions">
+        <!-- CENTER POSTER -->
+        <div class="nm-center">
+          <div class="nm-poster-card">
+            <!-- Upload your poster as: images/hero-poster.png -->
+            <img class="nm-poster" src="images/hero-poster.png" alt="Namak Masaala Cloud Kitchen Poster">
+          </div>
+
+          <div class="nm-billboard-cta">
             <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
             <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
           </div>
-
-          <p class="hero-note">.</p>
         </div>
 
-        <!-- RIGHT: MINI DISHES CARD -->
-        <div class="hero-side">
-          <div class="card hero-menu-card">
-            <div class="section-kicker">Today’s menu snapshot</div>
+        <!-- RIGHT SLIDER -->
+        <div class="nm-side nm-side-right">
+          <div class="nm-track">
+            <img src="images/dish3.jpg" alt="Dish 3">
+            <img src="images/dish4.jpg" alt="Dish 4">
+            <img src="images/dish5.jpg" alt="Dish 5">
+            <img src="images/dish1.jpg" alt="Dish 1">
+            <img src="images/dish2.jpg" alt="Dish 2">
 
-            <div class="mini-dish">
-              <div class="mini-thumb">
-                <img
-                  src="https://images.unsplash.com/photo-1604908554105-088645debe26?auto=format&fit=crop&w=320&q=70"
-                  alt="Chicken Karahi"
-                  loading="lazy"
-                />
-              </div>
-              <div class="mini-info">
-                <div class="mini-name">Chicken Karahi</div>
-                <div class="mini-meta">Desi masalay • Fresh today</div>
-              </div>
-              <div class="mini-tag">Hot</div>
-            </div>
-
-            <div class="mini-dish">
-              <div class="mini-thumb">
-                <img
-                  src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=320&q=70"
-                  alt="Daal"
-                  loading="lazy"
-                />
-              </div>
-              <div class="mini-info">
-                <div class="mini-name">Daal (Mash/Channa)</div>
-                <div class="mini-meta">Light • Office-friendly</div>
-              </div>
-              <div class="mini-tag green">Veg</div>
-            </div>
-
-            <div class="mini-dish">
-              <div class="mini-thumb">
-                <img
-                  src="https://images.unsplash.com/photo-1631515242808-497c3fbd3972?auto=format&fit=crop&w=320&q=70"
-                  alt="Chicken Biryani"
-                  loading="lazy"
-                />
-              </div>
-              <div class="mini-info">
-                <div class="mini-name">Chicken Biryani</div>
-                <div class="mini-meta">Weekly special • Limited</div>
-              </div>
-              <div class="mini-tag">Special</div>
-            </div>
-
-            <a href="meals.html" class="btn btn-primary btn-full" style="margin-top:12px;">
-              See full menu
-            </a>
-
-            <div class="mini-note">Menu rotates Mon–Sat. Exact dish depends on plan/day.</div>
+            <!-- duplicate for smooth loop -->
+            <img src="images/dish3.jpg" alt="">
+            <img src="images/dish4.jpg" alt="">
+            <img src="images/dish5.jpg" alt="">
+            <img src="images/dish1.jpg" alt="">
+            <img src="images/dish2.jpg" alt="">
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 🔥 FRESH MEAL BANNER -->
-    <section class="section">
-      <div class="container">
-        <div class="card fresh-banner" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-          <div class="fresh-content" style="flex:1;min-width:240px;">
-            <div class="section-kicker">Today’s Fresh Meal</div>
-            <h2 class="section-title">Home-made Chicken Special</h2>
-            <p class="section-subtitle">
-              Freshly cooked today with desi masalay, hygienic kitchen
-              aur office-friendly portion.
-            </p>
-            <a href="meals.html" class="btn btn-primary" style="margin-top:10px;">
-              Order today’s meal
-            </a>
-          </div>
-
-          <div class="fresh-media" style="flex:1;max-width:340px;min-width:240px;">
-            <img
-  src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Punjabi_Chicken_Karahi.JPG/960px-Punjabi_Chicken_Karahi.JPG"
-  alt="Chicken Karahi"
-  loading="lazy"
-  style="border-radius:18px;width:100%;box-shadow:0 12px 30px rgba(0,0,0,0.15);object-fit:cover;"
-/>
-
-          </div>
-        </div>
       </div>
     </section>
 
@@ -227,7 +170,6 @@
             Pick a plan now and finalize exact dishes + timing with our team on WhatsApp or call.
           </p>
         </div>
-
         <div class="cta-actions">
           <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
           <a href="customer-care.html" class="btn btn-outline btn-lg">Contact customer care</a>
@@ -259,15 +201,18 @@
         </div>
         <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
       </div>
+
       <div class="nm-whatsapp-body">
         <div class="nm-whatsapp-bubble">
           <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
           <span>How can we help with your tiffin plan or meals today?</span>
         </div>
+
         <button class="nm-whatsapp-start" id="nmWhatsAppStart">
           <span class="nm-whatsapp-start-icon">💬</span>
           <span>Start chat on WhatsApp</span>
         </button>
+
         <div class="nm-whatsapp-footer-text">
           Chat will open in WhatsApp with our number.
         </div>
@@ -287,20 +232,6 @@
   </div>
 
   <script>
-    // Mobile nav toggle
-    (function () {
-      const btn = document.getElementById('navMenuBtn');
-      const mobile = document.getElementById('navMobile');
-      if (btn && mobile) {
-        let open = false;
-        btn.addEventListener('click', function () {
-          open = !open;
-          mobile.style.display = open ? 'block' : 'none';
-        });
-      }
-    })();
-
-    // WhatsApp widget
     (function () {
       const btn = document.getElementById('nmWhatsAppButton');
       const popup = document.getElementById('nmWhatsAppPopup');
@@ -333,8 +264,3 @@
   <script src="auth.js"></script>
 </body>
 </html>
-
-<!-- Footer Chef Illustration -->
-<div class="footer-chef">
-  <img src="images/chef.png" alt="Namak Masaala Chef" class="footer-chef-img">
-</div>
