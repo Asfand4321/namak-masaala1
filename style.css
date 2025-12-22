@@ -3074,3 +3074,29 @@ img {
   .nm-hero--split .nm-hero-media{ height: 380px !important; }
   .nm-hero--split .nm-hero-content{ padding: 24px !important; }
 }
+
+.nm-hero--split .nm-hero-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.nm-hero-img{
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+@media (max-width: 900px){
+  .nm-hero--split .nm-hero-wrap{
+    grid-template-columns: 1fr;
+  }
+  .nm-hero-img{
+    height: 320px;
+  }
+}
