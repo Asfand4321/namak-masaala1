@@ -1,23 +1,57 @@
-// auth.js (UPDATED)
+// auth.js (UPDATED: hide protected navbar links when logged out)
 
 (function () {
-  // Ye pages bina login allow hain
-  // "" = index.html case (kabhi kabhi blank pathname aata)
+  // Pages that don't require login
   const publicPages = ["index.html", "login.html", "signup.html", ""];
 
-  // current file name nikaalo (e.g. "plans.html")
   const path = window.location.pathname.split("/").pop();
-
   const isPublic = publicPages.includes(path);
+
+  // IMPORTANT: login pe set: localStorage.setItem("nm_logged_in","1")
   const isLoggedIn = localStorage.getItem("nm_logged_in") === "1";
 
-  // 1) Route guard: agar login nahi aur page public nahi => login page
+  // 1) Route guard
   if (!isLoggedIn && !isPublic) {
     window.location.href = "login.html";
     return;
   }
 
-  // 2) Navbar buttons toggle
+  // These links should be hidden when NOT logged in
+  const protectedHrefs = new Set([
+    "plans.html",
+    "meals.html",
+    "referral.html",
+    "account.html",
+    "orders.html",
+    "my-plans.html",
+    "checkout.html",
+    "cart.html",            // agar kabhi cart page ho
+    "customer-care.html",
+  ]);
+
+  function toggleLinks(containerSelector) {
+    const nav = document.querySelector(containerSelector);
+    if (!nav) return;
+
+    const links = nav.querySelectorAll("a");
+    links.forEach((a) => {
+      const href = (a.getAttribute("href") || "").trim();
+
+      // Always allow Home
+      if (href === "index.html" || href === "" || href === "#") {
+        a.style.display = "";
+        return;
+      }
+
+      if (!isLoggedIn && protectedHrefs.has(href)) {
+        a.style.display = "none";
+      } else {
+        a.style.display = "";
+      }
+    });
+  }
+
+  // 2) Navbar auth buttons toggle (Login/Signup vs Logout)
   function renderNavAuth() {
     const navAuth = document.querySelector(".nav-auth");
     if (!navAuth) return;
@@ -36,12 +70,12 @@
     }
   }
 
-  // 3) Optional: mobile nav me logout link inject
-  function renderMobileNav() {
+  // 3) Optional: mobile nav me logout link inject (only when logged in)
+  function renderMobileLogout() {
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
-    // pehle purana injected logout remove kar do
+    // remove old injected logout
     const old = mobileNav.querySelector('[data-nm="logout"]');
     if (old) old.remove();
 
@@ -58,18 +92,20 @@
     }
   }
 
-  // Run after DOM ready
   document.addEventListener("DOMContentLoaded", function () {
     renderNavAuth();
-    renderMobileNav();
+
+    // Hide protected nav links when logged out
+    toggleLinks(".nav-links");   // desktop
+    toggleLinks(".nav-mobile");  // mobile
+
+    renderMobileLogout();
   });
 })();
 
-// simple logout helper (navbar button se call kar sakte ho)
+// Logout helper
 function nmLogout() {
   localStorage.removeItem("nm_logged_in");
   localStorage.removeItem("nm_user_email");
-  // Agar aur keys save karte ho to yahan add kar lena
-  // localStorage.removeItem("nm_user");
   window.location.href = "login.html";
 }
