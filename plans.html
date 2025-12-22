@@ -1,4 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Namak Masaala – Meal Plans</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ✅ MAIN CSS (VERY IMPORTANT) -->
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="namak-logo.png" type="image/png">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="container nav-inner">
+    <div class="nav-left">
+      <a href="index.html" class="brand-link">
+        <div class="logo-mark">
+          <img src="namak-logo.png" alt="Namak Masaala logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Namak Masaala</span>
+          <span class="brand-tagline">Home-made Tiffin</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="plans.html" class="active">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="referral.html">Referral</a>
+      <a href="account.html">My Account</a>
+    </nav>
+
+    <div class="nav-auth">
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="signup.html" class="btn btn-primary">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
 <main>
+
+  <!-- ===== PLANS ===== -->
   <section class="section">
     <div class="container">
       <div class="section-header">
@@ -9,8 +57,9 @@
         </p>
       </div>
 
-      <!-- 4 PLAN CARDS -->
+      <!-- ===== PLAN CARDS ===== -->
       <div class="nm-plan-grid" id="nmPlanGrid">
+
         <button class="nm-plan-card" data-plan="weekly1" type="button">
           <div class="nm-plan-top">
             <span class="nm-pill">Weekly • 1 Meal</span>
@@ -44,8 +93,8 @@
           </div>
           <h3>Monthly 1 Meal Plan</h3>
           <ul>
-            <li>Approx. weekly pattern repeated</li>
-            <li>1 meal per day (Mon–Sat)</li>
+            <li>Mon–Sat (6 days)</li>
+            <li>1 meal per day</li>
             <li>Best value option</li>
           </ul>
         </button>
@@ -57,24 +106,27 @@
           </div>
           <h3>Monthly 2 Meals Plan</h3>
           <ul>
-            <li>2 meals per day (Mon–Sat)</li>
-            <li>Ideal for full family/office</li>
+            <li>2 meals per day</li>
+            <li>Ideal for family / office</li>
             <li>Priority support</li>
           </ul>
         </button>
+
       </div>
     </div>
   </section>
 
-  <!-- DETAILS + MENU (updates when plan selected) -->
+  <!-- ===== DETAILS + MENU ===== -->
   <section class="section">
     <div class="container">
       <div class="nm-two-col">
+
+        <!-- SELECTED PLAN -->
         <div class="nm-box">
           <div class="section-kicker">Selected plan</div>
           <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
           <p class="section-subtitle" id="nmSelectedDesc">
-            Upar se koi plan choose karo — yahan details + neeche order window open ho jayegi.
+            Upar se koi plan choose karo — details + order neeche open ho jayega.
           </p>
 
           <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
@@ -95,166 +147,96 @@
           <ul class="nm-bullets" id="nmSelectedBullets"></ul>
         </div>
 
+        <!-- MENU PREVIEW -->
         <div class="nm-box">
           <div class="section-kicker">Menu preview</div>
           <h2 class="section-title">Veg &amp; Non-veg rotation</h2>
-          <p class="section-subtitle">
-            Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
-          </p>
 
           <div class="nm-menu-cards">
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Monday</strong>
-                <span class="nm-tag nm-tag-red">Non-veg</span>
-              </div>
+              <strong>Monday</strong>
+              <span class="nm-tag nm-tag-red">Non-veg</span>
               <div>Chicken Qorma</div>
               <small>2 roti + salad</small>
             </div>
 
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Tuesday</strong>
-                <span class="nm-tag nm-tag-green">Veg</span>
-              </div>
+              <strong>Tuesday</strong>
+              <span class="nm-tag nm-tag-green">Veg</span>
               <div>Daal Mash</div>
-              <small>Comfort food style</small>
+              <small>Comfort food</small>
             </div>
 
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Wednesday</strong>
-                <span class="nm-tag nm-tag-red">Non-veg</span>
-              </div>
+              <strong>Wednesday</strong>
+              <span class="nm-tag nm-tag-red">Non-veg</span>
               <div>Aloo Gosht</div>
-              <small>Home-style curry</small>
+              <small>Home style</small>
             </div>
 
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Thursday</strong>
-                <span class="nm-tag nm-tag-green">Veg</span>
-              </div>
+              <strong>Thursday</strong>
+              <span class="nm-tag nm-tag-green">Veg</span>
               <div>Aloo Shimla</div>
-              <small>Light sabzi option</small>
+              <small>Light sabzi</small>
             </div>
 
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Friday</strong>
-                <span class="nm-tag nm-tag-red">Non-veg</span>
-                <span class="nm-tag nm-tag-orange">Special</span>
-              </div>
+              <strong>Friday</strong>
+              <span class="nm-tag nm-tag-red">Non-veg</span>
+              <span class="nm-tag nm-tag-orange">Special</span>
               <div>Chicken Biryani</div>
-              <small>Biryani day • limited</small>
             </div>
 
             <div class="nm-menu-item">
-              <div class="nm-menu-head">
-                <strong>Saturday</strong>
-                <span class="nm-tag nm-tag-green">Veg</span>
-              </div>
+              <strong>Saturday</strong>
+              <span class="nm-tag nm-tag-green">Veg</span>
               <div>Mix Vegetable</div>
-              <small>Seasonal vegetables</small>
             </div>
-          </div>
-
-          <div class="nm-note">
-            Note: Images optional. Agar images folder me pics nahi hongi to cards clean placeholder style me hi lagengay.
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ORDER + PAYMENT (hidden until plan selected) -->
+  <!-- ===== ORDER ===== -->
   <section class="section" id="nmOrderSection" style="display:none;">
     <div class="container">
       <div class="nm-order">
-        <div class="section-kicker">Order</div>
         <h2 class="section-title">Confirm &amp; Pay</h2>
-        <p class="section-subtitle">
-          Plan select ho chuka hai — ab details fill karo aur payment confirm karo.
-        </p>
 
         <form class="nm-form" id="nmOrderForm">
-          <div class="nm-form-grid">
-            <label>
-              Full name
-              <input required name="name" placeholder="Your name" />
-            </label>
+          <label>Full name
+            <input required>
+          </label>
 
-            <label>
-              Phone (WhatsApp)
-              <input required name="phone" placeholder="03xx..." />
-            </label>
+          <label>Phone (WhatsApp)
+            <input required>
+          </label>
 
-            <label class="nm-span-2">
-              Address (delivery)
-              <input required name="address" placeholder="Office / Home address" />
-            </label>
+          <label>Address
+            <input required>
+          </label>
 
-            <label>
-              Preferred time (from)
-              <select name="from">
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">1:00</option>
-                <option value="13:30">1:30</option>
-                <option value="14:00">2:00</option>
-              </select>
-            </label>
-
-            <label>
-              Preferred time (to)
-              <select name="to">
-                <option value="13:00">1:00</option>
-                <option value="13:30">1:30</option>
-                <option value="14:00">2:00</option>
-                <option value="14:30">2:30</option>
-                <option value="15:00">3:00</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="nm-pay">
-            <div class="nm-pay-row">
-              <label>
-                Payment method
-                <select name="payMethod" id="nmPayMethod">
-                  <option value="easypaisa">EasyPaisa</option>
-                  <option value="jazzcash">JazzCash</option>
-                  <option value="bank">Bank Transfer</option>
-                  <option value="cod">Cash on Delivery</option>
-                </select>
-              </label>
-
-              <label>
-                Amount
-                <input name="amount" id="nmAmount" readonly />
-              </label>
-            </div>
-
-            <div class="nm-pay-box" id="nmPayBox">
-              <div class="nm-pay-title">Send payment to:</div>
-              <div class="nm-pay-details" id="nmPayDetails"></div>
-
-              <label style="margin-top:12px;">
-                TRX / Reference ID
-                <input name="trx" id="nmTrx" placeholder="Transaction ID (if online payment)" />
-              </label>
-            </div>
-          </div>
-
-          <button class="btn btn-primary btn-lg" type="submit">
-            Place order
-          </button>
-
-          <div class="nm-small" id="nmOrderMsg"></div>
+          <button class="btn btn-primary btn-lg">Place order</button>
         </form>
       </div>
     </div>
   </section>
+
 </main>
 
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© 2025 Namak Masaala</div>
+  </div>
+</footer>
+
+<!-- ✅ JS -->
 <script src="plans.js"></script>
+<script src="auth.js"></script>
+
+</body>
+</html>
