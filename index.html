@@ -9,92 +9,41 @@
 </head>
 
 <body>
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand-link">
-          <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo" />
-          </div>
-          <div class="brand-text">
-            <span class="brand-name">Namak Masaala</span>
-            <span class="brand-tagline">Home-made Tiffin</span>
-          </div>
-        </a>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="container nav-inner">
+
+    <a href="index.html" class="brand-link">
+      <img src="namak-logo.png" alt="Namak Masaala" class="logo-mark" />
+      <div class="brand-text">
+        <strong>NAMAK MASAALA</strong>
+        <span>Home-made Tiffin</span>
       </div>
+    </a>
 
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="checkout.html">Checkout</a>
-      </nav>
-
-      <div class="nav-auth">
-        <button class="btn btn-outline">Login</button>
-        <button class="btn btn-primary">Sign up</button>
-      </div>
-
-      <div class="nav-menu-icon">☰</div>
-    </div>
-
-    <div class="container nav-mobile">
+    <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
-      <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="checkout.html">Checkout</a>
-    </div>
-  </header>
+    </nav>
 
-  <main>
-  
- <!-- ===== SIMPLE HERO BANNER (single image) ===== -->
-<section class="nm-hero nm-hero--split">
-  <div class="nm-hero-wrap">
-    <div class="nm-hero-content">
-      <div class="nm-hero-badge">Home-made Tiffin • Office friendly</div>
-
-      <h1 class="nm-hero-title">
-        Fresh home made,<br />hygienic food.
-      </h1>
-
-      <p class="nm-hero-text">
-        Weekly &amp; monthly plans for busy professionals in Lahore. Choose your own plan,
-        fixed timing, and let us handle the rest.
-      </p>
-
-      <div class="nm-hero-actions">
-        <a href="plans.html" class="btn btn-primary btn-lg">View meal plans</a>
-        <a href="meals.html" class="btn btn-outline btn-lg">Browse menu</a>
-      </div>
+    <div class="nav-auth">
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="signup.html" class="btn btn-primary">Sign up</a>
     </div>
 
-    <div class="nm-hero-media">
-      <img
-        class="nm-hero-img"
-        src="images/hero-banner.png"
-        alt="Namak Masaala - Fresh home made food"
-      />
-    </div>
   </div>
-</section>
+</header>
 
+<!-- ================= MAIN ================= -->
+<main>
 
-
-    <!-- SMALL SECTION: Royal menu tease -->
-<section class="nm-hero nm-hero--split">
-  <div class="container">
+  <!-- ============ HERO SECTION (FIXED) ============ -->
+  <section class="nm-hero nm-hero--split">
     <div class="nm-hero-wrap">
 
+      <!-- LEFT CONTENT -->
       <div class="nm-hero-content">
         <div class="nm-hero-badge">Home-made Tiffin • Office friendly</div>
 
@@ -103,8 +52,8 @@
         </h1>
 
         <p class="nm-hero-text">
-          Weekly &amp; monthly plans for busy professionals in Lahore. Choose your own plan,
-          fixed timing, and let us handle the rest.
+          Weekly &amp; monthly plans for busy professionals in Lahore.
+          Choose your own plan, fixed timing, and let us handle the rest.
         </p>
 
         <div class="nm-hero-actions">
@@ -113,118 +62,53 @@
         </div>
       </div>
 
+      <!-- RIGHT IMAGE -->
       <div class="nm-hero-media">
-        <img class="nm-hero-img" src="images/hero-banner.png" alt="Namak Masaala banner" />
+        <img
+          src="images/hero-banner.png"
+          alt="Namak Masaala hero banner"
+          class="nm-hero-img"
+        />
       </div>
 
+    </div>
+  </section>
+
+  <!-- ============ CTA SECTION ============ -->
+  <section class="section">
+    <div class="container cta-strip">
+      <div>
+        <div class="section-kicker">Ready to start?</div>
+        <h2 class="section-title">
+          Lock your slot for next week’s tiffin.
+        </h2>
+        <p class="section-subtitle">
+          Pick a plan now and finalize exact dishes &amp; timing with our team.
+        </p>
+      </div>
+
+      <div class="cta-actions">
+        <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
+        <a href="customer-care.html" class="btn btn-outline btn-lg">Customer care</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© 2025 Namak Masaala. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="customer-care.html">Customer Care</a>
     </div>
   </div>
-</section>
+</footer>
 
+<script src="auth.js"></script>
 
-    <!-- CTA SECTION -->
-    <section class="section">
-      <div class="container cta-strip">
-        <div>
-          <div class="section-kicker">Ready to start?</div>
-          <h2 class="section-title" style="font-size:1.4rem;margin-bottom:4px;">
-            Lock your slot for next week’s tiffin.
-          </h2>
-          <p class="section-subtitle">
-            Pick a plan now and finalize exact dishes + timing with our team on WhatsApp or call.
-          </p>
-        </div>
-        <div class="cta-actions">
-          <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
-          <a href="customer-care.html" class="btn btn-outline btn-lg">Contact customer care</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© 2025 Namak Masaala. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- WhatsApp floating chat widget (global) -->
-  <div class="nm-whatsapp-container">
-    <!-- Popup -->
-    <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
-      <div class="nm-whatsapp-header">
-        <div>
-          <div class="nm-whatsapp-header-title">Namak Masaala</div>
-          <div class="nm-whatsapp-header-sub">Home-made Tiffin • Online</div>
-        </div>
-        <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
-      </div>
-
-      <div class="nm-whatsapp-body">
-        <div class="nm-whatsapp-bubble">
-          <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
-          <span>How can we help with your tiffin plan or meals today?</span>
-        </div>
-
-        <button class="nm-whatsapp-start" id="nmWhatsAppStart">
-          <span class="nm-whatsapp-start-icon">💬</span>
-          <span>Start chat on WhatsApp</span>
-        </button>
-
-        <div class="nm-whatsapp-footer-text">
-          Chat will open in WhatsApp with our number.
-        </div>
-      </div>
-    </div>
-
-    <!-- Round button -->
-    <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
-      <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
-                 .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
-                 .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
-              fill="#25D366"></path>
-      </svg>
-    </button>
-  </div>
-
-  <script>
-    (function () {
-      const btn = document.getElementById('nmWhatsAppButton');
-      const popup = document.getElementById('nmWhatsAppPopup');
-      const closeBtn = document.getElementById('nmWhatsAppClose');
-      const startBtn = document.getElementById('nmWhatsAppStart');
-
-      if (!btn || !popup) return;
-
-      btn.addEventListener('click', function () {
-        const isVisible = popup.style.display === 'block';
-        popup.style.display = isVisible ? 'none' : 'block';
-      });
-
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
-      }
-
-      if (startBtn) {
-        startBtn.addEventListener('click', function () {
-          const phone = '923247477704';
-          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
-        });
-      }
-    })();
-  </script>
-
-  <script src="auth.js"></script>
 </body>
 </html>
