@@ -3100,3 +3100,49 @@ img {
     height: 320px;
   }
 }
+
+/* ===== HERO FIX FORCE CENTER ===== */
+.nm-hero {
+  padding: 40px 0;
+}
+
+.nm-hero-wrap {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+
+  display: grid !important;
+  grid-template-columns: 1fr 1.2fr !important;
+  gap: 32px !important;
+  align-items: center !important;
+}
+
+.nm-hero-content {
+  max-width: 520px;
+}
+
+.nm-hero-media {
+  width: 100%;
+  display: flex;
+  justify-content: center;   /* image center */
+}
+
+.nm-hero-img {
+  width: 100% !important;
+  max-width: 720px !important;
+  height: 420px !important;
+  object-fit: cover !important;
+  border-radius: 18px !important;
+  display: block !important;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .nm-hero-wrap {
+    grid-template-columns: 1fr !important;
+  }
+  .nm-hero-img {
+    height: 320px !important;
+    max-width: 100% !important;
+  }
+}
