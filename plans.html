@@ -1,259 +1,260 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Plans - Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <div class="nav-left">
-        <div class="logo-mark">N</div>
-        <div class="brand-text">
-          <span class="brand-name">Namak Masaala</span>
-          <span class="brand-tagline">Home-made Tiffin</span>
-        </div>
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Choose your package</div>
+        <h1 class="section-title">Meal Plans</h1>
+        <p class="section-subtitle">
+          1 click se plan select karo — neeche menu + order window khud open ho jayegi.
+        </p>
       </div>
 
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="cart.html">Cart</a>
-        <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
-        <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="checkout.html">Checkout</a>
-      </nav>
-
-      <div class="nav-auth">
-        <button class="btn btn-outline">Login</button>
-        <button class="btn btn-primary">Sign up</button>
-      </div>
-
-      <div class="nav-menu-icon">☰</div>
-    </div>
-
-    <div class="container nav-mobile">
-      <a href="index.html">Home</a>
-      <a href="plans.html">Plans</a>
-      <a href="meals.html">Meals</a>
-      <a href="cart.html">Cart</a>
-      <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
-      <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="checkout.html">Checkout</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="section">
-      <div class="container">
-
-        <div class="section-header">
-          <div class="section-kicker">Plans</div>
-          <h1 class="section-title">Weekly & Monthly Tiffin Plans</h1>
-          <p class="section-subtitle">
-            Fixed pricing for all subscription plans. Referral discounts apply only on these plans.
-          </p>
-        </div>
-
-        <!-- WEEKLY PLANS -->
-        <h2 class="section-title" style="font-size:1.1rem;margin-bottom:10px;">Weekly plans</h2>
-
-        <div class="card-grid">
-
-          <!-- Weekly 1 Meal -->
-          <div class="card">
-            <div class="badge-soft">Weekly • 1 Meal</div>
-            <div class="card-title">Weekly 1 Meal Plan</div>
-
-            <p class="card-line">
-              One tiffin per day, Monday to Saturday. Choose your delivery time window.
-            </p>
-
-            <div class="price-tag" style="margin-top:6px;">
-              Rs 2,000 <span>/ week</span>
-            </div>
-
-            <div class="card-footer" style="margin-top:12px;">
-              <a href="plan-weekly-1.html"
-                 class="btn btn-primary btn-full"
-                 style="width:100%;text-align:center;">
-                 Select plan
-              </a>
-            </div>
+      <!-- 4 PLAN CARDS -->
+      <div class="nm-plan-grid" id="nmPlanGrid">
+        <button class="nm-plan-card" data-plan="weekly1" type="button">
+          <div class="nm-plan-top">
+            <span class="nm-pill">Weekly • 1 Meal</span>
+            <span class="nm-price">Rs 2,000<span>/week</span></span>
           </div>
-
-          <!-- Weekly 2 Meals -->
-          <div class="card">
-            <div class="badge-soft">Weekly • 2 Meals</div>
-            <div class="card-title">Weekly 2 Meals Plan</div>
-
-            <p class="card-line">
-              Two tiffins per day (Lunch + Dinner), Monday to Saturday.
-            </p>
-
-            <div class="price-tag" style="margin-top:6px;">
-              Rs 4,000 <span>/ week</span>
-            </div>
-
-            <div class="card-footer" style="margin-top:12px;">
-              <a href="plan-weekly-2.html"
-                 class="btn btn-primary btn-full"
-                 style="width:100%;text-align:center;">
-                 Select plan
-              </a>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- MONTHLY PLANS -->
-        <h2 class="section-title" style="font-size:1.1rem;margin:24px 0 10px;">Monthly plans</h2>
-
-        <div class="card-grid">
-
-          <!-- Monthly 1 Meal -->
-          <div class="card">
-            <div class="badge-soft">Monthly • 1 Meal</div>
-            <div class="card-title">Monthly 1 Meal Plan</div>
-
-            <p class="card-line">
-              One tiffin per day, 4 weeks (Mon–Sat). Ideal for consistent routine.
-            </p>
-
-            <div class="price-tag" style="margin-top:6px;">
-              Rs 8,000 <span>/ month</span>
-            </div>
-
-            <div class="card-footer" style="margin-top:12px;">
-              <a href="plan-monthly-1.html"
-                 class="btn btn-primary btn-full"
-                 style="width:100%;text-align:center;">
-                 Select plan
-              </a>
-            </div>
-          </div>
-
-          <!-- Monthly 2 Meals -->
-          <div class="card">
-            <div class="badge-soft">Monthly • 2 Meals</div>
-            <div class="card-title">Monthly 2 Meals Plan</div>
-
-            <p class="card-line">
-              Two tiffins per day (Lunch + Dinner), 4 weeks (Mon–Sat).
-            </p>
-
-            <div class="price-tag" style="margin-top:6px;">
-              Rs 16,000 <span>/ month</span>
-            </div>
-
-            <div class="card-footer" style="margin-top:12px;">
-              <a href="plan-monthly-2.html"
-                 class="btn btn-primary btn-full"
-                 style="width:100%;text-align:center;">
-                 Select plan
-              </a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© 2025 Namak Masaala. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="plans.html">Plans</a>
-        <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
-      </div>
-    </div>
-  </footer>
-      <!-- WhatsApp floating chat widget (global) -->
-  <div class="nm-whatsapp-container">
-    <!-- Popup -->
-    <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
-      <div class="nm-whatsapp-header">
-        <div>
-          <div class="nm-whatsapp-header-title">Namak Masaala</div>
-          <div class="nm-whatsapp-header-sub">Home-made Tiffin • Online</div>
-        </div>
-        <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
-      </div>
-      <div class="nm-whatsapp-body">
-        <div class="nm-whatsapp-bubble">
-          <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
-          <span>How can we help with your tiffin plan or meals today?</span>
-        </div>
-        <button class="nm-whatsapp-start" id="nmWhatsAppStart">
-          <span class="nm-whatsapp-start-icon">💬</span>
-          <span>Start chat on WhatsApp</span>
+          <h3>Weekly 1 Meal Plan</h3>
+          <ul>
+            <li>Mon–Sat (6 days)</li>
+            <li>1 meal per day</li>
+            <li>Office-friendly portion</li>
+          </ul>
         </button>
-        <div class="nm-whatsapp-footer-text">
-          Chat will open in WhatsApp with our number.
+
+        <button class="nm-plan-card" data-plan="weekly2" type="button">
+          <div class="nm-plan-top">
+            <span class="nm-pill">Weekly • 2 Meals</span>
+            <span class="nm-price">Rs 4,000<span>/week</span></span>
+          </div>
+          <h3>Weekly 2 Meals Plan</h3>
+          <ul>
+            <li>Mon–Sat (6 days)</li>
+            <li>2 meals per day</li>
+            <li>Best for full office days</li>
+          </ul>
+        </button>
+
+        <button class="nm-plan-card" data-plan="monthly1" type="button">
+          <div class="nm-plan-top">
+            <span class="nm-pill">Monthly • 1 Meal</span>
+            <span class="nm-price">Rs 8,000<span>/month</span></span>
+          </div>
+          <h3>Monthly 1 Meal Plan</h3>
+          <ul>
+            <li>Approx. weekly pattern repeated</li>
+            <li>1 meal per day (Mon–Sat)</li>
+            <li>Best value option</li>
+          </ul>
+        </button>
+
+        <button class="nm-plan-card" data-plan="monthly2" type="button">
+          <div class="nm-plan-top">
+            <span class="nm-pill">Monthly • 2 Meals</span>
+            <span class="nm-price">Rs 16,000<span>/month</span></span>
+          </div>
+          <h3>Monthly 2 Meals Plan</h3>
+          <ul>
+            <li>2 meals per day (Mon–Sat)</li>
+            <li>Ideal for full family/office</li>
+            <li>Priority support</li>
+          </ul>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS + MENU (updates when plan selected) -->
+  <section class="section">
+    <div class="container">
+      <div class="nm-two-col">
+        <div class="nm-box">
+          <div class="section-kicker">Selected plan</div>
+          <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
+          <p class="section-subtitle" id="nmSelectedDesc">
+            Upar se koi plan choose karo — yahan details + neeche order window open ho jayegi.
+          </p>
+
+          <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
+            <div class="nm-info">
+              <div class="nm-info-label">Price</div>
+              <div class="nm-info-val" id="nmSelectedPrice"></div>
+            </div>
+            <div class="nm-info">
+              <div class="nm-info-label">Days</div>
+              <div class="nm-info-val" id="nmSelectedDays"></div>
+            </div>
+            <div class="nm-info">
+              <div class="nm-info-label">Meals / day</div>
+              <div class="nm-info-val" id="nmSelectedMeals"></div>
+            </div>
+          </div>
+
+          <ul class="nm-bullets" id="nmSelectedBullets"></ul>
+        </div>
+
+        <div class="nm-box">
+          <div class="section-kicker">Menu preview</div>
+          <h2 class="section-title">Veg &amp; Non-veg rotation</h2>
+          <p class="section-subtitle">
+            Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
+          </p>
+
+          <div class="nm-menu-cards">
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Monday</strong>
+                <span class="nm-tag nm-tag-red">Non-veg</span>
+              </div>
+              <div>Chicken Qorma</div>
+              <small>2 roti + salad</small>
+            </div>
+
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Tuesday</strong>
+                <span class="nm-tag nm-tag-green">Veg</span>
+              </div>
+              <div>Daal Mash</div>
+              <small>Comfort food style</small>
+            </div>
+
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Wednesday</strong>
+                <span class="nm-tag nm-tag-red">Non-veg</span>
+              </div>
+              <div>Aloo Gosht</div>
+              <small>Home-style curry</small>
+            </div>
+
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Thursday</strong>
+                <span class="nm-tag nm-tag-green">Veg</span>
+              </div>
+              <div>Aloo Shimla</div>
+              <small>Light sabzi option</small>
+            </div>
+
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Friday</strong>
+                <span class="nm-tag nm-tag-red">Non-veg</span>
+                <span class="nm-tag nm-tag-orange">Special</span>
+              </div>
+              <div>Chicken Biryani</div>
+              <small>Biryani day • limited</small>
+            </div>
+
+            <div class="nm-menu-item">
+              <div class="nm-menu-head">
+                <strong>Saturday</strong>
+                <span class="nm-tag nm-tag-green">Veg</span>
+              </div>
+              <div>Mix Vegetable</div>
+              <small>Seasonal vegetables</small>
+            </div>
+          </div>
+
+          <div class="nm-note">
+            Note: Images optional. Agar images folder me pics nahi hongi to cards clean placeholder style me hi lagengay.
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Round button with WhatsApp-style icon -->
-    <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
-      <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
-        <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
-        <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
-                 .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
-                 .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
-              fill="#25D366"></path>
-      </svg>
-    </button>
-  </div>
+  <!-- ORDER + PAYMENT (hidden until plan selected) -->
+  <section class="section" id="nmOrderSection" style="display:none;">
+    <div class="container">
+      <div class="nm-order">
+        <div class="section-kicker">Order</div>
+        <h2 class="section-title">Confirm &amp; Pay</h2>
+        <p class="section-subtitle">
+          Plan select ho chuka hai — ab details fill karo aur payment confirm karo.
+        </p>
 
-  <script>
-    (function () {
-      const btn = document.getElementById('nmWhatsAppButton');
-      const popup = document.getElementById('nmWhatsAppPopup');
-      const closeBtn = document.getElementById('nmWhatsAppClose');
-      const startBtn = document.getElementById('nmWhatsAppStart');
+        <form class="nm-form" id="nmOrderForm">
+          <div class="nm-form-grid">
+            <label>
+              Full name
+              <input required name="name" placeholder="Your name" />
+            </label>
 
-      if (!btn || !popup) return;
+            <label>
+              Phone (WhatsApp)
+              <input required name="phone" placeholder="03xx..." />
+            </label>
 
-      // toggle popup
-      btn.addEventListener('click', function () {
-        const isVisible = popup.style.display === 'block';
-        popup.style.display = isVisible ? 'none' : 'block';
-      });
+            <label class="nm-span-2">
+              Address (delivery)
+              <input required name="address" placeholder="Office / Home address" />
+            </label>
 
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
-      }
+            <label>
+              Preferred time (from)
+              <select name="from">
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">1:00</option>
+                <option value="13:30">1:30</option>
+                <option value="14:00">2:00</option>
+              </select>
+            </label>
 
-      if (startBtn) {
-        startBtn.addEventListener('click', function () {
-          // Pakistan number: +92 324 7477704  => 923247477704
-          const phone = '923247477704';
-          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
-        });
-      }
-    })();
-  </script>
-</body>
-</html>
- <script src="auth.js"></script>
-</body>
-</html>
+            <label>
+              Preferred time (to)
+              <select name="to">
+                <option value="13:00">1:00</option>
+                <option value="13:30">1:30</option>
+                <option value="14:00">2:00</option>
+                <option value="14:30">2:30</option>
+                <option value="15:00">3:00</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="nm-pay">
+            <div class="nm-pay-row">
+              <label>
+                Payment method
+                <select name="payMethod" id="nmPayMethod">
+                  <option value="easypaisa">EasyPaisa</option>
+                  <option value="jazzcash">JazzCash</option>
+                  <option value="bank">Bank Transfer</option>
+                  <option value="cod">Cash on Delivery</option>
+                </select>
+              </label>
+
+              <label>
+                Amount
+                <input name="amount" id="nmAmount" readonly />
+              </label>
+            </div>
+
+            <div class="nm-pay-box" id="nmPayBox">
+              <div class="nm-pay-title">Send payment to:</div>
+              <div class="nm-pay-details" id="nmPayDetails"></div>
+
+              <label style="margin-top:12px;">
+                TRX / Reference ID
+                <input name="trx" id="nmTrx" placeholder="Transaction ID (if online payment)" />
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" type="submit">
+            Place order
+          </button>
+
+          <div class="nm-small" id="nmOrderMsg"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="plans.js"></script>
