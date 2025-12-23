@@ -1,242 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Namak Masaala – Meal Plans</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- ✅ MAIN CSS (cache-buster) -->
-  <link rel="stylesheet" href="style.css?v=7">
+  <!-- MAIN CSS (cache-bust) -->
+  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
 
-  <link rel="icon" href="namak-logo.png" type="image/png">
+  <!-- ✅ Plans page CSS (inline, always applies) -->
+  <style>
+    /* ===== Plans page only (nm-*) ===== */
+    .nm-plan-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(220px, 1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .nm-plan-card{
+      appearance:none;
+      -webkit-appearance:none;
+      border:1px solid rgba(0,0,0,.15);
+      background:#fff;
+      border-radius:14px;
+      padding:16px;
+      text-align:left;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      font: inherit;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      width: 100%;
+    }
+    .nm-plan-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,.10);
+      border-color: rgba(0,0,0,.22);
+    }
+    .nm-plan-card:focus{
+      outline: 3px solid rgba(255,122,0,.25);
+      outline-offset: 2px;
+    }
+    .nm-plan-card.is-active,
+    .nm-plan-card[aria-pressed="true"]{
+      border-color: rgba(255,122,0,.65);
+      box-shadow: 0 16px 34px rgba(255,122,0,.18);
+    }
+
+    .nm-plan-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .nm-pill{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:.82rem;
+      background: rgba(255,122,0,.10);
+      color:#222;
+      border: 1px solid rgba(255,122,0,.18);
+      white-space: nowrap;
+    }
+    .nm-price{
+      font-weight:800;
+      font-size:1.05rem;
+      color:#111;
+      white-space:nowrap;
+    }
+    .nm-price span{ font-weight:600; opacity:.75; margin-left:4px; }
+
+    .nm-plan-card h3{
+      margin:2px 0 0;
+      font-size:1.05rem;
+      line-height:1.25;
+    }
+    .nm-plan-card ul{
+      margin:0;
+      padding-left:18px;
+      color: rgba(0,0,0,.72);
+    }
+    .nm-plan-card li{ margin:4px 0; }
+
+    .nm-two-col{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+      align-items:start;
+    }
+    .nm-box{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    }
+
+    .nm-info-row{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin:12px 0;
+    }
+    .nm-info{
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:12px;
+      padding:10px;
+      background: rgba(0,0,0,.02);
+    }
+    .nm-info-label{ font-size:.78rem; opacity:.65; }
+    .nm-info-val{ font-weight:800; margin-top:2px; }
+
+    .nm-bullets{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: rgba(0,0,0,.72);
+    }
+
+    .nm-menu-cards{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .nm-menu-item{
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:12px;
+      padding:12px;
+      background: rgba(0,0,0,.02);
+    }
+    .nm-menu-head{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:6px;
+      flex-wrap: wrap;
+    }
+    .nm-menu-item small{ display:block; opacity:.7; margin-top:4px; }
+
+    .nm-tag{
+      display:inline-flex;
+      align-items:center;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:.74rem;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      line-height: 1;
+    }
+    .nm-tag-red{ background: rgba(255, 77, 77, .12); border-color: rgba(255,77,77,.25); }
+    .nm-tag-green{ background: rgba(46, 204, 113, .12); border-color: rgba(46,204,113,.25); }
+    .nm-tag-orange{ background: rgba(255, 122, 0, .12); border-color: rgba(255,122,0,.25); }
+
+    .nm-note{
+      margin-top:12px;
+      font-size:.9rem;
+      opacity:.75;
+    }
+
+    .nm-order{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:16px;
+      padding:18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    }
+    .nm-form label{ display:block; margin:10px 0; }
+    .nm-form input, .nm-form select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.14);
+      background:#fff;
+      font: inherit;
+      margin-top:6px;
+    }
+    .nm-small{ margin-top:10px; font-size:.9rem; opacity:.8; }
+
+    @media (max-width: 980px){
+      .nm-plan-grid{ grid-template-columns: repeat(2, minmax(220px,1fr)); }
+      .nm-two-col{ grid-template-columns: 1fr; }
+      .nm-menu-cards{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px){
+      .nm-plan-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-<header class="navbar">
-  <div class="container nav-inner">
-    <div class="nav-left">
-      <a href="index.html" class="brand-link">
-        <div class="logo-mark">
-          <img src="namak-logo.png" alt="Namak Masaala logo">
-        </div>
-        <div class="brand-text">
-          <span class="brand-name">Namak Masaala</span>
-          <span class="brand-tagline">Home-made Tiffin</span>
-        </div>
-      </a>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand-link">
+          <div class="logo-mark">
+            <img src="namak-logo.png" alt="Namak Masaala logo" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Namak Masaala</span>
+            <span class="brand-tagline">Home-made Tiffin</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html" class="active">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="account.html">My Account</a>
+      </nav>
+
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
+      </div>
+
+      <div class="nav-menu-icon">☰</div>
     </div>
 
-    <nav class="nav-links">
+    <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html" class="active">Plans</a>
       <a href="meals.html">Meals</a>
       <a href="referral.html">Referral</a>
       <a href="account.html">My Account</a>
-    </nav>
-
-    <div class="nav-auth">
-      <a href="login.html" class="btn btn-outline">Login</a>
-      <a href="signup.html" class="btn btn-primary">Sign up</a>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- ================= MAIN ================= -->
-<main>
+  <main>
 
-  <!-- ===== PLANS ===== -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-kicker">Choose your package</div>
-        <h1 class="section-title">Meal Plans</h1>
-        <p class="section-subtitle">
-          1 click se plan select karo — neeche menu + order window khud open ho jayegi.
-        </p>
+    <!-- PLANS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Choose your package</div>
+          <h1 class="section-title">Meal Plans</h1>
+          <p class="section-subtitle">
+            1 click se plan select karo — neeche menu + order window khud open ho jayegi.
+          </p>
+        </div>
+
+        <!-- 4 PLAN CARDS -->
+        <div class="nm-plan-grid" id="nmPlanGrid">
+          <button class="nm-plan-card" data-plan="weekly1" type="button" aria-pressed="false">
+            <div class="nm-plan-top">
+              <span class="nm-pill">Weekly • 1 Meal</span>
+              <span class="nm-price">Rs 2,000<span>/week</span></span>
+            </div>
+            <h3>Weekly 1 Meal Plan</h3>
+            <ul>
+              <li>Mon–Sat (6 days)</li>
+              <li>1 meal per day</li>
+              <li>Office-friendly portion</li>
+            </ul>
+          </button>
+
+          <button class="nm-plan-card" data-plan="weekly2" type="button" aria-pressed="false">
+            <div class="nm-plan-top">
+              <span class="nm-pill">Weekly • 2 Meals</span>
+              <span class="nm-price">Rs 4,000<span>/week</span></span>
+            </div>
+            <h3>Weekly 2 Meals Plan</h3>
+            <ul>
+              <li>Mon–Sat (6 days)</li>
+              <li>2 meals per day</li>
+              <li>Best for full office days</li>
+            </ul>
+          </button>
+
+          <button class="nm-plan-card" data-plan="monthly1" type="button" aria-pressed="false">
+            <div class="nm-plan-top">
+              <span class="nm-pill">Monthly • 1 Meal</span>
+              <span class="nm-price">Rs 8,000<span>/month</span></span>
+            </div>
+            <h3>Monthly 1 Meal Plan</h3>
+            <ul>
+              <li>Mon–Sat (6 days)</li>
+              <li>1 meal per day</li>
+              <li>Best value option</li>
+            </ul>
+          </button>
+
+          <button class="nm-plan-card" data-plan="monthly2" type="button" aria-pressed="false">
+            <div class="nm-plan-top">
+              <span class="nm-pill">Monthly • 2 Meals</span>
+              <span class="nm-price">Rs 16,000<span>/month</span></span>
+            </div>
+            <h3>Monthly 2 Meals Plan</h3>
+            <ul>
+              <li>2 meals per day (Mon–Sat)</li>
+              <li>Ideal for family / office</li>
+              <li>Priority support</li>
+            </ul>
+          </button>
+        </div>
       </div>
+    </section>
 
-      <!-- ===== PLAN CARDS ===== -->
-      <div class="nm-plan-grid" id="nmPlanGrid">
+    <!-- DETAILS + MENU -->
+    <section class="section">
+      <div class="container">
+        <div class="nm-two-col">
 
-        <button class="nm-plan-card" data-plan="weekly1" type="button">
-          <div class="nm-plan-top">
-            <span class="nm-pill">Weekly • 1 Meal</span>
-            <span class="nm-price">Rs 2,000<span>/week</span></span>
+          <!-- SELECTED PLAN -->
+          <div class="nm-box">
+            <div class="section-kicker">Selected plan</div>
+            <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
+            <p class="section-subtitle" id="nmSelectedDesc">
+              Upar se koi plan choose karo — yahan details + neeche order window open ho jayegi.
+            </p>
+
+            <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
+              <div class="nm-info">
+                <div class="nm-info-label">Price</div>
+                <div class="nm-info-val" id="nmSelectedPrice"></div>
+              </div>
+              <div class="nm-info">
+                <div class="nm-info-label">Days</div>
+                <div class="nm-info-val" id="nmSelectedDays"></div>
+              </div>
+              <div class="nm-info">
+                <div class="nm-info-label">Meals / day</div>
+                <div class="nm-info-val" id="nmSelectedMeals"></div>
+              </div>
+            </div>
+
+            <ul class="nm-bullets" id="nmSelectedBullets"></ul>
           </div>
-          <h3>Weekly 1 Meal Plan</h3>
-          <ul>
-            <li>Mon–Sat (6 days)</li>
-            <li>1 meal per day</li>
-            <li>Office-friendly portion</li>
-          </ul>
-        </button>
 
-        <button class="nm-plan-card" data-plan="weekly2" type="button">
-          <div class="nm-plan-top">
-            <span class="nm-pill">Weekly • 2 Meals</span>
-            <span class="nm-price">Rs 4,000<span>/week</span></span>
+          <!-- MENU PREVIEW -->
+          <div class="nm-box">
+            <div class="section-kicker">Menu preview</div>
+            <h2 class="section-title">Veg &amp; Non-veg rotation</h2>
+            <p class="section-subtitle">
+              Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
+            </p>
+
+            <div class="nm-menu-cards">
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Monday</strong>
+                  <span class="nm-tag nm-tag-red">Non-veg</span>
+                </div>
+                <div>Chicken Qorma</div>
+                <small>2 roti + salad</small>
+              </div>
+
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Tuesday</strong>
+                  <span class="nm-tag nm-tag-green">Veg</span>
+                </div>
+                <div>Daal Mash</div>
+                <small>Comfort food</small>
+              </div>
+
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Wednesday</strong>
+                  <span class="nm-tag nm-tag-red">Non-veg</span>
+                </div>
+                <div>Aloo Gosht</div>
+                <small>Home style</small>
+              </div>
+
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Thursday</strong>
+                  <span class="nm-tag nm-tag-green">Veg</span>
+                </div>
+                <div>Aloo Shimla</div>
+                <small>Light sabzi</small>
+              </div>
+
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Friday</strong>
+                  <span class="nm-tag nm-tag-red">Non-veg</span>
+                  <span class="nm-tag nm-tag-orange">Special</span>
+                </div>
+                <div>Chicken Biryani</div>
+                <small>Biryani day • limited</small>
+              </div>
+
+              <div class="nm-menu-item">
+                <div class="nm-menu-head">
+                  <strong>Saturday</strong>
+                  <span class="nm-tag nm-tag-green">Veg</span>
+                </div>
+                <div>Mix Vegetable</div>
+                <small>Seasonal vegetables</small>
+              </div>
+            </div>
+
+            <div class="nm-note">
+              Note: Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
+            </div>
           </div>
-          <h3>Weekly 2 Meals Plan</h3>
-          <ul>
-            <li>Mon–Sat (6 days)</li>
-            <li>2 meals per day</li>
-            <li>Best for full office days</li>
-          </ul>
-        </button>
 
-        <button class="nm-plan-card" data-plan="monthly1" type="button">
-          <div class="nm-plan-top">
-            <span class="nm-pill">Monthly • 1 Meal</span>
-            <span class="nm-price">Rs 8,000<span>/month</span></span>
-          </div>
-          <h3>Monthly 1 Meal Plan</h3>
-          <ul>
-            <li>Mon–Sat (6 days)</li>
-            <li>1 meal per day</li>
-            <li>Best value option</li>
-          </ul>
-        </button>
-
-        <button class="nm-plan-card" data-plan="monthly2" type="button">
-          <div class="nm-plan-top">
-            <span class="nm-pill">Monthly • 2 Meals</span>
-            <span class="nm-price">Rs 16,000<span>/month</span></span>
-          </div>
-          <h3>Monthly 2 Meals Plan</h3>
-          <ul>
-            <li>2 meals per day</li>
-            <li>Ideal for family / office</li>
-            <li>Priority support</li>
-          </ul>
-        </button>
-
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== DETAILS + MENU ===== -->
-  <section class="section">
-    <div class="container">
-      <div class="nm-two-col">
-
-        <!-- SELECTED PLAN -->
-        <div class="nm-box">
-          <div class="section-kicker">Selected plan</div>
-          <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
-          <p class="section-subtitle" id="nmSelectedDesc">
-            Upar se koi plan choose karo — details + order neeche open ho jayega.
+    <!-- ORDER (hidden until plan selected by JS) -->
+    <section class="section" id="nmOrderSection" style="display:none;">
+      <div class="container">
+        <div class="nm-order">
+          <div class="section-kicker">Order</div>
+          <h2 class="section-title">Confirm &amp; Pay</h2>
+          <p class="section-subtitle">
+            Plan select ho chuka hai — ab details fill karo aur payment confirm karo.
           </p>
 
-          <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
-            <div class="nm-info">
-              <div class="nm-info-label">Price</div>
-              <div class="nm-info-val" id="nmSelectedPrice"></div>
-            </div>
-            <div class="nm-info">
-              <div class="nm-info-label">Days</div>
-              <div class="nm-info-val" id="nmSelectedDays"></div>
-            </div>
-            <div class="nm-info">
-              <div class="nm-info-label">Meals / day</div>
-              <div class="nm-info-val" id="nmSelectedMeals"></div>
-            </div>
-          </div>
+          <form class="nm-form" id="nmOrderForm">
+            <div class="nm-form-grid">
+              <label>
+                Full name
+                <input required name="name" placeholder="Your name" />
+              </label>
 
-          <ul class="nm-bullets" id="nmSelectedBullets"></ul>
+              <label>
+                Phone (WhatsApp)
+                <input required name="phone" placeholder="03xx..." />
+              </label>
+
+              <label class="nm-span-2">
+                Address (delivery)
+                <input required name="address" placeholder="Office / Home address" />
+              </label>
+
+              <label>
+                Preferred time (from)
+                <select name="from">
+                  <option value="12:00">12:00</option>
+                  <option value="12:30">12:30</option>
+                  <option value="13:00">1:00</option>
+                  <option value="13:30">1:30</option>
+                  <option value="14:00">2:00</option>
+                </select>
+              </label>
+
+              <label>
+                Preferred time (to)
+                <select name="to">
+                  <option value="13:00">1:00</option>
+                  <option value="13:30">1:30</option>
+                  <option value="14:00">2:00</option>
+                  <option value="14:30">2:30</option>
+                  <option value="15:00">3:00</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="btn btn-primary btn-lg" type="submit">Place order</button>
+            <div class="nm-small" id="nmOrderMsg"></div>
+          </form>
         </div>
+      </div>
+    </section>
 
-        <!-- MENU PREVIEW -->
-        <div class="nm-box">
-          <div class="section-kicker">Menu preview</div>
-          <h2 class="section-title">Veg &amp; Non-veg rotation</h2>
+  </main>
 
-          <div class="nm-menu-cards">
-            <div class="nm-menu-item">
-              <strong>Monday</strong>
-              <span class="nm-tag nm-tag-red">Non-veg</span>
-              <div>Chicken Qorma</div>
-              <small>2 roti + salad</small>
-            </div>
-
-            <div class="nm-menu-item">
-              <strong>Tuesday</strong>
-              <span class="nm-tag nm-tag-green">Veg</span>
-              <div>Daal Mash</div>
-              <small>Comfort food</small>
-            </div>
-
-            <div class="nm-menu-item">
-              <strong>Wednesday</strong>
-              <span class="nm-tag nm-tag-red">Non-veg</span>
-              <div>Aloo Gosht</div>
-              <small>Home style</small>
-            </div>
-
-            <div class="nm-menu-item">
-              <strong>Thursday</strong>
-              <span class="nm-tag nm-tag-green">Veg</span>
-              <div>Aloo Shimla</div>
-              <small>Light sabzi</small>
-            </div>
-
-            <div class="nm-menu-item">
-              <strong>Friday</strong>
-              <span class="nm-tag nm-tag-red">Non-veg</span>
-              <span class="nm-tag nm-tag-orange">Special</span>
-              <div>Chicken Biryani</div>
-            </div>
-
-            <div class="nm-menu-item">
-              <strong>Saturday</strong>
-              <span class="nm-tag nm-tag-green">Veg</span>
-              <div>Mix Vegetable</div>
-            </div>
-          </div>
-        </div>
-
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2025 Namak Masaala. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="customer-care.html">Customer Care</a>
       </div>
     </div>
-  </section>
+  </footer>
 
-  <!-- ===== ORDER ===== -->
-  <section class="section" id="nmOrderSection" style="display:none;">
-    <div class="container">
-      <div class="nm-order">
-        <h2 class="section-title">Confirm &amp; Pay</h2>
-
-        <form class="nm-form" id="nmOrderForm">
-          <label>Full name
-            <input required>
-          </label>
-
-          <label>Phone (WhatsApp)
-            <input required>
-          </label>
-
-          <label>Address
-            <input required>
-          </label>
-
-          <button class="btn btn-primary btn-lg">Place order</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div>© 2025 Namak Masaala</div>
-  </div>
-</footer>
-
-<!-- ✅ JS -->
-<script src="plans.js"></script>
-<script src="auth.js"></script>
+  <!-- JS -->
+  <script src="plans.js"></script>
+  <script src="auth.js"></script>
 
 </body>
 </html>
