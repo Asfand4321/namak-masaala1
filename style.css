@@ -3503,3 +3503,127 @@ img {
 @media (max-width: 520px){
   .nm-plan-grid{ grid-template-columns: 1fr; }
 }
+
+/* =========================
+   PLANS PAGE (Namak Masaala)
+   Paste at END of style.css
+========================= */
+
+.nm-plan-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:14px;
+  margin-top:16px;
+}
+
+.nm-plan-card{
+  width:100%;
+  text-align:left;
+  background:#fff;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:14px;
+  padding:14px;
+  cursor:pointer;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.nm-plan-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.06);
+  border-color: rgba(17,24,39,.2);
+}
+.nm-plan-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.nm-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background: rgba(255,122,0,.10);
+  color:#111827;
+  font-size:12px;
+  font-weight:700;
+}
+.nm-price{ font-weight:800; font-size:16px; }
+.nm-price span{ font-weight:600; font-size:12px; opacity:.75; margin-left:3px; }
+
+.nm-plan-card h3{ margin:0 0 8px 0; font-size:16px; }
+.nm-plan-card ul{ margin:0; padding-left:18px; font-size:13px; opacity:.9; }
+.nm-plan-card li{ margin:6px 0; }
+
+.nm-two-col{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap:16px;
+  margin-top:10px;
+}
+.nm-box{
+  background:#fff;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:16px;
+  padding:16px;
+}
+
+.nm-info-row{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.nm-info{
+  background: rgba(17,24,39,.03);
+  border:1px solid rgba(17,24,39,.08);
+  border-radius:12px;
+  padding:10px;
+}
+.nm-info-label{ font-size:12px; opacity:.7; margin-bottom:4px; }
+.nm-info-val{ font-weight:800; font-size:14px; }
+
+.nm-bullets{ margin:12px 0 0; padding-left:18px; }
+.nm-bullets li{ margin:6px 0; }
+
+.nm-menu-cards{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:12px;
+  margin-top:12px;
+}
+.nm-menu-item{
+  background: rgba(17,24,39,.03);
+  border:1px solid rgba(17,24,39,.08);
+  border-radius:14px;
+  padding:12px;
+}
+.nm-menu-item small{ display:block; margin-top:4px; opacity:.75; }
+
+.nm-tag{
+  display:inline-block;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  margin-left:8px;
+  border:1px solid rgba(0,0,0,.08);
+}
+.nm-tag-red{ background: rgba(239,68,68,.10); }
+.nm-tag-green{ background: rgba(34,197,94,.10); }
+.nm-tag-orange{ background: rgba(255,122,0,.12); }
+
+.nm-order{
+  background:#fff;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:16px;
+  padding:16px;
+}
+
+@media (max-width: 1024px){
+  .nm-plan-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nm-two-col{ grid-template-columns: 1fr; }
+  .nm-menu-cards{ grid-template-columns: 1fr; }
+}
+@media (max-width: 520px){
+  .nm-plan-grid{ grid-template-columns: 1fr; }
+}
