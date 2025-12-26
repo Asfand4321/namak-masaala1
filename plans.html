@@ -636,74 +636,66 @@
             <ul class="nm-bullets" id="nmSelectedBullets"></ul>
           </div>
 
-          <!-- MENU PREVIEW -->
-          <div class="nm-box">
-            <div class="section-kicker">Menu preview</div>
-            <h2 class="section-title">Veg &amp; Non-veg rotation</h2>
-            <p class="section-subtitle">
-              Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
-            </p>
+          <!-- DELIVERY DETAILS (REPLACES MENU PREVIEW BOX) -->
+<div class="nm-box">
+  <div class="section-kicker">Delivery details</div>
+  <h2 class="section-title">Enter delivery info</h2>
+  <p class="section-subtitle">
+    Number, address aur timing select karo. Ye info order ke time auto use hogi.
+  </p>
 
-            <div class="nm-menu-cards">
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Monday</strong>
-                  <span class="nm-tag nm-tag-red">Non-veg</span>
-                </div>
-                <div>Chicken Qorma</div>
-                <small>2 roti + salad</small>
-              </div>
+  <form class="nm-delivery-form" id="nmDeliveryForm" autocomplete="on">
+    <label class="nm-field">
+      <span class="nm-label">Phone (WhatsApp)</span>
+      <input id="nmDelPhone" name="phone" type="tel" placeholder="03xx..." required />
+    </label>
 
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Tuesday</strong>
-                  <span class="nm-tag nm-tag-green">Veg</span>
-                </div>
-                <div>Daal Mash</div>
-                <small>Comfort food</small>
-              </div>
+    <label class="nm-field">
+      <span class="nm-label">Delivery address</span>
+      <textarea id="nmDelAddress" name="address" rows="3" placeholder="Office / Home address" required></textarea>
+    </label>
 
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Wednesday</strong>
-                  <span class="nm-tag nm-tag-red">Non-veg</span>
-                </div>
-                <div>Aloo Gosht</div>
-                <small>Home style</small>
-              </div>
+    <div class="nm-row">
+      <label class="nm-field">
+        <span class="nm-label">From</span>
+        <select id="nmDelFrom" name="from" required>
+          <option value="12:00 PM">12:00 PM</option>
+          <option value="12:30 PM">12:30 PM</option>
+          <option value="01:00 PM">01:00 PM</option>
+          <option value="01:30 PM">01:30 PM</option>
+          <option value="02:00 PM">02:00 PM</option>
+          <option value="02:30 PM">02:30 PM</option>
+          <option value="03:00 PM">03:00 PM</option>
+          <option value="03:30 PM">03:30 PM</option>
+          <option value="04:00 PM">04:00 PM</option>
+        </select>
+      </label>
 
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Thursday</strong>
-                  <span class="nm-tag nm-tag-green">Veg</span>
-                </div>
-                <div>Aloo Shimla</div>
-                <small>Light sabzi</small>
-              </div>
+      <label class="nm-field">
+        <span class="nm-label">To</span>
+        <select id="nmDelTo" name="to" required>
+          <option value="01:00 PM">01:00 PM</option>
+          <option value="01:30 PM">01:30 PM</option>
+          <option value="02:00 PM">02:00 PM</option>
+          <option value="02:30 PM">02:30 PM</option>
+          <option value="03:00 PM">03:00 PM</option>
+          <option value="03:30 PM">03:30 PM</option>
+          <option value="04:00 PM">04:00 PM</option>
+          <option value="04:30 PM">04:30 PM</option>
+          <option value="05:00 PM">05:00 PM</option>
+        </select>
+      </label>
+    </div>
 
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Friday</strong>
-                  <span class="nm-tag nm-tag-red">Non-veg</span>
-                  <span class="nm-tag nm-tag-orange">Special</span>
-                </div>
-                <div>Chicken Biryani</div>
-                <small>Biryani day • limited</small>
-              </div>
+    <div class="nm-actions">
+      <button class="btn btn-primary btn-lg" type="submit">Save details</button>
+      <button class="btn btn-outline btn-lg" type="button" id="nmClearDelivery">Clear</button>
+    </div>
 
-              <div class="nm-menu-item">
-                <div class="nm-menu-head">
-                  <strong>Saturday</strong>
-                  <span class="nm-tag nm-tag-green">Veg</span>
-                </div>
-                <div>Mix Vegetable</div>
-                <small>Seasonal vegetables</small>
-              </div>
-            </div>
+    <div class="nm-small" id="nmDeliveryMsg"></div>
+  </form>
+</div>
 
-            <div class="nm-note">
-              Note: Exact dishes week to week change ho sakti hain, lekin pattern similar rahega.
-            </div>
           </div>
 
         </div>
