@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Checkout – Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="namak-logo.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
+
+  <!-- Small checkout fixes (if your style.css missing few classes) -->
+  <style>
+    .checkout-layout{ display:grid; grid-template-columns: 1.4fr .9fr; gap:16px; align-items:start; }
+    @media (max-width: 980px){ .checkout-layout{ grid-template-columns:1fr; } }
+    .card{ background:#fff; border:1px solid rgba(0,0,0,.10); border-radius:16px; padding:16px; box-shadow:0 10px 26px rgba(0,0,0,.06); }
+    .checkout-block{ padding:14px; border:1px solid rgba(0,0,0,.08); border-radius:14px; background:rgba(0,0,0,.02); margin:12px 0; }
+    .checkout-block-title{ margin:0 0 10px; font-size:1.05rem; }
+    .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width: 600px){ .form-grid{ grid-template-columns:1fr; } }
+    .form-field label{ display:block; font-weight:700; font-size:.9rem; opacity:.9; }
+    .field-hint{ font-weight:600; opacity:.65; font-size:.82rem; }
+    .form-field input, .form-field textarea, .form-field select{
+      width:100%; margin-top:6px; padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(0,0,0,.12); background:#fff; font:inherit; outline:none;
+    }
+    .payment-options{ display:grid; gap:10px; }
+    .payment-option{
+      display:flex; gap:10px; align-items:center; padding:10px 12px;
+      border:1px solid rgba(0,0,0,.10); border-radius:12px; background:#fff; cursor:pointer;
+    }
+    .payment-option input{ transform: translateY(1px); }
+    .pay-icon{ width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; }
+    .pay-icon img{ width:28px; height:28px; object-fit:contain; display:block; }
+    .bank-info-box{ padding:12px; border:1px dashed rgba(0,0,0,.18); border-radius:12px; background:rgba(255,122,0,.06); }
+    .bank-line{ margin:6px 0; }
+    .form-note{ font-size:.92rem; opacity:.78; line-height:1.45; margin:8px 0; }
+    .form-error{ background:rgba(255, 77, 77, .10); border:1px solid rgba(255,77,77,.25); padding:10px 12px; border-radius:12px; color:#a40000; }
+    .btn-full{ width:100%; }
+    .order-items{ display:grid; gap:10px; margin-top:8px; }
+    .order-item-row{ display:flex; justify-content:space-between; gap:12px; padding:10px 12px; border:1px solid rgba(0,0,0,.08); border-radius:12px; background:rgba(0,0,0,.02); }
+    .order-item-name{ font-weight:800; }
+    .order-item-meta{ opacity:.7; font-size:.9rem; margin-top:2px; }
+    .order-item-price{ font-weight:900; white-space:nowrap; }
+    .order-totals{ margin-top:12px; border-top:1px solid rgba(0,0,0,.08); padding-top:12px; display:grid; gap:8px; }
+    .order-row{ display:flex; justify-content:space-between; gap:12px; }
+    .order-total span{ font-weight:900; }
+    .card-meta{ opacity:.75; font-size:.92rem; line-height:1.45; margin-top:10px; }
+  </style>
 </head>
+
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
@@ -14,7 +55,7 @@
       <div class="nav-left">
         <a href="index.html" class="brand-link">
           <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo">
+            <img src="namak-logo.png" alt="Namak Masaala logo" />
           </div>
           <div class="brand-text">
             <span class="brand-name">Namak Masaala</span>
@@ -22,6 +63,7 @@
           </div>
         </a>
       </div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
@@ -33,12 +75,15 @@
         <a href="my-plans.html">My Plans</a>
         <a href="customer-care.html">Customer Care</a>
       </nav>
+
       <div class="nav-auth">
         <a href="login.html" class="btn btn-outline">Login</a>
         <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
+
       <div class="nav-menu-icon">☰</div>
     </div>
+
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
@@ -57,60 +102,73 @@
   <main>
     <section class="section">
       <div class="container checkout-layout">
-        <!-- LEFT: checkout form -->
+
+        <!-- LEFT -->
         <div class="card checkout-card">
           <div class="section-kicker">Checkout</div>
           <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
             Delivery &amp; payment details
           </h1>
           <p class="section-subtitle">
-            Please provide your delivery address and choose your payment method.
-            This is a demo checkout – actual payment confirmation will be done manually by the admin.
+            Please confirm your delivery information and submit payment reference (TRX).
           </p>
 
-          <form class="checkout-form" onsubmit="return handleCheckout(event)">
+          <form class="checkout-form" id="nmCheckoutForm">
+            <!-- PLAN SUMMARY (from plans.html) -->
+            <div class="checkout-block">
+              <h2 class="checkout-block-title">Selected plan</h2>
+              <p class="form-note" id="nmPlanNote" style="margin-top:0;">
+                Your selected plan will appear here.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="nmPlanName">Plan</label>
+                  <input id="nmPlanName" name="planName" type="text" readonly value="">
+                </div>
+                <div class="form-field">
+                  <label for="payAmount">Amount (Rs)</label>
+                  <input id="payAmount" name="payAmount" type="text" readonly value="0">
+                </div>
+              </div>
+            </div>
+
             <!-- Delivery details -->
             <div class="checkout-block">
               <h2 class="checkout-block-title">Delivery address</h2>
 
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="fullName">Full name *</label>
+                  <label for="fullName">Full name <span class="field-hint">*</span></label>
                   <input id="fullName" name="fullName" type="text" required>
                 </div>
                 <div class="form-field">
-                  <label for="phone">Mobile number *</label>
-                  <input id="phone" name="phone" type="tel" required placeholder="+92XXXXXXXXXX">
+                  <label for="phone">Mobile number <span class="field-hint">*</span></label>
+                  <input id="phone" name="phone" type="tel" required placeholder="03xx...">
                 </div>
               </div>
 
               <div class="form-field">
-                <label for="address1">Address line 1 *</label>
-                <input id="address1" name="address1" type="text" required placeholder="House / Flat, Street, Building">
-              </div>
-
-              <div class="form-field">
-                <label for="address2">Address line 2 (optional)</label>
-                <input id="address2" name="address2" type="text" placeholder="Block, landmark, etc.">
+                <label for="address1">Address <span class="field-hint">*</span></label>
+                <input id="address1" name="address1" type="text" required placeholder="Office / Home address">
               </div>
 
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="area">Area / locality *</label>
-                  <input id="area" name="area" type="text" required placeholder="DHA, Gulshan, etc.">
+                  <label for="fromTime">From <span class="field-hint">*</span></label>
+                  <input id="fromTime" name="fromTime" type="text" required placeholder="12:00 PM">
                 </div>
                 <div class="form-field">
-                  <label for="city">City *</label>
-                  <input id="city" name="city" type="text" value="Karachi" required>
+                  <label for="toTime">To <span class="field-hint">*</span></label>
+                  <input id="toTime" name="toTime" type="text" required placeholder="01:00 PM">
                 </div>
               </div>
 
               <div class="form-field">
                 <label for="instructions">
-                  Delivery instructions
-                  <span class="field-hint">(optional – gate code, office floor, etc.)</span>
+                  Delivery instructions <span class="field-hint">(optional)</span>
                 </label>
-                <textarea id="instructions" name="instructions" rows="2"></textarea>
+                <textarea id="instructions" name="instructions" rows="2" placeholder="Gate code, office floor, etc."></textarea>
               </div>
             </div>
 
@@ -118,85 +176,51 @@
             <div class="checkout-block">
               <h2 class="checkout-block-title">Payment method</h2>
 
-              <p class="form-note" style="margin-bottom:8px;">
-                Select how you will send the payment. You will transfer the amount to the bank
-                account below, then enter the TRX / Transaction ID from your JazzCash / Easypaisa / Bank receipt.
-                Admin will verify and mark your order as <strong>Paid</strong>.
+              <p class="form-note" style="margin-bottom:10px;">
+                Send payment to the bank account below using JazzCash / Easypaisa / Bank transfer.
+                Then enter the TRX / Transaction ID from your receipt.
               </p>
 
               <div class="payment-options">
                 <label class="payment-option">
                   <input type="radio" name="paymentMethod" value="jazzcash" checked>
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/7zE0f2b.png" alt="JazzCash logo">
-                  </span>
+                  <span class="pay-icon"><img src="https://i.imgur.com/7zE0f2b.png" alt="JazzCash"></span>
                   <span>JazzCash (wallet → bank)</span>
                 </label>
+
                 <label class="payment-option">
                   <input type="radio" name="paymentMethod" value="easypaisa">
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/tYJqCvj.png" alt="Easypaisa logo">
-                  </span>
+                  <span class="pay-icon"><img src="https://i.imgur.com/tYJqCvj.png" alt="Easypaisa"></span>
                   <span>Easypaisa (wallet → bank)</span>
                 </label>
+
                 <label class="payment-option">
                   <input type="radio" name="paymentMethod" value="bank">
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/9tXDD8h.png" alt="Bank transfer icon">
-                  </span>
+                  <span class="pay-icon"><img src="https://i.imgur.com/9tXDD8h.png" alt="Bank"></span>
                   <span>Direct bank transfer</span>
                 </label>
               </div>
 
-              <!-- Manual transfer details (single flow for all three) -->
-              <div id="manual-section" class="payment-section">
-                <p class="form-note">
-                  Send the payment from your selected method (JazzCash / Easypaisa / Bank) to the following
-                  bank account. Then copy the TRX / Transaction ID from the payment receipt and paste it here.
-                </p>
-
+              <div class="payment-section" style="margin-top:12px;">
                 <div class="bank-info-box">
                   <p class="bank-line"><strong>Bank name:</strong> Bank Alfalah</p>
                   <p class="bank-line"><strong>Account title:</strong> NAMAK MASAALA</p>
-                  <p class="bank-line">
-                    <strong>IBAN:</strong> PK77ALFH0063001010497163
-                  </p>
-                  <p class="bank-line">
-                    <strong>Account number:</strong> 0063001010497163
-                    <span class="field-hint">
-                      (digits extracted from IBAN)
-                    </span>
-                  </p>
+                  <p class="bank-line"><strong>IBAN:</strong> PK77ALFH0063001010497163</p>
+                  <p class="bank-line"><strong>Account number:</strong> 0063001010497163</p>
                 </div>
 
-                <div class="form-field">
-                  <label for="selectedMethod">
-                    Selected payment method
-                    <span class="field-hint">(auto-filled based on your choice)</span>
-                  </label>
+                <div class="form-field" style="margin-top:12px;">
+                  <label for="selectedMethod">Selected payment method</label>
                   <input id="selectedMethod" name="selectedMethod" type="text" readonly value="JazzCash (wallet → bank)">
                 </div>
 
                 <div class="form-field">
-                  <label for="payAmount">
-                    Amount to pay (Rs)
-                    <span class="field-hint">(matches your order total)</span>
-                  </label>
-                  <input id="payAmount" name="payAmount" type="text" readonly value="0">
-                </div>
-
-                <div class="form-field">
-                  <label for="transactionId">
-                    TRX / Transaction ID *
-                    <span class="field-hint">(from JazzCash / Easypaisa / Bank receipt)</span>
-                  </label>
-                  <input id="transactionId" name="transactionId" type="text" required>
+                  <label for="transactionId">TRX / Transaction ID <span class="field-hint">*</span></label>
+                  <input id="transactionId" name="transactionId" type="text" required placeholder="Paste your TRX / Ref ID">
                 </div>
 
                 <p class="form-note">
-                  After you submit this form, the admin / manager will verify the TRX ID with the bank
-                  statement or wallet history. Once matched, your order status will be updated to
-                  <strong>Paid</strong> in the system.
+                  Your order will be marked as <strong>Pending Verification</strong> until it is verified by admin/manager.
                 </p>
               </div>
             </div>
@@ -204,22 +228,16 @@
             <p id="checkout-error" class="form-error" style="display:none;"></p>
 
             <button type="submit" class="btn btn-primary btn-full">
-              Submit payment details (demo)
+              Submit payment details
             </button>
-
-            <p class="form-note" style="margin-top:8px;">
-              This checkout is a front-end preview. In the real system, orders and payments will be stored
-              in a database and payment status will be updated by the admin.
-            </p>
           </form>
         </div>
 
-        <!-- RIGHT: order summary -->
+        <!-- RIGHT -->
         <aside class="card order-summary-card">
           <h2 class="card-title">Order summary</h2>
-          <div id="order-items" class="order-items">
-            <!-- Items will be loaded from localStorage or show empty state -->
-          </div>
+
+          <div id="order-items" class="order-items"></div>
 
           <div class="order-totals">
             <div class="order-row">
@@ -237,10 +255,10 @@
           </div>
 
           <p class="card-meta">
-            Summary above is for preview only. Actual pricing, discounts and referral benefits will be
-            confirmed by the admin before starting your tiffin service.
+            Once verified, your plan will appear in <strong>My Plans</strong> and your order will be visible in <strong>My Orders</strong>.
           </p>
         </aside>
+
       </div>
     </section>
   </main>
@@ -257,134 +275,203 @@
   </footer>
 
   <script>
-    const CART_KEY = 'nm_cart_items';
+    // ===== Storage keys (same as plans.html) =====
+    const PLAN_KEY = 'nm_selected_plan';
+    const DELIVERY_KEY = 'nm_delivery';
 
-    // Update text field showing which method user selected
+    // Orders storage (for admin verification later)
+    const ORDERS_KEY = 'nm_orders';
+
+    function money(n){ return 'Rs ' + Number(n || 0).toLocaleString('en-PK'); }
+
+    // Payment method label
     function updateSelectedMethod() {
-      const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value;
       const field = document.getElementById('selectedMethod');
-      if (!field) return;
+      if (!field || !method) return;
 
-      if (method === 'jazzcash') {
-        field.value = 'JazzCash (wallet → bank)';
-      } else if (method === 'easypaisa') {
-        field.value = 'Easypaisa (wallet → bank)';
-      } else {
-        field.value = 'Direct bank transfer';
+      if (method === 'jazzcash') field.value = 'JazzCash (wallet → bank)';
+      else if (method === 'easypaisa') field.value = 'Easypaisa (wallet → bank)';
+      else field.value = 'Direct bank transfer';
+    }
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(r => r.addEventListener('change', updateSelectedMethod));
+    updateSelectedMethod();
+
+    // ===== Load selected plan =====
+    function loadSelectedPlan() {
+      const planNameEl = document.getElementById('nmPlanName');
+      const amountEl = document.getElementById('payAmount');
+      const noteEl = document.getElementById('nmPlanNote');
+
+      const raw = localStorage.getItem(PLAN_KEY);
+      if (!raw) {
+        noteEl.textContent = 'No plan selected. Please go back to Plans and select a package.';
+        planNameEl.value = '';
+        amountEl.value = '0';
+        return { ok:false };
+      }
+
+      try {
+        const plan = JSON.parse(raw);
+        if (!plan || !plan.name) throw new Error('invalid');
+        planNameEl.value = plan.name || '';
+        amountEl.value = String(plan.price || 0);
+        noteEl.textContent = 'Plan loaded successfully.';
+        return { ok:true, plan };
+      } catch (e) {
+        noteEl.textContent = 'Could not load plan. Please re-select the package.';
+        planNameEl.value = '';
+        amountEl.value = '0';
+        return { ok:false };
       }
     }
 
-    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
-      radio.addEventListener('change', updateSelectedMethod);
-    });
+    // ===== Load delivery details saved in plans.html =====
+    function loadDelivery() {
+      const raw = localStorage.getItem(DELIVERY_KEY);
+      if (!raw) return;
 
-    updateSelectedMethod();
+      try {
+        const d = JSON.parse(raw);
+        if (d.phone) document.getElementById('phone').value = d.phone;
+        if (d.address) document.getElementById('address1').value = d.address;
+        if (d.from) document.getElementById('fromTime').value = d.from;
+        if (d.to) document.getElementById('toTime').value = d.to;
+      } catch (e) {}
+    }
 
-    // Simple checkout validation (demo)
-    function handleCheckout(event) {
-      const errorEl = document.getElementById('checkout-error');
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
+    // ===== Render order summary (plan only) =====
+    function renderSummary(plan) {
+      const itemsContainer = document.getElementById('order-items');
+      const subtotalEl = document.getElementById('order-subtotal');
+      const totalEl = document.getElementById('order-total');
+
+      itemsContainer.innerHTML = '';
+
+      if (!plan) {
+        itemsContainer.innerHTML = '<p class="card-meta">No plan found. Please select a plan.</p>';
+        subtotalEl.textContent = 'Rs 0';
+        totalEl.textContent = 'Rs 0';
+        return;
+      }
+
+      const row = document.createElement('div');
+      row.className = 'order-item-row';
+      row.innerHTML = `
+        <div>
+          <div class="order-item-name">${plan.name}</div>
+          <div class="order-item-meta">${plan.priceLabel || ''}</div>
+        </div>
+        <div class="order-item-price">${money(plan.price)}</div>
+      `;
+      itemsContainer.appendChild(row);
+
+      subtotalEl.textContent = money(plan.price);
+      totalEl.textContent = money(plan.price);
+    }
+
+    // ===== Create a readable order ID =====
+    function makeOrderId(){
+      const t = Date.now().toString(36).toUpperCase();
+      const r = Math.random().toString(36).slice(2, 6).toUpperCase();
+      return `NM-${t}-${r}`;
+    }
+
+    // ===== Submit checkout =====
+    function handleCheckoutSubmit(e) {
+      e.preventDefault();
+      const err = document.getElementById('checkout-error');
+      err.style.display = 'none';
+      err.textContent = '';
+
+      const planRaw = localStorage.getItem(PLAN_KEY);
+      if (!planRaw) {
+        err.textContent = 'No plan selected. Please go back to Plans and select a package.';
+        err.style.display = 'block';
+        return false;
+      }
+
+      let plan = null;
+      try { plan = JSON.parse(planRaw); } catch(e){}
 
       const fullName = document.getElementById('fullName').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address1 = document.getElementById('address1').value.trim();
-      const area = document.getElementById('area').value.trim();
-      const city = document.getElementById('city').value.trim();
+      const fromTime = document.getElementById('fromTime').value.trim();
+      const toTime = document.getElementById('toTime').value.trim();
+      const instructions = document.getElementById('instructions').value.trim();
+
       const trx = document.getElementById('transactionId').value.trim();
       const payAmount = document.getElementById('payAmount').value.trim();
 
-      if (!fullName || !phone || !address1 || !area || !city) {
-        errorEl.textContent = 'Please fill in all required delivery fields.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'bank';
+      const methodLabel = document.getElementById('selectedMethod').value;
+
+      if (!fullName || !phone || !address1 || !fromTime || !toTime) {
+        err.textContent = 'Please fill all required delivery fields.';
+        err.style.display = 'block';
         return false;
       }
 
       if (!trx) {
-        errorEl.textContent = 'Please enter the TRX / Transaction ID from your payment receipt.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
+        err.textContent = 'Please enter the TRX / Transaction ID from your payment receipt.';
+        err.style.display = 'block';
         return false;
       }
 
       if (!payAmount || payAmount === '0') {
-        errorEl.textContent = 'Your order amount seems to be 0. Please add items to cart again.';
-        errorEl.style.display = 'block';
-        event.preventDefault();
+        err.textContent = 'Order amount is 0. Please re-select the package.';
+        err.style.display = 'block';
         return false;
       }
 
-      alert(
-        'Demo only: Your delivery + payment details have been submitted.\n\n' +
-        'In the real system, the admin will verify your TRX ID (' + trx +
-        ') with the bank/JazzCash/Easypaisa record and then mark your order as PAID.'
-      );
-      event.preventDefault();
+      // Save delivery back (so it stays updated)
+      localStorage.setItem(DELIVERY_KEY, JSON.stringify({
+        phone, address: address1, from: fromTime, to: toTime
+      }));
+
+      // Build order object (Pending Verification)
+      const order = {
+        id: makeOrderId(),
+        createdAt: new Date().toISOString(),
+        status: 'Pending Verification',
+        plan: {
+          id: plan?.id || '',
+          name: plan?.name || '',
+          price: Number(plan?.price || payAmount || 0),
+          priceLabel: plan?.priceLabel || ''
+        },
+        customer: { fullName, phone },
+        delivery: { address: address1, from: fromTime, to: toTime, instructions },
+        payment: { method, methodLabel, trx, amount: Number(payAmount || 0) }
+      };
+
+      // Push into nm_orders
+      let orders = [];
+      try {
+        orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+        if (!Array.isArray(orders)) orders = [];
+      } catch(e) { orders = []; }
+
+      orders.unshift(order);
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+
+      // Optional: also write to my-plans later when verified (admin page will do it)
+      // For now, just go to My Orders
+      window.location.href = 'orders.html';
       return false;
     }
 
-    // Load order summary from localStorage (demo) and update payAmount
-    function loadOrderSummary() {
-      const itemsContainer = document.getElementById('order-items');
-      const subtotalEl = document.getElementById('order-subtotal');
-      const totalEl = document.getElementById('order-total');
-      const payAmountInput = document.getElementById('payAmount');
+    document.getElementById('nmCheckoutForm').addEventListener('submit', handleCheckoutSubmit);
 
-      const raw = localStorage.getItem(CART_KEY);
-      let items = [];
-
-      try {
-        if (raw) {
-          items = JSON.parse(raw);
-        }
-      } catch (e) {
-        items = [];
-      }
-
-      if (!items || items.length === 0) {
-        itemsContainer.innerHTML = '<p class="card-meta">No items found in cart. Please add a plan or meals before checking out.</p>';
-        subtotalEl.textContent = 'Rs 0';
-        totalEl.textContent = 'Rs 0';
-        if (payAmountInput) payAmountInput.value = '0';
-        return;
-      }
-
-      let subtotal = 0;
-      itemsContainer.innerHTML = '';
-
-      items.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'order-item-row';
-
-        const name = item.name || 'Item';
-        const price = Number(item.price) || 0;
-        const qty = item.quantity || 1;
-        const lineTotal = price * qty;
-
-        subtotal += lineTotal;
-
-        row.innerHTML = `
-          <div>
-            <div class="order-item-name">${name}</div>
-            <div class="order-item-meta">Qty: ${qty}</div>
-          </div>
-          <div class="order-item-price">Rs ${lineTotal}</div>
-        `;
-
-        itemsContainer.appendChild(row);
-      });
-
-      subtotalEl.textContent = 'Rs ' + subtotal;
-      totalEl.textContent = 'Rs ' + subtotal; // delivery = 0 for now
-      if (payAmountInput) payAmountInput.value = String(subtotal);
-    }
-
-    loadOrderSummary();
+    // ===== Init =====
+    const { ok, plan } = loadSelectedPlan();
+    loadDelivery();
+    renderSummary(ok ? plan : null);
   </script>
-    <!-- WhatsApp floating chat widget (global) -->
+
+  <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
-    <!-- Popup -->
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
       <div class="nm-whatsapp-header">
         <div>
@@ -408,12 +495,9 @@
       </div>
     </div>
 
-    <!-- Round button with WhatsApp-style icon -->
     <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
       <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
         <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
         <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
                  .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
                  .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
@@ -428,34 +512,24 @@
       const popup = document.getElementById('nmWhatsAppPopup');
       const closeBtn = document.getElementById('nmWhatsAppClose');
       const startBtn = document.getElementById('nmWhatsAppStart');
-
       if (!btn || !popup) return;
 
-      // toggle popup
       btn.addEventListener('click', function () {
         const isVisible = popup.style.display === 'block';
         popup.style.display = isVisible ? 'none' : 'block';
       });
 
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
-      }
+      if (closeBtn) closeBtn.addEventListener('click', () => popup.style.display = 'none');
 
       if (startBtn) {
         startBtn.addEventListener('click', function () {
-          // Pakistan number: +92 324 7477704  => 923247477704
           const phone = '923247477704';
           const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
+          window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
         });
       }
     })();
   </script>
-</body>
-</html>
 
   <script src="auth.js"></script>
 </body>
