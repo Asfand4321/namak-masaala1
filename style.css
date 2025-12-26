@@ -3971,3 +3971,35 @@ img {
 @media (max-width: 520px){
   .nm-plan-grid{ grid-template-columns: 1fr; }
 }
+
+/* Fix: plan card top row overflow */
+.nm-plan-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;                 /* ✅ allow wrap */
+}
+
+.nm-pill{
+  max-width: 100%;                /* ✅ never overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nm-price{
+  margin-left:auto;
+  text-align:right;
+  white-space: nowrap;            /* ✅ keep "Rs 16,000/month" together */
+  font-size: 1rem;                /* ✅ slightly smaller so it fits */
+}
+
+.nm-price span{
+  white-space: nowrap;
+}
+
+/* Extra safety */
+.nm-plan-card{
+  overflow:hidden;                /* ✅ prevents any inner spill */
+}
