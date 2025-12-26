@@ -35,6 +35,7 @@
       flex-direction:column;
       gap:10px;
       width: 100%;
+      overflow:hidden; /* ✅ prevents any inner spill */
     }
     .nm-plan-card:hover{
       transform: translateY(-2px);
@@ -51,12 +52,15 @@
       box-shadow: 0 16px 34px rgba(255,122,0,.18);
     }
 
+    /* Fix: plan card top row overflow */
     .nm-plan-top{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      flex-wrap:wrap;                 /* ✅ allow wrap */
     }
+
     .nm-pill{
       display:inline-flex;
       align-items:center;
@@ -66,15 +70,21 @@
       background: rgba(255,122,0,.10);
       color:#222;
       border: 1px solid rgba(255,122,0,.18);
+      max-width: 100%;                /* ✅ never overflow */
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
     .nm-price{
+      margin-left:auto;
+      text-align:right;
       font-weight:800;
-      font-size:1.05rem;
+      font-size:1rem;                 /* ✅ slightly smaller so it fits */
       color:#111;
-      white-space:nowrap;
+      white-space:nowrap;            /* ✅ keep together */
     }
-    .nm-price span{ font-weight:600; opacity:.75; margin-left:4px; }
+    .nm-price span{ font-weight:600; opacity:.75; margin-left:4px; white-space:nowrap; }
 
     .nm-plan-card h3{
       margin:2px 0 0;
@@ -90,7 +100,7 @@
 
     .nm-two-col{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap:16px;
       align-items:start;
     }
@@ -123,308 +133,207 @@
       color: rgba(0,0,0,.72);
     }
 
-    .nm-menu-cards{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap:10px;
-      margin-top:12px;
-    }
-    .nm-menu-item{
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:12px;
-      padding:12px;
-      background: rgba(0,0,0,.02);
-    }
-    .nm-menu-head{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      margin-bottom:6px;
-      flex-wrap: wrap;
-    }
-    .nm-menu-item small{ display:block; opacity:.7; margin-top:4px; }
-
-    .nm-tag{
-      display:inline-flex;
-      align-items:center;
-      padding:4px 8px;
-      border-radius:999px;
-      font-size:.74rem;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      line-height: 1;
-    }
-    .nm-tag-red{ background: rgba(255, 77, 77, .12); border-color: rgba(255,77,77,.25); }
-    .nm-tag-green{ background: rgba(46, 204, 113, .12); border-color: rgba(46,204,113,.25); }
-    .nm-tag-orange{ background: rgba(255, 122, 0, .12); border-color: rgba(255,122,0,.25); }
-
     .nm-note{
       margin-top:12px;
       font-size:.9rem;
       opacity:.75;
     }
 
-    .nm-order{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:16px;
-      padding:18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    /* ===== WEEKLY MENU SHEET (UNDER PLAN CARDS) ===== */
+    .nm-menu-sheet{
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
-    .nm-form label{ display:block; margin:10px 0; }
-    .nm-form input, .nm-form select{
-      width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid rgba(0,0,0,.14);
-      background:#fff;
-      font: inherit;
-      margin-top:6px;
-    }
-    .nm-small{ margin-top:10px; font-size:.9rem; opacity:.8; }
 
+    /* Top price header */
+    .nm-menu-prices{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
+      gap: 12px;
+      align-items: stretch;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      margin-bottom: 16px;
+    }
+
+    .nm-pack{
+      background: #fbf7f2;
+      border: 1px solid rgba(255,140,0,.18);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .nm-pack-title{
+      font-weight: 800;
+      letter-spacing: .08em;
+      font-size: .9rem;
+    }
+
+    .nm-pack-sub{
+      opacity: .7;
+      margin-top: 4px;
+      font-size: .85rem;
+    }
+
+    .nm-pack-prices{
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 14px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      justify-items: end;
+    }
+
+    .nm-price-line{
+      display:flex;
+      gap: 8px;
+      align-items: baseline;
+      white-space: nowrap;
+    }
+
+    .nm-price-big{
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .nm-price-small{
+      opacity: .7;
+      font-weight: 700;
+      letter-spacing: .06em;
+      font-size: .75rem;
+    }
+
+    /* Weeks layout */
+    .nm-weeks-grid{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .nm-week-card{
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .nm-week-head{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      margin-bottom: 10px;
+    }
+
+    .nm-week-title{
+      font-weight: 900;
+      letter-spacing: .14em;
+      font-size: .9rem;
+      opacity: .8;
+    }
+
+    /* List rows */
+    .nm-week-list{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .nm-week-list li{
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 10px;
+      align-items: baseline;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #fafafa;
+      border: 1px solid rgba(0,0,0,.05);
+    }
+
+    .nm-day{
+      font-weight: 800;
+      opacity: .75;
+    }
+
+    .nm-dish{
+      font-weight: 800;
+    }
+
+    .nm-side{
+      opacity: .7;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ===== Delivery box form ===== */
+    .nm-delivery-form{
+      display: grid;
+      gap: 12px;
+    }
+
+    .nm-field{
+      display: grid;
+      gap: 6px;
+    }
+
+    .nm-label{
+      font-weight: 700;
+      font-size: .9rem;
+      opacity: .85;
+    }
+
+    .nm-delivery-form input,
+    .nm-delivery-form select,
+    .nm-delivery-form textarea{
+      width: 100%;
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff;
+      outline: none;
+      font: inherit;
+    }
+
+    .nm-delivery-form textarea{
+      resize: vertical;
+      min-height: 84px;
+    }
+
+    .nm-row{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .nm-actions{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
     @media (max-width: 980px){
       .nm-plan-grid{ grid-template-columns: repeat(2, minmax(220px,1fr)); }
       .nm-two-col{ grid-template-columns: 1fr; }
-      .nm-menu-cards{ grid-template-columns: 1fr; }
+      .nm-menu-prices{ grid-template-columns: 1fr 1fr; }
+      .nm-pack-prices{ justify-items: start; }
+      .nm-weeks-grid{ grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 600px){
+      .nm-row{ grid-template-columns: 1fr; }
+      .nm-week-list li{ grid-template-columns: 48px 1fr; }
+      .nm-side{ grid-column: 1 / -1; white-space: normal; }
+    }
+
     @media (max-width: 520px){
       .nm-plan-grid{ grid-template-columns: 1fr; }
     }
-    /* Fix: plan card top row overflow */
-.nm-plan-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;                 /* ✅ allow wrap */
-}
-
-.nm-pill{
-  max-width: 100%;                /* ✅ never overflow */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nm-price{
-  margin-left:auto;
-  text-align:right;
-  white-space: nowrap;            /* ✅ keep "Rs 16,000/month" together */
-  font-size: 1rem;                /* ✅ slightly smaller so it fits */
-}
-
-.nm-price span{
-  white-space: nowrap;
-}
-
-/* Extra safety */
-.nm-plan-card{
-  overflow:hidden;                /* ✅ prevents any inner spill */
-}
-
-    /* ===== MENU SHEET (UNDER PLAN CARDS) ===== */
-.nm-menu-sheet{
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.06);
-}
-
-/* Top price header */
-.nm-menu-prices{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
-  gap: 12px;
-  align-items: stretch;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-  margin-bottom: 16px;
-}
-
-.nm-pack{
-  background: #fbf7f2;
-  border: 1px solid rgba(255,140,0,.18);
-  border-radius: 14px;
-  padding: 12px;
-}
-
-.nm-pack-title{
-  font-weight: 800;
-  letter-spacing: .08em;
-  font-size: .9rem;
-}
-
-.nm-pack-sub{
-  opacity: .7;
-  margin-top: 4px;
-  font-size: .85rem;
-}
-
-.nm-pack-prices{
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 14px;
-  padding: 12px;
-  display: grid;
-  gap: 8px;
-  justify-items: end;
-}
-
-.nm-price-line{
-  display:flex;
-  gap: 8px;
-  align-items: baseline;
-  white-space: nowrap;
-}
-
-.nm-price-big{
-  font-weight: 900;
-  font-size: 1.2rem;
-}
-
-.nm-price-small{
-  opacity: .7;
-  font-weight: 700;
-  letter-spacing: .06em;
-  font-size: .75rem;
-}
-
-/* Weeks layout */
-.nm-weeks-grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.nm-week-card{
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 16px;
-  padding: 12px;
-  background: #fff;
-}
-
-.nm-week-head{
-  display:flex;
-  justify-content: space-between;
-  align-items:center;
-  margin-bottom: 10px;
-}
-
-.nm-week-title{
-  font-weight: 900;
-  letter-spacing: .14em;
-  font-size: .9rem;
-  opacity: .8;
-}
-
-/* List rows */
-.nm-week-list{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.nm-week-list li{
-  display: grid;
-  grid-template-columns: 54px 1fr auto;
-  gap: 10px;
-  align-items: baseline;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: #fafafa;
-  border: 1px solid rgba(0,0,0,.05);
-}
-
-.nm-day{
-  font-weight: 800;
-  opacity: .75;
-}
-
-.nm-dish{
-  font-weight: 800;
-}
-
-.nm-side{
-  opacity: .7;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* Responsive */
-@media (max-width: 900px){
-  .nm-menu-prices{
-    grid-template-columns: 1fr 1fr;
-  }
-  .nm-pack-prices{
-    justify-items: start;
-  }
-  .nm-weeks-grid{
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px){
-  .nm-week-list li{
-    grid-template-columns: 48px 1fr;
-  }
-  .nm-side{
-    grid-column: 1 / -1;
-    white-space: normal;
-  }
-}
-/* Delivery box form */
-.nm-delivery-form{
-  display: grid;
-  gap: 12px;
-}
-
-.nm-field{
-  display: grid;
-  gap: 6px;
-}
-
-.nm-label{
-  font-weight: 700;
-  font-size: .9rem;
-  opacity: .85;
-}
-
-.nm-delivery-form input,
-.nm-delivery-form select,
-.nm-delivery-form textarea{
-  width: 100%;
-  border: 1px solid rgba(0,0,0,.10);
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: #fff;
-  outline: none;
-}
-
-.nm-delivery-form textarea{
-  resize: vertical;
-  min-height: 84px;
-}
-
-.nm-row{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.nm-actions{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 600px){
-  .nm-row{ grid-template-columns: 1fr; }
-}
-
   </style>
 </head>
 
@@ -539,121 +448,121 @@
         </div>
       </div>
     </section>
-    
-  <!-- ===== WEEKLY MENU (UNDER 4 PLAN CARDS) ===== -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-kicker">Menu (Rotation)</div>
-      <h2 class="section-title">Weekly Menu Preview (Week 1–4)</h2>
-      <p class="section-subtitle">
-        Same pattern — dishes week to week change ho sakti hain, lekin rotation yehi rahegi.
-      </p>
-    </div>
 
-    <div class="nm-menu-sheet">
-      <!-- Top Prices Row -->
-      <div class="nm-menu-prices">
-        <div class="nm-pack">
-          <div class="nm-pack-title">1 MEAL PACK</div>
-          <div class="nm-pack-sub">Weekly / Monthly</div>
+    <!-- WEEKLY MENU (UNDER 4 PLAN CARDS) -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-kicker">Menu (Rotation)</div>
+          <h2 class="section-title">Weekly Menu Preview (Week 1–4)</h2>
+          <p class="section-subtitle">
+            Same pattern — dishes week to week change ho sakti hain, lekin rotation yehi rahegi.
+          </p>
         </div>
 
-        <div class="nm-pack">
-          <div class="nm-pack-title">2 MEAL PACK</div>
-          <div class="nm-pack-sub">Weekly / Monthly</div>
-        </div>
+        <div class="nm-menu-sheet">
+          <!-- Top Prices Row -->
+          <div class="nm-menu-prices">
+            <div class="nm-pack">
+              <div class="nm-pack-title">1 MEAL PACK</div>
+              <div class="nm-pack-sub">Weekly / Monthly</div>
+            </div>
 
-        <div class="nm-pack-prices">
-          <div class="nm-price-line">
-            <span class="nm-price-big">2000</span> <span class="nm-price-small">PER WEEK</span>
-          </div>
-          <div class="nm-price-line">
-            <span class="nm-price-big">8000</span> <span class="nm-price-small">PER MONTH</span>
-          </div>
-        </div>
+            <div class="nm-pack">
+              <div class="nm-pack-title">2 MEAL PACK</div>
+              <div class="nm-pack-sub">Weekly / Monthly</div>
+            </div>
 
-        <div class="nm-pack-prices">
-          <div class="nm-price-line">
-            <span class="nm-price-big">4000</span> <span class="nm-price-small">PER WEEK</span>
+            <div class="nm-pack-prices">
+              <div class="nm-price-line">
+                <span class="nm-price-big">2000</span> <span class="nm-price-small">PER WEEK</span>
+              </div>
+              <div class="nm-price-line">
+                <span class="nm-price-big">8000</span> <span class="nm-price-small">PER MONTH</span>
+              </div>
+            </div>
+
+            <div class="nm-pack-prices">
+              <div class="nm-price-line">
+                <span class="nm-price-big">4000</span> <span class="nm-price-small">PER WEEK</span>
+              </div>
+              <div class="nm-price-line">
+                <span class="nm-price-big">16000</span> <span class="nm-price-small">PER MONTH</span>
+              </div>
+            </div>
           </div>
-          <div class="nm-price-line">
-            <span class="nm-price-big">16000</span> <span class="nm-price-small">PER MONTH</span>
+
+          <!-- Weeks Grid -->
+          <div class="nm-weeks-grid">
+            <!-- WEEK 1 -->
+            <article class="nm-week-card">
+              <header class="nm-week-head">
+                <div class="nm-week-title">WEEK 1</div>
+              </header>
+
+              <ul class="nm-week-list">
+                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Qorma</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Tue</span><span class="nm-dish">Vegetable Rice</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Wed</span><span class="nm-dish">Aloo Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Biryani</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              </ul>
+            </article>
+
+            <!-- WEEK 2 -->
+            <article class="nm-week-card">
+              <header class="nm-week-head">
+                <div class="nm-week-title">WEEK 2</div>
+              </header>
+
+              <ul class="nm-week-list">
+                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Achari</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Tue</span><span class="nm-dish">Chana Pulao</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Wed</span><span class="nm-dish">Chicken Haleem</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Thu</span><span class="nm-dish">Kari Pakora</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Fri</span><span class="nm-dish">Tikka Biryani</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              </ul>
+            </article>
+
+            <!-- WEEK 3 -->
+            <article class="nm-week-card">
+              <header class="nm-week-head">
+                <div class="nm-week-title">WEEK 3</div>
+              </header>
+
+              <ul class="nm-week-list">
+                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Nehari</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Tue</span><span class="nm-dish">Masar</span><span class="nm-side">+ Rice</span></li>
+                <li><span class="nm-day">Wed</span><span class="nm-dish">Anda Kofta</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Thu</span><span class="nm-dish">Aloo Palak</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Fri</span><span class="nm-dish">Sindhi Biryani</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              </ul>
+            </article>
+
+            <!-- WEEK 4 -->
+            <article class="nm-week-card">
+              <header class="nm-week-head">
+                <div class="nm-week-title">WEEK 4</div>
+              </header>
+
+              <ul class="nm-week-list">
+                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Karahi</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Tue</span><span class="nm-dish">Matar Pulao</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Wed</span><span class="nm-dish">Palak Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
+                <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Pulao</span><span class="nm-side">+ Raita</span></li>
+                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              </ul>
+            </article>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Weeks Grid -->
-      <div class="nm-weeks-grid">
-        <!-- WEEK 1 -->
-        <article class="nm-week-card">
-          <header class="nm-week-head">
-            <div class="nm-week-title">WEEK 1</div>
-          </header>
-
-          <ul class="nm-week-list">
-            <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Qorma</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Tue</span><span class="nm-dish">Vegetable Rice</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Wed</span><span class="nm-dish">Aloo Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Biryani</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
-          </ul>
-        </article>
-
-        <!-- WEEK 2 -->
-        <article class="nm-week-card">
-          <header class="nm-week-head">
-            <div class="nm-week-title">WEEK 2</div>
-          </header>
-
-          <ul class="nm-week-list">
-            <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Achari</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Tue</span><span class="nm-dish">Chana Pulao</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Wed</span><span class="nm-dish">Chicken Haleem</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Thu</span><span class="nm-dish">Kari Pakora</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Fri</span><span class="nm-dish">Tikka Biryani</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
-          </ul>
-        </article>
-
-        <!-- WEEK 3 -->
-        <article class="nm-week-card">
-          <header class="nm-week-head">
-            <div class="nm-week-title">WEEK 3</div>
-          </header>
-
-          <ul class="nm-week-list">
-            <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Nehari</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Tue</span><span class="nm-dish">Masar</span><span class="nm-side">+ Rice</span></li>
-            <li><span class="nm-day">Wed</span><span class="nm-dish">Anda Kofta</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Thu</span><span class="nm-dish">Aloo Palak</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Fri</span><span class="nm-dish">Sindhi Biryani</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
-          </ul>
-        </article>
-
-        <!-- WEEK 4 -->
-        <article class="nm-week-card">
-          <header class="nm-week-head">
-            <div class="nm-week-title">WEEK 4</div>
-          </header>
-
-          <ul class="nm-week-list">
-            <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Karahi</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Tue</span><span class="nm-dish">Matar Pulao</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Wed</span><span class="nm-dish">Palak Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
-            <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Pulao</span><span class="nm-side">+ Raita</span></li>
-            <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <!-- DETAILS + MENU -->
+    <!-- DETAILS + DELIVERY -->
     <section class="section">
       <div class="container">
         <div class="nm-two-col">
@@ -663,7 +572,7 @@
             <div class="section-kicker">Selected plan</div>
             <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
             <p class="section-subtitle" id="nmSelectedDesc">
-              Upar se koi plan choose karo — yahan details + neeche order window open ho jayegi.
+              Upar se koi plan choose karo — yahan details update hongi.
             </p>
 
             <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
@@ -682,73 +591,147 @@
             </div>
 
             <ul class="nm-bullets" id="nmSelectedBullets"></ul>
+
+            <div class="nm-note">
+              Plan select karte hi neeche order section open ho jayega.
+            </div>
           </div>
 
-          <!-- DELIVERY DETAILS (REPLACES MENU PREVIEW BOX) -->
-<div class="nm-box">
-  <div class="section-kicker">Delivery details</div>
-  <h2 class="section-title">Enter delivery info</h2>
-  <p class="section-subtitle">
-    Number, address aur timing select karo. Ye info order ke time auto use hogi.
-  </p>
+          <!-- DELIVERY DETAILS -->
+          <div class="nm-box">
+            <div class="section-kicker">Delivery details</div>
+            <h2 class="section-title">Enter delivery info</h2>
+            <p class="section-subtitle">
+              Number, address aur timing select karo. Ye info order ke time auto use hogi.
+            </p>
 
-  <form class="nm-delivery-form" id="nmDeliveryForm" autocomplete="on">
-    <label class="nm-field">
-      <span class="nm-label">Phone (WhatsApp)</span>
-      <input id="nmDelPhone" name="phone" type="tel" placeholder="03xx..." required />
-    </label>
+            <form class="nm-delivery-form" id="nmDeliveryForm" autocomplete="on">
+              <label class="nm-field">
+                <span class="nm-label">Phone (WhatsApp)</span>
+                <input id="nmDelPhone" name="phone" type="tel" placeholder="03xx..." required />
+              </label>
 
-    <label class="nm-field">
-      <span class="nm-label">Delivery address</span>
-      <textarea id="nmDelAddress" name="address" rows="3" placeholder="Office / Home address" required></textarea>
-    </label>
+              <label class="nm-field">
+                <span class="nm-label">Delivery address</span>
+                <textarea id="nmDelAddress" name="address" rows="3" placeholder="Office / Home address" required></textarea>
+              </label>
 
-    <div class="nm-row">
-      <label class="nm-field">
-        <span class="nm-label">From</span>
-        <select id="nmDelFrom" name="from" required>
-          <option value="12:00 PM">12:00 PM</option>
-          <option value="12:30 PM">12:30 PM</option>
-          <option value="01:00 PM">01:00 PM</option>
-          <option value="01:30 PM">01:30 PM</option>
-          <option value="02:00 PM">02:00 PM</option>
-          <option value="02:30 PM">02:30 PM</option>
-          <option value="03:00 PM">03:00 PM</option>
-          <option value="03:30 PM">03:30 PM</option>
-          <option value="04:00 PM">04:00 PM</option>
-        </select>
-      </label>
+              <div class="nm-row">
+                <label class="nm-field">
+                  <span class="nm-label">From</span>
+                  <select id="nmDelFrom" name="from" required>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="12:30 PM">12:30 PM</option>
+                    <option value="01:00 PM">01:00 PM</option>
+                    <option value="01:30 PM">01:30 PM</option>
+                    <option value="02:00 PM">02:00 PM</option>
+                    <option value="02:30 PM">02:30 PM</option>
+                    <option value="03:00 PM">03:00 PM</option>
+                    <option value="03:30 PM">03:30 PM</option>
+                    <option value="04:00 PM">04:00 PM</option>
+                  </select>
+                </label>
 
-      <label class="nm-field">
-        <span class="nm-label">To</span>
-        <select id="nmDelTo" name="to" required>
-          <option value="01:00 PM">01:00 PM</option>
-          <option value="01:30 PM">01:30 PM</option>
-          <option value="02:00 PM">02:00 PM</option>
-          <option value="02:30 PM">02:30 PM</option>
-          <option value="03:00 PM">03:00 PM</option>
-          <option value="03:30 PM">03:30 PM</option>
-          <option value="04:00 PM">04:00 PM</option>
-          <option value="04:30 PM">04:30 PM</option>
-          <option value="05:00 PM">05:00 PM</option>
-        </select>
-      </label>
-    </div>
+                <label class="nm-field">
+                  <span class="nm-label">To</span>
+                  <select id="nmDelTo" name="to" required>
+                    <option value="01:00 PM">01:00 PM</option>
+                    <option value="01:30 PM">01:30 PM</option>
+                    <option value="02:00 PM">02:00 PM</option>
+                    <option value="02:30 PM">02:30 PM</option>
+                    <option value="03:00 PM">03:00 PM</option>
+                    <option value="03:30 PM">03:30 PM</option>
+                    <option value="04:00 PM">04:00 PM</option>
+                    <option value="04:30 PM">04:30 PM</option>
+                    <option value="05:00 PM">05:00 PM</option>
+                  </select>
+                </label>
+              </div>
 
-    <div class="nm-actions">
-      <button class="btn btn-primary btn-lg" type="submit">Save details</button>
-      <button class="btn btn-outline btn-lg" type="button" id="nmClearDelivery">Clear</button>
-    </div>
+              <div class="nm-actions">
+                <button class="btn btn-primary btn-lg" type="submit">Save details</button>
+                <button class="btn btn-outline btn-lg" type="button" id="nmClearDelivery">Clear</button>
+              </div>
 
-    <div class="nm-small" id="nmDeliveryMsg"></div>
-  </form>
-</div>
-
+              <div class="nm-small" id="nmDeliveryMsg"></div>
+            </form>
           </div>
 
         </div>
       </div>
     </section>
+
+    <!-- ✅ ORDER (Hidden until plan selected by JS) -->
+    <section class="section" id="nmOrderSection" style="display:none;">
+      <div class="container">
+        <div class="nm-order">
+          <div class="section-kicker">Order</div>
+          <h2 class="section-title">Confirm &amp; Place Order</h2>
+          <p class="section-subtitle">
+            Plan select ho gaya. Delivery details save hon to automatically fill ho jayengi.
+          </p>
+
+          <form class="nm-delivery-form" id="nmOrderForm" autocomplete="on">
+            <div class="nm-row">
+              <label class="nm-field">
+                <span class="nm-label">Full name</span>
+                <input id="nmOrdName" name="name" type="text" placeholder="Your name" required />
+              </label>
+
+              <label class="nm-field">
+                <span class="nm-label">Phone (WhatsApp)</span>
+                <input id="nmOrdPhone" name="phone" type="tel" placeholder="03xx..." required />
+              </label>
+            </div>
+
+            <label class="nm-field">
+              <span class="nm-label">Delivery address</span>
+              <textarea id="nmOrdAddress" name="address" rows="3" placeholder="Office / Home address" required></textarea>
+            </label>
+
+            <div class="nm-row">
+              <label class="nm-field">
+                <span class="nm-label">From</span>
+                <select id="nmOrdFrom" name="from" required>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="12:30 PM">12:30 PM</option>
+                  <option value="01:00 PM">01:00 PM</option>
+                  <option value="01:30 PM">01:30 PM</option>
+                  <option value="02:00 PM">02:00 PM</option>
+                  <option value="02:30 PM">02:30 PM</option>
+                  <option value="03:00 PM">03:00 PM</option>
+                  <option value="03:30 PM">03:30 PM</option>
+                  <option value="04:00 PM">04:00 PM</option>
+                </select>
+              </label>
+
+              <label class="nm-field">
+                <span class="nm-label">To</span>
+                <select id="nmOrdTo" name="to" required>
+                  <option value="01:00 PM">01:00 PM</option>
+                  <option value="01:30 PM">01:30 PM</option>
+                  <option value="02:00 PM">02:00 PM</option>
+                  <option value="02:30 PM">02:30 PM</option>
+                  <option value="03:00 PM">03:00 PM</option>
+                  <option value="03:30 PM">03:30 PM</option>
+                  <option value="04:00 PM">04:00 PM</option>
+                  <option value="04:30 PM">04:30 PM</option>
+                  <option value="05:00 PM">05:00 PM</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="nm-actions">
+              <button class="btn btn-primary btn-lg" type="submit">Place order</button>
+            </div>
+
+            <div class="nm-small" id="nmOrderMsg"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -766,5 +749,182 @@
   <script src="plans.js"></script>
   <script src="auth.js"></script>
 
+  <!-- ✅ small inline JS so plans page works even if plans.js missing -->
+  <script>
+    (function () {
+      const grid = document.getElementById("nmPlanGrid");
+      const orderSection = document.getElementById("nmOrderSection");
+
+      const titleEl = document.getElementById("nmSelectedTitle");
+      const descEl = document.getElementById("nmSelectedDesc");
+      const metaRow = document.getElementById("nmSelectedMeta");
+      const priceEl = document.getElementById("nmSelectedPrice");
+      const daysEl = document.getElementById("nmSelectedDays");
+      const mealsEl = document.getElementById("nmSelectedMeals");
+      const bulletsEl = document.getElementById("nmSelectedBullets");
+
+      // Delivery form
+      const deliveryForm = document.getElementById("nmDeliveryForm");
+      const delMsg = document.getElementById("nmDeliveryMsg");
+      const clearBtn = document.getElementById("nmClearDelivery");
+
+      const delPhone = document.getElementById("nmDelPhone");
+      const delAddress = document.getElementById("nmDelAddress");
+      const delFrom = document.getElementById("nmDelFrom");
+      const delTo = document.getElementById("nmDelTo");
+
+      // Order form fields
+      const ordName = document.getElementById("nmOrdName");
+      const ordPhone = document.getElementById("nmOrdPhone");
+      const ordAddress = document.getElementById("nmOrdAddress");
+      const ordFrom = document.getElementById("nmOrdFrom");
+      const ordTo = document.getElementById("nmOrdTo");
+      const orderMsg = document.getElementById("nmOrderMsg");
+
+      const STORAGE_KEY = "nm_delivery_details_v1";
+
+      const plans = {
+        weekly1: { title:"Weekly 1 Meal Plan", desc:"Mon–Sat (6 days) • 1 meal per day • Office-friendly", price:"Rs 2,000 / week", days:"6 days", meals:"1",
+          bullets:["Mon–Sat (6 days)","1 meal per day","Office-friendly portion"] },
+        weekly2: { title:"Weekly 2 Meals Plan", desc:"Mon–Sat (6 days) • 2 meals per day • Office days", price:"Rs 4,000 / week", days:"6 days", meals:"2",
+          bullets:["Mon–Sat (6 days)","2 meals per day","Best for full office days"] },
+        monthly1:{ title:"Monthly 1 Meal Plan", desc:"Mon–Sat (6 days) • 1 meal per day • Best value", price:"Rs 8,000 / month", days:"6 days", meals:"1",
+          bullets:["Mon–Sat (6 days)","1 meal per day","Best value option"] },
+        monthly2:{ title:"Monthly 2 Meals Plan", desc:"Mon–Sat (6 days) • 2 meals per day • Priority support", price:"Rs 16,000 / month", days:"6 days", meals:"2",
+          bullets:["2 meals per day (Mon–Sat)","Ideal for family / office","Priority support"] }
+      };
+
+      function setActiveCard(card){
+        document.querySelectorAll(".nm-plan-card").forEach((c) => {
+          c.classList.remove("is-active");
+          c.setAttribute("aria-pressed","false");
+        });
+        card.classList.add("is-active");
+        card.setAttribute("aria-pressed","true");
+      }
+
+      function fillSelected(p){
+        if (titleEl) titleEl.textContent = p.title;
+        if (descEl) descEl.textContent = p.desc;
+        if (metaRow) metaRow.style.display = "grid";
+        if (priceEl) priceEl.textContent = p.price;
+        if (daysEl) daysEl.textContent = p.days;
+        if (mealsEl) mealsEl.textContent = p.meals;
+
+        if (bulletsEl){
+          bulletsEl.innerHTML = "";
+          (p.bullets || []).forEach((b) => {
+            const li = document.createElement("li");
+            li.textContent = b;
+            bulletsEl.appendChild(li);
+          });
+        }
+      }
+
+      function saveDeliveryToStorage(){
+        const payload = {
+          phone: delPhone ? delPhone.value.trim() : "",
+          address: delAddress ? delAddress.value.trim() : "",
+          from: delFrom ? delFrom.value : "",
+          to: delTo ? delTo.value : ""
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      }
+
+      function loadDeliveryFromStorage(){
+        try{
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if(!raw) return null;
+          return JSON.parse(raw);
+        }catch{
+          return null;
+        }
+      }
+
+      function applyDeliveryToForms(d){
+        if(!d) return;
+
+        if (delPhone && d.phone) delPhone.value = d.phone;
+        if (delAddress && d.address) delAddress.value = d.address;
+        if (delFrom && d.from) delFrom.value = d.from;
+        if (delTo && d.to) delTo.value = d.to;
+
+        if (ordPhone && d.phone) ordPhone.value = d.phone;
+        if (ordAddress && d.address) ordAddress.value = d.address;
+        if (ordFrom && d.from) ordFrom.value = d.from;
+        if (ordTo && d.to) ordTo.value = d.to;
+      }
+
+      // init: load delivery details
+      applyDeliveryToForms(loadDeliveryFromStorage());
+
+      // delivery save
+      if (deliveryForm){
+        deliveryForm.addEventListener("submit", function(e){
+          e.preventDefault();
+          saveDeliveryToStorage();
+          if(delMsg){
+            delMsg.textContent = "✅ Saved! Ab plan select karo ya order complete karo.";
+          }
+          // also sync into order fields immediately
+          applyDeliveryToForms(loadDeliveryFromStorage());
+        });
+      }
+
+      // delivery clear
+      if (clearBtn){
+        clearBtn.addEventListener("click", function(){
+          localStorage.removeItem(STORAGE_KEY);
+          if (delPhone) delPhone.value = "";
+          if (delAddress) delAddress.value = "";
+          if (delFrom) delFrom.selectedIndex = 0;
+          if (delTo) delTo.selectedIndex = 0;
+
+          if (ordPhone) ordPhone.value = "";
+          if (ordAddress) ordAddress.value = "";
+          if (ordFrom) ordFrom.selectedIndex = 0;
+          if (ordTo) ordTo.selectedIndex = 0;
+
+          if(delMsg) delMsg.textContent = "Cleared.";
+        });
+      }
+
+      // plan select
+      if (grid){
+        grid.addEventListener("click", function(e){
+          const card = e.target.closest(".nm-plan-card");
+          if(!card) return;
+
+          const key = card.getAttribute("data-plan");
+          const p = plans[key];
+          if(!p) return;
+
+          setActiveCard(card);
+          fillSelected(p);
+
+          // show order section
+          if (orderSection){
+            orderSection.style.display = "block";
+            // apply stored delivery again when opening
+            applyDeliveryToForms(loadDeliveryFromStorage());
+            orderSection.scrollIntoView({behavior:"smooth", block:"start"});
+          }
+        });
+      }
+
+      // order submit (demo only)
+      const orderForm = document.getElementById("nmOrderForm");
+      if (orderForm){
+        orderForm.addEventListener("submit", function(e){
+          e.preventDefault();
+          // here you can call your backend later
+          if(orderMsg){
+            orderMsg.textContent = "✅ Order submitted! (Demo). Backend later connect kar denge.";
+          }
+        });
+      }
+
+    })();
+  </script>
 </body>
 </html>
