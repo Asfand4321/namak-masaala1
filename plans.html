@@ -223,6 +223,160 @@
   overflow:hidden;                /* ✅ prevents any inner spill */
 }
 
+    /* ===== MENU SHEET (UNDER PLAN CARDS) ===== */
+.nm-menu-sheet{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Top price header */
+.nm-menu-prices{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
+  gap: 12px;
+  align-items: stretch;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  margin-bottom: 16px;
+}
+
+.nm-pack{
+  background: #fbf7f2;
+  border: 1px solid rgba(255,140,0,.18);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.nm-pack-title{
+  font-weight: 800;
+  letter-spacing: .08em;
+  font-size: .9rem;
+}
+
+.nm-pack-sub{
+  opacity: .7;
+  margin-top: 4px;
+  font-size: .85rem;
+}
+
+.nm-pack-prices{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+}
+
+.nm-price-line{
+  display:flex;
+  gap: 8px;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.nm-price-big{
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.nm-price-small{
+  opacity: .7;
+  font-weight: 700;
+  letter-spacing: .06em;
+  font-size: .75rem;
+}
+
+/* Weeks layout */
+.nm-weeks-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.nm-week-card{
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  padding: 12px;
+  background: #fff;
+}
+
+.nm-week-head{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom: 10px;
+}
+
+.nm-week-title{
+  font-weight: 900;
+  letter-spacing: .14em;
+  font-size: .9rem;
+  opacity: .8;
+}
+
+/* List rows */
+.nm-week-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.nm-week-list li{
+  display: grid;
+  grid-template-columns: 54px 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid rgba(0,0,0,.05);
+}
+
+.nm-day{
+  font-weight: 800;
+  opacity: .75;
+}
+
+.nm-dish{
+  font-weight: 800;
+}
+
+.nm-side{
+  opacity: .7;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .nm-menu-prices{
+    grid-template-columns: 1fr 1fr;
+  }
+  .nm-pack-prices{
+    justify-items: start;
+  }
+  .nm-weeks-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px){
+  .nm-week-list li{
+    grid-template-columns: 48px 1fr;
+  }
+  .nm-side{
+    grid-column: 1 / -1;
+    white-space: normal;
+  }
+}
+
   </style>
 </head>
 
