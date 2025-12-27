@@ -157,6 +157,51 @@
   opacity: 0.9;
 }
 
+    /* ===== MAKE SIDE CARD TEXT BIG + BOLD + FILL HEIGHT ===== */
+.nm-side-card{
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.nm-side-card-top{
+  padding-bottom: 14px !important;
+  margin-bottom: 14px !important;
+}
+
+/* Top paragraph bigger + bold */
+.nm-spaced{
+  font-size: 14px !important;       /* bigger */
+  line-height: 1.85 !important;     /* airy */
+  font-weight: 800 !important;      /* bold */
+  letter-spacing: 0.18em !important;
+}
+
+/* List takes remaining height + spreads items */
+.nm-side-list{
+  flex: 1 !important;               /* fill remaining space */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important; /* push items to fill */
+  gap: 0 !important;
+  margin-top: 10px !important;
+}
+
+/* Each list item bigger + bold */
+.nm-side-item{
+  font-size: 14px !important;       /* bigger */
+  font-weight: 900 !important;      /* extra bold */
+  letter-spacing: 0.16em !important;
+  line-height: 1.6 !important;
+  padding-left: 16px !important;
+}
+
+/* Bullet bigger too */
+.nm-side-item::before{
+  font-size: 18px !important;
+  top: -1px !important;
+}
+
   </style>
 </head>
 
