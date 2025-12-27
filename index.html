@@ -121,6 +121,42 @@
   height: auto !important;
 }
 
+    /* ===== THEME COLORS FOR SIDE CARD ===== */
+.nm-side-card{
+  background: #fffaf1 !important;              /* warm cream */
+  border: 1px solid #e7ddcf !important;        /* soft beige border */
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08) !important;
+}
+
+.nm-side-card-top{
+  border-bottom: 1px solid #e7ddcf !important;
+}
+
+.nm-spaced{
+  color: #3a2a1a !important;                   /* warm brown text */
+}
+
+.nm-side-item{
+  color: #1b3a2a !important;                   /* deep green */
+}
+
+/* bullet color (same green) */
+.nm-side-item::before{
+  color: #1b3a2a !important;
+}
+
+/* OPTIONAL: little top accent line */
+.nm-side-card-top::before{
+  content: "";
+  display: block;
+  height: 4px;
+  width: 64px;
+  border-radius: 999px;
+  background: #1b3a2a;                         /* green accent */
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
   </style>
 </head>
 
