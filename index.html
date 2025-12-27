@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <title>Namak Masaala – Home-made Tiffin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="stylesheet" href="style.css?v=3" />
-  <link rel="icon" href="namak-logo.png" type="image/png" />
+  <!-- favicon (optional) -->
+  <link rel="icon" href="images/logo.png" type="image/png" />
 
   <!-- PAGE-ONLY CSS (Hero + Side Card) -->
   <style>
@@ -13,7 +15,7 @@
     .nm-hero-layout{
       display: flex;
       gap: 22px;
-      align-items: flex-start;
+      align-items: stretch;          /* ✅ card same height as image */
       justify-content: space-between;
       flex-wrap: nowrap;
       margin-bottom: 16px;
@@ -24,8 +26,7 @@
       flex: 1 1 auto;
       min-width: 0;
 
-      /* make it a neat rectangle but tall enough for full logo */
-      aspect-ratio: 16 / 12;   /* taller so full logo text shows */
+      aspect-ratio: 16 / 12;         /* tall enough for full logo */
       overflow: hidden;
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.08);
@@ -36,13 +37,13 @@
     .nm-hero-layout .nm-hero-img{
       width: 100%;
       height: 100%;
-      object-fit: contain;     /* ✅ shows full image, no cutting */
+      object-fit: contain;           /* ✅ shows full image */
       object-position: center;
       display: block;
       background: #fff;
     }
 
-    /* Right card */
+    /* Right card (stretch to image height) */
     .nm-side-card{
       flex: 0 0 360px;
       width: 360px;
@@ -52,6 +53,10 @@
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.06);
       padding: 16px;
+
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .nm-side-card-top{
@@ -60,7 +65,7 @@
       margin-bottom: 12px;
     }
 
-    /* Spaced look via CSS (keep text normal in HTML) */
+    /* Spaced look via CSS */
     .nm-spaced{
       font-size: 12px;
       line-height: 1.65;
@@ -69,33 +74,10 @@
       color: #111827;
     }
 
-    .nm-side-title{
-      margin-top: 10px;
-      font-size: 12px;
-      letter-spacing: 0.28em;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: #111827;
-    }
-
-    .nm-side-brand{
-      margin-top: 6px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #111827;
-    }
-
-    .nm-side-phone{
-      margin-top: 10px;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      color: #111827;
-    }
-
     .nm-side-list{
       display: grid;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 8px;
     }
 
     .nm-side-item{
@@ -105,6 +87,7 @@
       color: #111827;
       padding-left: 12px;
       position: relative;
+      font-weight: 800;              /* ✅ make list bold */
     }
 
     .nm-side-item::before{
@@ -113,10 +96,19 @@
       left: 0;
     }
 
+    /* Navbar logo use the new file */
+    .logo-mark{
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      display: block;
+    }
+
     /* Responsive: stack on small screens */
     @media (max-width: 980px){
       .nm-hero-layout{ flex-wrap: wrap; }
-      .nm-side-card{ width: 100%; flex: 1 1 100%; }
+      .nm-side-card{ width: 100%; flex: 1 1 100%; height: auto; }
       .nm-hero-layout .nm-hero-media{ width: 100%; aspect-ratio: 16 / 12; }
     }
   </style>
@@ -129,7 +121,8 @@
   <div class="container nav-inner">
 
     <a href="index.html" class="brand-link">
-      <img src="namak-logo.png" alt="Namak Masaala" class="logo-mark" />
+      <!-- ✅ UPDATED LOGO -->
+      <img src="images/logo.png" alt="Namak Masaala" class="logo-mark" />
       <div class="brand-text">
         <strong>NAMAK MASAALA</strong>
         <span>Home-made Tiffin</span>
@@ -178,11 +171,6 @@
               fresh, homemade meals crafted<br />
               with care and complete hygiene.
             </div>
-
-            <div class="nm-side-title">CLOUD KITCHEN</div>
-            <div class="nm-side-brand">Namak Masaala</div>
-
-            <div class="nm-side-phone">+923247477704</div>
           </div>
 
           <div class="nm-side-list">
@@ -232,7 +220,7 @@
 
       <div class="cta-actions">
         <a href="plans.html" class="btn btn-primary btn-lg">Choose a plan</a>
-        <a href="customer-care.html" class="btn btn-outline btn-lg">Customer care</a>
+        <a href="customercare.html" class="btn btn-outline btn-lg">Customer care</a>
       </div>
     </div>
   </section>
@@ -246,7 +234,7 @@
     <div class="footer-links">
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="customer-care.html">Customer Care</a>
+      <a href="customercare.html">Customer Care</a>
     </div>
   </div>
 </footer>
