@@ -5,8 +5,118 @@
   <title>Namak Masaala – Home-made Tiffin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css?v=3" />
-
   <link rel="icon" href="namak-logo.png" type="image/png" />
+
+  <!-- PAGE-ONLY CSS (Hero + Side Card) -->
+  <style>
+    /* FORCE: hero image left + side card right */
+    .nm-hero-layout{
+      display: flex !important;
+      gap: 22px !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      flex-wrap: nowrap !important;
+      margin-bottom: 16px !important;
+    }
+
+    .nm-hero-layout .nm-hero-media{
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+
+      aspect-ratio: 16 / 10 !important;
+      overflow: hidden !important;
+      border-radius: 16px !important;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08) !important;
+      background: #fff !important;
+    }
+
+    .nm-hero-layout .nm-hero-img{
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    /* Right card fixed width */
+    .nm-side-card{
+      flex: 0 0 360px !important;
+      width: 360px !important;
+
+      background: #fff !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 16px !important;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.06) !important;
+      padding: 16px !important;
+    }
+
+    .nm-side-card-top{
+      padding-bottom: 12px !important;
+      border-bottom: 1px solid #eef2f7 !important;
+      margin-bottom: 12px !important;
+    }
+
+    /* Spaced look via CSS (DON'T type letters with spaces) */
+    .nm-spaced{
+      font-size: 12px !important;
+      line-height: 1.65 !important;
+      letter-spacing: 0.22em !important;
+      text-transform: uppercase !important;
+      color: #111827 !important;
+      white-space: normal !important;
+    }
+
+    .nm-side-title{
+      margin-top: 10px !important;
+      font-size: 12px !important;
+      letter-spacing: 0.28em !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      color: #111827 !important;
+    }
+
+    .nm-side-brand{
+      margin-top: 6px !important;
+      font-size: 16px !important;
+      font-weight: 800 !important;
+      color: #111827 !important;
+    }
+
+    .nm-side-phone{
+      margin-top: 10px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.06em !important;
+      color: #111827 !important;
+    }
+
+    .nm-side-list{
+      display: grid !important;
+      gap: 8px !important;
+      margin-top: 12px !important;
+    }
+
+    .nm-side-item{
+      font-size: 12px !important;
+      letter-spacing: 0.18em !important;
+      text-transform: uppercase !important;
+      color: #111827 !important;
+      padding-left: 12px !important;
+      position: relative !important;
+    }
+
+    .nm-side-item::before{
+      content: "•" !important;
+      position: absolute !important;
+      left: 0 !important;
+    }
+
+    /* Stack only on small screens */
+    @media (max-width: 980px){
+      .nm-hero-layout{ flex-wrap: wrap !important; }
+      .nm-side-card{ width: 100% !important; flex: 1 1 100% !important; }
+      .nm-hero-layout .nm-hero-media{ width: 100% !important; }
+    }
+  </style>
 </head>
 
 <body>
@@ -59,25 +169,26 @@
         <!-- Right: Side Card -->
         <aside class="nm-side-card">
           <div class="nm-side-card-top">
+            <!-- IMPORTANT: keep text normal, spacing is done by CSS letter-spacing -->
             <div class="nm-spaced">
-              W e p r o u d l y p r e p a r e a n d d e l i v e r<br />
-              f r e s h , h o m e m a d e m e a l s c r a f t e d<br />
-              w i t h c a r e a n d c o m p l e t e h y g i e n e .
+              We proudly prepare and deliver<br />
+              fresh, homemade meals crafted<br />
+              with care and complete hygiene.
             </div>
 
-            <div class="nm-side-title">C L O U D&nbsp;&nbsp;K I T C H E N</div>
+            <div class="nm-side-title">CLOUD KITCHEN</div>
             <div class="nm-side-brand">Namak Masaala</div>
 
             <div class="nm-side-phone">+923247477704</div>
           </div>
 
           <div class="nm-side-list">
-            <div class="nm-side-item">ہF r e s h a n d h y g i e n i c f o o d</div>
-            <div class="nm-side-item">T i f f i n s e r v i c e</div>
-            <div class="nm-side-item">W e e k l y / M o n t h l y P a c k a g e s</div>
-            <div class="nm-side-item">R e f e r r a l d i s c o u n t s</div>
-            <div class="nm-side-item">A l l t y p e s o f e v e n t s</div>
-            <div class="nm-side-item">O n t i m e d e l i v e r y</div>
+            <div class="nm-side-item">Fresh and hygienic food</div>
+            <div class="nm-side-item">Tiffin service</div>
+            <div class="nm-side-item">Weekly / Monthly packages</div>
+            <div class="nm-side-item">Referral discounts</div>
+            <div class="nm-side-item">All types of events</div>
+            <div class="nm-side-item">On time delivery</div>
           </div>
         </aside>
       </div>
