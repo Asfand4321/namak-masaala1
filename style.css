@@ -4058,3 +4058,82 @@ img {
     aspect-ratio: 4 / 3 !important;
   }
 }
+
+/* Hero: image + side card layout */
+.nm-hero-layout{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+/* Left image (rectangle) */
+.nm-hero-media{
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.nm-hero-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Right card */
+.nm-side-card{
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+  padding: 16px;
+}
+
+.nm-side-card-top{
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef2f7;
+  margin-bottom: 12px;
+}
+
+.nm-spaced{
+  font-size: 12px;
+  line-height: 1.65;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+.nm-side-title{
+  margin-top: 10px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  font-weight: 800;
+  color: #111827;
+  text-transform: uppercase;
+}
+
+.nm-side-brand{
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 6px;
+  color: #111827;
+}
+
+.nm-side-phone{
+  margin-top: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+/* List */
+.nm-side-list{ display: grid; gap: 8px; }
+.nm-side-item{
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transfor
