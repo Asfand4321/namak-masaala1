@@ -1,1 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Care - Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
+  <style>
+    /* Page-only helpers (safe even if style.css changes) */
+    .cc-wrap{ padding: 28px 0; }
+    .cc-grid{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .cc-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+      padding: 16px;
+    }
+    .cc-title{ font-size: 26px; margin: 4px 0 6px; }
+    .cc-sub{ color:#374151; margin:0 0 14px; line-height:1.6; }
+    .cc-kicker{
+      display:inline-block;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#f3f4f6;
+      border:1px solid #e5e7eb;
+      margin-bottom:10px;
+    }
+    .cc-hr{ border:none; border-top:1px solid #eef2f7; margin: 14px 0; }
+    .cc-list{ margin:0; padding-left: 18px; line-height:1.75; color:#111827; }
+    .cc-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; }
+    .cc-pill{
+      font-size:12px;
+      padding:7px 10px;
+      border:1px solid #e5e7eb;
+      border-radius:999px;
+      background:#fff;
+    }
+    .cc-cta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+
+    /* FAQ accordion */
+    .faq-item{
+      border:1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow:hidden;
+      background:#fff;
+      margin-bottom: 10px;
+    }
+    .faq-q{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:#fff;
+      padding: 12px 14px;
+      font-weight: 700;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .faq-q span{ color:#111827; }
+    .faq-q .ico{ font-size:18px; line-height:1; opacity:.7; }
+    .faq-a{
+      display:none;
+      padding: 0 14px 14px;
+      color:#374151;
+      line-height:1.7;
+    }
+    .faq-a p{ margin: 10px 0 0; }
+    .faq-a ul{ margin: 8px 0 0; padding-left: 18px; }
+    .faq-a li{ margin: 4px 0; }
+
+    /* Contact box */
+    .contact-big{
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      margin: 8px 0 0;
+    }
+    .small{ font-size: 13px; color:#374151; line-height:1.6; }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .cc-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="container nav-inner">
+
+    <a href="index.html" class="brand-link">
+      <img src="namak-logo.png" alt="Namak Masaala" class="logo-mark" />
+      <div class="brand-text">
+        <strong>NAMAK MASAALA</strong>
+        <span>Home-made Tiffin</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="referral.html">Referral</a>
+      <a href="orders.html">My orders</a>
+      <a href="customer-care.html" class="active">Customer care</a>
+    </nav>
+
+    <div class="nav-auth">
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="signup.html" class="btn btn-primary">Sign up</a>
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main>
+  <section class="cc-wrap">
+    <div class="container">
+
+      <div class="cc-grid">
+
+        <!-- LEFT: FAQ + Help -->
+        <div>
+          <div class="cc-card">
+            <div class="cc-kicker">Customer Care</div>
+            <h1 class="cc-title">How can we help?</h1>
+            <p class="cc-sub">
+              Find answers to ordering, delivery, plans, and payments. If you still need help,
+              contact us on WhatsApp and we will guide you.
+            </p>
+
+            <div class="cc-row">
+              <div class="cc-pill">Home-made • Hygienic</div>
+              <div class="cc-pill">Weekly / Monthly Plans</div>
+              <div class="cc-pill">Single Meals</div>
+              <div class="cc-pill">On-time Delivery</div>
+            </div>
+
+            <hr class="cc-hr" />
+
+            <h2 style="margin:0 0 10px;">Quick help</h2>
+            <ul class="cc-list">
+              <li>Order tracking is available in <strong>My orders</strong>.</li>
+              <li>Plans details are available on the <strong>Plans</strong> page.</li>
+              <li>For payments, follow the instructions on <strong>Checkout</strong>.</li>
+              <li>For urgent support, message us on WhatsApp.</li>
+            </ul>
+          </div>
+
+          <div style="height:14px;"></div>
+
+          <div class="cc-card">
+            <h2 style="margin:0 0 12px;">FAQs (A to Z)</h2>
+
+            <!-- PAYMENT FAQS -->
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>How do I pay for a plan?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Plans require <strong>advance payment</strong> (as shown on the checkout screen).
+                  You can pay using:
+                </p>
+                <ul>
+                  <li>Bank transfer</li>
+                  <li>EasyPaisa</li>
+                  <li>JazzCash</li>
+                </ul>
+                <p>
+                  After sending payment, enter your <strong>TRX ID</strong> on checkout and submit.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>How do I pay for single meals?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Single meals are available on <strong>Cash on Delivery</strong> (COD) where applicable.
+                  If an online payment method is shown, you can also pay in advance.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>What is a TRX ID and where do I find it?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  TRX ID is your transaction/reference number shown on the payment receipt
+                  (Bank/EasyPaisa/JazzCash). You will see it after sending payment.
+                </p>
+                <ul>
+                  <li><strong>EasyPaisa/JazzCash:</strong> Receipt screen shows “Transaction ID / TID”.</li>
+                  <li><strong>Bank transfer:</strong> Your banking app shows “Reference / Transaction number”.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>My payment is done but status is still pending. What should I do?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Payment verification can take some time. Please ensure:
+                </p>
+                <ul>
+                  <li>You entered the correct <strong>TRX ID</strong>.</li>
+                  <li>The amount matches your plan total.</li>
+                  <li>Your name/phone is correct on the order.</li>
+                </ul>
+                <p>
+                  If it is still pending, send us a WhatsApp message with:
+                  <strong>Order ID + TRX ID + Screenshot of receipt</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>Can I get a refund?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Refunds depend on order status and preparation stage. If your plan has not started
+                  or the meal is not prepared, we can guide you. Please contact support with your order details.
+                </p>
+              </div>
+            </div>
+
+            <!-- ORDER & DELIVERY -->
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>How does delivery work?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  We deliver in Lahore based on your selected plan/timing. For plans,
+                  delivery schedule is finalized after confirmation.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>What areas do you deliver to?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Delivery areas are shown during checkout (or confirmed by support).
+                  If your location is not listed, message us and we will confirm availability.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>How do I track my order?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Go to <strong>My orders</strong>. You will see your order status (Pending / Confirmed / Out for delivery / Delivered).
+                </p>
+              </div>
+            </div>
+
+            <!-- PLANS -->
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>Can I change my plan after ordering?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  You can request a change before the plan starts (subject to availability).
+                  Message support with your order ID and the plan you want.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">
+                <span>Do referral discounts apply to meals?</span><span class="ico">+</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Referral benefits apply to <strong>plans only</strong>, not single meals.
+                  If someone uses your referral code, credit is awarded based on the plan rules shown on the Referral page.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT: Contact + Payment Help -->
+        <aside class="cc-card">
+          <div class="cc-kicker">Contact</div>
+          <h2 style="margin:0 0 6px;">WhatsApp Support</h2>
+          <div class="contact-big">+92 324 7477704</div>
+          <p class="small" style="margin-top:8px;">
+            For fast help, send a WhatsApp message with your <strong>Order ID</strong> and issue.
+          </p>
+
+          <div class="cc-cta">
+            <button class="btn btn-primary" id="ccWhatsAppBtn" type="button">Chat on WhatsApp</button>
+            <a class="btn btn-outline" href="orders.html">Open My orders</a>
+          </div>
+
+          <hr class="cc-hr" />
+
+          <h3 style="margin:0 0 6px;">Payment checklist</h3>
+          <ul class="cc-list">
+            <li>Choose payment method (Bank / EasyPaisa / JazzCash).</li>
+            <li>Send exact amount.</li>
+            <li>Copy your TRX ID from receipt.</li>
+            <li>Enter TRX ID on checkout and submit.</li>
+            <li>If pending, send screenshot on WhatsApp.</li>
+          </ul>
+
+          <hr class="cc-hr" />
+
+          <h3 style="margin:0 0 6px;">Working hours</h3>
+          <p class="small" style="margin:0;">
+            Daily support timings can vary. If you message us, we reply as soon as possible.
+          </p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© 2025 Namak Masaala. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="plans.html">Plans</a>
+      <a href="meals.html">Meals</a>
+      <a href="customer-care.html">Customer Care</a>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+
+<script>
+  // FAQ accordion
+  (function () {
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function (item) {
+      var btn = item.querySelector('.faq-q');
+      var ans = item.querySelector('.faq-a');
+      var ico = item.querySelector('.faq-q .ico');
+
+      if (!btn || !ans) return;
+
+      btn.addEventListener('click', function () {
+        var open = ans.style.display === 'block';
+        // close others
+        items.forEach(function (it) {
+          var a = it.querySelector('.faq-a');
+          var i = it.querySelector('.faq-q .ico');
+          if (a) a.style.display = 'none';
+          if (i) i.textContent = '+';
+        });
+        // toggle this
+        ans.style.display = open ? 'none' : 'block';
+        if (ico) ico.textContent = open ? '+' : '−';
+      });
+    });
+  })();
+
+  // WhatsApp button
+  (function () {
+    var btn = document.getElementById('ccWhatsAppBtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+      var phone = '923247477704';
+      var text = encodeURIComponent('Hi Namak Masaala, I need help with my order/payment.');
+      window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
+    });
+  })();
+</script>
+
+</body>
+</html>
 
