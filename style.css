@@ -4023,3 +4023,38 @@ img {
   object-position: center;/* keep center */
   display: block;
 }
+
+/* FORCE: hero logo as rectangle banner */
+.nm-hero .nm-hero-media,
+.nm-hero .nm-hero-media-center{
+  width: 100% !important;
+  max-width: 920px !important;
+  margin: 0 auto 16px !important;
+
+  /* Rectangle shape */
+  aspect-ratio: 16 / 7 !important;
+  overflow: hidden !important;
+
+  border-radius: 16px !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08) !important;
+  background: #fff !important;
+  height: auto !important;
+}
+
+.nm-hero .nm-hero-img,
+.nm-hero .nm-hero-logo,
+.nm-hero .nm-hero-media img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;       /* rectangle crop */
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Mobile: little taller rectangle */
+@media (max-width: 640px){
+  .nm-hero .nm-hero-media,
+  .nm-hero .nm-hero-media-center{
+    aspect-ratio: 4 / 3 !important;
+  }
+}
