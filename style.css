@@ -4003,3 +4003,23 @@ img {
 .nm-plan-card{
   overflow:hidden;                /* ✅ prevents any inner spill */
 }
+
+/* Make hero image a clean rectangle (crop & center) */
+.nm-hero-media {
+  width: 100%;
+  max-width: 900px;      /* rectangle width */
+  margin: 0 auto;        /* center */
+  height: 320px;         /* rectangle height (change 280/300/340 as you like) */
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.nm-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* crop to rectangle */
+  object-position: center;/* keep center */
+  display: block;
+}
