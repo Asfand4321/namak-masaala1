@@ -9,112 +9,115 @@
 
   <!-- PAGE-ONLY CSS (Hero + Side Card) -->
   <style>
-    /* FORCE: hero image left + side card right */
+    /* HERO: image left + card right */
     .nm-hero-layout{
-      display: flex !important;
-      gap: 22px !important;
-      align-items: flex-start !important;
-      justify-content: space-between !important;
-      flex-wrap: nowrap !important;
-      margin-bottom: 16px !important;
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      margin-bottom: 16px;
     }
 
+    /* Left image container (rectangle, NO CROP) */
     .nm-hero-layout .nm-hero-media{
-      flex: 1 1 auto !important;
-      min-width: 0 !important;
+      flex: 1 1 auto;
+      min-width: 0;
 
-      aspect-ratio: 16 / 10 !important;
-      overflow: hidden !important;
-      border-radius: 16px !important;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.08) !important;
-      background: #fff !important;
+      /* make it a neat rectangle but tall enough for full logo */
+      aspect-ratio: 16 / 12;   /* taller so full logo text shows */
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      background: #fff;
     }
 
+    /* Image itself (NO CROP) */
     .nm-hero-layout .nm-hero-img{
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      object-position: center !important;
-      display: block !important;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;     /* ✅ shows full image, no cutting */
+      object-position: center;
+      display: block;
+      background: #fff;
     }
 
-    /* Right card fixed width */
+    /* Right card */
     .nm-side-card{
-      flex: 0 0 360px !important;
-      width: 360px !important;
+      flex: 0 0 360px;
+      width: 360px;
 
-      background: #fff !important;
-      border: 1px solid #e5e7eb !important;
-      border-radius: 16px !important;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.06) !important;
-      padding: 16px !important;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+      padding: 16px;
     }
 
     .nm-side-card-top{
-      padding-bottom: 12px !important;
-      border-bottom: 1px solid #eef2f7 !important;
-      margin-bottom: 12px !important;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f7;
+      margin-bottom: 12px;
     }
 
-    /* Spaced look via CSS (DON'T type letters with spaces) */
+    /* Spaced look via CSS (keep text normal in HTML) */
     .nm-spaced{
-      font-size: 12px !important;
-      line-height: 1.65 !important;
-      letter-spacing: 0.22em !important;
-      text-transform: uppercase !important;
-      color: #111827 !important;
-      white-space: normal !important;
+      font-size: 12px;
+      line-height: 1.65;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #111827;
     }
 
     .nm-side-title{
-      margin-top: 10px !important;
-      font-size: 12px !important;
-      letter-spacing: 0.28em !important;
-      font-weight: 800 !important;
-      text-transform: uppercase !important;
-      color: #111827 !important;
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #111827;
     }
 
     .nm-side-brand{
-      margin-top: 6px !important;
-      font-size: 16px !important;
-      font-weight: 800 !important;
-      color: #111827 !important;
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
     }
 
     .nm-side-phone{
-      margin-top: 10px !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.06em !important;
-      color: #111827 !important;
+      margin-top: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #111827;
     }
 
     .nm-side-list{
-      display: grid !important;
-      gap: 8px !important;
-      margin-top: 12px !important;
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
     }
 
     .nm-side-item{
-      font-size: 12px !important;
-      letter-spacing: 0.18em !important;
-      text-transform: uppercase !important;
-      color: #111827 !important;
-      padding-left: 12px !important;
-      position: relative !important;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #111827;
+      padding-left: 12px;
+      position: relative;
     }
 
     .nm-side-item::before{
-      content: "•" !important;
-      position: absolute !important;
-      left: 0 !important;
+      content: "•";
+      position: absolute;
+      left: 0;
     }
 
-    /* Stack only on small screens */
+    /* Responsive: stack on small screens */
     @media (max-width: 980px){
-      .nm-hero-layout{ flex-wrap: wrap !important; }
-      .nm-side-card{ width: 100% !important; flex: 1 1 100% !important; }
-      .nm-hero-layout .nm-hero-media{ width: 100% !important; }
+      .nm-hero-layout{ flex-wrap: wrap; }
+      .nm-side-card{ width: 100%; flex: 1 1 100%; }
+      .nm-hero-layout .nm-hero-media{ width: 100%; aspect-ratio: 16 / 12; }
     }
   </style>
 </head>
@@ -169,7 +172,6 @@
         <!-- Right: Side Card -->
         <aside class="nm-side-card">
           <div class="nm-side-card-top">
-            <!-- IMPORTANT: keep text normal, spacing is done by CSS letter-spacing -->
             <div class="nm-spaced">
               We proudly prepare and deliver<br />
               fresh, homemade meals crafted<br />
