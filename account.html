@@ -1,20 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Account – Namak Masaala</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="namak-logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <title>Checkout – Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
+
+  <style>
+    /* small checkout-only helpers (won’t conflict with your main css) */
+    .checkout-layout{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .checkout-layout{ grid-template-columns: 1fr; }
+    }
+
+    .checkout-card{ padding:18px; }
+    .order-summary-card{ padding:18px; position:sticky; top:16px; }
+    @media (max-width: 980px){
+      .order-summary-card{ position:static; }
+    }
+
+    .checkout-block{ margin-top:16px; padding-top:16px; border-top:1px solid rgba(0,0,0,.08); }
+    .checkout-block-title{ font-size:1.05rem; margin:0 0 10px; }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 560px){
+      .form-grid{ grid-template-columns: 1fr; }
+    }
+    .form-field label{ display:block; font-weight:700; font-size:.92rem; opacity:.9; }
+    .field-hint{ font-weight:600; opacity:.6; font-size:.82rem; margin-left:6px; }
+
+    .checkout-form input, .checkout-form textarea{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      margin-top:6px;
+      font: inherit;
+      background:#fff;
+    }
+    .checkout-form textarea{ resize:vertical; }
+
+    .payment-options{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 560px){
+      .payment-options{ grid-template-columns: 1fr; }
+    }
+    .payment-option{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .payment-option input{ width:auto; margin:0; }
+    .pay-icon{
+      width:30px; height:30px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:10px;
+      background: rgba(0,0,0,.05);
+      overflow:hidden;
+      flex:0 0 30px;
+    }
+    .pay-icon img{ width:100%; height:100%; object-fit:cover; }
+
+    .payment-section{
+      margin-top:12px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.02);
+      border-radius:14px;
+      padding:12px;
+    }
+    .bank-info-box{
+      border:1px dashed rgba(0,0,0,.18);
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+      margin:10px 0 12px;
+    }
+    .bank-line{ margin:6px 0; }
+
+    .form-note{ font-size:.92rem; opacity:.8; margin:8px 0; }
+    .form-error{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,0,0,.18);
+      background: rgba(255,0,0,.06);
+      font-weight:700;
+    }
+
+    .btn-full{ width:100%; }
+
+    .order-items{ display:grid; gap:10px; margin-top:10px; }
+    .order-item-row{
+      display:flex; justify-content:space-between; gap:10px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+    }
+    .order-item-name{ font-weight:800; }
+    .order-item-meta{ opacity:.75; font-size:.9rem; margin-top:2px; }
+    .order-item-price{ font-weight:900; white-space:nowrap; }
+
+    .order-totals{
+      margin-top:12px;
+      border-top:1px solid rgba(0,0,0,.08);
+      padding-top:12px;
+      display:grid;
+      gap:8px;
+    }
+    .order-row{ display:flex; justify-content:space-between; }
+    .order-total span:last-child{ font-weight:900; }
+
+    .card-title{ font-size:1.1rem; margin:0; }
+    .card-meta{ margin-top:10px; opacity:.75; font-size:.92rem; }
+  </style>
 </head>
+
 <body>
+
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand-link">
           <div class="logo-mark">
-            <img src="namak-logo.png" alt="Namak Masaala logo">
+            <img src="namak-logo.png" alt="Namak Masaala logo" />
           </div>
           <div class="brand-text">
             <span class="brand-name">Namak Masaala</span>
@@ -22,150 +154,223 @@
           </div>
         </a>
       </div>
-     <nav class="nav-links">
-  <a href="index.html">Home</a>
-  <a href="plans.html">Plans</a>
-  <a href="meals.html">Meals</a>
-  <a href="referral.html">Referral</a>
-  <a href="orders.html">My Orders</a>
-  <a href="customercare.html" id="customerCareNav">Customer Care</a>
-  <a href="account.html">My Account</a>
-</nav>
+
+      <!-- ✅ Updated nav (same order everywhere, My Account last) -->
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="orders.html">My Orders</a>
+        <a href="customercare.html" id="customerCareNav">Customer Care</a>
+        <a href="account.html">My Account</a>
+      </nav>
 
       <div class="nav-auth">
-        <button class="btn btn-outline" onclick="nmLogout()">Logout</button>
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
+
       <div class="nav-menu-icon">☰</div>
     </div>
+
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
       <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="checkout.html">Checkout</a>
-      <button class="btn btn-outline" onclick="nmLogout()">Logout</button>
+      <a href="customercare.html">Customer Care</a>
+      <a href="account.html">My Account</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
     </div>
   </header>
 
   <main>
     <section class="section">
-      <div class="container account-layout">
-        <!-- MAIN ACCOUNT CARD -->
-        <div class="card account-main-card">
-          <div class="section-kicker">My Account</div>
-          <h1 class="section-title" style="font-size:1.5rem;margin-bottom:8px;">
-            Profile &amp; security
+      <div class="container checkout-layout">
+
+        <!-- LEFT -->
+        <div class="card checkout-card">
+          <div class="section-kicker">Checkout</div>
+          <h1 class="section-title" style="font-size:1.55rem;margin-bottom:8px;">
+            Delivery &amp; payment details
           </h1>
           <p class="section-subtitle">
-            View your basic details, referral information and update your login email or password.
+            Fill your delivery address and choose a payment method.
+            For plans, advance payment + TRX is required. For meals-only orders, Cash on Delivery is available.
           </p>
 
-          <!-- PROFILE DETAILS -->
-          <div class="account-block">
-            <h2 class="account-block-title">Profile details</h2>
-            <div class="account-row">
-              <span>Full name</span>
-              <span id="acc-name">–</span>
-            </div>
-            <div class="account-row">
-              <span>WhatsApp number</span>
-              <span id="acc-whatsapp">Not added</span>
-            </div>
-          </div>
+          <form class="checkout-form" onsubmit="return handleCheckout(event)">
+            <!-- Delivery -->
+            <div class="checkout-block">
+              <h2 class="checkout-block-title">Delivery address</h2>
 
-          <!-- EMAIL CHANGE BLOCK -->
-          <div class="account-block">
-            <h2 class="account-block-title">Email &amp; login</h2>
-            <p class="card-meta">
-              You use this email to login and receive updates. You can change it here if needed.
-            </p>
-
-            <form class="auth-form" onsubmit="return handleChangeEmail(event)">
-              <div class="form-field">
-                <label for="acc-email-input">Email address</label>
-                <input
-                  id="acc-email-input"
-                  name="acc-email-input"
-                  type="email"
-                  required
-                  placeholder="you@example.com">
-              </div>
-
-              <p id="email-error" class="form-error" style="display:none;"></p>
-              <p id="email-success" class="form-success" style="display:none;"></p>
-
-              <button type="submit" class="btn btn-primary">
-                Update email
-              </button>
-            </form>
-          </div>
-
-          <!-- REFERRAL INFO -->
-          <div class="account-block">
-            <h2 class="account-block-title">Referral</h2>
-            <div class="account-row">
-              <span>Your referral code</span>
-              <span id="acc-own-ref">–</span>
-            </div>
-            <div class="account-row">
-              <span>Referral used at signup</span>
-              <span id="acc-used-ref">None</span>
-            </div>
-            <p class="card-meta" style="margin-top:8px;">
-              Share your referral code with friends. When they subscribe to a plan using your code,
-              referral discounts will be applied according to the rules on the Referral page.
-            </p>
-          </div>
-
-          <!-- PASSWORD CHANGE -->
-          <div class="account-block">
-            <h2 class="account-block-title">Password</h2>
-            <p class="card-meta">
-              For security, we only show that a password is set. Use the form below to change it.
-            </p>
-
-            <form class="auth-form" onsubmit="return handleChangePassword(event)">
-              <div class="form-field">
-                <label for="currentPassword">Current password</label>
-                <input id="currentPassword" name="currentPassword" type="password" required>
-              </div>
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="newPassword">New password</label>
-                  <input id="newPassword" name="newPassword" type="password" required minlength="6">
+                  <label for="fullName">Full name *</label>
+                  <input id="fullName" name="fullName" type="text" required />
                 </div>
                 <div class="form-field">
-                  <label for="confirmNewPassword">Confirm new password</label>
-                  <input id="confirmNewPassword" name="confirmNewPassword" type="password" required minlength="6">
+                  <label for="phone">Mobile number (WhatsApp) *</label>
+                  <input id="phone" name="phone" type="tel" required placeholder="03xx..." />
                 </div>
               </div>
 
-              <p id="pwd-error" class="form-error" style="display:none;"></p>
-              <p id="pwd-success" class="form-success" style="display:none;"></p>
+              <!-- ✅ Only ONE address field -->
+              <div class="form-field">
+                <label for="address1">Address *</label>
+                <input id="address1" name="address1" type="text" required placeholder="House / Flat, Street, Building" />
+              </div>
 
-              <button type="submit" class="btn btn-primary">
-                Update password
-              </button>
-            </form>
-          </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="area">Area / locality *</label>
+                  <input id="area" name="area" type="text" required placeholder="DHA, Gulshan, etc." />
+                </div>
+                <div class="form-field">
+                  <label for="city">City *</label>
+                  <!-- ✅ Karachi -> Lahore -->
+                  <input id="city" name="city" type="text" value="Lahore" required />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="instructions">
+                  Delivery instructions <span class="field-hint">(optional)</span>
+                </label>
+                <textarea id="instructions" name="instructions" rows="2" placeholder="Gate code, office floor, etc."></textarea>
+              </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="checkout-block">
+              <h2 class="checkout-block-title">Payment method</h2>
+
+              <p class="form-note" style="margin-bottom:8px;">
+                Plans: JazzCash / Easypaisa / Bank transfer + TRX required.
+                Meals-only: Cash on Delivery available.
+              </p>
+
+              <div class="payment-options" id="paymentOptions">
+                <!-- ✅ Local images -->
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="jazzcash" checked />
+                  <span class="pay-icon">
+                    <img src="images/jazzcash.png" alt="JazzCash logo" />
+                  </span>
+                  <span>JazzCash (wallet → bank)</span>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="easypaisa" />
+                  <span class="pay-icon">
+                    <img src="images/easypaisa.png" alt="Easypaisa logo" />
+                  </span>
+                  <span>Easypaisa (wallet → bank)</span>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="bank" />
+                  <span class="pay-icon">
+                    <img src="images/bank.png" alt="Bank transfer icon" />
+                  </span>
+                  <span>Direct bank transfer</span>
+                </label>
+
+                <!-- ✅ COD (Meals only) -->
+                <label class="payment-option" id="codOptionWrap">
+                  <input type="radio" name="paymentMethod" value="cod" />
+                  <span class="pay-icon">
+                    <span style="display:inline-flex;width:28px;height:28px;border-radius:8px;align-items:center;justify-content:center;background:rgba(0,0,0,.06);font-weight:900;">₨</span>
+                  </span>
+                  <span>Cash on Delivery (Meals only)</span>
+                </label>
+              </div>
+
+              <!-- Manual transfer section (hidden when COD selected) -->
+              <div id="manual-section" class="payment-section">
+                <p class="form-note">
+                  Send your payment (JazzCash / Easypaisa / Bank) to the account below, then paste your TRX / Transaction ID here.
+                  Our team will verify and update your order status.
+                </p>
+
+                <div class="bank-info-box">
+                  <p class="bank-line"><strong>Bank name:</strong> Bank Alfalah</p>
+                  <p class="bank-line"><strong>Account title:</strong> NAMAK MASAALA</p>
+                  <p class="bank-line"><strong>IBAN:</strong> PK77ALFH0063001010497163</p>
+                  <p class="bank-line">
+                    <strong>Account number:</strong> 0063001010497163
+                    <span class="field-hint">(digits from IBAN)</span>
+                  </p>
+                </div>
+
+                <div class="form-field">
+                  <label for="selectedMethod">Selected payment method <span class="field-hint">(auto)</span></label>
+                  <input id="selectedMethod" name="selectedMethod" type="text" readonly value="JazzCash (wallet → bank)" />
+                </div>
+
+                <div class="form-field">
+                  <label for="payAmount">Amount to pay (Rs) <span class="field-hint">(auto)</span></label>
+                  <input id="payAmount" name="payAmount" type="text" readonly value="0" />
+                </div>
+
+                <div class="form-field">
+                  <label for="transactionId">TRX / Transaction ID *</label>
+                  <input id="transactionId" name="transactionId" type="text" required />
+                </div>
+
+                <p class="form-note">
+                  Note: After verification, your order will be marked as “Paid”.
+                </p>
+              </div>
+
+              <!-- COD note -->
+              <div id="cod-note" class="payment-section" style="display:none;">
+                <p class="form-note" style="margin:0;">
+                  Cash on Delivery selected. Payment will be collected at delivery time.
+                </p>
+              </div>
+            </div>
+
+            <p id="checkout-error" class="form-error" style="display:none;"></p>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Place order
+            </button>
+
+            <p class="form-note" style="margin-top:10px;">
+              After placing the order, you can track status in “My Orders”.
+            </p>
+          </form>
         </div>
 
-        <!-- SIDE SUMMARY CARD -->
-        <aside class="card account-side-card">
-          <h2 class="card-title">Account snapshot</h2>
-          <ul class="card-list">
-            <li id="acc-email-short">Signed in as –</li>
-            <li>Plans and meals are linked to this account.</li>
-            <li>Referral discounts apply when friends use your code.</li>
-            <li>You can logout from all devices by clearing browser data.</li>
-          </ul>
-          <button class="btn btn-outline btn-full" onclick="nmLogout()">
-            Logout
-          </button>
+        <!-- RIGHT -->
+        <aside class="card order-summary-card">
+          <h2 class="card-title">Order summary</h2>
+          <div id="order-items" class="order-items"></div>
+
+          <div class="order-totals">
+            <div class="order-row">
+              <span>Subtotal</span>
+              <span id="order-subtotal">Rs 0</span>
+            </div>
+            <div class="order-row">
+              <span>Delivery</span>
+              <span>Rs 0</span>
+            </div>
+            <div class="order-row order-total">
+              <span>Total</span>
+              <span id="order-total">Rs 0</span>
+            </div>
+          </div>
+
+          <p class="card-meta" id="nmCheckoutMeta">
+            For plans, advance payment is required. For meals-only orders, COD is available.
+          </p>
         </aside>
+
       </div>
     </section>
   </main>
@@ -176,245 +381,367 @@
       <div class="footer-links">
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="customercare.html">Customer Care</a>
       </div>
     </div>
   </footer>
 
-  <!-- auth guard -->
-  <script src="auth.js"></script>
-
   <script>
-    function loadUsers() {
-      try {
-        const raw = localStorage.getItem('nm_users');
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
+    // ✅ Supports BOTH flows:
+    // 1) Plans page -> stores nm_selected_plan + nm_delivery
+    // 2) Cart flow -> uses nm_cart_items (if you ever use it)
+    const PLAN_KEY = 'nm_selected_plan';
+    const DELIVERY_KEY = 'nm_delivery';
+    const CART_KEY = 'nm_cart_items';
+    const ORDERS_KEY = 'nm_orders';
+
+    function money(n){
+      return 'Rs ' + Number(n || 0).toLocaleString('en-PK');
+    }
+
+    function readJson(key){
+      try{
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){
+        return null;
       }
     }
 
-    function saveUsers(users) {
-      localStorage.setItem('nm_users', JSON.stringify(users));
+    function readCart(){
+      const items = readJson(CART_KEY);
+      return Array.isArray(items) ? items : [];
     }
 
-    function populateAccount() {
-      const email = localStorage.getItem('nm_current_email');
-      const users = loadUsers();
-      const user = users.find(u => u.email === email);
+    function readSelectedPlan(){
+      const p = readJson(PLAN_KEY);
+      if (!p || typeof p !== 'object') return null;
 
-      if (!user) {
-        nmLogout();
+      // expected from your plans.html inline script
+      // {id,name,price,priceLabel,days,mealsPerDay,...}
+      if (!p.name || p.price == null) return null;
+      return p;
+    }
+
+    function readDelivery(){
+      const d = readJson(DELIVERY_KEY);
+      if (!d || typeof d !== 'object') return null;
+      return d; // {phone,address,from,to}
+    }
+
+    function getCheckoutItems(){
+      const cartItems = readCart();
+      if (cartItems.length) return cartItems;
+
+      // If cart empty, fallback to selected plan from plans page
+      const plan = readSelectedPlan();
+      if (plan){
+        return [{
+          type: 'plan',
+          name: plan.name,
+          price: Number(plan.price) || 0,
+          quantity: 1,
+          meta: (plan.days ? plan.days + ' • ' : '') + (plan.mealsPerDay ? (plan.mealsPerDay + ' meals/day') : '')
+        }];
+      }
+
+      return [];
+    }
+
+    function cartHasPlan(items){
+      // our fallback uses type:'plan'
+      return items.some(it => String(it.type || it.kind || it.category || '').toLowerCase() === 'plan');
+    }
+
+    function cartHasMeals(items){
+      return items.some(it => String(it.type || it.kind || it.category || '').toLowerCase() === 'meal');
+    }
+
+    function updateSelectedMethod(){
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
+      const field = document.getElementById('selectedMethod');
+      if (!field) return;
+
+      if (method === 'jazzcash') field.value = 'JazzCash (wallet → bank)';
+      else if (method === 'easypaisa') field.value = 'Easypaisa (wallet → bank)';
+      else if (method === 'bank') field.value = 'Direct bank transfer';
+      else field.value = 'Cash on Delivery';
+    }
+
+    function applyPaymentRules(){
+      const items = getCheckoutItems();
+      const hasPlan = cartHasPlan(items);
+      const hasMeals = cartHasMeals(items);
+
+      const codWrap = document.getElementById('codOptionWrap');
+      const codRadio = document.querySelector('input[name="paymentMethod"][value="cod"]');
+      const manualSection = document.getElementById('manual-section');
+      const codNote = document.getElementById('cod-note');
+      const trxField = document.getElementById('transactionId');
+
+      // Plans present -> COD disabled/hidden
+      if (hasPlan){
+        if (codWrap) codWrap.style.display = 'none';
+        if (codRadio) codRadio.checked = false;
+
+        const checked = document.querySelector('input[name="paymentMethod"]:checked');
+        if (!checked || checked.value === 'cod'){
+          document.querySelector('input[name="paymentMethod"][value="jazzcash"]').checked = true;
+        }
+
+        if (manualSection) manualSection.style.display = 'block';
+        if (codNote) codNote.style.display = 'none';
+
+        if (trxField){
+          trxField.required = true;
+          trxField.placeholder = 'TRX / Transaction ID (required for plans)';
+        }
+
+        updateSelectedMethod();
         return;
       }
 
-      const name = (user.firstName || '') + ' ' + (user.lastName || '');
-      document.getElementById('acc-name').textContent = name.trim() || '—';
-      document.getElementById('acc-whatsapp').textContent = user.whatsapp || 'Not added';
+      // Meals-only -> COD allowed
+      if (codWrap) codWrap.style.display = hasMeals ? 'flex' : 'none';
 
-      // email-related fields
-      document.getElementById('acc-email-input').value = user.email || '';
-      document.getElementById('acc-email-short').textContent =
-        'Signed in as ' + (user.email || '—');
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
 
-      // referral
-      document.getElementById('acc-own-ref').textContent = user.ownReferralCode || '—';
-      document.getElementById('acc-used-ref').textContent = user.referralUsed || 'None';
+      if (method === 'cod'){
+        if (manualSection) manualSection.style.display = 'none';
+        if (codNote) codNote.style.display = 'block';
+        if (trxField){
+          trxField.required = false;
+          trxField.value = '';
+        }
+      }else{
+        if (manualSection) manualSection.style.display = 'block';
+        if (codNote) codNote.style.display = 'none';
+        if (trxField){
+          trxField.required = true;
+          trxField.placeholder = 'TRX / Transaction ID (from receipt)';
+        }
+      }
+
+      updateSelectedMethod();
     }
 
-    function handleChangeEmail(event) {
-      event.preventDefault();
+    // Prefill delivery from plans page
+    function prefillDeliveryFromPlans(){
+      const d = readDelivery();
+      if (!d) return;
 
-      const newEmailRaw = document.getElementById('acc-email-input').value.trim();
-      const newEmail = newEmailRaw.toLowerCase();
-      const emailError = document.getElementById('email-error');
-      const emailSuccess = document.getElementById('email-success');
-
-      emailError.style.display = 'none';
-      emailError.textContent = '';
-      emailSuccess.style.display = 'none';
-      emailSuccess.textContent = '';
-
-      if (!newEmail) {
-        emailError.textContent = 'Please enter a valid email address.';
-        emailError.style.display = 'block';
-        return false;
+      if (d.phone && document.getElementById('phone')) {
+        document.getElementById('phone').value = d.phone;
+      }
+      if (d.address && document.getElementById('address1')) {
+        document.getElementById('address1').value = d.address;
       }
 
-      if (!newEmail.includes('@') || !newEmail.includes('.')) {
-        emailError.textContent = 'Email format looks incorrect.';
-        emailError.style.display = 'block';
-        return false;
+      // Put timing in instructions (optional, looks clean)
+      if (document.getElementById('instructions') && d.from && d.to){
+        const existing = document.getElementById('instructions').value.trim();
+        const timingLine = `Preferred delivery time: ${d.from} - ${d.to}`;
+        document.getElementById('instructions').value = existing ? (existing + "\n" + timingLine) : timingLine;
       }
-
-      const currentEmail = localStorage.getItem('nm_current_email');
-      const users = loadUsers();
-      const currentIndex = users.findIndex(u => u.email === currentEmail);
-
-      if (currentIndex === -1) {
-        emailError.textContent = 'Session expired. Please login again.';
-        emailError.style.display = 'block';
-        return false;
-      }
-
-      // check duplicate email with other users
-      const duplicate = users.some(
-        (u, idx) => idx !== currentIndex && u.email === newEmail
-      );
-      if (duplicate) {
-        emailError.textContent = 'Another account is already using this email.';
-        emailError.style.display = 'block';
-        return false;
-      }
-
-      // update user email
-      users[currentIndex].email = newEmail;
-      saveUsers(users);
-
-      // update current email + UI
-      localStorage.setItem('nm_current_email', newEmail);
-      document.getElementById('acc-email-short').textContent = 'Signed in as ' + newEmail;
-
-      emailSuccess.textContent = 'Email updated successfully.';
-      emailSuccess.style.display = 'block';
-
-      return false;
     }
 
-    function handleChangePassword(event) {
-      event.preventDefault();
+    // Order summary
+    function loadOrderSummary(){
+      const itemsContainer = document.getElementById('order-items');
+      const subtotalEl = document.getElementById('order-subtotal');
+      const totalEl = document.getElementById('order-total');
+      const payAmountInput = document.getElementById('payAmount');
+      const metaEl = document.getElementById('nmCheckoutMeta');
 
-      const current = document.getElementById('currentPassword').value;
-      const newPwd = document.getElementById('newPassword').value;
-      const confirm = document.getElementById('confirmNewPassword').value;
-      const errorEl = document.getElementById('pwd-error');
-      const successEl = document.getElementById('pwd-success');
+      const items = getCheckoutItems();
+      const plan = readSelectedPlan();
+      const delivery = readDelivery();
 
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
-      successEl.style.display = 'none';
-      successEl.textContent = '';
-
-      const email = localStorage.getItem('nm_current_email');
-      const users = loadUsers();
-      const userIndex = users.findIndex(u => u.email === email);
-
-      if (userIndex === -1) {
-        errorEl.textContent = 'Session expired. Please login again.';
-        errorEl.style.display = 'block';
-        return false;
+      if (!items.length){
+        itemsContainer.innerHTML = '<p class="card-meta">No items found. Please select a plan (Plans page) or add items before checkout.</p>';
+        subtotalEl.textContent = 'Rs 0';
+        totalEl.textContent = 'Rs 0';
+        if (payAmountInput) payAmountInput.value = '0';
+        if (metaEl) metaEl.textContent = 'Please select a plan first.';
+        return { items: [], subtotal: 0 };
       }
 
-      const user = users[userIndex];
+      let subtotal = 0;
+      itemsContainer.innerHTML = '';
 
-      if (user.password !== current) {
-        errorEl.textContent = 'Current password is incorrect.';
-        errorEl.style.display = 'block';
-        return false;
-      }
+      items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
 
-      if (newPwd.length < 6) {
-        errorEl.textContent = 'New password must be at least 6 characters.';
-        errorEl.style.display = 'block';
-        return false;
-      }
+        const name = item.name || 'Item';
+        const price = Number(item.price) || 0;
+        const qty = Number(item.quantity || item.qty || 1) || 1;
+        const lineTotal = price * qty;
+        subtotal += lineTotal;
 
-      if (newPwd !== confirm) {
-        errorEl.textContent = 'New password and confirmation do not match.';
-        errorEl.style.display = 'block';
-        return false;
-      }
+        const metaParts = [];
+        if (item.meta) metaParts.push(item.meta);
+        if (plan && plan.mealsPerDay && delivery && delivery.from && delivery.to){
+          // show timing for plan checkout
+          metaParts.push(`Timing: ${delivery.from} - ${delivery.to}`);
+        }
 
-      users[userIndex].password = newPwd;
-      saveUsers(users);
-
-      successEl.textContent = 'Password updated successfully.';
-      successEl.style.display = 'block';
-
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmNewPassword').value = '';
-
-      return false;
-    }
-
-    // page load
-    populateAccount();
-  </script>
-    <!-- WhatsApp floating chat widget (global) -->
-  <div class="nm-whatsapp-container">
-    <!-- Popup -->
-    <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
-      <div class="nm-whatsapp-header">
-        <div>
-          <div class="nm-whatsapp-header-title">Namak Masaala</div>
-          <div class="nm-whatsapp-header-sub">Home-made Tiffin • Online</div>
-        </div>
-        <div class="nm-whatsapp-header-close" id="nmWhatsAppClose">×</div>
-      </div>
-      <div class="nm-whatsapp-body">
-        <div class="nm-whatsapp-bubble">
-          <span class="nm-whatsapp-bubble-hello">Assalam o Alaikum 👋</span>
-          <span>How can we help with your tiffin plan or meals today?</span>
-        </div>
-        <button class="nm-whatsapp-start" id="nmWhatsAppStart">
-          <span class="nm-whatsapp-start-icon">💬</span>
-          <span>Start chat on WhatsApp</span>
-        </button>
-        <div class="nm-whatsapp-footer-text">
-          Chat will open in WhatsApp with our number.
-        </div>
-      </div>
-    </div>
-
-    <!-- Round button with WhatsApp-style icon -->
-    <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
-      <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
-        <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
-        <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
-                 .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
-                 .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
-              fill="#25D366"></path>
-      </svg>
-    </button>
-  </div>
-
-  <script>
-    (function () {
-      const btn = document.getElementById('nmWhatsAppButton');
-      const popup = document.getElementById('nmWhatsAppPopup');
-      const closeBtn = document.getElementById('nmWhatsAppClose');
-      const startBtn = document.getElementById('nmWhatsAppStart');
-
-      if (!btn || !popup) return;
-
-      // toggle popup
-      btn.addEventListener('click', function () {
-        const isVisible = popup.style.display === 'block';
-        popup.style.display = isVisible ? 'none' : 'block';
+        row.innerHTML = `
+          <div>
+            <div class="order-item-name">${name}</div>
+            ${metaParts.length ? `<div class="order-item-meta">${metaParts.join(' • ')}</div>` : ``}
+          </div>
+          <div class="order-item-price">${money(lineTotal)}</div>
+        `;
+        itemsContainer.appendChild(row);
       });
 
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
+      subtotalEl.textContent = money(subtotal);
+      totalEl.textContent = money(subtotal);
+      if (payAmountInput) payAmountInput.value = String(subtotal);
+
+      if (metaEl){
+        if (plan && delivery && delivery.phone && delivery.address){
+          metaEl.textContent = `Delivery: ${delivery.phone} • ${delivery.address}`;
+        } else {
+          metaEl.textContent = 'Complete delivery details to avoid delays.';
+        }
       }
 
-      if (startBtn) {
-        startBtn.addEventListener('click', function () {
-          // Pakistan number: +92 324 7477704  => 923247477704
-          const phone = '923247477704';
-          const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
-        });
+      return { items, subtotal };
+    }
+
+    function saveOrder({ items, subtotal }){
+      const hasPlan = cartHasPlan(items);
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
+      const trx = document.getElementById('transactionId')?.value?.trim() || '';
+
+      const methodLabel =
+        method === 'jazzcash' ? 'JazzCash (wallet → bank)' :
+        method === 'easypaisa' ? 'Easypaisa (wallet → bank)' :
+        method === 'bank' ? 'Direct bank transfer' :
+        'Cash on Delivery';
+
+      const order = {
+        id: 'NMK-' + Math.floor(100000 + Math.random() * 900000),
+        createdAt: new Date().toISOString(),
+        status: hasPlan ? 'Pending Verification' : (method === 'cod' ? 'Pending (COD)' : 'Pending Verification'),
+        items: items.map(it => ({
+          type: String(it.type || it.kind || it.category || '').toLowerCase() || 'item',
+          name: it.name || 'Item',
+          price: Number(it.price) || 0,
+          quantity: Number(it.quantity || it.qty || 1) || 1
+        })),
+        totals: { subtotal, total: subtotal, currency: 'PKR' },
+        payment: {
+          method,
+          methodLabel,
+          amount: subtotal,
+          trx: method === 'cod' ? '' : trx
+        },
+        customer: {
+          name: document.getElementById('fullName')?.value?.trim() || '',
+          phone: document.getElementById('phone')?.value?.trim() || ''
+        },
+        delivery: {
+          address1: document.getElementById('address1')?.value?.trim() || '',
+          area: document.getElementById('area')?.value?.trim() || '',
+          city: document.getElementById('city')?.value?.trim() || '',
+          instructions: document.getElementById('instructions')?.value?.trim() || ''
+        }
+      };
+
+      let all = [];
+      try{
+        all = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+        if (!Array.isArray(all)) all = [];
+      }catch(e){
+        all = [];
       }
-    })();
+
+      all.unshift(order);
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(all));
+      return order;
+    }
+
+    function handleCheckout(event){
+      event.preventDefault();
+
+      const errorEl = document.getElementById('checkout-error');
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+
+      const { items, subtotal } = loadOrderSummary();
+      if (!items.length || subtotal <= 0){
+        errorEl.textContent = 'No items found. Please select a plan first (Plans page) before checkout.';
+        errorEl.style.display = 'block';
+        return false;
+      }
+
+      const hasPlan = cartHasPlan(items);
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
+
+      // Required delivery fields
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address1 = document.getElementById('address1').value.trim();
+      const area = document.getElementById('area').value.trim();
+      const city = document.getElementById('city').value.trim();
+
+      if (!fullName || !phone || !address1 || !area || !city){
+        errorEl.textContent = 'Please fill in all required delivery fields.';
+        errorEl.style.display = 'block';
+        return false;
+      }
+
+      // TRX rules:
+      // Plans => always require TRX (COD disabled)
+      // Meals COD => no TRX
+      // Meals online => require TRX
+      const trx = document.getElementById('transactionId')?.value?.trim() || '';
+
+      if (hasPlan){
+        if (!trx){
+          errorEl.textContent = 'Please enter TRX / Transaction ID for plan payment.';
+          errorEl.style.display = 'block';
+          return false;
+        }
+      }else{
+        if (method !== 'cod' && !trx){
+          errorEl.textContent = 'Please enter TRX / Transaction ID from your payment receipt.';
+          errorEl.style.display = 'block';
+          return false;
+        }
+      }
+
+      // Save order + clear plan/cart + go orders
+      saveOrder({ items, subtotal });
+
+      // clear cart if you used it
+      localStorage.removeItem(CART_KEY);
+
+      // clear plan flow keys after success
+      localStorage.removeItem(PLAN_KEY);
+      localStorage.removeItem(DELIVERY_KEY);
+
+      window.location.href = 'orders.html';
+      return false;
+    }
+
+    // init listeners
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        applyPaymentRules();
+        updateSelectedMethod();
+      });
+    });
+
+    // init run
+    prefillDeliveryFromPlans();
+    loadOrderSummary();
+    applyPaymentRules();
+    updateSelectedMethod();
   </script>
-</body>
-</html>
 
   <script src="auth.js"></script>
 </body>
