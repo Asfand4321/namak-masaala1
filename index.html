@@ -358,6 +358,19 @@
 </footer>
 
 <script src="auth.js"></script>
+  <!-- 👇 YAHAN YE SCRIPT PASTE KARO -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const customerCare = document.getElementById("customerCareNav");
+      if (!customerCare) return;
+
+      const isLoggedIn = !!localStorage.getItem("user");
+      customerCare.style.display = isLoggedIn ? "inline-block" : "none";
+    });
+  </script>
+
+  <!-- auth.js already hai, isko rehne do -->
+  <script src="auth.js"></script>
 
 </body>
 </html>
