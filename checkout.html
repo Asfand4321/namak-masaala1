@@ -9,146 +9,145 @@
   <link rel="stylesheet" href="style.css?v=7" />
   <link rel="icon" href="namak-logo.png" type="image/png" />
 
- <style>
-  /* small checkout-only helpers (won’t conflict with your main css) */
-  .checkout-layout{
-    display:grid;
-    grid-template-columns: 1.25fr .75fr;
-    gap:16px;
-    align-items:start;
-  }
-  @media (max-width: 980px){
-    .checkout-layout{ grid-template-columns: 1fr; }
-  }
+  <style>
+    /* small checkout-only helpers (won’t conflict with your main css) */
+    .checkout-layout{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .checkout-layout{ grid-template-columns: 1fr; }
+    }
 
-  .checkout-card{ padding:18px; }
-  .order-summary-card{ padding:18px; position:sticky; top:16px; }
-  @media (max-width: 980px){
-    .order-summary-card{ position:static; }
-  }
+    .checkout-card{ padding:18px; }
+    .order-summary-card{ padding:18px; position:sticky; top:16px; }
+    @media (max-width: 980px){
+      .order-summary-card{ position:static; }
+    }
 
-  .checkout-block{ margin-top:16px; padding-top:16px; border-top:1px solid rgba(0,0,0,.08); }
-  .checkout-block-title{ font-size:1.05rem; margin:0 0 10px; }
+    .checkout-block{ margin-top:16px; padding-top:16px; border-top:1px solid rgba(0,0,0,.08); }
+    .checkout-block-title{ font-size:1.05rem; margin:0 0 10px; }
 
-  .form-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:12px;
-  }
-  @media (max-width: 560px){
-    .form-grid{ grid-template-columns: 1fr; }
-  }
-  .form-field label{ display:block; font-weight:700; font-size:.92rem; opacity:.9; }
-  .field-hint{ font-weight:600; opacity:.6; font-size:.82rem; margin-left:6px; }
+    .form-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 560px){
+      .form-grid{ grid-template-columns: 1fr; }
+    }
+    .form-field label{ display:block; font-weight:700; font-size:.92rem; opacity:.9; }
+    .field-hint{ font-weight:600; opacity:.6; font-size:.82rem; margin-left:6px; }
 
-  .checkout-form input, .checkout-form textarea{
-    width:100%;
-    border:1px solid rgba(0,0,0,.12);
-    border-radius:12px;
-    padding:10px 12px;
-    margin-top:6px;
-    font: inherit;
-    background:#fff;
-  }
-  .checkout-form textarea{ resize:vertical; }
+    .checkout-form input, .checkout-form textarea{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      margin-top:6px;
+      font: inherit;
+      background:#fff;
+    }
+    .checkout-form textarea{ resize:vertical; }
 
-  .payment-options{
-    display:grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap:10px;
-    margin-top:10px;
-  }
-  @media (max-width: 560px){
-    .payment-options{ grid-template-columns: 1fr; }
-  }
-  .payment-option{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    border:1px solid rgba(0,0,0,.10);
-    background:#fff;
-    border-radius:14px;
-    padding:10px 12px;
-    cursor:pointer;
-    user-select:none;
-  }
-  .payment-option input{ width:auto; margin:0; }
+    .payment-options{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 560px){
+      .payment-options{ grid-template-columns: 1fr; }
+    }
+    .payment-option{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .payment-option input{ width:auto; margin:0; }
 
-  /* ✅ UPDATED ICON BOX (logos won’t crop now) */
-  .pay-icon{
-    width:44px;
-    height:44px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:12px;
-    background:#fff;
-    border:1px solid rgba(0,0,0,.08);
-    overflow:hidden;
-    flex:0 0 44px;
-  }
-  .pay-icon img{
-    width:100%;
-    height:100%;
-    object-fit:contain;   /* ✅ no crop */
-    padding:6px;          /* ✅ spacing */
-    display:block;
-  }
+    /* ✅ UPDATED ICON BOX (logos won’t crop now) */
+    .pay-icon{
+      width:44px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      overflow:hidden;
+      flex:0 0 44px;
+    }
+    .pay-icon img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:6px;
+      display:block;
+    }
 
-  .payment-section{
-    margin-top:12px;
-    border:1px solid rgba(0,0,0,.10);
-    background: rgba(0,0,0,.02);
-    border-radius:14px;
-    padding:12px;
-  }
-  .bank-info-box{
-    border:1px dashed rgba(0,0,0,.18);
-    border-radius:12px;
-    padding:10px 12px;
-    background:#fff;
-    margin:10px 0 12px;
-  }
-  .bank-line{ margin:6px 0; }
+    .payment-section{
+      margin-top:12px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.02);
+      border-radius:14px;
+      padding:12px;
+    }
+    .bank-info-box{
+      border:1px dashed rgba(0,0,0,.18);
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+      margin:10px 0 12px;
+    }
+    .bank-line{ margin:6px 0; }
 
-  .form-note{ font-size:.92rem; opacity:.8; margin:8px 0; }
-  .form-error{
-    margin-top:12px;
-    padding:10px 12px;
-    border-radius:12px;
-    border:1px solid rgba(255,0,0,.18);
-    background: rgba(255,0,0,.06);
-    font-weight:700;
-  }
+    .form-note{ font-size:.92rem; opacity:.8; margin:8px 0; }
+    .form-error{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,0,0,.18);
+      background: rgba(255,0,0,.06);
+      font-weight:700;
+    }
 
-  .btn-full{ width:100%; }
+    .btn-full{ width:100%; }
 
-  .order-items{ display:grid; gap:10px; margin-top:10px; }
-  .order-item-row{
-    display:flex; justify-content:space-between; gap:10px;
-    border:1px solid rgba(0,0,0,.08);
-    border-radius:12px;
-    padding:10px 12px;
-    background:#fff;
-  }
-  .order-item-name{ font-weight:800; }
-  .order-item-meta{ opacity:.75; font-size:.9rem; margin-top:2px; }
-  .order-item-price{ font-weight:900; white-space:nowrap; }
+    .order-items{ display:grid; gap:10px; margin-top:10px; }
+    .order-item-row{
+      display:flex; justify-content:space-between; gap:10px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+    }
+    .order-item-name{ font-weight:800; }
+    .order-item-meta{ opacity:.75; font-size:.9rem; margin-top:2px; }
+    .order-item-price{ font-weight:900; white-space:nowrap; }
 
-  .order-totals{
-    margin-top:12px;
-    border-top:1px solid rgba(0,0,0,.08);
-    padding-top:12px;
-    display:grid;
-    gap:8px;
-  }
-  .order-row{ display:flex; justify-content:space-between; }
-  .order-total span:last-child{ font-weight:900; }
+    .order-totals{
+      margin-top:12px;
+      border-top:1px solid rgba(0,0,0,.08);
+      padding-top:12px;
+      display:grid;
+      gap:8px;
+    }
+    .order-row{ display:flex; justify-content:space-between; }
+    .order-total span:last-child{ font-weight:900; }
 
-  .card-title{ font-size:1.1rem; margin:0; }
-  .card-meta{ margin-top:10px; opacity:.75; font-size:.92rem; }
-</style>
-
+    .card-title{ font-size:1.1rem; margin:0; }
+    .card-meta{ margin-top:10px; opacity:.75; font-size:.92rem; }
+  </style>
 </head>
 
 <body>
@@ -172,12 +171,10 @@
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="cart.html">Cart</a>
         <a href="referral.html">Referral</a>
-        <a href="account.html">My Account</a>
         <a href="orders.html">My Orders</a>
-        <a href="my-plans.html">My Plans</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="customercare.html" id="customerCareNav">Customer Care</a>
+        <a href="account.html">My Account</a>
       </nav>
 
       <div class="nav-auth">
@@ -192,12 +189,10 @@
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
-      <a href="cart.html">Cart</a>
       <a href="referral.html">Referral</a>
-      <a href="account.html">My Account</a>
       <a href="orders.html">My Orders</a>
-      <a href="my-plans.html">My Plans</a>
-      <a href="customer-care.html">Customer Care</a>
+      <a href="customercare.html">Customer Care</a>
+      <a href="account.html">My Account</a>
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
     </div>
@@ -219,6 +214,7 @@
           </p>
 
           <form class="checkout-form" onsubmit="return handleCheckout(event)">
+
             <!-- Delivery -->
             <div class="checkout-block">
               <h2 class="checkout-block-title">Delivery address</h2>
@@ -251,7 +247,6 @@
                 </div>
                 <div class="form-field">
                   <label for="city">City *</label>
-                  <!-- ✅ Karachi -> Lahore -->
                   <input id="city" name="city" type="text" value="Lahore" required />
                 </div>
               </div>
@@ -274,35 +269,32 @@
 
               <div class="payment-options" id="paymentOptions">
 
-  <!-- JazzCash -->
-  <label class="payment-option">
-    <input type="radio" name="paymentMethod" value="jazzcash" checked />
-    <span class="pay-icon">
-      <img src="images/jazzcash.png" alt="JazzCash logo" />
-    </span>
-    <span>JazzCash (wallet → bank)</span>
-  </label>
+                <!-- JazzCash -->
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="jazzcash" checked />
+                  <span class="pay-icon">
+                    <img src="images/jazzcash.png" alt="JazzCash logo" />
+                  </span>
+                  <span>JazzCash (wallet → bank)</span>
+                </label>
 
-  <!-- Easypaisa -->
-  <label class="payment-option">
-    <input type="radio" name="paymentMethod" value="easypaisa" />
-    <span class="pay-icon">
-      <img src="images/easypaisa.png" alt="Easypaisa logo" />
-    </span>
-    <span>Easypaisa (wallet → bank)</span>
-  </label>
+                <!-- Easypaisa -->
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="easypaisa" />
+                  <span class="pay-icon">
+                    <img src="images/easypaisa.png" alt="Easypaisa logo" />
+                  </span>
+                  <span>Easypaisa (wallet → bank)</span>
+                </label>
 
-  <!-- Bank -->
-  <label class="payment-option">
-    <input type="radio" name="paymentMethod" value="bank" />
-    <span class="pay-icon">
-      <img src="images/bank.png" alt="Bank transfer" />
-    </span>
-    <span>Direct bank transfer</span>
-  </label>
-
-</div>
-
+                <!-- Bank -->
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="bank" />
+                  <span class="pay-icon">
+                    <img src="images/bank.png" alt="Bank transfer" />
+                  </span>
+                  <span>Direct bank transfer</span>
+                </label>
 
                 <!-- ✅ COD (Meals only) -->
                 <label class="payment-option" id="codOptionWrap">
@@ -312,6 +304,7 @@
                   </span>
                   <span>Cash on Delivery (Meals only)</span>
                 </label>
+
               </div>
 
               <!-- Manual transfer section (hidden when COD selected) -->
@@ -414,7 +407,7 @@
     const CART_KEY = 'nm_cart_items';
     const ORDERS_KEY = 'nm_orders';
 
-    // ✅ NEW: plans.html storage keys
+    // plans.html storage keys
     const PLAN_KEY = 'nm_selected_plan';
     const TIMINGS_KEY = 'nm_delivery_timings';
 
@@ -432,7 +425,6 @@
       }
     }
 
-    // ✅ NEW: read selected plan (from plans.html)
     function readSelectedPlan(){
       try{
         const raw = localStorage.getItem(PLAN_KEY);
@@ -442,7 +434,6 @@
       }
     }
 
-    // ✅ NEW: read timings (1 meal / 2 meals)
     function readTimings(){
       try{
         const raw = localStorage.getItem(TIMINGS_KEY);
@@ -475,7 +466,6 @@
       const selectedPlan = readSelectedPlan();
       const items = readCart();
 
-      // ✅ If plan selected from plans.html, treat as hasPlan
       const hasPlan = !!selectedPlan || cartHasPlan(items);
       const hasMeals = cartHasMeals(items);
 
@@ -485,6 +475,7 @@
       const codNote = document.getElementById('cod-note');
       const trxField = document.getElementById('transactionId');
 
+      // Plans present -> COD disabled/hidden
       if (hasPlan){
         if (codWrap) codWrap.style.display = 'none';
         if (codRadio) codRadio.checked = false;
@@ -530,7 +521,6 @@
       updateSelectedMethod();
     }
 
-    // ✅ UPDATED: Order summary supports selected plan OR cart
     function loadOrderSummary(){
       const itemsContainer = document.getElementById('order-items');
       const subtotalEl = document.getElementById('order-subtotal');
@@ -541,7 +531,7 @@
       const timings = readTimings();
       const cartItems = readCart();
 
-      // 1) If plan selected (from plans.html) -> show that (even if cart empty)
+      // If plan selected from plans.html -> show it even if cart empty
       if (selectedPlan && selectedPlan.name && selectedPlan.price){
         itemsContainer.innerHTML = '';
 
@@ -569,10 +559,13 @@
         totalEl.textContent = money(selectedPlan.price);
         if (payAmountInput) payAmountInput.value = String(selectedPlan.price);
 
-        return { items: [{ type:'plan', name:selectedPlan.name, price:selectedPlan.price, quantity:1 }], subtotal: Number(selectedPlan.price) };
+        return {
+          items: [{ type:'plan', name:selectedPlan.name, price:Number(selectedPlan.price), quantity:1 }],
+          subtotal: Number(selectedPlan.price)
+        };
       }
 
-      // 2) Otherwise fallback to cart system (your old behavior)
+      // Fallback to cart behavior
       if (!cartItems.length){
         itemsContainer.innerHTML = '<p class="card-meta">No items found. Please select a plan or add meals before checkout.</p>';
         subtotalEl.textContent = 'Rs 0';
@@ -613,8 +606,6 @@
 
     function saveOrder({ items, subtotal }){
       const selectedPlan = readSelectedPlan();
-
-      // ✅ If selectedPlan exists, treat as plan order
       const hasPlan = !!selectedPlan || cartHasPlan(items);
 
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
@@ -688,7 +679,6 @@
 
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
 
-      // Required delivery fields
       const fullName = document.getElementById('fullName').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address1 = document.getElementById('address1').value.trim();
@@ -710,15 +700,17 @@
         return false;
       }
 
-      // Save order
+      // Meals-only online => require TRX
+      if (!hasPlan && method !== 'cod' && !trx){
+        errorEl.textContent = 'Please enter TRX / Transaction ID from your payment receipt.';
+        errorEl.style.display = 'block';
+        return false;
+      }
+
       saveOrder({ items, subtotal });
 
-      // ✅ clear cart if it was used
+      // clear cart
       localStorage.removeItem(CART_KEY);
-
-      // optional: clear plan after checkout (so old plan doesn’t stay)
-      // localStorage.removeItem(PLAN_KEY);
-      // localStorage.removeItem(TIMINGS_KEY);
 
       window.location.href = 'orders.html';
       return false;
@@ -731,6 +723,7 @@
       });
     });
 
+    // init
     loadOrderSummary();
     applyPaymentRules();
     updateSelectedMethod();
