@@ -201,8 +201,8 @@
             Delivery &amp; payment details
           </h1>
           <p class="section-subtitle">
-            Delivery address fill karo aur payment method choose karo. Plans ke liye advance payment + TRX required hai.
-            Meals ke liye Cash on Delivery available hai.
+            Fill your delivery address and choose a payment method. Plans require advance payment + TRX.
+            Meals can use Cash on Delivery.
           </p>
 
           <form class="checkout-form" onsubmit="return handleCheckout(event)">
@@ -238,7 +238,8 @@
                 </div>
                 <div class="form-field">
                   <label for="city">City *</label>
-                  <input id="city" name="city" type="text" value="Karachi" required />
+                  <!-- ✅ Karachi -> Lahore -->
+                  <input id="city" name="city" type="text" value="Lahore" required />
                 </div>
               </div>
 
@@ -255,8 +256,7 @@
               <h2 class="checkout-block-title">Payment method</h2>
 
               <p class="form-note" style="margin-bottom:8px;">
-                Plans: bank transfer (JazzCash/Easypaisa/Bank) + TRX required.
-                Meals-only: Cash on Delivery available.
+                Plans require online payment + TRX. Meals-only can use Cash on Delivery.
               </p>
 
               <div class="payment-options" id="paymentOptions">
@@ -297,8 +297,7 @@
               <!-- Manual transfer section (hidden when COD selected) -->
               <div id="manual-section" class="payment-section">
                 <p class="form-note">
-                  Payment send karo (JazzCash / Easypaisa / Bank) → below bank account par. Phir receipt ka TRX / Transaction ID yahan paste karo.
-                  Manager verify karke status update karega.
+                  Send payment (JazzCash / Easypaisa / Bank) to the account below, then paste your TRX / Transaction ID.
                 </p>
 
                 <div class="bank-info-box">
@@ -327,14 +326,14 @@
                 </div>
 
                 <p class="form-note">
-                  Note: TRX verify hone ke baad order “Paid” mark hoga.
+                  Note: After verification, the order will be marked as “Paid”.
                 </p>
               </div>
 
               <!-- COD note -->
               <div id="cod-note" class="payment-section" style="display:none;">
                 <p class="form-note" style="margin:0;">
-                  Cash on Delivery selected. Payment delivery time par receive hogi.
+                  Cash on Delivery selected. Payment will be collected at delivery time.
                 </p>
               </div>
             </div>
@@ -346,7 +345,7 @@
             </button>
 
             <p class="form-note" style="margin-top:10px;">
-              Order place hone ke baad “My Orders” me status show hoga.
+              After placing the order, you will see the status in “My Orders”.
             </p>
           </form>
         </div>
@@ -372,7 +371,7 @@
           </div>
 
           <p class="card-meta">
-            Plans ke liye advance payment required hai. Meals ke liye COD available hai.
+            Plans require advance payment. Meals can use Cash on Delivery.
           </p>
         </aside>
 
@@ -395,6 +394,10 @@
     const CART_KEY = 'nm_cart_items';
     const ORDERS_KEY = 'nm_orders';
 
+    // ✅ NEW: plans.html storage keys
+    const PLAN_KEY = 'nm_selected_plan';
+    const TIMINGS_KEY = 'nm_delivery_timings';
+
     function money(n){
       return 'Rs ' + Number(n || 0).toLocaleString('en-PK');
     }
@@ -406,6 +409,26 @@
         return Array.isArray(items) ? items : [];
       }catch(e){
         return [];
+      }
+    }
+
+    // ✅ NEW: read selected plan (from plans.html)
+    function readSelectedPlan(){
+      try{
+        const raw = localStorage.getItem(PLAN_KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    // ✅ NEW: read timings (1 meal / 2 meals)
+    function readTimings(){
+      try{
+        const raw = localStorage.getItem(TIMINGS_KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){
+        return null;
       }
     }
 
@@ -429,8 +452,11 @@
     }
 
     function applyPaymentRules(){
+      const selectedPlan = readSelectedPlan();
       const items = readCart();
-      const hasPlan = cartHasPlan(items);
+
+      // ✅ If plan selected from plans.html, treat as hasPlan
+      const hasPlan = !!selectedPlan || cartHasPlan(items);
       const hasMeals = cartHasMeals(items);
 
       const codWrap = document.getElementById('codOptionWrap');
@@ -439,7 +465,6 @@
       const codNote = document.getElementById('cod-note');
       const trxField = document.getElementById('transactionId');
 
-      // Plans present -> COD disabled/hidden
       if (hasPlan){
         if (codWrap) codWrap.style.display = 'none';
         if (codRadio) codRadio.checked = false;
@@ -485,17 +510,51 @@
       updateSelectedMethod();
     }
 
-    // Order summary
+    // ✅ UPDATED: Order summary supports selected plan OR cart
     function loadOrderSummary(){
       const itemsContainer = document.getElementById('order-items');
       const subtotalEl = document.getElementById('order-subtotal');
       const totalEl = document.getElementById('order-total');
       const payAmountInput = document.getElementById('payAmount');
 
-      const items = readCart();
+      const selectedPlan = readSelectedPlan();
+      const timings = readTimings();
+      const cartItems = readCart();
 
-      if (!items.length){
-        itemsContainer.innerHTML = '<p class="card-meta">No items found in cart. Please add a plan or meals before checkout.</p>';
+      // 1) If plan selected (from plans.html) -> show that (even if cart empty)
+      if (selectedPlan && selectedPlan.name && selectedPlan.price){
+        itemsContainer.innerHTML = '';
+
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
+
+        let timingText = '';
+        if (timings && timings.meal1){
+          timingText = `Meal 1: ${timings.meal1.from} - ${timings.meal1.to}`;
+          if (timings.meal2 && timings.meal2.from && timings.meal2.to){
+            timingText += ` | Meal 2: ${timings.meal2.from} - ${timings.meal2.to}`;
+          }
+        }
+
+        row.innerHTML = `
+          <div>
+            <div class="order-item-name">${selectedPlan.name}</div>
+            <div class="order-item-meta">${timingText ? timingText : 'Timing not selected'}</div>
+          </div>
+          <div class="order-item-price">${money(selectedPlan.price)}</div>
+        `;
+        itemsContainer.appendChild(row);
+
+        subtotalEl.textContent = money(selectedPlan.price);
+        totalEl.textContent = money(selectedPlan.price);
+        if (payAmountInput) payAmountInput.value = String(selectedPlan.price);
+
+        return { items: [{ type:'plan', name:selectedPlan.name, price:selectedPlan.price, quantity:1 }], subtotal: Number(selectedPlan.price) };
+      }
+
+      // 2) Otherwise fallback to cart system (your old behavior)
+      if (!cartItems.length){
+        itemsContainer.innerHTML = '<p class="card-meta">No items found. Please select a plan or add meals before checkout.</p>';
         subtotalEl.textContent = 'Rs 0';
         totalEl.textContent = 'Rs 0';
         if (payAmountInput) payAmountInput.value = '0';
@@ -505,7 +564,7 @@
       let subtotal = 0;
       itemsContainer.innerHTML = '';
 
-      items.forEach(item => {
+      cartItems.forEach(item => {
         const row = document.createElement('div');
         row.className = 'order-item-row';
 
@@ -527,14 +586,17 @@
 
       subtotalEl.textContent = money(subtotal);
       totalEl.textContent = money(subtotal);
-
       if (payAmountInput) payAmountInput.value = String(subtotal);
 
-      return { items, subtotal };
+      return { items: cartItems, subtotal };
     }
 
     function saveOrder({ items, subtotal }){
-      const hasPlan = cartHasPlan(items);
+      const selectedPlan = readSelectedPlan();
+
+      // ✅ If selectedPlan exists, treat as plan order
+      const hasPlan = !!selectedPlan || cartHasPlan(items);
+
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
       const trx = document.getElementById('transactionId')?.value?.trim() || '';
 
@@ -596,12 +658,14 @@
 
       const { items, subtotal } = loadOrderSummary();
       if (!items.length || subtotal <= 0){
-        errorEl.textContent = 'Your cart is empty. Please add a plan or meals before checkout.';
+        errorEl.textContent = 'No plan/meals found. Please select a plan or add meals before checkout.';
         errorEl.style.display = 'block';
         return false;
       }
 
-      const hasPlan = cartHasPlan(items);
+      const selectedPlan = readSelectedPlan();
+      const hasPlan = !!selectedPlan || cartHasPlan(items);
+
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'jazzcash';
 
       // Required delivery fields
@@ -617,34 +681,29 @@
         return false;
       }
 
-      // TRX rules:
-      // Plans => always require TRX (COD disabled)
-      // Meals COD => no TRX
-      // Meals online => require TRX
       const trx = document.getElementById('transactionId')?.value?.trim() || '';
 
-      if (hasPlan){
-        if (!trx){
-          errorEl.textContent = 'Please enter TRX / Transaction ID for plan payment.';
-          errorEl.style.display = 'block';
-          return false;
-        }
-      }else{
-        if (method !== 'cod' && !trx){
-          errorEl.textContent = 'Please enter TRX / Transaction ID from your payment receipt.';
-          errorEl.style.display = 'block';
-          return false;
-        }
+      // Plans => always require TRX
+      if (hasPlan && !trx){
+        errorEl.textContent = 'Please enter TRX / Transaction ID for plan payment.';
+        errorEl.style.display = 'block';
+        return false;
       }
 
-      // Save order + clear cart + go orders
+      // Save order
       saveOrder({ items, subtotal });
+
+      // ✅ clear cart if it was used
       localStorage.removeItem(CART_KEY);
+
+      // optional: clear plan after checkout (so old plan doesn’t stay)
+      // localStorage.removeItem(PLAN_KEY);
+      // localStorage.removeItem(TIMINGS_KEY);
+
       window.location.href = 'orders.html';
       return false;
     }
 
-    // init listeners
     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
       radio.addEventListener('change', () => {
         applyPaymentRules();
@@ -652,7 +711,6 @@
       });
     });
 
-    // init run
     loadOrderSummary();
     applyPaymentRules();
     updateSelectedMethod();
