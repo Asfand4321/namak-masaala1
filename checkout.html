@@ -273,29 +273,36 @@
               </p>
 
               <div class="payment-options" id="paymentOptions">
-                <label class="payment-option">
-                  <input type="radio" name="paymentMethod" value="jazzcash" checked />
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/7zE0f2b.png" alt="JazzCash logo" />
-                  </span>
-                  <span>JazzCash (wallet → bank)</span>
-                </label>
 
-                <label class="payment-option">
-                  <input type="radio" name="paymentMethod" value="easypaisa" />
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/tYJqCvj.png" alt="Easypaisa logo" />
-                  </span>
-                  <span>Easypaisa (wallet → bank)</span>
-                </label>
+  <!-- JazzCash -->
+  <label class="payment-option">
+    <input type="radio" name="paymentMethod" value="jazzcash" checked />
+    <span class="pay-icon">
+      <img src="images/jazzcash.png" alt="JazzCash logo" />
+    </span>
+    <span>JazzCash (wallet → bank)</span>
+  </label>
 
-                <label class="payment-option">
-                  <input type="radio" name="paymentMethod" value="bank" />
-                  <span class="pay-icon">
-                    <img src="https://i.imgur.com/9tXDD8h.png" alt="Bank transfer icon" />
-                  </span>
-                  <span>Direct bank transfer</span>
-                </label>
+  <!-- Easypaisa -->
+  <label class="payment-option">
+    <input type="radio" name="paymentMethod" value="easypaisa" />
+    <span class="pay-icon">
+      <img src="images/easypaisa.png" alt="Easypaisa logo" />
+    </span>
+    <span>Easypaisa (wallet → bank)</span>
+  </label>
+
+  <!-- Bank -->
+  <label class="payment-option">
+    <input type="radio" name="paymentMethod" value="bank" />
+    <span class="pay-icon">
+      <img src="images/bank.png" alt="Bank transfer" />
+    </span>
+    <span>Direct bank transfer</span>
+  </label>
+
+</div>
+
 
                 <!-- ✅ COD (Meals only) -->
                 <label class="payment-option" id="codOptionWrap">
