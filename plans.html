@@ -332,7 +332,7 @@
           <div class="section-kicker">Choose your package</div>
           <h1 class="section-title">Meal Plans</h1>
           <p class="section-subtitle">
-            Plan select karo — neeche details automatically update ho jayengi.
+            Select a plan — details and timing options will appear below automatically.
           </p>
         </div>
 
@@ -400,7 +400,7 @@
           <div class="section-kicker">Menu (Rotation)</div>
           <h2 class="section-title">Weekly Menu Preview (Week 1–4)</h2>
           <p class="section-subtitle">
-            Dishes week to week change ho sakti hain, lekin rotation yehi rahegi.
+            The menu may vary slightly week-to-week, but the rotation will follow this pattern.
           </p>
         </div>
 
@@ -494,11 +494,11 @@
         <div class="nm-two-col">
 
           <!-- Selected plan -->
-          <div class="nm-box">
+          <div class="nm-box" id="nmSelectedBox">
             <div class="section-kicker">Selected plan</div>
             <h2 class="section-title" id="nmSelectedTitle">Select a plan above</h2>
             <p class="section-subtitle" id="nmSelectedDesc">
-              Upar se koi plan choose karo — yahan details update hongi.
+              Choose a plan above to see details here.
             </p>
 
             <div class="nm-info-row" id="nmSelectedMeta" style="display:none;">
@@ -601,17 +601,16 @@
 
           </div>
 
-          <!-- RIGHT side removed (Delivery + Order removed) -->
           <div class="nm-box">
             <div class="section-kicker">Info</div>
             <h2 class="section-title">How it works</h2>
             <p class="section-subtitle">
-              Plan select karo, timing choose karo, phir payment page pe jaa kar details complete karo.
+              Select a plan, choose timings, then continue to the payment page to complete your order.
             </p>
             <ul class="nm-bullets">
-              <li>1 meal plan = 1 timing window</li>
-              <li>2 meals plan = 2 timing windows (Lunch + Dinner)</li>
-              <li>Timings aap baad me Account se change bhi kar sakte ho (future)</li>
+              <li>1-meal plan = 1 delivery time window</li>
+              <li>2-meal plan = 2 delivery time windows (Lunch + Dinner)</li>
+              <li>You can update timings later from your account (future)</li>
             </ul>
           </div>
 
@@ -731,25 +730,25 @@
         elBullets.appendChild(li);
       });
 
-      // show timing section
       timingWrap.style.display = 'grid';
 
-      // toggle meal2 timings
       const is2Meals = String(plan.mealsPerDay) === '2';
       meal2Block.style.display = is2Meals ? 'block' : 'none';
       timingHint.textContent = is2Meals
-        ? '2 meals plan selected — please choose Lunch + Dinner timings.'
-        : '1 meal plan selected — please choose one timing window.';
+        ? 'Two-meal plan selected — please choose Lunch and Dinner timings.'
+        : 'One-meal plan selected — please choose one delivery time window.';
 
-      // save selected plan
       localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
       setActiveCard(plan.id);
-
-      // clear msg
       timingMsg.textContent = '';
+
+      // ✅ Auto-scroll to Selected Plan (great for mobile)
+      setTimeout(() => {
+        const box = document.getElementById("nmSelectedBox");
+        if (box) box.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
 
-    // Click on plan cards
     cards.forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const pid = btn.dataset.plan;
@@ -759,7 +758,6 @@
       });
     });
 
-    // Continue to payment
     continueBtn.addEventListener('click', ()=>{
       const pRaw = localStorage.getItem(PLAN_KEY);
       if (!pRaw){
@@ -788,16 +786,13 @@
 
       localStorage.setItem(TIMINGS_KEY, JSON.stringify(payload));
 
-      // ✅ redirect to payment page
       window.location.href = 'checkout.html';
     });
 
-    // Change plan (scroll back to cards)
     changePlanBtn.addEventListener('click', ()=>{
       document.getElementById('nmPlanGrid').scrollIntoView({behavior:'smooth', block:'start'});
     });
 
-    // Restore previously selected plan
     (function init(){
       const raw = localStorage.getItem(PLAN_KEY);
       if (!raw) return;
