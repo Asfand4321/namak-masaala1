@@ -236,14 +236,12 @@
     .nm-dish{ font-weight: 800; }
     .nm-side{ opacity: .7; font-weight: 700; white-space: nowrap; }
 
-    /* Delivery box form */
-    .nm-delivery-form{ display: grid; gap: 12px; }
+    /* ✅ Timing form (reusing delivery styles) */
+    .nm-time-form{ display: grid; gap: 12px; margin-top: 14px; }
     .nm-field{ display: grid; gap: 6px; }
     .nm-label{ font-weight: 700; font-size: .9rem; opacity: .85; }
 
-    .nm-delivery-form input,
-    .nm-delivery-form select,
-    .nm-delivery-form textarea{
+    .nm-time-form select{
       width: 100%;
       border: 1px solid rgba(0,0,0,.10);
       border-radius: 12px;
@@ -252,8 +250,6 @@
       outline: none;
       font: inherit;
     }
-    .nm-delivery-form textarea{ resize: vertical; min-height: 84px; }
-
     .nm-row{
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -263,25 +259,9 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-    }
-    .nm-small{ margin-top:6px; font-size:.9rem; opacity:.8; }
-
-    /* ORDER (hidden until plan selected) */
-    .nm-order{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:16px;
-      padding:18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.06);
-    }
-    .nm-order-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
       margin-top: 12px;
     }
-    .nm-order-grid .nm-field{ margin: 0; }
-    .nm-span-2{ grid-column: 1 / -1; }
+    .nm-small{ margin-top:6px; font-size:.9rem; opacity:.8; }
 
     @media (max-width: 980px){
       .nm-plan-grid{ grid-template-columns: repeat(2, minmax(220px,1fr)); }
@@ -291,7 +271,6 @@
       .nm-weeks-grid{ grid-template-columns: 1fr; }
       .nm-week-list li{ grid-template-columns: 48px 1fr; }
       .nm-side{ grid-column: 1 / -1; white-space: normal; }
-      .nm-order-grid{ grid-template-columns: 1fr; }
     }
     @media (max-width: 520px){
       .nm-plan-grid{ grid-template-columns: 1fr; }
@@ -318,15 +297,14 @@
       </div>
 
       <nav class="nav-links">
-  <a href="index.html">Home</a>
-  <a href="plans.html">Plans</a>
-  <a href="meals.html">Meals</a>
-  <a href="referral.html">Referral</a>
-  <a href="orders.html">My Orders</a>
-  <a href="customercare.html" id="customerCareNav">Customer Care</a>
-  <a href="account.html">My Account</a>
-</nav>
-
+        <a href="index.html">Home</a>
+        <a href="plans.html">Plans</a>
+        <a href="meals.html">Meals</a>
+        <a href="referral.html">Referral</a>
+        <a href="orders.html">My Orders</a>
+        <a href="customercare.html" id="customerCareNav">Customer Care</a>
+        <a href="account.html">My Account</a>
+      </nav>
 
       <div class="nav-auth">
         <a href="login.html" class="btn btn-outline">Login</a>
@@ -354,7 +332,7 @@
           <div class="section-kicker">Choose your package</div>
           <h1 class="section-title">Meal Plans</h1>
           <p class="section-subtitle">
-            Plan select karo — neeche details &amp; order section automatically open ho jayega.
+            Plan select karo — neeche details automatically update ho jayengi.
           </p>
         </div>
 
@@ -510,7 +488,7 @@
       </div>
     </section>
 
-    <!-- DETAILS + DELIVERY -->
+    <!-- DETAILS (Selected plan + timings inside same box) -->
     <section class="section">
       <div class="container">
         <div class="nm-two-col">
@@ -539,109 +517,104 @@
             </div>
 
             <ul class="nm-bullets" id="nmSelectedBullets"></ul>
-          </div>
 
-          <!-- Delivery details -->
-          <div class="nm-box">
-            <div class="section-kicker">Delivery details</div>
-            <h2 class="section-title">Enter delivery info</h2>
-            <p class="section-subtitle">
-              Phone, address aur timing select karo. Ye info checkout me automatically fill ho sakti hai.
-            </p>
+            <!-- ✅ Timings -->
+            <div class="nm-time-form" id="nmTimingWrap" style="display:none;">
+              <div class="section-kicker">Delivery timing</div>
+              <div class="nm-small" id="nmTimingHint"></div>
 
-            <form class="nm-delivery-form" id="nmDeliveryForm" autocomplete="on">
-              <label class="nm-field">
-                <span class="nm-label">Phone (WhatsApp)</span>
-                <input id="nmDelPhone" name="phone" type="tel" placeholder="03xx..." required />
-              </label>
+              <!-- Meal 1 -->
+              <div>
+                <div style="font-weight:800;margin:6px 0 8px;">Meal 1 timing</div>
+                <div class="nm-row">
+                  <label class="nm-field">
+                    <span class="nm-label">From</span>
+                    <select id="nmMeal1From" required>
+                      <option value="12:00 PM">12:00 PM</option>
+                      <option value="12:30 PM">12:30 PM</option>
+                      <option value="01:00 PM">01:00 PM</option>
+                      <option value="01:30 PM">01:30 PM</option>
+                      <option value="02:00 PM">02:00 PM</option>
+                      <option value="02:30 PM">02:30 PM</option>
+                      <option value="03:00 PM">03:00 PM</option>
+                      <option value="03:30 PM">03:30 PM</option>
+                      <option value="04:00 PM">04:00 PM</option>
+                    </select>
+                  </label>
 
-              <label class="nm-field">
-                <span class="nm-label">Delivery address</span>
-                <textarea id="nmDelAddress" name="address" rows="3" placeholder="Office / Home address" required></textarea>
-              </label>
+                  <label class="nm-field">
+                    <span class="nm-label">To</span>
+                    <select id="nmMeal1To" required>
+                      <option value="01:00 PM">01:00 PM</option>
+                      <option value="01:30 PM">01:30 PM</option>
+                      <option value="02:00 PM">02:00 PM</option>
+                      <option value="02:30 PM">02:30 PM</option>
+                      <option value="03:00 PM">03:00 PM</option>
+                      <option value="03:30 PM">03:30 PM</option>
+                      <option value="04:00 PM">04:00 PM</option>
+                      <option value="04:30 PM">04:30 PM</option>
+                      <option value="05:00 PM">05:00 PM</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
 
-              <div class="nm-row">
-                <label class="nm-field">
-                  <span class="nm-label">From</span>
-                  <select id="nmDelFrom" name="from" required>
-                    <option value="12:00 PM">12:00 PM</option>
-                    <option value="12:30 PM">12:30 PM</option>
-                    <option value="01:00 PM">01:00 PM</option>
-                    <option value="01:30 PM">01:30 PM</option>
-                    <option value="02:00 PM">02:00 PM</option>
-                    <option value="02:30 PM">02:30 PM</option>
-                    <option value="03:00 PM">03:00 PM</option>
-                    <option value="03:30 PM">03:30 PM</option>
-                    <option value="04:00 PM">04:00 PM</option>
-                  </select>
-                </label>
+              <!-- Meal 2 (only for 2 meals/day) -->
+              <div id="nmMeal2Block" style="display:none;">
+                <div style="font-weight:800;margin:10px 0 8px;">Meal 2 timing (Dinner)</div>
+                <div class="nm-row">
+                  <label class="nm-field">
+                    <span class="nm-label">From</span>
+                    <select id="nmMeal2From">
+                      <option value="06:00 PM">06:00 PM</option>
+                      <option value="06:30 PM">06:30 PM</option>
+                      <option value="07:00 PM">07:00 PM</option>
+                      <option value="07:30 PM">07:30 PM</option>
+                      <option value="08:00 PM">08:00 PM</option>
+                    </select>
+                  </label>
 
-                <label class="nm-field">
-                  <span class="nm-label">To</span>
-                  <select id="nmDelTo" name="to" required>
-                    <option value="01:00 PM">01:00 PM</option>
-                    <option value="01:30 PM">01:30 PM</option>
-                    <option value="02:00 PM">02:00 PM</option>
-                    <option value="02:30 PM">02:30 PM</option>
-                    <option value="03:00 PM">03:00 PM</option>
-                    <option value="03:30 PM">03:30 PM</option>
-                    <option value="04:00 PM">04:00 PM</option>
-                    <option value="04:30 PM">04:30 PM</option>
-                    <option value="05:00 PM">05:00 PM</option>
-                  </select>
-                </label>
+                  <label class="nm-field">
+                    <span class="nm-label">To</span>
+                    <select id="nmMeal2To">
+                      <option value="07:00 PM">07:00 PM</option>
+                      <option value="07:30 PM">07:30 PM</option>
+                      <option value="08:00 PM">08:00 PM</option>
+                      <option value="08:30 PM">08:30 PM</option>
+                      <option value="09:00 PM">09:00 PM</option>
+                    </select>
+                  </label>
+                </div>
               </div>
 
               <div class="nm-actions">
-                <button class="btn btn-primary btn-lg" type="submit">Save details</button>
-                <button class="btn btn-outline btn-lg" type="button" id="nmClearDelivery">Clear</button>
+                <button class="btn btn-primary btn-lg" type="button" id="nmContinuePayment">
+                  Continue to payment
+                </button>
+                <button class="btn btn-outline btn-lg" type="button" id="nmChangePlan">
+                  Change plan
+                </button>
               </div>
 
-              <div class="nm-small" id="nmDeliveryMsg"></div>
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ORDER (hidden until plan selected) -->
-    <section class="section" id="nmOrderSection" style="display:none;">
-      <div class="container">
-        <div class="nm-order">
-          <div class="section-kicker">Order</div>
-          <h2 class="section-title">Continue to payment</h2>
-          <p class="section-subtitle">
-            Plan select ho chuka hai. Ab checkout pe jaa kar payment details fill karo.
-          </p>
-
-          <div class="nm-order-grid">
-            <div class="nm-field">
-              <span class="nm-label">Selected plan</span>
-              <input id="nmOrderPlan" readonly />
+              <div class="nm-small" id="nmTimingMsg"></div>
             </div>
 
-            <div class="nm-field">
-              <span class="nm-label">Amount</span>
-              <input id="nmOrderAmount" readonly />
-            </div>
-
-            <div class="nm-field nm-span-2">
-              <span class="nm-label">Delivery summary</span>
-              <input id="nmOrderDelivery" readonly />
-            </div>
           </div>
 
-          <div class="nm-actions" style="margin-top:12px;">
-            <button class="btn btn-primary btn-lg" type="button" id="nmGoCheckout">
-              Continue to payment
-            </button>
-            <button class="btn btn-outline btn-lg" type="button" id="nmChangePlan">
-              Change plan
-            </button>
+          <!-- RIGHT side removed (Delivery + Order removed) -->
+          <div class="nm-box">
+            <div class="section-kicker">Info</div>
+            <h2 class="section-title">How it works</h2>
+            <p class="section-subtitle">
+              Plan select karo, timing choose karo, phir payment page pe jaa kar details complete karo.
+            </p>
+            <ul class="nm-bullets">
+              <li>1 meal plan = 1 timing window</li>
+              <li>2 meals plan = 2 timing windows (Lunch + Dinner)</li>
+              <li>Timings aap baad me Account se change bhi kar sakte ho (future)</li>
+            </ul>
           </div>
 
-          <div class="nm-small" id="nmOrderMsg"></div>
         </div>
       </div>
     </section>
@@ -663,12 +636,12 @@
   <!-- ✅ AUTH -->
   <script src="auth.js"></script>
 
-  <!-- ✅ Plans logic (inline so no missing file issue) -->
+  <!-- ✅ Plans logic (updated) -->
   <script>
     const PLAN_KEY = 'nm_selected_plan';
-    const DELIVERY_KEY = 'nm_delivery';
+    const TIMINGS_KEY = 'nm_delivery_timings';
+
     const cards = Array.from(document.querySelectorAll('.nm-plan-card'));
-    const orderSection = document.getElementById('nmOrderSection');
 
     const elTitle = document.getElementById('nmSelectedTitle');
     const elDesc = document.getElementById('nmSelectedDesc');
@@ -678,21 +651,19 @@
     const elMeals = document.getElementById('nmSelectedMeals');
     const elBullets = document.getElementById('nmSelectedBullets');
 
-    const orderPlan = document.getElementById('nmOrderPlan');
-    const orderAmount = document.getElementById('nmOrderAmount');
-    const orderDelivery = document.getElementById('nmOrderDelivery');
-    const orderMsg = document.getElementById('nmOrderMsg');
+    const timingWrap = document.getElementById('nmTimingWrap');
+    const timingHint = document.getElementById('nmTimingHint');
+    const timingMsg = document.getElementById('nmTimingMsg');
 
-    const goCheckoutBtn = document.getElementById('nmGoCheckout');
+    const meal2Block = document.getElementById('nmMeal2Block');
+
+    const meal1From = document.getElementById('nmMeal1From');
+    const meal1To = document.getElementById('nmMeal1To');
+    const meal2From = document.getElementById('nmMeal2From');
+    const meal2To = document.getElementById('nmMeal2To');
+
+    const continueBtn = document.getElementById('nmContinuePayment');
     const changePlanBtn = document.getElementById('nmChangePlan');
-
-    const deliveryForm = document.getElementById('nmDeliveryForm');
-    const delPhone = document.getElementById('nmDelPhone');
-    const delAddr = document.getElementById('nmDelAddress');
-    const delFrom = document.getElementById('nmDelFrom');
-    const delTo = document.getElementById('nmDelTo');
-    const delMsg = document.getElementById('nmDeliveryMsg');
-    const clearDeliveryBtn = document.getElementById('nmClearDelivery');
 
     const PLANS = {
       weekly1: {
@@ -737,8 +708,6 @@
       }
     };
 
-    function money(n){ return 'Rs ' + Number(n).toLocaleString('en-PK'); }
-
     function setActiveCard(planId){
       cards.forEach(btn=>{
         const isThis = btn.dataset.plan === planId;
@@ -762,28 +731,22 @@
         elBullets.appendChild(li);
       });
 
-      // Order section show + fill
-      orderSection.style.display = 'block';
-      orderPlan.value = plan.name;
-      orderAmount.value = money(plan.price);
+      // show timing section
+      timingWrap.style.display = 'grid';
 
-      // Save selected plan to localStorage for checkout.html
+      // toggle meal2 timings
+      const is2Meals = String(plan.mealsPerDay) === '2';
+      meal2Block.style.display = is2Meals ? 'block' : 'none';
+      timingHint.textContent = is2Meals
+        ? '2 meals plan selected — please choose Lunch + Dinner timings.'
+        : '1 meal plan selected — please choose one timing window.';
+
+      // save selected plan
       localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
       setActiveCard(plan.id);
 
-      refreshDeliverySummary();
-    }
-
-    function refreshDeliverySummary(){
-      const dRaw = localStorage.getItem(DELIVERY_KEY);
-      let d = null;
-      try{ d = dRaw ? JSON.parse(dRaw) : null; }catch(e){ d=null; }
-
-      if (d && d.phone && d.address && d.from && d.to){
-        orderDelivery.value = `${d.phone} • ${d.from} - ${d.to} • ${d.address}`;
-      } else {
-        orderDelivery.value = 'Please save delivery details first.';
-      }
+      // clear msg
+      timingMsg.textContent = '';
     }
 
     // Click on plan cards
@@ -793,62 +756,39 @@
         const plan = PLANS[pid];
         if (!plan) return;
         renderPlan(plan);
-        orderMsg.textContent = '';
       });
     });
 
-    // Delivery form save
-    function loadDelivery(){
-      const raw = localStorage.getItem(DELIVERY_KEY);
-      if (!raw) return;
-      try{
-        const d = JSON.parse(raw);
-        if (d.phone) delPhone.value = d.phone;
-        if (d.address) delAddr.value = d.address;
-        if (d.from) delFrom.value = d.from;
-        if (d.to) delTo.value = d.to;
-      }catch(e){}
-      refreshDeliverySummary();
-    }
-
-    deliveryForm.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const d = {
-        phone: delPhone.value.trim(),
-        address: delAddr.value.trim(),
-        from: delFrom.value,
-        to: delTo.value
-      };
-      localStorage.setItem(DELIVERY_KEY, JSON.stringify(d));
-      delMsg.textContent = 'Saved ✔';
-      setTimeout(()=> delMsg.textContent='', 1500);
-      refreshDeliverySummary();
-    });
-
-    clearDeliveryBtn.addEventListener('click', ()=>{
-      localStorage.removeItem(DELIVERY_KEY);
-      delPhone.value = '';
-      delAddr.value = '';
-      delFrom.selectedIndex = 0;
-      delTo.selectedIndex = 0;
-      delMsg.textContent = 'Cleared.';
-      setTimeout(()=> delMsg.textContent='', 1200);
-      refreshDeliverySummary();
-    });
-
-    // Continue to checkout
-    goCheckoutBtn.addEventListener('click', ()=>{
+    // Continue to payment
+    continueBtn.addEventListener('click', ()=>{
       const pRaw = localStorage.getItem(PLAN_KEY);
       if (!pRaw){
-        orderMsg.textContent = 'Please select a plan first.';
+        timingMsg.textContent = 'Please select a plan first.';
         return;
       }
-      const dRaw = localStorage.getItem(DELIVERY_KEY);
-      if (!dRaw){
-        orderMsg.textContent = 'Please save delivery details first.';
+
+      let plan = null;
+      try{ plan = JSON.parse(pRaw); }catch(e){ plan=null; }
+      if (!plan) {
+        timingMsg.textContent = 'Please select a plan again.';
         return;
       }
-      // redirect
+
+      const is2Meals = String(plan.mealsPerDay) === '2';
+
+      const payload = {
+        mealsPerDay: String(plan.mealsPerDay),
+        meal1: { from: meal1From.value, to: meal1To.value },
+        meal2: null
+      };
+
+      if (is2Meals){
+        payload.meal2 = { from: meal2From.value, to: meal2To.value };
+      }
+
+      localStorage.setItem(TIMINGS_KEY, JSON.stringify(payload));
+
+      // ✅ redirect to payment page
       window.location.href = 'checkout.html';
     });
 
@@ -857,10 +797,8 @@
       document.getElementById('nmPlanGrid').scrollIntoView({behavior:'smooth', block:'start'});
     });
 
-    // Restore previously selected plan + delivery
+    // Restore previously selected plan
     (function init(){
-      loadDelivery();
-
       const raw = localStorage.getItem(PLAN_KEY);
       if (!raw) return;
       try{
