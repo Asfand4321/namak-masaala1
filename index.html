@@ -351,7 +351,6 @@
     <div>© 2025 Namak Masaala. All rights reserved.</div>
     <div class="footer-links">
       <a href="plans.html">Plans</a>
-      <a href="meals.html">Meals</a>
       <a href="referral.html">Referral</a>
       <a href="orders.html">My orders</a>
       <a href="customercare.html">Customer Care</a>
@@ -365,7 +364,9 @@
     const customerCare = document.getElementById("customerCareNav");
     if (!customerCare) return;
 
-    const isLoggedIn = !!localStorage.getItem("user"); // login ke baad "user" set hona chahiye
+    // ✅ SAME KEY as auth.js (nm_logged_in)
+    const isLoggedIn = localStorage.getItem("nm_logged_in") === "1";
+
     customerCare.style.display = isLoggedIn ? "inline-block" : "none";
   });
 </script>
