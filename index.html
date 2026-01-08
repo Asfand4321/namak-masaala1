@@ -352,25 +352,26 @@
     <div class="footer-links">
       <a href="plans.html">Plans</a>
       <a href="meals.html">Meals</a>
+      <a href="referral.html">Referral</a>
+      <a href="orders.html">My orders</a>
       <a href="customercare.html">Customer Care</a>
     </div>
   </div>
 </footer>
 
+<!-- ✅ Customer Care hide/show script (auth.js se pehle) -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const customerCare = document.getElementById("customerCareNav");
+    if (!customerCare) return;
+
+    const isLoggedIn = !!localStorage.getItem("user"); // login ke baad "user" set hona chahiye
+    customerCare.style.display = isLoggedIn ? "inline-block" : "none";
+  });
+</script>
+
+<!-- ✅ auth.js only ONCE -->
 <script src="auth.js"></script>
-  <!-- 👇 YAHAN YE SCRIPT PASTE KARO -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const customerCare = document.getElementById("customerCareNav");
-      if (!customerCare) return;
-
-      const isLoggedIn = !!localStorage.getItem("user");
-      customerCare.style.display = isLoggedIn ? "inline-block" : "none";
-    });
-  </script>
-
-  <!-- auth.js already hai, isko rehne do -->
-  <script src="auth.js"></script>
 
 </body>
 </html>
