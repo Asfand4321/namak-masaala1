@@ -25,8 +25,8 @@
     "orders.html",
     "my-plans.html",
     "checkout.html",
-    "cart.html",            // agar kabhi cart page ho
-    "customer-care.html",
+    "cart.html",              // agar kabhi cart page ho
+    "customercare.html",      // ✅ FIXED (aapki file ka naam ye hai)
   ]);
 
   function toggleLinks(containerSelector) {
