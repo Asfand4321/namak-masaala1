@@ -2,15 +2,18 @@
 
 (function () {
   // Pages that don't require login
-  const publicPages = ["index.html", "login.html", "signup.html", ""];
+  const publicPages = new Set(["index.html", "login.html", "signup.html", ""]);
 
-  const path = window.location.pathname.split("/").pop();
-  const isPublic = publicPages.includes(path);
+  // safer path detection (handles query/hash)
+  const rawPath = window.location.pathname.split("/").pop() || "";
+  const cleanPath = rawPath.split("?")[0].split("#")[0]; // remove ? and #
 
-  // IMPORTANT: login pe set: localStorage.setItem("nm_logged_in","1")
+  const isPublic = publicPages.has(cleanPath);
+
+  // Logged-in flag
   const isLoggedIn = localStorage.getItem("nm_logged_in") === "1";
 
-  // 1) Route guard
+  // 1) Route guard (DON'T block public pages)
   if (!isLoggedIn && !isPublic) {
     window.location.href = "login.html";
     return;
@@ -25,8 +28,8 @@
     "orders.html",
     "my-plans.html",
     "checkout.html",
-    "cart.html",              // agar kabhi cart page ho
-    "customercare.html",      // ✅ FIXED (aapki file ka naam ye hai)
+    "cart.html",
+    "customercare.html", // ✅ FIXED (aapka actual file)
   ]);
 
   function toggleLinks(containerSelector) {
@@ -35,9 +38,10 @@
 
     const links = nav.querySelectorAll("a");
     links.forEach((a) => {
-      const href = (a.getAttribute("href") || "").trim();
+      const hrefRaw = (a.getAttribute("href") || "").trim();
+      const href = hrefRaw.split("?")[0].split("#")[0];
 
-      // Always allow Home
+      // Always allow Home + empty/hash links
       if (href === "index.html" || href === "" || href === "#") {
         a.style.display = "";
         return;
@@ -75,7 +79,6 @@
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
-    // remove old injected logout
     const old = mobileNav.querySelector('[data-nm="logout"]');
     if (old) old.remove();
 
@@ -94,11 +97,8 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     renderNavAuth();
-
-    // Hide protected nav links when logged out
     toggleLinks(".nav-links");   // desktop
     toggleLinks(".nav-mobile");  // mobile
-
     renderMobileLogout();
   });
 })();
@@ -107,5 +107,6 @@
 function nmLogout() {
   localStorage.removeItem("nm_logged_in");
   localStorage.removeItem("nm_user_email");
+  localStorage.removeItem("nm_current_email");
   window.location.href = "login.html";
 }
