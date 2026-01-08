@@ -1,4 +1,5 @@
-// auth.js (UPDATED: hide protected navbar links when logged out)
+// auth.js (UPDATED: hide protected navbar links when logged out
+// + ALWAYS hide Cart / My Plans / Checkout)
 
 (function () {
   // Pages that don't require login
@@ -6,7 +7,7 @@
 
   // safer path detection (handles query/hash)
   const rawPath = window.location.pathname.split("/").pop() || "";
-  const cleanPath = rawPath.split("?")[0].split("#")[0]; // remove ? and #
+  const cleanPath = rawPath.split("?")[0].split("#")[0];
 
   const isPublic = publicPages.has(cleanPath);
 
@@ -19,6 +20,13 @@
     return;
   }
 
+  // ✅ Always hide these links (even when logged in)
+  const alwaysHideHrefs = new Set([
+    "cart.html",
+    "my-plans.html",
+    "checkout.html",
+  ]);
+
   // These links should be hidden when NOT logged in
   const protectedHrefs = new Set([
     "plans.html",
@@ -26,10 +34,7 @@
     "referral.html",
     "account.html",
     "orders.html",
-    "my-plans.html",
-    "checkout.html",
-    "cart.html",
-    "customercare.html", // ✅ FIXED (aapka actual file)
+    "customercare.html",
   ]);
 
   function toggleLinks(containerSelector) {
@@ -47,6 +52,13 @@
         return;
       }
 
+      // ✅ Always hide these (Cart / My Plans / Checkout)
+      if (alwaysHideHrefs.has(href)) {
+        a.style.display = "none";
+        return;
+      }
+
+      // Hide protected nav links when logged out
       if (!isLoggedIn && protectedHrefs.has(href)) {
         a.style.display = "none";
       } else {
@@ -79,6 +91,7 @@
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
+    // remove old injected logout
     const old = mobileNav.querySelector('[data-nm="logout"]');
     if (old) old.remove();
 
@@ -97,8 +110,11 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     renderNavAuth();
+
+    // Hide/show nav links
     toggleLinks(".nav-links");   // desktop
     toggleLinks(".nav-mobile");  // mobile
+
     renderMobileLogout();
   });
 })();
