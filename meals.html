@@ -282,6 +282,25 @@
   }
 }
 
+    /* ✅ Bottom checkout bar should stay above WhatsApp */
+.nm-checkout-bar{
+  padding-right: 90px;   /* space for WhatsApp button */
+  z-index: 999;
+}
+
+/* Mobile */
+@media (max-width: 720px){
+  .nm-checkout-bar{
+    padding-right: 100px;   /* more space on small screens */
+    padding-bottom: 16px;
+  }
+}
+
+/* Keep WhatsApp on top */
+.nm-whatsapp-container{
+  z-index: 1000;
+}
+
   </style>
 </head>
 
