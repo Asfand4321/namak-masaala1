@@ -270,5 +270,48 @@
   </script>
   <script type="module" src="auth.js"></script>
 
+  <script type="module">
+  import { supabase } from "./supabaseClient.js";
+
+  const form = document.querySelector("form"); // signup page pe usually 1 form hota
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fullName =
+        document.querySelector('input[name="name"]')?.value?.trim() ||
+        document.querySelector('input[name="full_name"]')?.value?.trim() ||
+        document.querySelector('input[id="name"]')?.value?.trim() ||
+        "";
+
+      const email =
+        document.querySelector('input[type="email"]')?.value?.trim() ||
+        document.querySelector('input[name="email"]')?.value?.trim() ||
+        document.getElementById("email")?.value?.trim() ||
+        "";
+
+      const password =
+        document.querySelector('input[type="password"]')?.value ||
+        document.querySelector('input[name="password"]')?.value ||
+        document.getElementById("password")?.value ||
+        "";
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { full_name: fullName } },
+        });
+        if (error) throw error;
+
+        alert("Signup successful! Now login.");
+        window.location.href = "login.html";
+      } catch (err) {
+        alert(err?.message || "Signup failed");
+      }
+    });
+  }
+</script>
+
 </body>
 </html>
