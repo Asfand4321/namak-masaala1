@@ -212,35 +212,83 @@
   </footer>
 
   <script>
-    // ✅ Try multiple keys because auth.js might store user in different names
+    // ✅ SUPER-DETECT AUTH USER (works with most auth.js setups)
     const USER_KEYS = [
-      'nm_user',
-      'nm_current_user',
-      'nm_auth_user',
-      'nm_logged_in_user',
-      'currentUser',
-      'user'
+      'nm_user','nm_current_user','nm_auth_user','nm_logged_in_user',
+      'currentUser','user','userData','profile','nm_profile','nmUser',
+      'nm_auth','nm_auth_state','nm_session'
     ];
 
-    function readJson(key){
-      try{
-        const raw = localStorage.getItem(key);
-        return raw ? JSON.parse(raw) : null;
-      }catch(e){
-        return null;
+    const STRING_EMAIL_KEYS = ['nm_user_email','user_email','email','gmail','nm_email'];
+    const STRING_NAME_KEYS  = ['nm_user_name','user_name','name','fullName','nm_name'];
+
+    function tryJson(raw){
+      try { return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
+    }
+
+    function pickUserFromObject(obj){
+      if (!obj || typeof obj !== 'object') return null;
+
+      // handle nested objects common patterns
+      const candidates = [obj, obj.user, obj.profile, obj.data, obj.account].filter(Boolean);
+
+      for (const c of candidates){
+        if (!c || typeof c !== 'object') continue;
+        const name  = String(c.name || c.fullName || c.username || c.userName || '').trim();
+        const email = String(c.email || c.gmail || c.mail || c.userEmail || c.user_email || '').trim();
+        if (name || email){
+          return { ...obj, __name: name, __email: email };
+        }
       }
+
+      return null;
+    }
+
+    function getStorageCandidates(storage){
+      const out = [];
+      for (let i = 0; i < storage.length; i++){
+        const k = storage.key(i);
+        out.push({ k, v: storage.getItem(k) });
+      }
+      return out;
+    }
+
+    function findUserInStorage(storage){
+      // 1) known keys
+      for (const k of USER_KEYS){
+        const u = pickUserFromObject(tryJson(storage.getItem(k)));
+        if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
+      }
+
+      // 2) scan all keys for JSON containing email/name
+      const all = getStorageCandidates(storage);
+      for (const {k, v} of all){
+        const u = pickUserFromObject(tryJson(v));
+        if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
+      }
+
+      // 3) string email/name keys
+      let email = '';
+      let name = '';
+
+      for (const k of STRING_EMAIL_KEYS){
+        const val = String(storage.getItem(k) || '').trim();
+        if (val && val.includes('@')) { email = val; break; }
+      }
+      for (const k of STRING_NAME_KEYS){
+        const val = String(storage.getItem(k) || '').trim();
+        if (val) { name = val; break; }
+      }
+
+      if (email || name){
+        return { __name: name, __email: email, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: 'string-keys' };
+      }
+
+      return null;
     }
 
     function getUser(){
-      for (const k of USER_KEYS){
-        const u = readJson(k);
-        if (u && typeof u === 'object'){
-          const name = (u.name || u.fullName || u.username || '').trim();
-          const email = (u.email || u.gmail || u.mail || '').trim();
-          if (name || email) return { ...u, __key: k };
-        }
-      }
-      return null;
+      return findUserInStorage(localStorage) || findUserInStorage(sessionStorage);
     }
 
     function initials(txt){
@@ -276,21 +324,29 @@
       guest.style.display = 'none';
       prof.style.display = 'block';
 
-      const name = (user.name || user.fullName || user.username || 'Customer').trim();
-      const email = (user.email || user.gmail || user.mail || '—').trim();
+      const name = (user.__name || '').trim() || 'Customer';
+      const email = (user.__email || '').trim() || '—';
       const joined = fmtDate(user.createdAt || user.joinedAt || user.created_on);
 
-      document.getElementById('accName').textContent = name || 'Customer';
-      document.getElementById('accEmail').textContent = email || '—';
-      document.getElementById('accAvatar').textContent = initials((name && name !== 'Customer') ? name : email);
+      document.getElementById('accName').textContent = name;
+      document.getElementById('accEmail').textContent = email;
+      document.getElementById('accAvatar').textContent = initials(name !== 'Customer' ? name : email);
       document.getElementById('accJoined').textContent = joined;
       document.getElementById('accType').textContent = (user.role || user.type || 'Customer');
     }
 
     document.getElementById('accLogout')?.addEventListener('click', () => {
-      USER_KEYS.forEach(k => localStorage.removeItem(k));
+      // clear common auth keys
+      USER_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+      STRING_EMAIL_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+      STRING_NAME_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+
+      // clear token keys
       localStorage.removeItem('nm_token');
       localStorage.removeItem('token');
+      sessionStorage.removeItem('nm_token');
+      sessionStorage.removeItem('token');
+
       window.location.href = 'login.html';
     });
 
