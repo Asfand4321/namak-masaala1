@@ -267,6 +267,21 @@
       /* keep fab a bit higher above bottom bar */
       .nm-cart-fab{ bottom:78px; }
     }
+
+    /* ✅ Avoid WhatsApp button overlap */
+.nm-cart-fab{
+  right: 88px;   /* was 16px */
+  bottom: 86px;  /* was 18px (mobile pe 78px) */
+}
+
+/* Mobile: keep enough gap from WhatsApp + bottom bar */
+@media (max-width: 720px){
+  .nm-cart-fab{
+    right: 88px;  /* move left of WhatsApp */
+    bottom: 120px; /* above bottom bar + safe gap */
+  }
+}
+
   </style>
 </head>
 
