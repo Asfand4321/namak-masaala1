@@ -1,5 +1,5 @@
-// auth.js (UPDATED: hide protected navbar links when logged out
-// + ALWAYS hide Cart / My Plans / Checkout)
+// auth.js (Supabase session based + your navbar/guard logic)
+import { supabase } from "./supabaseClient.js";
 
 (function () {
   // Pages that don't require login
@@ -11,21 +11,8 @@
 
   const isPublic = publicPages.has(cleanPath);
 
-  // Logged-in flag
-  const isLoggedIn = localStorage.getItem("nm_logged_in") === "1";
-
-  // 1) Route guard (DON'T block public pages)
-  if (!isLoggedIn && !isPublic) {
-    window.location.href = "login.html";
-    return;
-  }
-
   // ✅ Always hide these links (even when logged in)
-  const alwaysHideHrefs = new Set([
-    "cart.html",
-    "my-plans.html",
-    "checkout.html",
-  ]);
+  const alwaysHideHrefs = new Set(["cart.html", "my-plans.html", "checkout.html"]);
 
   // These links should be hidden when NOT logged in
   const protectedHrefs = new Set([
@@ -37,7 +24,7 @@
     "customercare.html",
   ]);
 
-  function toggleLinks(containerSelector) {
+  function toggleLinks(containerSelector, isLoggedIn) {
     const nav = document.querySelector(containerSelector);
     if (!nav) return;
 
@@ -67,15 +54,12 @@
     });
   }
 
-  // 2) Navbar auth buttons toggle (Login/Signup vs Logout)
-  function renderNavAuth() {
+  function renderNavAuth(isLoggedIn) {
     const navAuth = document.querySelector(".nav-auth");
     if (!navAuth) return;
 
     if (isLoggedIn) {
-      navAuth.innerHTML = `
-        <button class="btn btn-outline" id="nmLogoutBtn">Logout</button>
-      `;
+      navAuth.innerHTML = `<button class="btn btn-outline" id="nmLogoutBtn">Logout</button>`;
       const btn = document.getElementById("nmLogoutBtn");
       if (btn) btn.addEventListener("click", nmLogout);
     } else {
@@ -86,8 +70,7 @@
     }
   }
 
-  // 3) Optional: mobile nav me logout link inject (only when logged in)
-  function renderMobileLogout() {
+  function renderMobileLogout(isLoggedIn) {
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
@@ -108,21 +91,60 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    renderNavAuth();
+  async function init() {
+    // ✅ Supabase session check
+    const { data } = await supabase.auth.getSession();
+    const isLoggedIn = !!data?.session;
 
-    // Hide/show nav links
-    toggleLinks(".nav-links");   // desktop
-    toggleLinks(".nav-mobile");  // mobile
+    // (Optional) tumhari old system ke sath compatibility:
+    // localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
 
-    renderMobileLogout();
-  });
+    // 1) Route guard (DON'T block public pages)
+    if (!isLoggedIn && !isPublic) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // 2) Navbar
+    renderNavAuth(isLoggedIn);
+    toggleLinks(".nav-links", isLoggedIn);
+    toggleLinks(".nav-mobile", isLoggedIn);
+    renderMobileLogout(isLoggedIn);
+
+    // 3) Live update on login/logout (optional but nice)
+    supabase.auth.onAuthStateChange((_event, session) => {
+      const logged = !!session;
+
+      if (!logged && !isPublic) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      renderNavAuth(logged);
+      toggleLinks(".nav-links", logged);
+      toggleLinks(".nav-mobile", logged);
+      renderMobileLogout(logged);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
 })();
 
-// Logout helper
-function nmLogout() {
+// ✅ Logout helper (Supabase)
+async function nmLogout() {
+  try {
+    await supabase.auth.signOut();
+  } catch (e) {
+    // ignore
+  }
+
+  // old local keys cleanup (safe)
   localStorage.removeItem("nm_logged_in");
   localStorage.removeItem("nm_user_email");
   localStorage.removeItem("nm_current_email");
+
   window.location.href = "login.html";
 }
+
+// in case kahin inline use ho raha ho
+window.nmLogout = nmLogout;
