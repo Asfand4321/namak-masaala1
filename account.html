@@ -8,79 +8,161 @@
   <link rel="icon" href="namak-logo.png" type="image/png" />
 
   <style>
-    .acc-wrap{
+    /* Foodpanda-ish layout */
+    .nm-acc-grid{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:16px;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
       align-items:start;
     }
     @media (max-width: 980px){
-      .acc-wrap{ grid-template-columns: 1fr; }
+      .nm-acc-grid{ grid-template-columns: 1fr; }
     }
 
-    .acc-card{
+    .nm-card{
       background:#fff;
       border:1px solid rgba(0,0,0,.10);
-      border-radius:16px;
-      padding:16px;
+      border-radius:18px;
       box-shadow: 0 10px 26px rgba(0,0,0,.06);
+      overflow:hidden;
     }
 
-    .acc-head{
+    .nm-profile-top{
+      padding:18px;
       display:flex;
       gap:14px;
       align-items:center;
     }
-    .acc-avatar{
-      width:58px; height:58px;
-      border-radius:16px;
-      display:flex; align-items:center; justify-content:center;
+    .nm-avatar{
+      width:60px;height:60px;border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
       background: rgba(0,0,0,.06);
-      font-weight:900;
-      font-size:1.15rem;
-      flex:0 0 58px;
+      font-weight:900;font-size:1.15rem;
+      flex:0 0 60px;
     }
-    .acc-name{ font-weight:900; font-size:1.05rem; }
-    .acc-email{ margin-top:2px; opacity:.8; font-weight:700; word-break:break-word; }
+    .nm-pname{ font-weight:900; font-size:1.08rem; line-height:1.2; }
+    .nm-pemail{ margin-top:4px; opacity:.78; font-weight:800; word-break:break-word; }
 
-    .acc-kv{
-      margin-top:14px;
+    .nm-divider{
+      height:1px;
+      background: rgba(0,0,0,.08);
+    }
+
+    .nm-mini-meta{
+      padding:14px 18px;
       display:grid;
-      grid-template-columns: 140px 1fr;
-      gap:10px 12px;
+      gap:8px;
+      font-weight:800;
+      opacity:.85;
     }
-    @media (max-width: 520px){
-      .acc-kv{ grid-template-columns: 1fr; }
+    .nm-meta-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
     }
-    .k{ font-weight:900; opacity:.7; }
-    .v{ font-weight:800; }
+    .nm-meta-k{ opacity:.65; font-weight:900; }
+    .nm-meta-v{ font-weight:900; }
 
-    .acc-actions{
+    /* Icon actions row (no "Settings" text) */
+    .nm-actions{
+      padding:16px 18px;
+      display:grid;
+      gap:12px;
+    }
+    .nm-action-row{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    .nm-ibtn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      border-radius:14px;
+      padding:12px;
+      cursor:pointer;
+      user-select:none;
+      text-decoration:none;
+      color:#111;
+      font-weight:900;
+    }
+    .nm-ibtn:active{ transform: translateY(1px); }
+    .nm-ico{
+      width:20px;height:20px;
+      opacity:.9;
+    }
+    .nm-ibtn span{
+      display:none; /* ✅ hide label so "Settings" text never shows */
+    }
+
+    /* Optional: if you want tiny label under icon, set display:block and style */
+    .nm-ibtn--col{
+      flex-direction:column;
+      gap:8px;
+    }
+    .nm-ibtn--col span{
+      display:none; /* keep hidden per your request */
+      font-size:.85rem;
+      opacity:.75;
+      font-weight:900;
+    }
+
+    /* Right side quick actions */
+    .nm-right{
+      padding:18px;
+    }
+    .nm-rt-title{ font-weight:900; font-size:1.15rem; margin:0; }
+    .nm-rt-sub{ margin-top:8px; opacity:.82; font-weight:800; }
+
+    .nm-quick-list{
+      margin-top:14px;
       display:grid;
       gap:10px;
-      margin-top:14px;
+    }
+    .nm-q{
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:14px;
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      text-decoration:none;
+      color:#111;
+      font-weight:900;
+      background:#fff;
+    }
+    .nm-q small{
+      display:block;
+      margin-top:4px;
+      font-weight:800;
+      opacity:.7;
     }
 
-    .acc-note{
-      margin-top:12px;
-      padding:12px;
+    .nm-tip{
+      margin-top:14px;
+      padding:12px 14px;
       border-radius:14px;
       border:1px solid rgba(0,0,0,.10);
       background: rgba(0,0,0,.02);
-      font-weight:700;
+      font-weight:900;
       opacity:.9;
     }
 
-    .acc-empty .title{ font-weight:900; font-size:1.05rem; margin:0; }
-    .acc-empty p{ margin:8px 0 0; opacity:.85; font-weight:700; }
-    .row-btns{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
-    .right-title{ font-weight:900; font-size:1.1rem; margin:0; }
-    .right-sub{ margin-top:8px; opacity:.85; font-weight:700; }
+    /* Guest card */
+    .nm-guest{
+      padding:18px;
+    }
+    .nm-guest h3{ margin:0; font-weight:900; font-size:1.08rem; }
+    .nm-guest p{ margin:8px 0 0; opacity:.82; font-weight:800; }
+    .nm-guest .row-btns{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
   </style>
 </head>
 
 <body>
-
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
@@ -133,65 +215,123 @@
         <div class="section-header">
           <div class="section-kicker">Account</div>
           <h1 class="section-title">My Account</h1>
-          <p class="section-subtitle">Your profile details are shown here. Email/password changes are handled in Settings.</p>
+          <p class="section-subtitle">Your profile details are shown here. Email/password changes are handled in your account area.</p>
         </div>
 
-        <div class="acc-wrap">
-          <!-- LEFT -->
+        <div class="nm-acc-grid">
+          <!-- LEFT: Profile -->
           <div>
-            <!-- Logged-in card -->
-            <div class="acc-card" id="accProfile" style="display:none;">
-              <div class="acc-head">
-                <div class="acc-avatar" id="accAvatar">NM</div>
+            <!-- Logged in -->
+            <div class="nm-card" id="accProfile" style="display:none;">
+              <div class="nm-profile-top">
+                <div class="nm-avatar" id="accAvatar">NM</div>
                 <div>
-                  <div class="acc-name" id="accName">—</div>
-                  <div class="acc-email" id="accEmail">—</div>
+                  <div class="nm-pname" id="accName">Customer</div>
+                  <div class="nm-pemail" id="accEmail">—</div>
                 </div>
               </div>
 
-              <div class="acc-kv">
-                <div class="k">Account Type</div>
-                <div class="v" id="accType">Customer</div>
+              <div class="nm-divider"></div>
 
-                <div class="k">Joined</div>
-                <div class="v" id="accJoined">—</div>
+              <div class="nm-mini-meta">
+                <div class="nm-meta-row">
+                  <div class="nm-meta-k">Account Type</div>
+                  <div class="nm-meta-v" id="accType">Customer</div>
+                </div>
+                <div class="nm-meta-row">
+                  <div class="nm-meta-k">Joined</div>
+                  <div class="nm-meta-v" id="accJoined">—</div>
+                </div>
               </div>
 
-              <div class="acc-note">
-                For security, change email/password from <strong>Settings</strong>.
-              </div>
+              <div class="nm-divider"></div>
 
-              <div class="acc-actions">
-                <a href="account-settings.html" class="btn btn-primary">Open Settings</a>
-                <a href="orders.html" class="btn btn-outline">My Orders</a>
-                <button class="btn btn-outline" type="button" id="accLogout">Logout</button>
+              <div class="nm-actions">
+                <div class="nm-action-row">
+                  <!-- ⚙️ Settings ICON only (no text) -->
+                  <a class="nm-ibtn nm-ibtn--col" href="account-settings.html" aria-label="Open account settings" title="Account settings">
+                    <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                      <path d="M19.4 15a7.9 7.9 0 0 0 .1-2l2-1.5-2-3.5-2.4 1a8.4 8.4 0 0 0-1.7-1L15 3h-6l-.4 2.5c-.6.3-1.2.6-1.7 1l-2.4-1-2 3.5 2 1.5a7.9 7.9 0 0 0 0 2l-2 1.5 2 3.5 2.4-1c.5.4 1.1.7 1.7 1L9 21h6l.4-2.5c.6-.3 1.2-.6 1.7-1l2.4 1 2-3.5-2-1.5z"/>
+                    </svg>
+                    <span>Settings</span>
+                  </a>
+
+                  <!-- 📦 Orders ICON -->
+                  <a class="nm-ibtn nm-ibtn--col" href="orders.html" aria-label="My orders" title="My orders">
+                    <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 8V21H3V8"/>
+                      <path d="M23 3H1v5h22V3z"/>
+                      <path d="M10 12h4"/>
+                    </svg>
+                    <span>Orders</span>
+                  </a>
+
+                  <!-- 🚪 Logout ICON -->
+                  <button class="nm-ibtn nm-ibtn--col" type="button" id="accLogout" aria-label="Logout" title="Logout">
+                    <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M10 17l5-5-5-5"/>
+                      <path d="M15 12H3"/>
+                      <path d="M21 3v18"/>
+                    </svg>
+                    <span>Logout</span>
+                  </button>
+                </div>
+
+                <div class="nm-tip">
+                  Tip: Order tracking & delivery updates are available in <strong>My Orders</strong>.
+                </div>
               </div>
             </div>
 
-            <!-- Not logged-in card -->
-            <div class="acc-card acc-empty" id="accGuest" style="display:none;">
-              <p class="title">You are not logged in</p>
-              <p>Login to see your name and Gmail/Email.</p>
-              <div class="row-btns">
-                <a class="btn btn-primary" href="login.html">Login</a>
-                <a class="btn btn-outline" href="signup.html">Sign up</a>
+            <!-- Guest -->
+            <div class="nm-card" id="accGuest" style="display:none;">
+              <div class="nm-guest">
+                <h3>You are not logged in</h3>
+                <p>Login to see your profile details.</p>
+                <div class="row-btns">
+                  <a class="btn btn-primary" href="login.html">Login</a>
+                  <a class="btn btn-outline" href="signup.html">Sign up</a>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT -->
-          <div class="acc-card">
-            <h2 class="right-title">Quick Links</h2>
-            <p class="right-sub">Need help or want to order?</p>
+          <!-- RIGHT: Quick links -->
+          <div class="nm-card">
+            <div class="nm-right">
+              <h2 class="nm-rt-title">Quick Links</h2>
+              <p class="nm-rt-sub">Need help or want to order?</p>
 
-            <div class="acc-actions" style="margin-top:12px;">
-              <a href="customercare.html" class="btn btn-outline">Customer Care</a>
-              <a href="meals.html" class="btn btn-outline">Browse Meals</a>
-              <a href="plans.html" class="btn btn-outline">Browse Plans</a>
-            </div>
+              <div class="nm-quick-list">
+                <a class="nm-q" href="customercare.html">
+                  <div>
+                    Customer Care
+                    <small>Chat, FAQs, support</small>
+                  </div>
+                  <span>›</span>
+                </a>
 
-            <div class="acc-note" style="margin-top:14px;">
-              Tip: Track delivery updates from <strong>My Orders</strong>.
+                <a class="nm-q" href="meals.html">
+                  <div>
+                    Browse Meals
+                    <small>Daily menu</small>
+                  </div>
+                  <span>›</span>
+                </a>
+
+                <a class="nm-q" href="plans.html">
+                  <div>
+                    Browse Plans
+                    <small>Weekly/monthly tiffin</small>
+                  </div>
+                  <span>›</span>
+                </a>
+              </div>
+
+              <div class="nm-tip">
+                You can update password/email inside your account area.
+              </div>
             </div>
           </div>
         </div>
@@ -212,7 +352,7 @@
   </footer>
 
   <script>
-    // ✅ SUPER-DETECT AUTH USER (works with most auth.js setups)
+    // ✅ SUPER-DETECT AUTH USER (localStorage + sessionStorage + nested objects)
     const USER_KEYS = [
       'nm_user','nm_current_user','nm_auth_user','nm_logged_in_user',
       'currentUser','user','userData','profile','nm_profile','nmUser',
@@ -228,8 +368,6 @@
 
     function pickUserFromObject(obj){
       if (!obj || typeof obj !== 'object') return null;
-
-      // handle nested objects common patterns
       const candidates = [obj, obj.user, obj.profile, obj.data, obj.account].filter(Boolean);
 
       for (const c of candidates){
@@ -240,7 +378,6 @@
           return { ...obj, __name: name, __email: email };
         }
       }
-
       return null;
     }
 
@@ -254,20 +391,17 @@
     }
 
     function findUserInStorage(storage){
-      // 1) known keys
       for (const k of USER_KEYS){
         const u = pickUserFromObject(tryJson(storage.getItem(k)));
         if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
       }
 
-      // 2) scan all keys for JSON containing email/name
       const all = getStorageCandidates(storage);
       for (const {k, v} of all){
         const u = pickUserFromObject(tryJson(v));
         if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
       }
 
-      // 3) string email/name keys
       let email = '';
       let name = '';
 
@@ -336,12 +470,10 @@
     }
 
     document.getElementById('accLogout')?.addEventListener('click', () => {
-      // clear common auth keys
       USER_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
       STRING_EMAIL_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
       STRING_NAME_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
 
-      // clear token keys
       localStorage.removeItem('nm_token');
       localStorage.removeItem('token');
       sessionStorage.removeItem('nm_token');
