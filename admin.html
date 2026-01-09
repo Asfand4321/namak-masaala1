@@ -119,6 +119,10 @@
       background:#fff;
       font-weight: 1000;
       font-size: .85rem;
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .adm-empty{
@@ -146,13 +150,14 @@
 
       <div class="adm-nav">
         <button class="adm-link active" id="tabUsers">Users <span>›</span></button>
-        <button class="adm-link" id="tabProducts" disabled title="Coming soon">Products <span>›</span></button>
-        <button class="adm-link" id="tabBanners" disabled title="Coming soon">Banners <span>›</span></button>
-        <button class="adm-link" id="tabOrders" disabled title="Coming soon">Orders <span>›</span></button>
+        <button class="adm-link" id="tabProducts">Products <span>›</span></button>
+        <button class="adm-link" id="tabBanners">Banners <span>›</span></button>
+        <button class="adm-link" id="tabOrders">Orders <span>›</span></button>
       </div>
 
-      <div style="padding:10px; margin-top:10px; border-top:1px solid rgba(0,0,0,.08);">
+      <div style="padding:10px; margin-top:10px; border-top:1px solid rgba(0,0,0,.08); display:flex; gap:10px; flex-wrap:wrap;">
         <button class="adm-btn" id="adminLogoutBtn">Logout</button>
+        <a class="adm-btn" href="index.html" style="text-decoration:none; color:#111; display:inline-flex; align-items:center;">Go Home</a>
       </div>
     </aside>
 
@@ -169,6 +174,7 @@
         </div>
       </div>
 
+      <!-- USERS VIEW -->
       <div id="usersView">
         <div class="adm-empty" id="usersStatus">Loading users...</div>
         <div style="overflow:auto; margin-top:12px;">
@@ -185,8 +191,9 @@
         </div>
       </div>
 
+      <!-- COMING SOON VIEW -->
       <div id="comingSoonView" style="display:none;">
-        <div class="adm-empty">Coming soon ✅</div>
+        <div class="adm-empty" id="comingSoonText">Coming soon ✅</div>
       </div>
     </main>
   </div>
@@ -194,13 +201,28 @@
   <script type="module">
     import { supabase } from "./supabaseClient.js";
 
-    // ✅ Put your admin email here (same as SQL policy)
+    // ✅ Admin email (same as SQL policy)
     const ADMIN_EMAIL = "yar37934@gmail.com";
+
+    // UI refs
+    const pageTitle = document.getElementById("pageTitle");
+    const pageSub = document.getElementById("pageSub");
+
+    const usersView = document.getElementById("usersView");
+    const comingSoonView = document.getElementById("comingSoonView");
+    const comingSoonText = document.getElementById("comingSoonText");
 
     const usersStatus = document.getElementById("usersStatus");
     const usersTable = document.getElementById("usersTable");
     const usersTbody = document.getElementById("usersTbody");
     const adminEmailBadge = document.getElementById("adminEmailBadge");
+
+    const tabUsers = document.getElementById("tabUsers");
+    const tabProducts = document.getElementById("tabProducts");
+    const tabBanners = document.getElementById("tabBanners");
+    const tabOrders = document.getElementById("tabOrders");
+
+    let currentTab = "users";
 
     function fmtDate(iso){
       try{
@@ -209,6 +231,38 @@
         if (isNaN(d.getTime())) return "—";
         return d.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
       }catch(e){ return "—"; }
+    }
+
+    function setActiveTab(btn){
+      [tabUsers, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function showUsersView(){
+      usersView.style.display = "block";
+      comingSoonView.style.display = "none";
+      pageTitle.textContent = "Users";
+      pageSub.textContent = "New signup/login users list.";
+      currentTab = "users";
+      setActiveTab(tabUsers);
+      loadUsers();
+    }
+
+    function showComingSoon(title){
+      usersView.style.display = "none";
+      comingSoonView.style.display = "block";
+      pageTitle.textContent = title;
+      pageSub.textContent = "Coming soon.";
+      comingSoonText.textContent = `${title} — Coming soon ✅`;
+      currentTab = title.toLowerCase();
+    }
+
+    async function forceLogoutToLogin(){
+      try { await supabase.auth.signOut(); } catch(e){}
+      localStorage.removeItem("nm_logged_in");
+      localStorage.removeItem("nm_user_email");
+      localStorage.removeItem("nm_current_email");
+      window.location.href = "login.html";
     }
 
     async function requireAdmin() {
@@ -220,20 +274,12 @@
         return null;
       }
 
-      const email = session.user?.email || "";
+      const email = (session.user?.email || "").trim();
       adminEmailBadge.textContent = email || "Admin";
 
       if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-        // not admin -> block
-        document.body.innerHTML = `
-          <div style="max-width:720px;margin:40px auto;padding:18px;font-family:system-ui;">
-            <h2>Access Denied</h2>
-            <p>Admin access required.</p>
-            <p><b>Logged in:</b> ${email || "unknown"}</p>
-            <button id="goHome" style="padding:10px 12px;border-radius:10px;border:1px solid #ccc;background:#fff;cursor:pointer;">Go Home</button>
-          </div>
-        `;
-        document.getElementById("goHome").onclick = () => location.href="index.html";
+        alert("Admin only!");
+        await forceLogoutToLogin();
         return null;
       }
 
@@ -272,24 +318,62 @@
       usersTable.style.display = "table";
     }
 
-    // events
-    document.getElementById("refreshBtn").addEventListener("click", loadUsers);
+    // Sidebar tab events
+    tabUsers.addEventListener("click", () => showUsersView());
 
+    tabProducts.addEventListener("click", () => {
+      setActiveTab(tabProducts);
+      showComingSoon("Products");
+    });
+
+    tabBanners.addEventListener("click", () => {
+      setActiveTab(tabBanners);
+      showComingSoon("Banners");
+    });
+
+    tabOrders.addEventListener("click", () => {
+      setActiveTab(tabOrders);
+      showComingSoon("Orders");
+    });
+
+    // Refresh button (refreshes current screen)
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      if (currentTab === "users") loadUsers();
+      else {
+        // just re-show coming soon text (no-op)
+        comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
+      }
+    });
+
+    // Logout
     document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
-      try {
-        await supabase.auth.signOut();
-      } catch(e){}
-      localStorage.removeItem("nm_logged_in");
-      localStorage.removeItem("nm_user_email");
-      localStorage.removeItem("nm_current_email");
-      window.location.href = "login.html";
+      await forceLogoutToLogin();
+    });
+
+    // ✅ Live auth changes (session expire etc.)
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      // ignore initial
+      if (event === "INITIAL_SESSION") return;
+
+      if (!session) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const email = (session.user?.email || "").trim();
+      adminEmailBadge.textContent = email || "Admin";
+
+      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+        alert("Admin only!");
+        await forceLogoutToLogin();
+      }
     });
 
     // init
     (async () => {
       const session = await requireAdmin();
       if (!session) return;
-      await loadUsers();
+      showUsersView(); // default screen
     })();
   </script>
 
