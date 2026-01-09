@@ -91,13 +91,27 @@ import { supabase } from "./supabaseClient.js";
     }
   }
 
+  // ✅ NEW: sync old localStorage keys so old pages don't redirect
+  function syncLegacyAuthState(isLoggedIn, session) {
+    localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
+
+    if (isLoggedIn && session?.user?.email) {
+      localStorage.setItem("nm_current_email", session.user.email);
+      localStorage.setItem("nm_user_email", session.user.email);
+    } else {
+      localStorage.removeItem("nm_current_email");
+      localStorage.removeItem("nm_user_email");
+    }
+  }
+
   async function init() {
     // ✅ Supabase session check
     const { data } = await supabase.auth.getSession();
-    const isLoggedIn = !!data?.session;
+    const session = data?.session || null;
+    const isLoggedIn = !!session;
 
-    // (Optional) tumhari old system ke sath compatibility:
-    // localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
+    // ✅ NEW: keep old localStorage system updated
+    syncLegacyAuthState(isLoggedIn, session);
 
     // 1) Route guard (DON'T block public pages)
     if (!isLoggedIn && !isPublic) {
@@ -112,8 +126,11 @@ import { supabase } from "./supabaseClient.js";
     renderMobileLogout(isLoggedIn);
 
     // 3) Live update on login/logout (optional but nice)
-    supabase.auth.onAuthStateChange((_event, session) => {
-      const logged = !!session;
+    supabase.auth.onAuthStateChange((_event, newSession) => {
+      const logged = !!newSession;
+
+      // ✅ NEW: update legacy localStorage on every auth change
+      syncLegacyAuthState(logged, newSession);
 
       if (!logged && !isPublic) {
         window.location.href = "login.html";
