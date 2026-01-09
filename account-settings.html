@@ -231,51 +231,28 @@
     </div>
   </footer>
 
-  <script>
-    const USER_KEYS = [
-      'nm_user','nm_current_user','nm_auth_user','nm_logged_in_user',
-      'currentUser','user','userData','profile','nm_profile','nmUser',
-      'nm_auth','nm_auth_state','nm_session'
-    ];
+  <!-- ✅ Supabase-based user info + guard (replaces old localStorage redirect script) -->
+  <script type="module">
+    import { supabase } from "./supabaseClient.js";
 
-    function tryJson(raw){
-      try { return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
-    }
+    (async () => {
+      const { data, error } = await supabase.auth.getSession();
+      const session = data?.session;
 
-    function pickUserFromObject(obj){
-      if (!obj || typeof obj !== 'object') return null;
-      const candidates = [obj, obj.user, obj.profile, obj.data, obj.account].filter(Boolean);
-
-      for (const c of candidates){
-        if (!c || typeof c !== 'object') continue;
-        const name  = String(c.name || c.fullName || c.username || c.userName || '').trim();
-        const email = String(c.email || c.gmail || c.mail || c.userEmail || c.user_email || '').trim();
-        if (name || email) return { __name: name, __email: email };
+      if (error || !session) {
+        window.location.href = "login.html";
+        return;
       }
-      return null;
-    }
 
-    function findUser(storage){
-      for (const k of USER_KEYS){
-        const u = pickUserFromObject(tryJson(storage.getItem(k)));
-        if (u) return u;
-      }
-      for (let i=0;i<storage.length;i++){
-        const k = storage.key(i);
-        const u = pickUserFromObject(tryJson(storage.getItem(k)));
-        if (u) return u;
-      }
-      return null;
-    }
+      const user = session.user;
+      const name =
+        user?.user_metadata?.full_name ||
+        user?.user_metadata?.name ||
+        "Customer";
 
-    const user = findUser(localStorage) || findUser(sessionStorage);
-
-    if (!user){
-      window.location.href = 'login.html';
-    } else {
-      document.getElementById('setName').textContent = user.__name || 'Customer';
-      document.getElementById('setEmail').textContent = user.__email || '—';
-    }
+      document.getElementById("setName").textContent = name;
+      document.getElementById("setEmail").textContent = user?.email || "—";
+    })();
   </script>
 
   <script type="module" src="auth.js"></script>
