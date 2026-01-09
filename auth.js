@@ -1,25 +1,21 @@
-// auth.js (Supabase session based + your navbar/guard logic)
+// auth.js (Supabase session based + navbar/guard logic) - FIXED to avoid loops
 import { supabase } from "./supabaseClient.js";
 
 (function () {
-  // Pages that don't require login
   const publicPages = new Set(["index.html", "login.html", "signup.html", ""]);
 
-  // safer path detection (handles query/hash)
   const rawPath = window.location.pathname.split("/").pop() || "";
   const cleanPath = rawPath.split("?")[0].split("#")[0];
-
   const isPublic = publicPages.has(cleanPath);
 
-  // ✅ Always hide these links (even when logged in)
   const alwaysHideHrefs = new Set(["cart.html", "my-plans.html", "checkout.html"]);
 
-  // These links should be hidden when NOT logged in
   const protectedHrefs = new Set([
     "plans.html",
     "meals.html",
     "referral.html",
     "account.html",
+    "account-settings.html",
     "orders.html",
     "customercare.html",
   ]);
@@ -28,29 +24,22 @@ import { supabase } from "./supabaseClient.js";
     const nav = document.querySelector(containerSelector);
     if (!nav) return;
 
-    const links = nav.querySelectorAll("a");
-    links.forEach((a) => {
+    nav.querySelectorAll("a").forEach((a) => {
       const hrefRaw = (a.getAttribute("href") || "").trim();
       const href = hrefRaw.split("?")[0].split("#")[0];
 
-      // Always allow Home + empty/hash links
       if (href === "index.html" || href === "" || href === "#") {
         a.style.display = "";
         return;
       }
 
-      // ✅ Always hide these (Cart / My Plans / Checkout)
       if (alwaysHideHrefs.has(href)) {
         a.style.display = "none";
         return;
       }
 
-      // Hide protected nav links when logged out
-      if (!isLoggedIn && protectedHrefs.has(href)) {
-        a.style.display = "none";
-      } else {
-        a.style.display = "";
-      }
+      if (!isLoggedIn && protectedHrefs.has(href)) a.style.display = "none";
+      else a.style.display = "";
     });
   }
 
@@ -74,7 +63,6 @@ import { supabase } from "./supabaseClient.js";
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
-    // remove old injected logout
     const old = mobileNav.querySelector('[data-nm="logout"]');
     if (old) old.remove();
 
@@ -83,7 +71,7 @@ import { supabase } from "./supabaseClient.js";
       a.href = "#";
       a.textContent = "Logout";
       a.setAttribute("data-nm", "logout");
-      a.addEventListener("click", function (e) {
+      a.addEventListener("click", (e) => {
         e.preventDefault();
         nmLogout();
       });
@@ -91,56 +79,41 @@ import { supabase } from "./supabaseClient.js";
     }
   }
 
-  // ✅ NEW: sync old localStorage keys so old pages don't redirect
-  function syncLegacyAuthState(isLoggedIn, session) {
-    localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
-
-    if (isLoggedIn && session?.user?.email) {
-      localStorage.setItem("nm_current_email", session.user.email);
-      localStorage.setItem("nm_user_email", session.user.email);
-    } else {
-      localStorage.removeItem("nm_current_email");
-      localStorage.removeItem("nm_user_email");
-    }
+  function applyUI(isLoggedIn) {
+    renderNavAuth(isLoggedIn);
+    toggleLinks(".nav-links", isLoggedIn);
+    toggleLinks(".nav-mobile", isLoggedIn);
+    renderMobileLogout(isLoggedIn);
   }
 
   async function init() {
-    // ✅ Supabase session check
+    // ✅ session check (local)
     const { data } = await supabase.auth.getSession();
-    const session = data?.session || null;
-    const isLoggedIn = !!session;
+    const isLoggedIn = !!data?.session;
 
-    // ✅ NEW: keep old localStorage system updated
-    syncLegacyAuthState(isLoggedIn, session);
+    // ✅ optional compatibility flag (doesn't control auth, just UI)
+    localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
 
-    // 1) Route guard (DON'T block public pages)
+    // ✅ guard
     if (!isLoggedIn && !isPublic) {
       window.location.href = "login.html";
       return;
     }
 
-    // 2) Navbar
-    renderNavAuth(isLoggedIn);
-    toggleLinks(".nav-links", isLoggedIn);
-    toggleLinks(".nav-mobile", isLoggedIn);
-    renderMobileLogout(isLoggedIn);
+    applyUI(isLoggedIn);
 
-    // 3) Live update on login/logout (optional but nice)
-    supabase.auth.onAuthStateChange((_event, newSession) => {
-      const logged = !!newSession;
+    // ✅ IMPORTANT FIX: ignore INITIAL_SESSION so it doesn't kick you out
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "INITIAL_SESSION") return;
 
-      // ✅ NEW: update legacy localStorage on every auth change
-      syncLegacyAuthState(logged, newSession);
+      const logged = !!session;
+      localStorage.setItem("nm_logged_in", logged ? "1" : "0");
 
       if (!logged && !isPublic) {
         window.location.href = "login.html";
         return;
       }
-
-      renderNavAuth(logged);
-      toggleLinks(".nav-links", logged);
-      toggleLinks(".nav-mobile", logged);
-      renderMobileLogout(logged);
+      applyUI(logged);
     });
   }
 
@@ -149,13 +122,8 @@ import { supabase } from "./supabaseClient.js";
 
 // ✅ Logout helper (Supabase)
 async function nmLogout() {
-  try {
-    await supabase.auth.signOut();
-  } catch (e) {
-    // ignore
-  }
+  try { await supabase.auth.signOut(); } catch (e) {}
 
-  // old local keys cleanup (safe)
   localStorage.removeItem("nm_logged_in");
   localStorage.removeItem("nm_user_email");
   localStorage.removeItem("nm_current_email");
@@ -163,5 +131,4 @@ async function nmLogout() {
   window.location.href = "login.html";
 }
 
-// in case kahin inline use ho raha ho
 window.nmLogout = nmLogout;
