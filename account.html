@@ -351,138 +351,79 @@
     </div>
   </footer>
 
-  <script>
-    // ✅ SUPER-DETECT AUTH USER (localStorage + sessionStorage + nested objects)
-    const USER_KEYS = [
-      'nm_user','nm_current_user','nm_auth_user','nm_logged_in_user',
-      'currentUser','user','userData','profile','nm_profile','nmUser',
-      'nm_auth','nm_auth_state','nm_session'
-    ];
-
-    const STRING_EMAIL_KEYS = ['nm_user_email','user_email','email','gmail','nm_email'];
-    const STRING_NAME_KEYS  = ['nm_user_name','user_name','name','fullName','nm_name'];
-
-    function tryJson(raw){
-      try { return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
-    }
-
-    function pickUserFromObject(obj){
-      if (!obj || typeof obj !== 'object') return null;
-      const candidates = [obj, obj.user, obj.profile, obj.data, obj.account].filter(Boolean);
-
-      for (const c of candidates){
-        if (!c || typeof c !== 'object') continue;
-        const name  = String(c.name || c.fullName || c.username || c.userName || '').trim();
-        const email = String(c.email || c.gmail || c.mail || c.userEmail || c.user_email || '').trim();
-        if (name || email){
-          return { ...obj, __name: name, __email: email };
-        }
-      }
-      return null;
-    }
-
-    function getStorageCandidates(storage){
-      const out = [];
-      for (let i = 0; i < storage.length; i++){
-        const k = storage.key(i);
-        out.push({ k, v: storage.getItem(k) });
-      }
-      return out;
-    }
-
-    function findUserInStorage(storage){
-      for (const k of USER_KEYS){
-        const u = pickUserFromObject(tryJson(storage.getItem(k)));
-        if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
-      }
-
-      const all = getStorageCandidates(storage);
-      for (const {k, v} of all){
-        const u = pickUserFromObject(tryJson(v));
-        if (u) return { ...u, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: k };
-      }
-
-      let email = '';
-      let name = '';
-
-      for (const k of STRING_EMAIL_KEYS){
-        const val = String(storage.getItem(k) || '').trim();
-        if (val && val.includes('@')) { email = val; break; }
-      }
-      for (const k of STRING_NAME_KEYS){
-        const val = String(storage.getItem(k) || '').trim();
-        if (val) { name = val; break; }
-      }
-
-      if (email || name){
-        return { __name: name, __email: email, __from: storage === localStorage ? 'localStorage' : 'sessionStorage', __key: 'string-keys' };
-      }
-
-      return null;
-    }
-
-    function getUser(){
-      return findUserInStorage(localStorage) || findUserInStorage(sessionStorage);
-    }
+  <!-- ✅ Supabase session based render (replaces old localStorage user detection script) -->
+  <script type="module">
+    import { supabase } from "./supabaseClient.js";
 
     function initials(txt){
-      const s = String(txt || '').trim();
-      if (!s) return 'NM';
-      const parts = s.split(' ').filter(Boolean);
+      const s = String(txt || "").trim();
+      if (!s) return "NM";
+      const parts = s.split(" ").filter(Boolean);
       if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
       return s.slice(0,2).toUpperCase();
     }
 
     function fmtDate(iso){
       try{
-        if (!iso) return '—';
+        if (!iso) return "—";
         const d = new Date(iso);
-        if (isNaN(d.getTime())) return '—';
-        return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+        if (isNaN(d.getTime())) return "—";
+        return d.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
       }catch(e){
-        return '—';
+        return "—";
       }
     }
 
-    function render(){
-      const user = getUser();
-      const prof = document.getElementById('accProfile');
-      const guest = document.getElementById('accGuest');
+    async function render(){
+      const prof = document.getElementById("accProfile");
+      const guest = document.getElementById("accGuest");
 
-      if (!user){
-        guest.style.display = 'block';
-        prof.style.display = 'none';
+      const { data } = await supabase.auth.getSession();
+      const session = data?.session;
+
+      if (!session) {
+        guest.style.display = "block";
+        prof.style.display = "none";
         return;
       }
 
-      guest.style.display = 'none';
-      prof.style.display = 'block';
+      guest.style.display = "none";
+      prof.style.display = "block";
 
-      const name = (user.__name || '').trim() || 'Customer';
-      const email = (user.__email || '').trim() || '—';
-      const joined = fmtDate(user.createdAt || user.joinedAt || user.created_on);
+      const user = session.user;
+      const name =
+        user?.user_metadata?.full_name ||
+        user?.user_metadata?.name ||
+        "Customer";
 
-      document.getElementById('accName').textContent = name;
-      document.getElementById('accEmail').textContent = email;
-      document.getElementById('accAvatar').textContent = initials(name !== 'Customer' ? name : email);
-      document.getElementById('accJoined').textContent = joined;
-      document.getElementById('accType').textContent = (user.role || user.type || 'Customer');
+      const email = user?.email || "—";
+      const joined = fmtDate(user?.created_at);
+
+      document.getElementById("accName").textContent = name;
+      document.getElementById("accEmail").textContent = email;
+      document.getElementById("accAvatar").textContent = initials(name !== "Customer" ? name : email);
+      document.getElementById("accJoined").textContent = joined;
+      document.getElementById("accType").textContent = "Customer";
+
+      // Logout button: use global nmLogout from auth.js if available
+      document.getElementById("accLogout")?.addEventListener("click", async () => {
+        try {
+          if (window.nmLogout) {
+            await window.nmLogout();
+          } else {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+          }
+        } catch (e) {
+          window.location.href = "login.html";
+        }
+      });
     }
 
-    document.getElementById('accLogout')?.addEventListener('click', () => {
-      USER_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
-      STRING_EMAIL_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
-      STRING_NAME_KEYS.forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
-
-      localStorage.removeItem('nm_token');
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('nm_token');
-      sessionStorage.removeItem('token');
-
-      window.location.href = 'login.html';
-    });
-
     render();
+
+    // keep UI updated if auth state changes
+    supabase.auth.onAuthStateChange(() => render());
   </script>
 
   <script type="module" src="auth.js"></script>
