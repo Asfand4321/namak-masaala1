@@ -850,22 +850,26 @@
 
       // ===== ORDER NOW =====
       const orderNowButtons = document.querySelectorAll('.order-now-btn');
-      orderNowButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const name = btn.getAttribute('data-name');
-          const price = parseInt(btn.getAttribute('data-price'), 10);
+orderNowButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const name = btn.getAttribute('data-name');
+    const price = parseInt(btn.getAttribute('data-price'), 10);
 
-          let cart = loadCart();
-          cart = upsertMeal(cart, name, price);
-          saveCart(cart);
+    // ✅ Plan data clear (so checkout treats as meals-only)
+    localStorage.removeItem('nm_selected_plan');
+    localStorage.removeItem('nm_delivery_timings');
 
-          // ✅ important: remove plan keys so COD works for meals
-          localStorage.removeItem(PLAN_KEY);
-          localStorage.removeItem(TIMINGS_KEY);
+    // ✅ IMPORTANT: "Order Now" = NEW single order (clear old cart)
+    const freshCart = [{ type: 'meal', name, price, quantity: 1 }];
+    localStorage.setItem('nm_cart_items', JSON.stringify(freshCart));
 
-          window.location.href = 'checkout.html';
-        });
-      });
+    // ✅ OPTIONAL: clear addons too (so previous addons don't stick)
+    localStorage.removeItem('nm_meal_addons');
+
+    // ✅ Go checkout
+    window.location.href = 'checkout.html';
+  });
+});
 
       // ===== APPLY IMAGES FROM ADMIN LOCALSTORAGE =====
       const MEAL_IMAGE_KEY = 'nm_meal_images';
