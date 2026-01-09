@@ -8,154 +8,44 @@
   <link rel="icon" href="namak-logo.png" type="image/png" />
 
   <style>
-    /* Foodpanda-ish layout */
-    .nm-acc-grid{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:18px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .nm-acc-grid{ grid-template-columns: 1fr; }
-    }
+    .nm-acc-grid{ display:grid; grid-template-columns: 1.15fr .85fr; gap:18px; align-items:start; }
+    @media (max-width: 980px){ .nm-acc-grid{ grid-template-columns: 1fr; } }
 
-    .nm-card{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.06);
-      overflow:hidden;
-    }
+    .nm-card{ background:#fff; border:1px solid rgba(0,0,0,.10); border-radius:18px; box-shadow: 0 10px 26px rgba(0,0,0,.06); overflow:hidden; }
 
-    .nm-profile-top{
-      padding:18px;
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .nm-avatar{
-      width:60px;height:60px;border-radius:16px;
-      display:flex;align-items:center;justify-content:center;
-      background: rgba(0,0,0,.06);
-      font-weight:900;font-size:1.15rem;
-      flex:0 0 60px;
-    }
+    .nm-profile-top{ padding:18px; display:flex; gap:14px; align-items:center; }
+    .nm-avatar{ width:60px;height:60px;border-radius:16px; display:flex;align-items:center;justify-content:center; background: rgba(0,0,0,.06); font-weight:900;font-size:1.15rem; flex:0 0 60px; }
     .nm-pname{ font-weight:900; font-size:1.08rem; line-height:1.2; }
     .nm-pemail{ margin-top:4px; opacity:.78; font-weight:800; word-break:break-word; }
 
-    .nm-divider{
-      height:1px;
-      background: rgba(0,0,0,.08);
-    }
+    .nm-divider{ height:1px; background: rgba(0,0,0,.08); }
 
-    .nm-mini-meta{
-      padding:14px 18px;
-      display:grid;
-      gap:8px;
-      font-weight:800;
-      opacity:.85;
-    }
-    .nm-meta-row{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-    }
+    .nm-mini-meta{ padding:14px 18px; display:grid; gap:8px; font-weight:800; opacity:.85; }
+    .nm-meta-row{ display:flex; justify-content:space-between; gap:12px; }
     .nm-meta-k{ opacity:.65; font-weight:900; }
     .nm-meta-v{ font-weight:900; }
 
-    /* Icon actions row (no "Settings" text) */
-    .nm-actions{
-      padding:16px 18px;
-      display:grid;
-      gap:12px;
-    }
-    .nm-action-row{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-    }
-    .nm-ibtn{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      border-radius:14px;
-      padding:12px;
-      cursor:pointer;
-      user-select:none;
-      text-decoration:none;
-      color:#111;
-      font-weight:900;
-    }
+    .nm-actions{ padding:16px 18px; display:grid; gap:12px; }
+    .nm-action-row{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:10px; }
+    .nm-ibtn{ display:flex; align-items:center; justify-content:center; gap:10px; border:1px solid rgba(0,0,0,.10); background:#fff; border-radius:14px; padding:12px; cursor:pointer; user-select:none; text-decoration:none; color:#111; font-weight:900; }
     .nm-ibtn:active{ transform: translateY(1px); }
-    .nm-ico{
-      width:20px;height:20px;
-      opacity:.9;
-    }
-    .nm-ibtn span{
-      display:none; /* ✅ hide label so "Settings" text never shows */
-    }
+    .nm-ico{ width:20px;height:20px; opacity:.9; }
+    .nm-ibtn span{ display:none; }
 
-    /* Optional: if you want tiny label under icon, set display:block and style */
-    .nm-ibtn--col{
-      flex-direction:column;
-      gap:8px;
-    }
-    .nm-ibtn--col span{
-      display:none; /* keep hidden per your request */
-      font-size:.85rem;
-      opacity:.75;
-      font-weight:900;
-    }
+    .nm-ibtn--col{ flex-direction:column; gap:8px; }
+    .nm-ibtn--col span{ display:none; font-size:.85rem; opacity:.75; font-weight:900; }
 
-    /* Right side quick actions */
-    .nm-right{
-      padding:18px;
-    }
+    .nm-right{ padding:18px; }
     .nm-rt-title{ font-weight:900; font-size:1.15rem; margin:0; }
     .nm-rt-sub{ margin-top:8px; opacity:.82; font-weight:800; }
 
-    .nm-quick-list{
-      margin-top:14px;
-      display:grid;
-      gap:10px;
-    }
-    .nm-q{
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:14px;
-      padding:12px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      text-decoration:none;
-      color:#111;
-      font-weight:900;
-      background:#fff;
-    }
-    .nm-q small{
-      display:block;
-      margin-top:4px;
-      font-weight:800;
-      opacity:.7;
-    }
+    .nm-quick-list{ margin-top:14px; display:grid; gap:10px; }
+    .nm-q{ border:1px solid rgba(0,0,0,.10); border-radius:14px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px; text-decoration:none; color:#111; font-weight:900; background:#fff; }
+    .nm-q small{ display:block; margin-top:4px; font-weight:800; opacity:.7; }
 
-    .nm-tip{
-      margin-top:14px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(0,0,0,.10);
-      background: rgba(0,0,0,.02);
-      font-weight:900;
-      opacity:.9;
-    }
+    .nm-tip{ margin-top:14px; padding:12px 14px; border-radius:14px; border:1px solid rgba(0,0,0,.10); background: rgba(0,0,0,.02); font-weight:900; opacity:.9; }
 
-    /* Guest card */
-    .nm-guest{
-      padding:18px;
-    }
+    .nm-guest{ padding:18px; }
     .nm-guest h3{ margin:0; font-weight:900; font-size:1.08rem; }
     .nm-guest p{ margin:8px 0 0; opacity:.82; font-weight:800; }
     .nm-guest .row-btns{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
@@ -215,13 +105,12 @@
         <div class="section-header">
           <div class="section-kicker">Account</div>
           <h1 class="section-title">My Account</h1>
-          <p class="section-subtitle">Your profile details are shown here. Email/password changes are handled in your account area.</p>
+          <p class="section-subtitle">Your profile details are shown here.</p>
         </div>
 
         <div class="nm-acc-grid">
           <!-- LEFT: Profile -->
           <div>
-            <!-- Logged in -->
             <div class="nm-card" id="accProfile" style="display:none;">
               <div class="nm-profile-top">
                 <div class="nm-avatar" id="accAvatar">NM</div>
@@ -248,7 +137,6 @@
 
               <div class="nm-actions">
                 <div class="nm-action-row">
-                  <!-- ⚙️ Settings ICON only (no text) -->
                   <a class="nm-ibtn nm-ibtn--col" href="account-settings.html" aria-label="Open account settings" title="Account settings">
                     <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -257,7 +145,6 @@
                     <span>Settings</span>
                   </a>
 
-                  <!-- 📦 Orders ICON -->
                   <a class="nm-ibtn nm-ibtn--col" href="orders.html" aria-label="My orders" title="My orders">
                     <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M21 8V21H3V8"/>
@@ -267,7 +154,6 @@
                     <span>Orders</span>
                   </a>
 
-                  <!-- 🚪 Logout ICON -->
                   <button class="nm-ibtn nm-ibtn--col" type="button" id="accLogout" aria-label="Logout" title="Logout">
                     <svg class="nm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M10 17l5-5-5-5"/>
@@ -284,7 +170,6 @@
               </div>
             </div>
 
-            <!-- Guest -->
             <div class="nm-card" id="accGuest" style="display:none;">
               <div class="nm-guest">
                 <h3>You are not logged in</h3>
@@ -297,7 +182,7 @@
             </div>
           </div>
 
-          <!-- RIGHT: Quick links -->
+          <!-- RIGHT -->
           <div class="nm-card">
             <div class="nm-right">
               <h2 class="nm-rt-title">Quick Links</h2>
@@ -351,7 +236,7 @@
     </div>
   </footer>
 
-  <!-- ✅ Supabase session based render (replaces old localStorage user detection script) -->
+  <!-- ✅ Supabase session render -->
   <script type="module">
     import { supabase } from "./supabaseClient.js";
 
@@ -369,17 +254,24 @@
         const d = new Date(iso);
         if (isNaN(d.getTime())) return "—";
         return d.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
-      }catch(e){
-        return "—";
-      }
+      }catch(e){ return "—"; }
+    }
+
+    async function getSessionWithRetry(){
+      const first = await supabase.auth.getSession();
+      if (first?.data?.session) return first.data.session;
+
+      // small retry (race condition avoid)
+      await new Promise(r => setTimeout(r, 250));
+      const second = await supabase.auth.getSession();
+      return second?.data?.session || null;
     }
 
     async function render(){
       const prof = document.getElementById("accProfile");
       const guest = document.getElementById("accGuest");
 
-      const { data } = await supabase.auth.getSession();
-      const session = data?.session;
+      const session = await getSessionWithRetry();
 
       if (!session) {
         guest.style.display = "block";
@@ -405,27 +297,9 @@
       document.getElementById("accJoined").textContent = joined;
       document.getElementById("accType").textContent = "Customer";
 
-      // Logout button: use global nmLogout from auth.js if available
       document.getElementById("accLogout")?.addEventListener("click", async () => {
         try {
-          if (window.nmLogout) {
-            await window.nmLogout();
-          } else {
+          if (window.nmLogout) await window.nmLogout();
+          else {
             await supabase.auth.signOut();
-            window.location.href = "login.html";
-          }
-        } catch (e) {
-          window.location.href = "login.html";
-        }
-      });
-    }
-
-    render();
-
-    // keep UI updated if auth state changes
-    supabase.auth.onAuthStateChange(() => render());
-  </script>
-
-  <script type="module" src="auth.js"></script>
-</body>
-</html>
+            window.loc
