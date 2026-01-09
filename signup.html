@@ -22,6 +22,7 @@
           </div>
         </a>
       </div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
@@ -32,12 +33,15 @@
         <a href="my-plans.html">My Plans</a>
         <a href="checkout.html">Checkout</a>
       </nav>
+
       <div class="nav-auth">
         <a href="login.html" class="btn btn-outline">Login</a>
         <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
+
       <div class="nav-menu-icon">☰</div>
     </div>
+
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
@@ -65,7 +69,7 @@
             Sign up using your <strong>email address</strong>. WhatsApp number and referral code are optional.
           </p>
 
-          <form class="auth-form" onsubmit="return validateSignup(event)">
+          <form class="auth-form" id="signupForm">
             <div class="form-grid">
               <div class="form-field">
                 <label for="firstName">First name *</label>
@@ -78,15 +82,8 @@
             </div>
 
             <div class="form-field">
-              <label for="email">
-                Email address *
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="you@example.com">
+              <label for="email">Email address *</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com">
             </div>
 
             <div class="form-field">
@@ -94,53 +91,27 @@
                 WhatsApp number
                 <span class="field-hint">(optional – can be used for order updates)</span>
               </label>
-              <input
-                id="whatsapp"
-                name="whatsapp"
-                type="tel"
-                placeholder="+92XXXXXXXXXX">
+              <input id="whatsapp" name="whatsapp" type="tel" placeholder="+92XXXXXXXXXX">
             </div>
 
             <div class="form-field">
               <label for="referral">
                 Referral code
-                <span class="field-hint">
-                  (optional – discount applies on plans if this code is valid)
-                </span>
+                <span class="field-hint">(optional – discount applies on plans if this code is valid)</span>
               </label>
-              <input
-                id="referral"
-                name="referral"
-                type="text"
-                placeholder="Enter friend’s referral code">
+              <input id="referral" name="referral" type="text" placeholder="Enter friend’s referral code">
             </div>
 
             <div class="form-grid">
               <div class="form-field">
                 <label for="password">Password *</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  minlength="6">
+                <input id="password" name="password" type="password" required minlength="6">
               </div>
               <div class="form-field">
                 <label for="confirmPassword">Confirm password *</label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  minlength="6">
+                <input id="confirmPassword" name="confirmPassword" type="password" required minlength="6">
               </div>
             </div>
-
-            <p class="form-note">
-              * Email and password are required. Password must be minimum 6 characters.
-              This version stores data in your browser only (for testing). For production
-              you will connect it to a real backend.
-            </p>
 
             <p id="signup-error" class="form-error" style="display:none;"></p>
 
@@ -186,132 +157,82 @@
       <div class="footer-links">
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="customercare.html">Customer Care</a>
       </div>
     </div>
   </footer>
 
-  <!-- auth guard -->
-  <script src="auth.js"></script>
-
-  <script>
-    function loadUsers() {
-      try {
-        const raw = localStorage.getItem('nm_users');
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveUsers(users) {
-      localStorage.setItem('nm_users', JSON.stringify(users));
-    }
-
-    function generateReferralCode() {
-      const rand = Math.floor(100000 + Math.random() * 900000); // 6 digits
-      return 'NM' + rand;
-    }
-
-    function validateSignup(event) {
-      event.preventDefault();
-
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName = document.getElementById('lastName').value.trim();
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const whatsapp = document.getElementById('whatsapp').value.trim();
-      const referralUsed = document.getElementById('referral').value.trim();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      const errorEl = document.getElementById('signup-error');
-
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
-
-      if (!email) {
-        errorEl.textContent = 'Email address is required.';
-        errorEl.style.display = 'block';
-        return false;
-      }
-
-      if (password !== confirmPassword) {
-        errorEl.textContent = 'Password and confirm password do not match.';
-        errorEl.style.display = 'block';
-        return false;
-      }
-
-      const users = loadUsers();
-      if (users.some(u => u.email === email)) {
-        errorEl.textContent = 'An account with this email already exists. Please login instead.';
-        errorEl.style.display = 'block';
-        return false;
-      }
-
-      const newUser = {
-        firstName,
-        lastName,
-        email,
-        whatsapp,
-        referralUsed,
-        password,
-        ownReferralCode: generateReferralCode()
-      };
-
-      users.push(newUser);
-      saveUsers(users);
-
-      // Auto-login after signup
-      localStorage.setItem('nm_logged_in', '1');
-      localStorage.setItem('nm_current_email', email);
-
-      window.location.href = 'account.html';
-      return false;
-    }
-  </script>
-  <script type="module" src="auth.js"></script>
-
+  <!-- ✅ Supabase signup script -->
   <script type="module">
-  import { supabase } from "./supabaseClient.js";
+    import { supabase } from "./supabaseClient.js";
 
-  const form = document.querySelector("form"); // signup page pe usually 1 form hota
-  if (form) {
+    const form = document.getElementById("signupForm");
+    const errorEl = document.getElementById("signup-error");
+
+    function showError(msg){
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
+    }
+
+    // If already logged in → go home
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) window.location.href = "index.html";
+    })();
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      errorEl.style.display = "none";
+      errorEl.textContent = "";
 
-      const fullName =
-        document.querySelector('input[name="name"]')?.value?.trim() ||
-        document.querySelector('input[name="full_name"]')?.value?.trim() ||
-        document.querySelector('input[id="name"]')?.value?.trim() ||
-        "";
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const fullName = `${firstName} ${lastName}`.trim();
 
-      const email =
-        document.querySelector('input[type="email"]')?.value?.trim() ||
-        document.querySelector('input[name="email"]')?.value?.trim() ||
-        document.getElementById("email")?.value?.trim() ||
-        "";
+      const email = document.getElementById("email").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
+      const referral = document.getElementById("referral").value.trim();
 
-      const password =
-        document.querySelector('input[type="password"]')?.value ||
-        document.querySelector('input[name="password"]')?.value ||
-        document.getElementById("password")?.value ||
-        "";
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        showError("Password and confirm password do not match.");
+        return;
+      }
 
       try {
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: fullName } },
+          options: {
+            data: {
+              full_name: fullName,
+              whatsapp,
+              referral_used: referral
+            }
+          }
         });
+
         if (error) throw error;
 
-        alert("Signup successful! Now login.");
+        // ✅ Auto-login after signup (no email verify flow)
+        const { error: loginErr } = await supabase.auth.signInWithPassword({ email, password });
+        if (loginErr) {
+          // If confirmations are ON, user may need to login after verify (but you said no verify)
+          // still: fallback safely
+          window.location.href = "login.html";
+          return;
+        }
+
         window.location.href = "index.html";
       } catch (err) {
-        alert(err?.message || "Signup failed");
+        showError(err?.message || "Signup failed");
       }
     });
-  }
-</script>
+  </script>
 
+  <!-- ✅ Navbar/guard -->
+  <script type="module" src="auth.js"></script>
 </body>
 </html>
