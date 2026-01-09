@@ -6,7 +6,270 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="namak-logo.png" type="image/png">
+
+  <!-- ✅ Meals page small UI helpers (no need to edit style.css) -->
+  <style>
+    /* make row feel clickable */
+    .meal-row{
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .12s ease;
+    }
+    .meal-row:hover{
+      transform: translateY(-1px);
+    }
+
+    /* selected badge on card */
+    .nm-qty-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:28px;
+      height:28px;
+      padding:0 8px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:12px;
+      background: rgba(0,0,0,.06);
+      border:1px solid rgba(0,0,0,.10);
+    }
+    .nm-selected-hint{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+    }
+    .nm-selected-text{
+      font-size:12px;
+      font-weight:800;
+      opacity:.7;
+    }
+
+    /* toast */
+    .nm-toast{
+      position:fixed;
+      right:16px;
+      top:16px;
+      z-index:9999;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      padding:12px 12px;
+      min-width: 220px;
+      max-width: 320px;
+      display:none;
+    }
+    .nm-toast-title{
+      font-weight:900;
+      margin:0 0 4px;
+      font-size:14px;
+    }
+    .nm-toast-sub{
+      margin:0;
+      font-size:13px;
+      opacity:.75;
+      line-height:1.35;
+    }
+
+    /* cart floating button */
+    .nm-cart-fab{
+      position:fixed;
+      right:16px;
+      bottom:18px;
+      z-index:9998;
+      display:none;
+      gap:10px;
+      align-items:center;
+      padding:12px 14px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+      cursor:pointer;
+      user-select:none;
+      font-weight:900;
+    }
+    .nm-cart-fab small{
+      font-weight:800;
+      opacity:.85;
+    }
+    .nm-cart-fab .nm-cart-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:26px;
+      min-width:26px;
+      padding:0 8px;
+      border-radius:999px;
+      background: rgba(255,255,255,.14);
+      font-size:12px;
+    }
+
+    /* cart drawer */
+    .nm-drawer-overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.45);
+      z-index:9997;
+      display:none;
+    }
+    .nm-cart-drawer{
+      position:fixed;
+      top:0;
+      right:0;
+      height:100%;
+      width: 360px;
+      max-width: 92vw;
+      background:#fff;
+      z-index:9998;
+      border-left:1px solid rgba(0,0,0,.10);
+      box-shadow: -20px 0 50px rgba(0,0,0,.18);
+      transform: translateX(110%);
+      transition: transform .18s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    .nm-cart-drawer.open{ transform: translateX(0); }
+
+    .nm-cart-head{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(0,0,0,.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .nm-cart-head h3{
+      margin:0;
+      font-size:16px;
+      font-weight:1000;
+    }
+    .nm-cart-close{
+      width:36px;height:36px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      cursor:pointer;
+      font-size:18px;
+      line-height:1;
+    }
+
+    .nm-cart-body{
+      padding:12px 14px;
+      overflow:auto;
+      flex:1;
+    }
+    .nm-cart-empty{
+      margin:14px 0;
+      opacity:.7;
+      font-weight:700;
+      font-size:14px;
+    }
+
+    .nm-cart-item{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      margin-bottom:10px;
+      background:#fff;
+    }
+    .nm-cart-item strong{
+      display:block;
+      font-size:14px;
+      line-height:1.2;
+    }
+    .nm-cart-item small{
+      display:block;
+      opacity:.72;
+      margin-top:4px;
+      font-weight:700;
+    }
+    .nm-cart-qty{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+    }
+    .nm-qty-btn{
+      width:34px;height:34px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      cursor:pointer;
+      font-weight:1000;
+    }
+    .nm-cart-qty span{
+      min-width:22px;
+      text-align:center;
+      font-weight:1000;
+    }
+
+    .nm-cart-foot{
+      padding:12px 14px;
+      border-top:1px solid rgba(0,0,0,.08);
+      background: rgba(0,0,0,.02);
+    }
+    .nm-cart-total{
+      display:flex;
+      justify-content:space-between;
+      font-weight:1000;
+      margin-bottom:10px;
+    }
+    .nm-cart-actions{
+      display:flex;
+      gap:10px;
+    }
+    .nm-cart-actions .btn{
+      flex:1;
+    }
+
+    /* mobile bottom bar */
+    .nm-cart-bar{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9996;
+      display:none;
+      padding:10px 12px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      border-top:1px solid rgba(0,0,0,.10);
+    }
+    .nm-cart-bar-inner{
+      max-width: 1120px;
+      margin:0 auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .nm-cart-bar-left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .nm-cart-bar-left b{ font-size:14px; }
+    .nm-cart-bar-left span{ font-size:13px; opacity:.75; font-weight:700; }
+    .nm-cart-bar .btn{
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    @media (max-width: 720px){
+      /* keep fab a bit higher above bottom bar */
+      .nm-cart-fab{ bottom:78px; }
+    }
+  </style>
 </head>
+
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
@@ -22,6 +285,7 @@
           </div>
         </a>
       </div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="plans.html">Plans</a>
@@ -36,8 +300,10 @@
         <a href="login.html" class="btn btn-outline">Login</a>
         <a href="signup.html" class="btn btn-primary">Sign up</a>
       </div>
+
       <div class="nav-menu-icon">☰</div>
     </div>
+
     <div class="container nav-mobile">
       <a href="index.html">Home</a>
       <a href="plans.html">Plans</a>
@@ -58,12 +324,9 @@
       <div class="container">
         <div class="section-header">
           <div class="section-kicker">Meals</div>
-
-          <!-- ✅ English heading -->
           <h1 class="section-title">Daily Menu</h1>
-
           <p class="section-subtitle">
-            Use the filters to view Veg or Non-Veg dishes. Images are controlled from the internal admin meals page.
+            Tap a meal to add it. Your cart will appear on the side (or bottom on mobile).
           </p>
         </div>
 
@@ -91,15 +354,9 @@
                 </div>
                 <div class="meal-price">Rs 320</div>
               </div>
-
-              <!-- ✅ Add Order Now -->
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Qorma" data-price="320">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Qorma" data-price="320">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -117,14 +374,9 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Karahi" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Karahi" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -142,14 +394,9 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Achari" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Achari" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -167,14 +414,9 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Hyderabadi" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Hyderabadi" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -192,14 +434,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Gosht" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Gosht" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -217,14 +454,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Anda Kofta" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Anda Kofta" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -242,14 +474,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Daal Gosht" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Daal Gosht" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -267,14 +494,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Bhindi Gosht" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Bhindi Gosht" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -292,14 +514,9 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Biryani" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Biryani" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -317,17 +534,14 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Chicken Pulao" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Chicken Pulao" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
+
+          <!-- ================= VEG ================= -->
 
           <!-- Vegetable Rice -->
           <div class="meal-row" data-type="veg">
@@ -342,14 +556,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Vegetable Rice" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Vegetable Rice" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -367,14 +576,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Matar Pulao" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Matar Pulao" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -392,19 +596,12 @@
                 </div>
                 <div class="meal-price">Rs 350</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Sajji" data-price="350">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Sajji" data-price="350">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
-
-          <!-- ================= VEG ================= -->
 
           <!-- Daal Mash -->
           <div class="meal-row" data-type="veg">
@@ -419,14 +616,9 @@
                 </div>
                 <div class="meal-price">Rs 300</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Daal Mash" data-price="300">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Daal Mash" data-price="300">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -444,14 +636,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Daal Channa" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Daal Channa" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -469,14 +656,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Lobia" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Lobia" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -494,14 +676,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="White Channa" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="White Channa" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -519,14 +696,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Shimla" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Shimla" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -544,14 +716,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Kari Pakora" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Kari Pakora" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -569,14 +736,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Anda" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Anda" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -594,14 +756,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Mix Vegetable" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Mix Vegetable" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -619,14 +776,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Bhindi" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Bhindi" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -644,14 +796,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Palak" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Palak" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -669,14 +816,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Gobhi" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Gobhi" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -694,14 +836,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Bhujia" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Bhujia" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -719,14 +856,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Aloo Matar" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Aloo Matar" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -744,14 +876,9 @@
                 </div>
                 <div class="meal-price">Rs 250</div>
               </div>
-
-              <div class="meal-actions">
-                <button class="btn btn-sm btn-primary add-to-cart-btn" data-name="Karelay" data-price="250">
-                  Add to cart
-                </button>
-                <button class="btn btn-sm btn-outline order-now-btn" data-name="Karelay" data-price="250">
-                  Order now
-                </button>
+              <div class="nm-selected-hint" style="display:none;">
+                <span class="nm-selected-text">Selected</span>
+                <span class="nm-qty-badge">1</span>
               </div>
             </div>
           </div>
@@ -759,7 +886,7 @@
         </div>
 
         <p class="section-subtitle" style="margin-top:18px;">
-          “Add to cart” stores items in your browser. Open the Cart or Checkout page to see your current selection.
+          Tip: Tap a dish to add it. You can adjust quantities inside the cart panel.
         </p>
       </div>
     </section>
@@ -776,40 +903,145 @@
     </div>
   </footer>
 
-  <!-- ✅ UPDATED SCRIPT (meal type + order now) -->
+  <!-- ✅ Toast -->
+  <div class="nm-toast" id="nmToast">
+    <p class="nm-toast-title" id="nmToastTitle">Added</p>
+    <p class="nm-toast-sub" id="nmToastSub">Item added to cart.</p>
+  </div>
+
+  <!-- ✅ Drawer -->
+  <div class="nm-drawer-overlay" id="nmDrawerOverlay"></div>
+  <aside class="nm-cart-drawer" id="nmCartDrawer" aria-label="Cart">
+    <div class="nm-cart-head">
+      <h3>Cart</h3>
+      <button class="nm-cart-close" id="nmCartClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="nm-cart-body">
+      <div id="nmCartList"></div>
+      <div class="nm-cart-empty" id="nmCartEmpty" style="display:none;">No items selected yet.</div>
+    </div>
+
+    <div class="nm-cart-foot">
+      <div class="nm-cart-total">
+        <span>Total</span>
+        <span id="nmCartTotal">Rs 0</span>
+      </div>
+      <div class="nm-cart-actions">
+        <button class="btn btn-outline" id="nmClearCartBtn" type="button">Clear</button>
+        <button class="btn btn-primary" id="nmCheckoutBtn" type="button">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ✅ Floating Cart Button -->
+  <div class="nm-cart-fab" id="nmCartFab" role="button" tabindex="0">
+    <span class="nm-cart-pill" id="nmCartCount">0</span>
+    <div>
+      Cart • <span id="nmCartFabTotal">Rs 0</span><br>
+      <small>Tap to view</small>
+    </div>
+  </div>
+
+  <!-- ✅ Mobile sticky bar -->
+  <div class="nm-cart-bar" id="nmCartBar">
+    <div class="nm-cart-bar-inner">
+      <div class="nm-cart-bar-left">
+        <b id="nmCartBarLine1">0 items</b>
+        <span id="nmCartBarLine2">Rs 0</span>
+      </div>
+      <button class="btn btn-primary" id="nmCartBarBtn" type="button">View Cart</button>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const CART_KEY = 'nm_cart_items';
-
-      // ✅ clear plan selection when ordering meals
       const PLAN_KEY = 'nm_selected_plan';
       const TIMINGS_KEY = 'nm_delivery_timings';
 
-      function loadCart() {
-        try {
+      // UI refs
+      const toast = document.getElementById('nmToast');
+      const toastTitle = document.getElementById('nmToastTitle');
+      const toastSub = document.getElementById('nmToastSub');
+
+      const drawer = document.getElementById('nmCartDrawer');
+      const overlay = document.getElementById('nmDrawerOverlay');
+      const closeBtn = document.getElementById('nmCartClose');
+
+      const cartList = document.getElementById('nmCartList');
+      const cartEmpty = document.getElementById('nmCartEmpty');
+      const cartTotal = document.getElementById('nmCartTotal');
+
+      const fab = document.getElementById('nmCartFab');
+      const fabCount = document.getElementById('nmCartCount');
+      const fabTotal = document.getElementById('nmCartFabTotal');
+
+      const bar = document.getElementById('nmCartBar');
+      const barLine1 = document.getElementById('nmCartBarLine1');
+      const barLine2 = document.getElementById('nmCartBarLine2');
+      const barBtn = document.getElementById('nmCartBarBtn');
+
+      const clearBtn = document.getElementById('nmClearCartBtn');
+      const checkoutBtn = document.getElementById('nmCheckoutBtn');
+
+      function money(n){
+        return 'Rs ' + Number(n || 0).toLocaleString('en-PK');
+      }
+
+      function loadCart(){
+        try{
           const raw = localStorage.getItem(CART_KEY);
           const items = raw ? JSON.parse(raw) : [];
           return Array.isArray(items) ? items : [];
-        } catch (e) {
+        }catch(e){
           return [];
         }
       }
 
-      function saveCart(cart) {
+      function saveCart(cart){
         localStorage.setItem(CART_KEY, JSON.stringify(cart));
       }
 
-      function upsertMeal(cart, name, price) {
-        const p = Number(price) || 0;
-        const existing = cart.find(item => item.type === 'meal' && item.name === name && Number(item.price) === p);
-
-        if (existing) {
-          existing.quantity = (Number(existing.quantity) || 1) + 1;
-        } else {
-          cart.push({ type: 'meal', name, price: p, quantity: 1 });
-        }
-        return cart;
+      function getMealKey(name, price){
+        return String(name) + '___' + String(Number(price)||0);
       }
+
+      function cartSummary(cart){
+        let count = 0;
+        let total = 0;
+        cart.forEach(it => {
+          const qty = Number(it.quantity || 1) || 1;
+          const price = Number(it.price || 0) || 0;
+          count += qty;
+          total += price * qty;
+        });
+        return { count, total };
+      }
+
+      function showToast(title, sub){
+        toastTitle.textContent = title || 'Done';
+        toastSub.textContent = sub || '';
+        toast.style.display = 'block';
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => {
+          toast.style.display = 'none';
+        }, 1400);
+      }
+
+      function openDrawer(){
+        overlay.style.display = 'block';
+        drawer.classList.add('open');
+      }
+      function closeDrawer(){
+        overlay.style.display = 'none';
+        drawer.classList.remove('open');
+      }
+
+      overlay.addEventListener('click', closeDrawer);
+      closeBtn.addEventListener('click', closeDrawer);
+      fab.addEventListener('click', openDrawer);
+      barBtn.addEventListener('click', openDrawer);
 
       // ===== FILTERING =====
       const filterButtons = document.querySelectorAll('.filter-btn');
@@ -824,56 +1056,196 @@
 
           mealRows.forEach(row => {
             const type = row.getAttribute('data-type');
-            if (filter === 'all' || type === filter) {
-              row.style.display = 'flex';
-            } else {
-              row.style.display = 'none';
-            }
+            row.style.display = (filter === 'all' || type === filter) ? 'flex' : 'none';
           });
         });
       });
 
-      // ===== ADD TO CART =====
-      const addButtons = document.querySelectorAll('.add-to-cart-btn');
-      addButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const name = btn.getAttribute('data-name');
-          const price = parseInt(btn.getAttribute('data-price'), 10);
+      // ===== CLICK MEAL ROW = ADD (+1) =====
+      function parseNameFromRow(row){
+        return row.querySelector('.meal-name-main')?.textContent?.trim() || 'Meal';
+      }
+      function parsePriceFromRow(row){
+        const txt = row.querySelector('.meal-price')?.textContent || '';
+        const num = txt.replace(/[^\d]/g,'');
+        return Number(num || 0);
+      }
 
-          let cart = loadCart();
-          cart = upsertMeal(cart, name, price);
-          saveCart(cart);
+      function addMeal(name, price){
+        // ✅ ensure this is MEALS flow (so checkout allows COD)
+        localStorage.removeItem(PLAN_KEY);
+        localStorage.removeItem(TIMINGS_KEY);
 
-          alert('"' + name + '" added to cart. Open the Cart or Checkout page to review.');
+        let cart = loadCart();
+
+        // keep only meals in meals flow (optional safety)
+        cart = cart.filter(it => String(it.type || '').toLowerCase() === 'meal');
+
+        const p = Number(price) || 0;
+        const existing = cart.find(it =>
+          String(it.type || '').toLowerCase() === 'meal' &&
+          it.name === name &&
+          Number(it.price) === p
+        );
+
+        if (existing){
+          existing.quantity = (Number(existing.quantity) || 1) + 1;
+        }else{
+          cart.push({ type:'meal', name, price: p, quantity: 1 });
+        }
+
+        saveCart(cart);
+        renderAll();
+        showToast('Added to cart', name + ' • ' + money(p));
+      }
+
+      mealRows.forEach(row => {
+        row.addEventListener('click', (e) => {
+          // ignore clicks on links/buttons inside row if any
+          const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+          if (tag === 'a' || tag === 'button' || tag === 'input') return;
+
+          const name = parseNameFromRow(row);
+          const price = parsePriceFromRow(row);
+          addMeal(name, price);
         });
       });
 
-      // ===== ORDER NOW =====
-      const orderNowButtons = document.querySelectorAll('.order-now-btn');
-orderNowButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const name = btn.getAttribute('data-name');
-    const price = parseInt(btn.getAttribute('data-price'), 10);
+      // ===== CART DRAWER RENDER =====
+      function setRowSelectedBadges(cart){
+        const map = new Map();
+        cart.forEach(it => {
+          const key = getMealKey(it.name, it.price);
+          map.set(key, Number(it.quantity || 1) || 1);
+        });
 
-    // ✅ Plan data clear (so checkout treats as meals-only)
-    localStorage.removeItem('nm_selected_plan');
-    localStorage.removeItem('nm_delivery_timings');
+        document.querySelectorAll('.meal-row').forEach(row => {
+          const name = parseNameFromRow(row);
+          const price = parsePriceFromRow(row);
+          const key = getMealKey(name, price);
+          const qty = map.get(key) || 0;
 
-    // ✅ IMPORTANT: "Order Now" = NEW single order (clear old cart)
-    const freshCart = [{ type: 'meal', name, price, quantity: 1 }];
-    localStorage.setItem('nm_cart_items', JSON.stringify(freshCart));
+          const hint = row.querySelector('.nm-selected-hint');
+          const badge = row.querySelector('.nm-qty-badge');
+          if (!hint || !badge) return;
 
-    // ✅ OPTIONAL: clear addons too (so previous addons don't stick)
-    localStorage.removeItem('nm_meal_addons');
+          if (qty > 0){
+            hint.style.display = 'flex';
+            badge.textContent = String(qty);
+          }else{
+            hint.style.display = 'none';
+          }
+        });
+      }
 
-    // ✅ Go checkout
-    window.location.href = 'checkout.html';
-  });
-});
+      function updateFabAndBar(cart){
+        const { count, total } = cartSummary(cart);
+
+        if (count > 0){
+          fab.style.display = 'flex';
+          fabCount.textContent = String(count);
+          fabTotal.textContent = money(total);
+
+          bar.style.display = 'block';
+          barLine1.textContent = count + (count === 1 ? ' item' : ' items');
+          barLine2.textContent = money(total);
+        }else{
+          fab.style.display = 'none';
+          bar.style.display = 'none';
+        }
+      }
+
+      function renderCartDrawer(cart){
+        cartList.innerHTML = '';
+
+        if (!cart.length){
+          cartEmpty.style.display = 'block';
+          cartTotal.textContent = money(0);
+          return;
+        }
+        cartEmpty.style.display = 'none';
+
+        let total = 0;
+
+        cart.forEach((it, idx) => {
+          const qty = Number(it.quantity || 1) || 1;
+          const price = Number(it.price || 0) || 0;
+          total += qty * price;
+
+          const itemEl = document.createElement('div');
+          itemEl.className = 'nm-cart-item';
+          itemEl.innerHTML = `
+            <div>
+              <strong>${it.name}</strong>
+              <small>${money(price)} each</small>
+            </div>
+            <div class="nm-cart-qty">
+              <button class="nm-qty-btn" data-act="dec" data-idx="${idx}" type="button">−</button>
+              <span>${qty}</span>
+              <button class="nm-qty-btn" data-act="inc" data-idx="${idx}" type="button">+</button>
+            </div>
+          `;
+          cartList.appendChild(itemEl);
+        });
+
+        cartTotal.textContent = money(total);
+
+        // qty controls
+        cartList.querySelectorAll('.nm-qty-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const act = btn.getAttribute('data-act');
+            const idx = Number(btn.getAttribute('data-idx'));
+            let cartNow = loadCart().filter(it => String(it.type||'').toLowerCase() === 'meal');
+
+            if (!cartNow[idx]) return;
+
+            if (act === 'inc'){
+              cartNow[idx].quantity = (Number(cartNow[idx].quantity) || 1) + 1;
+            }else{
+              const q = (Number(cartNow[idx].quantity) || 1) - 1;
+              if (q <= 0){
+                cartNow.splice(idx, 1);
+              }else{
+                cartNow[idx].quantity = q;
+              }
+            }
+
+            saveCart(cartNow);
+            renderAll();
+          });
+        });
+      }
+
+      function renderAll(){
+        const cart = loadCart().filter(it => String(it.type||'').toLowerCase() === 'meal');
+        // keep storage clean (only meals in meals page)
+        saveCart(cart);
+
+        setRowSelectedBadges(cart);
+        updateFabAndBar(cart);
+        renderCartDrawer(cart);
+
+        // auto-close drawer if cart empty
+        if (!cart.length) closeDrawer();
+      }
+
+      clearBtn.addEventListener('click', () => {
+        localStorage.setItem(CART_KEY, JSON.stringify([]));
+        renderAll();
+        showToast('Cart cleared', 'No items in cart.');
+      });
+
+      checkoutBtn.addEventListener('click', () => {
+        // ✅ ensure meal flow keys cleared (COD allowed on checkout)
+        localStorage.removeItem(PLAN_KEY);
+        localStorage.removeItem(TIMINGS_KEY);
+
+        // go checkout
+        window.location.href = 'checkout.html';
+      });
 
       // ===== APPLY IMAGES FROM ADMIN LOCALSTORAGE =====
       const MEAL_IMAGE_KEY = 'nm_meal_images';
-
       function applyMealImages() {
         let map = {};
         try {
@@ -895,12 +1267,12 @@ orderNowButtons.forEach(btn => {
       }
 
       applyMealImages();
+      renderAll();
     });
   </script>
 
   <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
-    <!-- Popup -->
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
       <div class="nm-whatsapp-header">
         <div>
@@ -924,12 +1296,9 @@ orderNowButtons.forEach(btn => {
       </div>
     </div>
 
-    <!-- Round button with WhatsApp-style icon -->
     <button class="nm-whatsapp-button" id="nmWhatsAppButton" aria-label="Chat on WhatsApp">
       <svg class="nm-whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-        <!-- Outer bubble -->
         <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5.0 2.6 7L5 27l5.9-1.6c1.8.9 3.8 1.3 5.9 1.3 6.6 0 12-5.1 12-11.3C28.8 8.1 23.4 3 16.8 3h-.8z"></path>
-        <!-- Phone shape -->
         <path d="M21.1 18.4c-.3-.2-1.7-.9-1.9-1s-.4-.2-.6.2-.7 1-0.9 1.1-.3.2-.6 0-1.3-.5-2.5-1.6c-.9-.8-1.5-1.8-1.7-2.1s0-.5.2-.7
                  .4-.4.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.6-1.5-.8-2-.4-.5-.6-.5h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1.1 2.8 1.2 3
                  .1.2 2.2 3.5 5.4 4.9 3.3 1.4 3.3.9 3.9.9.6 0 1.9-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.1-.5-.3z"
@@ -947,7 +1316,6 @@ orderNowButtons.forEach(btn => {
 
       if (!btn || !popup) return;
 
-      // toggle popup
       btn.addEventListener('click', function () {
         const isVisible = popup.style.display === 'block';
         popup.style.display = isVisible ? 'none' : 'block';
