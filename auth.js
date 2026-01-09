@@ -2,14 +2,17 @@
 import { supabase } from "./supabaseClient.js";
 
 (function () {
+  // Public pages (no login required)
   const publicPages = new Set(["index.html", "login.html", "signup.html", ""]);
 
   const rawPath = window.location.pathname.split("/").pop() || "";
   const cleanPath = rawPath.split("?")[0].split("#")[0];
   const isPublic = publicPages.has(cleanPath);
 
+  // Always hide these links
   const alwaysHideHrefs = new Set(["cart.html", "my-plans.html", "checkout.html"]);
 
+  // Hide these when logged out
   const protectedHrefs = new Set([
     "plans.html",
     "meals.html",
@@ -28,16 +31,19 @@ import { supabase } from "./supabaseClient.js";
       const hrefRaw = (a.getAttribute("href") || "").trim();
       const href = hrefRaw.split("?")[0].split("#")[0];
 
+      // Always allow Home + empty/hash links
       if (href === "index.html" || href === "" || href === "#") {
         a.style.display = "";
         return;
       }
 
+      // Always hide these
       if (alwaysHideHrefs.has(href)) {
         a.style.display = "none";
         return;
       }
 
+      // Hide protected links when logged out
       if (!isLoggedIn && protectedHrefs.has(href)) a.style.display = "none";
       else a.style.display = "";
     });
@@ -63,6 +69,7 @@ import { supabase } from "./supabaseClient.js";
     const mobileNav = document.querySelector(".nav-mobile");
     if (!mobileNav) return;
 
+    // remove old injected logout
     const old = mobileNav.querySelector('[data-nm="logout"]');
     if (old) old.remove();
 
@@ -87,14 +94,13 @@ import { supabase } from "./supabaseClient.js";
   }
 
   async function init() {
-    // ✅ session check (local)
     const { data } = await supabase.auth.getSession();
     const isLoggedIn = !!data?.session;
 
-    // ✅ optional compatibility flag (doesn't control auth, just UI)
+    // (optional) compatibility flag (UI only)
     localStorage.setItem("nm_logged_in", isLoggedIn ? "1" : "0");
 
-    // ✅ guard
+    // Guard: block protected pages when logged out
     if (!isLoggedIn && !isPublic) {
       window.location.href = "login.html";
       return;
@@ -102,7 +108,7 @@ import { supabase } from "./supabaseClient.js";
 
     applyUI(isLoggedIn);
 
-    // ✅ IMPORTANT FIX: ignore INITIAL_SESSION so it doesn't kick you out
+    // IMPORTANT FIX: ignore INITIAL_SESSION to avoid redirect loop
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === "INITIAL_SESSION") return;
 
@@ -113,6 +119,7 @@ import { supabase } from "./supabaseClient.js";
         window.location.href = "login.html";
         return;
       }
+
       applyUI(logged);
     });
   }
@@ -120,10 +127,13 @@ import { supabase } from "./supabaseClient.js";
   document.addEventListener("DOMContentLoaded", init);
 })();
 
-// ✅ Logout helper (Supabase)
+// Logout helper (Supabase)
 async function nmLogout() {
-  try { await supabase.auth.signOut(); } catch (e) {}
+  try {
+    await supabase.auth.signOut();
+  } catch (e) {}
 
+  // old keys cleanup (safe)
   localStorage.removeItem("nm_logged_in");
   localStorage.removeItem("nm_user_email");
   localStorage.removeItem("nm_current_email");
