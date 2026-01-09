@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Namak Masaala</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="icon" href="namak-logo.png" type="image/png" />
+
+  <style>
+    .adm-wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 980px){
+      .adm-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .adm-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+      overflow:hidden;
+    }
+
+    .adm-side{
+      padding: 14px;
+    }
+    .adm-brand{
+      display:flex; align-items:center; gap:10px;
+      padding: 10px 10px 14px;
+      border-bottom:1px solid rgba(0,0,0,.08);
+      margin-bottom: 10px;
+    }
+    .adm-brand img{ width:34px; height:34px; border-radius:10px; }
+    .adm-brand b{ font-weight: 1000; }
+    .adm-nav{
+      display:grid;
+      gap:6px;
+      padding: 10px;
+    }
+    .adm-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 11px 12px;
+      border-radius: 12px;
+      text-decoration:none;
+      color:#111;
+      font-weight: 900;
+      border:1px solid rgba(0,0,0,.08);
+      background:#fff;
+      cursor:pointer;
+    }
+    .adm-link.active{
+      background: rgba(0,0,0,.04);
+      border-color: rgba(0,0,0,.14);
+    }
+
+    .adm-main{
+      padding: 14px;
+    }
+    .adm-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px 16px;
+      border-bottom:1px solid rgba(0,0,0,.08);
+      margin-bottom: 12px;
+    }
+    .adm-title{
+      margin:0;
+      font-size: 1.2rem;
+      font-weight: 1000;
+    }
+    .adm-sub{
+      margin: 6px 0 0;
+      opacity: .8;
+      font-weight: 800;
+    }
+    .adm-btn{
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+
+    .adm-table{
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius: 14px;
+      border:1px solid rgba(0,0,0,.10);
+    }
+    .adm-table th, .adm-table td{
+      padding: 12px 10px;
+      text-align:left;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      font-weight: 800;
+    }
+    .adm-table th{
+      font-weight: 1000;
+      background: rgba(0,0,0,.03);
+    }
+    .adm-muted{ opacity:.75; font-weight: 900; }
+    .adm-badge{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      font-weight: 1000;
+      font-size: .85rem;
+    }
+
+    .adm-empty{
+      padding: 14px;
+      border:1px dashed rgba(0,0,0,.18);
+      border-radius: 14px;
+      background: rgba(0,0,0,.02);
+      font-weight: 900;
+      opacity: .85;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="adm-wrap">
+    <!-- Sidebar -->
+    <aside class="adm-card adm-side">
+      <div class="adm-brand">
+        <img src="namak-logo.png" alt="logo">
+        <div>
+          <b>Namak Masaala</b><br/>
+          <span class="adm-muted">Admin Panel</span>
+        </div>
+      </div>
+
+      <div class="adm-nav">
+        <button class="adm-link active" id="tabUsers">Users <span>›</span></button>
+        <button class="adm-link" id="tabProducts" disabled title="Coming soon">Products <span>›</span></button>
+        <button class="adm-link" id="tabBanners" disabled title="Coming soon">Banners <span>›</span></button>
+        <button class="adm-link" id="tabOrders" disabled title="Coming soon">Orders <span>›</span></button>
+      </div>
+
+      <div style="padding:10px; margin-top:10px; border-top:1px solid rgba(0,0,0,.08);">
+        <button class="adm-btn" id="adminLogoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="adm-card adm-main">
+      <div class="adm-top">
+        <div>
+          <h1 class="adm-title" id="pageTitle">Users</h1>
+          <p class="adm-sub" id="pageSub">New signup/login users list.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="adm-badge" id="adminEmailBadge">Admin</span>
+          <button class="adm-btn" id="refreshBtn">Refresh</button>
+        </div>
+      </div>
+
+      <div id="usersView">
+        <div class="adm-empty" id="usersStatus">Loading users...</div>
+        <div style="overflow:auto; margin-top:12px;">
+          <table class="adm-table" id="usersTable" style="display:none;">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="usersTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="comingSoonView" style="display:none;">
+        <div class="adm-empty">Coming soon ✅</div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { supabase } from "./supabaseClient.js";
+
+    // ✅ Put your admin email here (same as SQL policy)
+    const ADMIN_EMAIL = "yar37934@gmail.com";
+
+    const usersStatus = document.getElementById("usersStatus");
+    const usersTable = document.getElementById("usersTable");
+    const usersTbody = document.getElementById("usersTbody");
+    const adminEmailBadge = document.getElementById("adminEmailBadge");
+
+    function fmtDate(iso){
+      try{
+        if (!iso) return "—";
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return "—";
+        return d.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+      }catch(e){ return "—"; }
+    }
+
+    async function requireAdmin() {
+      const { data } = await supabase.auth.getSession();
+      const session = data?.session;
+
+      if (!session) {
+        window.location.href = "login.html";
+        return null;
+      }
+
+      const email = session.user?.email || "";
+      adminEmailBadge.textContent = email || "Admin";
+
+      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+        // not admin -> block
+        document.body.innerHTML = `
+          <div style="max-width:720px;margin:40px auto;padding:18px;font-family:system-ui;">
+            <h2>Access Denied</h2>
+            <p>Admin access required.</p>
+            <p><b>Logged in:</b> ${email || "unknown"}</p>
+            <button id="goHome" style="padding:10px 12px;border-radius:10px;border:1px solid #ccc;background:#fff;cursor:pointer;">Go Home</button>
+          </div>
+        `;
+        document.getElementById("goHome").onclick = () => location.href="index.html";
+        return null;
+      }
+
+      return session;
+    }
+
+    async function loadUsers(){
+      usersTable.style.display = "none";
+      usersStatus.style.display = "block";
+      usersStatus.textContent = "Loading users...";
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("full_name, email, created_at")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        usersStatus.textContent = "Error: " + (error.message || "Failed to load");
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        usersStatus.textContent = "No users yet.";
+        return;
+      }
+
+      usersTbody.innerHTML = data.map(u => `
+        <tr>
+          <td>${(u.full_name || "Customer")}</td>
+          <td>${(u.email || "—")}</td>
+          <td>${fmtDate(u.created_at)}</td>
+        </tr>
+      `).join("");
+
+      usersStatus.style.display = "none";
+      usersTable.style.display = "table";
+    }
+
+    // events
+    document.getElementById("refreshBtn").addEventListener("click", loadUsers);
+
+    document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
+      try {
+        await supabase.auth.signOut();
+      } catch(e){}
+      localStorage.removeItem("nm_logged_in");
+      localStorage.removeItem("nm_user_email");
+      localStorage.removeItem("nm_current_email");
+      window.location.href = "login.html";
+    });
+
+    // init
+    (async () => {
+      const session = await requireAdmin();
+      if (!session) return;
+      await loadUsers();
+    })();
+  </script>
+
+</body>
+</html>
