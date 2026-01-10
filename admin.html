@@ -4,10 +4,20 @@
   <meta charset="UTF-8" />
   <title>Admin Panel - Namak Masaala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=9" />
   <link rel="icon" href="namak-logo.png" type="image/png" />
 
   <style>
+    :root{
+      --bd: rgba(0,0,0,.10);
+      --bd2: rgba(0,0,0,.08);
+      --txt:#111;
+      --muted: rgba(0,0,0,.68);
+      --bg:#fff;
+      --shadow: 0 10px 26px rgba(0,0,0,.06);
+      --radius:18px;
+    }
+
     .adm-wrap{
       max-width: 1200px;
       margin: 0 auto;
@@ -16,70 +26,62 @@
       grid-template-columns: 280px 1fr;
       gap: 16px;
     }
-    @media (max-width: 980px){
-      .adm-wrap{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 980px){ .adm-wrap{ grid-template-columns: 1fr; } }
 
     .adm-card{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.10);
-      border-radius:18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+      background: var(--bg);
+      border:1px solid var(--bd);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow:hidden;
     }
 
+    /* Sidebar */
     .adm-side{ padding: 14px; }
     .adm-brand{
       display:flex; align-items:center; gap:10px;
       padding: 10px 10px 14px;
-      border-bottom:1px solid rgba(0,0,0,.08);
+      border-bottom:1px solid var(--bd2);
       margin-bottom: 10px;
     }
-    .adm-brand img{ width:34px; height:34px; border-radius:10px; }
-    .adm-brand b{ font-weight: 1000; }
-    .adm-nav{
-      display:grid;
-      gap:6px;
-      padding: 10px;
-    }
+    .adm-brand img{ width:34px; height:34px; border-radius:10px; object-fit:cover; }
+    .adm-brand b{ font-weight: 1000; letter-spacing:.02em; }
+    .adm-muted{ opacity:.75; font-weight: 900; }
+
+    .adm-nav{ display:grid; gap:6px; padding: 10px; }
     .adm-link{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; align-items:center; justify-content:space-between;
       padding: 11px 12px;
       border-radius: 12px;
       text-decoration:none;
-      color:#111;
+      color: var(--txt);
       font-weight: 900;
       border:1px solid rgba(0,0,0,.08);
       background:#fff;
       cursor:pointer;
+      user-select:none;
     }
     .adm-link.active{
       background: rgba(0,0,0,.04);
       border-color: rgba(0,0,0,.14);
     }
+    .adm-link:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
 
+    /* Main */
     .adm-main{ padding: 14px; }
     .adm-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; align-items:center; justify-content:space-between;
       gap:12px;
       padding: 12px 12px 16px;
-      border-bottom:1px solid rgba(0,0,0,.08);
+      border-bottom:1px solid var(--bd2);
       margin-bottom: 12px;
     }
-    .adm-title{
-      margin:0;
-      font-size: 1.2rem;
-      font-weight: 1000;
-    }
-    .adm-sub{
-      margin: 6px 0 0;
-      opacity: .8;
-      font-weight: 800;
-    }
+    .adm-title{ margin:0; font-size: 1.2rem; font-weight: 1000; }
+    .adm-sub{ margin: 6px 0 0; opacity: .8; font-weight: 800; }
+
     .adm-btn{
       border:1px solid rgba(0,0,0,.12);
       background:#fff;
@@ -87,14 +89,41 @@
       padding: 10px 12px;
       cursor:pointer;
       font-weight: 900;
+      user-select:none;
+    }
+    .adm-btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .adm-badge{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      font-weight: 1000;
+      font-size: .85rem;
+      max-width: 360px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
+    .adm-empty{
+      padding: 14px;
+      border:1px dashed rgba(0,0,0,.18);
+      border-radius: 14px;
+      background: rgba(0,0,0,.02);
+      font-weight: 900;
+      opacity: .9;
+    }
+
+    /* Tables */
     .adm-table{
       width:100%;
       border-collapse: collapse;
       overflow:hidden;
       border-radius: 14px;
-      border:1px solid rgba(0,0,0,.10);
+      border:1px solid var(--bd);
+      background:#fff;
     }
     .adm-table th, .adm-table td{
       padding: 12px 10px;
@@ -106,107 +135,93 @@
     .adm-table th{
       font-weight: 1000;
       background: rgba(0,0,0,.03);
-    }
-    .adm-muted{ opacity:.75; font-weight: 900; }
-    .adm-badge{
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(0,0,0,.12);
-      background:#fff;
-      font-weight: 1000;
-      font-size: .85rem;
-      max-width: 320px;
-      overflow: hidden;
-      text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .adm-empty{
-      padding: 14px;
-      border:1px dashed rgba(0,0,0,.18);
-      border-radius: 14px;
-      background: rgba(0,0,0,.02);
-      font-weight: 900;
-      opacity: .85;
+    .adm-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap: wrap;
+      align-items:center;
     }
 
-    /* inputs */
-    .adm-field-label{ font-weight:1000; margin-top: 6px; }
-    .adm-input{
-      width:100%;
-      border:1px solid rgba(0,0,0,.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 900;
-      outline:none;
-    }
-    .adm-textarea{
-      width:100%;
-      border:1px solid rgba(0,0,0,.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 900;
-      min-height: 140px;
-      outline:none;
-    }
-
+    /* Forms */
     .adm-grid-2{
       display:grid;
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 980px){ .adm-grid-2{ grid-template-columns: 1fr; } }
+
+    .adm-form{
+      display:grid;
       gap: 10px;
+      padding: 12px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      background: rgba(0,0,0,.01);
     }
-    @media (max-width: 720px){
-      .adm-grid-2{ grid-template-columns: 1fr; }
-    }
-
-    .adm-row-actions{
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-
-    .adm-mini{
-      font-size:.85rem;
-      opacity:.8;
-      font-weight:800;
-      margin-top:6px;
-    }
-
-    .adm-pill{
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,.12);
-      background: rgba(0,0,0,.02);
+    .adm-label{ font-weight:1000; }
+    .adm-input, .adm-textarea, .adm-select{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius: 12px;
+      padding: 10px 12px;
       font-weight: 900;
-      font-size: .85rem;
-      max-width: 380px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      outline:none;
+      background:#fff;
+      font: inherit;
+    }
+    .adm-textarea{ min-height: 120px; resize: vertical; }
+    .adm-help{
+      font-weight: 800;
+      opacity:.75;
+      font-size: .92rem;
+      line-height:1.35;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: .92em;
     }
 
-    .adm-img-prev{
-      width: 84px;
-      height: 56px;
+    /* Toast */
+    .adm-toast{
+      position: fixed;
+      right: 16px;
+      top: 16px;
+      z-index: 99999;
+      background:#111;
+      color:#fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+      font-weight: 900;
+      display:none;
+      max-width: 360px;
+      line-height:1.25;
+    }
+    .adm-toast small{ display:block; opacity:.85; font-weight:800; margin-top:4px; }
+
+    /* Image preview */
+    .adm-preview{
+      width: 110px;
+      height: 80px;
       border-radius: 12px;
       border:1px solid rgba(0,0,0,.10);
-      background: rgba(0,0,0,.02);
-      overflow:hidden;
+      background:#fff;
       display:flex;
       align-items:center;
       justify-content:center;
+      overflow:hidden;
       font-weight:900;
       opacity:.75;
     }
-    .adm-img-prev img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-    }
+    .adm-preview img{ width:100%; height:100%; object-fit:cover; display:block; }
   </style>
 </head>
 
 <body>
+  <div class="adm-toast" id="admToast">Saved ✅</div>
+
   <div class="adm-wrap">
     <!-- Sidebar -->
     <aside class="adm-card adm-side">
@@ -220,11 +235,12 @@
 
       <div class="adm-nav">
         <button class="adm-link" id="tabHome">Home Content <span>›</span></button>
-        <button class="adm-link active" id="tabUsers">Users <span>›</span></button>
+        <button class="adm-link" id="tabUsers">Users <span>›</span></button>
+        <button class="adm-link" id="tabPlanMenu">Plan Menu <span>›</span></button>
         <button class="adm-link" id="tabMeals">Meals <span>›</span></button>
-        <button class="adm-link" id="tabProducts">Products <span>›</span></button>
         <button class="adm-link" id="tabBanners">Banners <span>›</span></button>
-        <button class="adm-link" id="tabOrders">Orders <span>›</span></button>
+        <button class="adm-link" id="tabProducts" disabled title="Coming soon">Products <span>›</span></button>
+        <button class="adm-link" id="tabOrders" disabled title="Coming soon">Orders <span>›</span></button>
       </div>
 
       <div style="padding:10px; margin-top:10px; border-top:1px solid rgba(0,0,0,.08); display:flex; gap:10px; flex-wrap:wrap;">
@@ -237,8 +253,8 @@
     <main class="adm-card adm-main">
       <div class="adm-top">
         <div>
-          <h1 class="adm-title" id="pageTitle">Users</h1>
-          <p class="adm-sub" id="pageSub">New signup/login users list.</p>
+          <h1 class="adm-title" id="pageTitle">Admin</h1>
+          <p class="adm-sub" id="pageSub">Loading...</p>
         </div>
         <div style="display:flex; gap:10px; align-items:center;">
           <span class="adm-badge" id="adminEmailBadge">Admin</span>
@@ -248,41 +264,37 @@
 
       <!-- HOME CONTENT VIEW -->
       <div id="homeView" style="display:none;">
-        <div class="adm-empty" style="margin-bottom:12px;">
-          Home Page Content (Admin can update)
-        </div>
+        <div class="adm-empty" style="margin-bottom:12px;">Home Page Content (public will see on refresh)</div>
 
-        <div style="display:grid; gap:10px;">
-          <div class="adm-field-label">Hero Title</div>
+        <div class="adm-form">
+          <div class="adm-label">Hero Title</div>
           <input id="hc_title" class="adm-input" placeholder="We proudly prepare and deliver" />
 
-          <div class="adm-field-label">Hero Subtitle</div>
+          <div class="adm-label">Hero Subtitle</div>
           <input id="hc_subtitle" class="adm-input" placeholder="fresh, homemade meals..." />
 
-          <div class="adm-field-label">Deal Title</div>
+          <div class="adm-label">Deal Title</div>
           <input id="hc_deal_title" class="adm-input" placeholder="WE DEAL IN" />
 
-          <div class="adm-field-label">Deal Items (JSON array OR one item per line)</div>
+          <div class="adm-label">Deal Items (JSON array OR one item per line)</div>
           <textarea id="hc_items" class="adm-textarea"
             placeholder='["Fresh and hygienic food","Tiffin service"]&#10;OR&#10;Fresh and hygienic food&#10;Tiffin service'></textarea>
 
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="adm-btn" id="loadHomeBtn">Load</button>
-            <button class="adm-btn" id="saveHomeBtn">Save</button>
+            <button class="adm-btn" id="loadHomeBtn" type="button">Load</button>
+            <button class="adm-btn" id="saveHomeBtn" type="button">Save</button>
           </div>
 
-          <div class="adm-empty" style="opacity:.9;">
-            Tip: Items JSON array me hon. Example:<br/>
-            <code style="display:block; margin-top:8px;">["Item 1","Item 2","Item 3"]</code>
-            <div style="margin-top:10px;">
-              Ya simple lines me bhi likh sakte ho (har line 1 item) — Save pe JSON ban jayega ✅
-            </div>
+          <div class="adm-help">
+            Tip: Items JSON array me ho (recommended). Example:<br/>
+            <code>["Item 1","Item 2","Item 3"]</code><br/>
+            Ya lines me bhi likh sakte ho (har line 1 item) — Save pe JSON ban jayega ✅
           </div>
         </div>
       </div>
 
       <!-- USERS VIEW -->
-      <div id="usersView">
+      <div id="usersView" style="display:none;">
         <div class="adm-empty" id="usersStatus">Loading users...</div>
         <div style="overflow:auto; margin-top:12px;">
           <table class="adm-table" id="usersTable" style="display:none;">
@@ -298,95 +310,229 @@
         </div>
       </div>
 
-      <!-- MEALS VIEW -->
-      <div id="mealsView" style="display:none;">
-        <div class="adm-empty" style="margin-bottom:12px;">
-          Meals (Public will see on meals.html) — Add/Edit/Disable
-        </div>
+      <!-- PLAN MENU VIEW -->
+      <div id="planMenuView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">Plan Menu (public will see on plans.html)</div>
 
         <div class="adm-grid-2">
-          <!-- form -->
-          <div class="adm-card" style="box-shadow:none; border:1px solid rgba(0,0,0,.10); border-radius:16px; padding:14px;">
+          <div class="adm-form">
             <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-              <div style="font-weight:1000;">Meal Form</div>
-              <span class="adm-pill" id="mealFormMode">Mode: Add</span>
+              <div class="adm-label">Menu Item</div>
+              <span class="adm-badge" id="pmMode">Mode: Add</span>
             </div>
 
-            <input type="hidden" id="m_id" />
+            <div class="adm-grid-2">
+              <div>
+                <div class="adm-label">Week</div>
+                <select id="pm_week" class="adm-select">
+                  <option value="1">Week 1</option>
+                  <option value="2">Week 2</option>
+                  <option value="3">Week 3</option>
+                  <option value="4">Week 4</option>
+                </select>
+              </div>
 
-            <div class="adm-field-label">Name</div>
+              <div>
+                <div class="adm-label">Day</div>
+                <select id="pm_day" class="adm-select">
+                  <option value="Mon">Mon</option>
+                  <option value="Tue">Tue</option>
+                  <option value="Wed">Wed</option>
+                  <option value="Thu">Thu</option>
+                  <option value="Fri">Fri</option>
+                  <option value="Sat">Sat</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="adm-label">Dish Name</div>
+            <input id="pm_dish" class="adm-input" placeholder="Chicken Qorma" />
+
+            <div class="adm-label">Side (optional)</div>
+            <input id="pm_side" class="adm-input" placeholder="+ 2 Chapati / + Raita" />
+
+            <div class="adm-label">Sort Order (optional)</div>
+            <input id="pm_sort" class="adm-input" type="number" placeholder="1" />
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="adm-btn" id="pmSaveBtn" type="button">Save</button>
+              <button class="adm-btn" id="pmClearBtn" type="button">Clear</button>
+              <button class="adm-btn" id="pmReloadBtn" type="button">Reload List</button>
+            </div>
+
+            <div class="adm-help">
+              Agar list empty ho aur error aaye to table create karo (SQL Editor):<br/>
+              <code>
+create table if not exists public.plan_menu (
+  id uuid primary key default gen_random_uuid(),
+  week int not null,
+  day text not null,
+  dish text not null,
+  side text,
+  sort_order int not null default 0,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+              </code>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+              <div class="adm-label">Plan Menu List</div>
+              <button class="adm-btn" id="pmReloadBtn2" type="button">Reload</button>
+            </div>
+
+            <div class="adm-empty" id="pmStatus" style="margin-top:10px;">Loading...</div>
+
+            <div style="overflow:auto; margin-top:12px;">
+              <table class="adm-table" id="pmTable" style="display:none;">
+                <thead>
+                  <tr>
+                    <th>Week</th>
+                    <th>Day</th>
+                    <th>Dish</th>
+                    <th>Side</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="pmTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEALS VIEW -->
+      <div id="mealsView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">Meals (public will see on meals.html)</div>
+
+        <div class="adm-grid-2">
+          <div class="adm-form">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+              <div class="adm-label">Meal Form</div>
+              <span class="adm-badge" id="mMode">Mode: Add</span>
+            </div>
+
+            <div class="adm-label">Name</div>
             <input id="m_name" class="adm-input" placeholder="Chicken Qorma" />
 
             <div class="adm-grid-2">
               <div>
-                <div class="adm-field-label">Price (Rs)</div>
-                <input id="m_price" class="adm-input" type="number" min="0" placeholder="320" />
+                <div class="adm-label">Price (Rs)</div>
+                <input id="m_price" class="adm-input" type="number" placeholder="320" />
               </div>
               <div>
-                <div class="adm-field-label">Sort Order (optional)</div>
+                <div class="adm-label">Sort Order (optional)</div>
                 <input id="m_sort" class="adm-input" type="number" placeholder="1" />
               </div>
             </div>
 
-            <div class="adm-field-label">Tags (comma separated)</div>
+            <div class="adm-label">Tags (comma separated)</div>
             <input id="m_tags" class="adm-input" placeholder="non-veg, roti, raita" />
-            <div class="adm-mini">Example: <b>veg</b>, <b>non-veg</b>, <b>raita</b>, <b>roti</b>, <b>salad</b>, <b>chapati</b> ...</div>
+            <div class="adm-help">Example: veg, non-veg, raita, roti, salad, chapati ...</div>
 
-            <div class="adm-field-label">Image URL (optional)</div>
-            <input id="m_image_url" class="adm-input" placeholder="https://...png" />
-
-            <div class="adm-grid-2" style="margin-top:10px;">
+            <div class="adm-grid-2">
               <div>
-                <div class="adm-field-label">Upload Image (optional)</div>
-                <input id="m_image_file" class="adm-input" type="file" accept="image/*" />
-                <div class="adm-mini">Upload requires Storage bucket: <b>meals</b> + policies.</div>
+                <div class="adm-label">Image URL (optional)</div>
+                <input id="m_image_url" class="adm-input" placeholder="https://...png" />
               </div>
               <div>
-                <div class="adm-field-label">Preview</div>
-                <div class="adm-img-prev" id="m_preview">No image</div>
+                <div class="adm-label">Preview</div>
+                <div class="adm-preview" id="mPreview">No image</div>
               </div>
             </div>
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-              <button class="adm-btn" id="m_saveBtn" type="button">Save</button>
-              <button class="adm-btn" id="m_resetBtn" type="button">Reset</button>
+            <div class="adm-label">Upload Image (optional)</div>
+            <input id="m_file" class="adm-input" type="file" accept="image/*" />
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="adm-btn" id="mSaveBtn" type="button">Save</button>
+              <button class="adm-btn" id="mClearBtn" type="button">Clear</button>
+              <button class="adm-btn" id="mReloadBtn" type="button">Reload List</button>
             </div>
 
-            <div class="adm-empty" id="m_status" style="margin-top:12px; display:none;"></div>
+            <div class="adm-help">
+              Agar error aaye: <code>Could not find the table public.meals</code> — SQL Editor me table banao:<br/>
+              <code>
+create table if not exists public.meals (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  price integer not null default 0,
+  tags text[] not null default '{}',
+  image_url text,
+  sort_order integer not null default 0,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+              </code>
+            </div>
           </div>
 
-          <!-- list -->
-          <div class="adm-card" style="box-shadow:none; border:1px solid rgba(0,0,0,.10); border-radius:16px; padding:14px;">
+          <div>
             <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-              <div style="font-weight:1000;">Meals List</div>
-              <button class="adm-btn" id="m_reloadBtn" type="button">Reload</button>
+              <div class="adm-label">Meals List</div>
+              <button class="adm-btn" id="mReloadBtn2" type="button">Reload</button>
             </div>
 
-            <div class="adm-mini" style="margin-top:6px;">
-              Tip: “Disable” karein to public ko show nahi hoga (is_active = false).
-            </div>
+            <div class="adm-empty" id="mStatus" style="margin-top:10px;">Loading...</div>
 
-            <div style="overflow:auto; margin-top:10px;">
-              <table class="adm-table" id="mealsTable">
+            <div style="overflow:auto; margin-top:12px;">
+              <table class="adm-table" id="mTable" style="display:none;">
                 <thead>
                   <tr>
                     <th>Meal</th>
                     <th>Tags</th>
                     <th>Price</th>
                     <th>Status</th>
-                    <th style="min-width:230px;">Actions</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody id="mealsTbody"></tbody>
+                <tbody id="mTbody"></tbody>
               </table>
             </div>
-
-            <div class="adm-empty" id="mealsStatus" style="margin-top:10px;">Loading meals...</div>
           </div>
         </div>
       </div>
 
-      <!-- COMING SOON VIEW -->
+      <!-- BANNERS VIEW -->
+      <div id="bannersView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">Banners (upload hero banner from gallery)</div>
+
+        <div class="adm-form">
+          <div class="adm-label">Hero Banner Upload</div>
+          <input id="b_file" class="adm-input" type="file" accept="image/*" />
+          <div class="adm-help">
+            Upload will go to Supabase Storage bucket: <code>banners</code><br/>
+            Note: agar alert aaye <code>row-level security policy</code> to bucket policies fix karni padengi.
+          </div>
+
+          <div class="adm-grid-2">
+            <div>
+              <div class="adm-label">Or paste Banner URL</div>
+              <input id="b_url" class="adm-input" placeholder="https://.../hero-banner.png" />
+            </div>
+            <div>
+              <div class="adm-label">Preview</div>
+              <div class="adm-preview" id="bPreview">No image</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="adm-btn" id="bSaveBtn" type="button">Save Banner</button>
+            <button class="adm-btn" id="bLoadBtn" type="button">Load Current</button>
+          </div>
+
+          <div class="adm-help">
+            This saves to <code>site_content</code> key: <code>home_hero_banner_url</code> (public pages can use it).
+          </div>
+        </div>
+      </div>
+
+      <!-- COMING SOON -->
       <div id="comingSoonView" style="display:none;">
         <div class="adm-empty" id="comingSoonText">Coming soon ✅</div>
       </div>
@@ -396,56 +542,61 @@
   <script type="module">
     import { supabase } from "./supabaseClient.js";
 
-    // ✅ Admin email (same as SQL policy)
+    // ===== CONFIG =====
     const ADMIN_EMAIL = "yar37934@gmail.com";
+    const SITE_CONTENT_TABLE = "site_content";
+    const PROFILES_TABLE = "profiles";
+    const PLAN_MENU_TABLE = "plan_menu"; // ✅
+    const MEALS_TABLE = "meals";         // ✅
+    const BANNERS_BUCKET = "banners";
+    const MEALS_BUCKET = "meals";
 
-    // UI refs
+    // ===== UI REFS =====
+    const toastEl = document.getElementById("admToast");
+
     const pageTitle = document.getElementById("pageTitle");
-    const pageSub = document.getElementById("pageSub");
+    const pageSub   = document.getElementById("pageSub");
+    const adminEmailBadge = document.getElementById("adminEmailBadge");
 
-    const homeView = document.getElementById("homeView");
-    const usersView = document.getElementById("usersView");
-    const mealsView = document.getElementById("mealsView");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const logoutBtn  = document.getElementById("adminLogoutBtn");
+
+    // Tabs
+    const tabHome     = document.getElementById("tabHome");
+    const tabUsers    = document.getElementById("tabUsers");
+    const tabPlanMenu = document.getElementById("tabPlanMenu");
+    const tabMeals    = document.getElementById("tabMeals");
+    const tabBanners  = document.getElementById("tabBanners");
+    const tabProducts = document.getElementById("tabProducts");
+    const tabOrders   = document.getElementById("tabOrders");
+
+    // Views
+    const homeView       = document.getElementById("homeView");
+    const usersView      = document.getElementById("usersView");
+    const planMenuView   = document.getElementById("planMenuView");
+    const mealsView      = document.getElementById("mealsView");
+    const bannersView    = document.getElementById("bannersView");
     const comingSoonView = document.getElementById("comingSoonView");
     const comingSoonText = document.getElementById("comingSoonText");
 
-    const usersStatus = document.getElementById("usersStatus");
-    const usersTable = document.getElementById("usersTable");
-    const usersTbody = document.getElementById("usersTbody");
-    const adminEmailBadge = document.getElementById("adminEmailBadge");
-
-    // Tabs
-    const tabHome = document.getElementById("tabHome");
-    const tabUsers = document.getElementById("tabUsers");
-    const tabMeals = document.getElementById("tabMeals");
-    const tabProducts = document.getElementById("tabProducts");
-    const tabBanners = document.getElementById("tabBanners");
-    const tabOrders = document.getElementById("tabOrders");
-
-    // Home fields
-    const hcTitle = document.getElementById("hc_title");
-    const hcSubtitle = document.getElementById("hc_subtitle");
-    const hcDealTitle = document.getElementById("hc_deal_title");
-    const hcItems = document.getElementById("hc_items");
-
-    // Meals fields
-    const mId = document.getElementById("m_id");
-    const mName = document.getElementById("m_name");
-    const mPrice = document.getElementById("m_price");
-    const mSort = document.getElementById("m_sort");
-    const mTags = document.getElementById("m_tags");
-    const mImageUrl = document.getElementById("m_image_url");
-    const mImageFile = document.getElementById("m_image_file");
-    const mPreview = document.getElementById("m_preview");
-    const mSaveBtn = document.getElementById("m_saveBtn");
-    const mResetBtn = document.getElementById("m_resetBtn");
-    const mReloadBtn = document.getElementById("m_reloadBtn");
-    const mFormMode = document.getElementById("mealFormMode");
-    const mStatus = document.getElementById("m_status");
-    const mealsTbody = document.getElementById("mealsTbody");
-    const mealsStatus = document.getElementById("mealsStatus");
-
+    // ===== HELPERS =====
     let currentTab = "users";
+
+    function toast(title, sub=""){
+      toastEl.innerHTML = `${escapeHtml(title)}${sub ? `<small>${escapeHtml(sub)}</small>` : ""}`;
+      toastEl.style.display = "block";
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=> toastEl.style.display="none", 1500);
+    }
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
 
     function fmtDate(iso){
       try{
@@ -457,19 +608,24 @@
     }
 
     function setActiveTab(btn){
-      [tabHome, tabUsers, tabMeals, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
+      [tabHome, tabUsers, tabPlanMenu, tabMeals, tabBanners, tabProducts, tabOrders]
+        .forEach(b => b && b.classList.remove("active"));
       btn.classList.add("active");
     }
 
     function showOnly(viewName){
       homeView.style.display = "none";
       usersView.style.display = "none";
+      planMenuView.style.display = "none";
       mealsView.style.display = "none";
+      bannersView.style.display = "none";
       comingSoonView.style.display = "none";
 
       if (viewName === "home") homeView.style.display = "block";
       if (viewName === "users") usersView.style.display = "block";
+      if (viewName === "planmenu") planMenuView.style.display = "block";
       if (viewName === "meals") mealsView.style.display = "block";
+      if (viewName === "banners") bannersView.style.display = "block";
       if (viewName === "soon") comingSoonView.style.display = "block";
     }
 
@@ -481,7 +637,7 @@
       window.location.href = "login.html";
     }
 
-    async function requireAdmin() {
+    async function requireAdmin(){
       const { data } = await supabase.auth.getSession();
       const session = data?.session;
 
@@ -493,7 +649,7 @@
       const email = (session.user?.email || "").trim();
       adminEmailBadge.textContent = email || "Admin";
 
-      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()){
         alert("Admin only!");
         await forceLogoutToLogin();
         return null;
@@ -502,32 +658,115 @@
       return session;
     }
 
-    // ---------------- USERS ----------------
+    // ===== HOME CONTENT =====
+    const hcTitle = document.getElementById("hc_title");
+    const hcSubtitle = document.getElementById("hc_subtitle");
+    const hcDealTitle = document.getElementById("hc_deal_title");
+    const hcItems = document.getElementById("hc_items");
+
+    function normalizeItemsInput(raw){
+      const txt = String(raw || "").trim();
+      if (!txt) return [];
+      if (txt.startsWith("[")){
+        const arr = JSON.parse(txt);
+        if (!Array.isArray(arr)) throw new Error("Items JSON must be an array.");
+        return arr.map(x => String(x).trim()).filter(Boolean);
+      }
+      const lines = txt.split("\n").map(s => s.trim()).filter(Boolean);
+      if (lines.length) return lines;
+      return txt.split(",").map(s => s.trim()).filter(Boolean);
+    }
+
+    async function loadHomeContentForm(){
+      const { data, error } = await supabase
+        .from(SITE_CONTENT_TABLE)
+        .select("key,value")
+        .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"]);
+
+      if (error){
+        toast("Load failed", error.message || "error");
+        return;
+      }
+
+      const map = {};
+      (data || []).forEach(r => map[r.key] = r.value);
+
+      hcTitle.value = map.home_hero_title || "";
+      hcSubtitle.value = map.home_hero_subtitle || "";
+      hcDealTitle.value = map.home_deal_title || "";
+      hcItems.value = map.home_deal_items || '["Fresh and hygienic food","Tiffin service"]';
+      toast("Loaded ✅");
+    }
+
+    async function saveHomeContentForm(){
+      let itemsArr = [];
+      try{
+        itemsArr = normalizeItemsInput(hcItems.value);
+      }catch(e){
+        alert("Deal Items error: " + (e.message || "Invalid JSON"));
+        return;
+      }
+
+      const nowIso = new Date().toISOString();
+      const payload = [
+        { key:"home_hero_title", value:(hcTitle.value||"").trim(), updated_at: nowIso },
+        { key:"home_hero_subtitle", value:(hcSubtitle.value||"").trim(), updated_at: nowIso },
+        { key:"home_deal_title", value:(hcDealTitle.value||"").trim(), updated_at: nowIso },
+        { key:"home_deal_items", value: JSON.stringify(itemsArr), updated_at: nowIso },
+      ];
+
+      const { error } = await supabase
+        .from(SITE_CONTENT_TABLE)
+        .upsert(payload, { onConflict:"key" });
+
+      if (error){
+        toast("Save failed", error.message || "error");
+        return;
+      }
+
+      hcItems.value = JSON.stringify(itemsArr);
+      toast("Saved ✅", "Home page refresh karo");
+    }
+
+    function showHomeView(){
+      showOnly("home");
+      pageTitle.textContent = "Home Content";
+      pageSub.textContent = "Edit home page side card text & list.";
+      currentTab = "home";
+      setActiveTab(tabHome);
+      loadHomeContentForm();
+    }
+
+    // ===== USERS =====
+    const usersStatus = document.getElementById("usersStatus");
+    const usersTable = document.getElementById("usersTable");
+    const usersTbody = document.getElementById("usersTbody");
+
     async function loadUsers(){
       usersTable.style.display = "none";
       usersStatus.style.display = "block";
       usersStatus.textContent = "Loading users...";
 
       const { data, error } = await supabase
-        .from("profiles")
+        .from(PROFILES_TABLE)
         .select("full_name, email, created_at")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending:false });
 
-      if (error) {
+      if (error){
         usersStatus.textContent = "Error: " + (error.message || "Failed to load");
         return;
       }
 
-      if (!data || data.length === 0) {
+      if (!data || data.length === 0){
         usersStatus.textContent = "No users yet.";
         return;
       }
 
       usersTbody.innerHTML = data.map(u => `
         <tr>
-          <td>${(u.full_name || "Customer")}</td>
-          <td>${(u.email || "—")}</td>
-          <td>${fmtDate(u.created_at)}</td>
+          <td>${escapeHtml(u.full_name || "Customer")}</td>
+          <td>${escapeHtml(u.email || "—")}</td>
+          <td>${escapeHtml(fmtDate(u.created_at))}</td>
         </tr>
       `).join("");
 
@@ -544,279 +783,276 @@
       loadUsers();
     }
 
-    // ---------------- HOME CONTENT ----------------
-    function normalizeItemsInput(raw){
-      const txt = String(raw || "").trim();
-      if (!txt) return [];
+    // ===== PLAN MENU =====
+    const pmMode = document.getElementById("pmMode");
+    const pmWeek = document.getElementById("pm_week");
+    const pmDay  = document.getElementById("pm_day");
+    const pmDish = document.getElementById("pm_dish");
+    const pmSide = document.getElementById("pm_side");
+    const pmSort = document.getElementById("pm_sort");
 
-      if (txt.startsWith("[")) {
-        const arr = JSON.parse(txt);
-        if (!Array.isArray(arr)) throw new Error("Items JSON must be an array.");
-        return arr.map(x => String(x).trim()).filter(Boolean);
-      }
+    const pmStatus = document.getElementById("pmStatus");
+    const pmTable  = document.getElementById("pmTable");
+    const pmTbody  = document.getElementById("pmTbody");
 
-      const lines = txt.split("\n").map(s => s.trim()).filter(Boolean);
-      if (lines.length) return lines;
+    let pmEditingId = null;
 
-      return txt.split(",").map(s => s.trim()).filter(Boolean);
+    function pmClear(){
+      pmEditingId = null;
+      pmMode.textContent = "Mode: Add";
+      pmWeek.value = "1";
+      pmDay.value = "Mon";
+      pmDish.value = "";
+      pmSide.value = "";
+      pmSort.value = "";
     }
 
-    async function loadHomeContentForm(){
+    async function loadPlanMenu(){
+      pmTable.style.display = "none";
+      pmStatus.style.display = "block";
+      pmStatus.textContent = "Loading...";
+
       const { data, error } = await supabase
-        .from("site_content")
-        .select("key,value")
-        .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"]);
+        .from(PLAN_MENU_TABLE)
+        .select("id, week, day, dish, side, sort_order, is_active, updated_at")
+        .order("week", { ascending:true })
+        .order("sort_order", { ascending:true })
+        .order("day", { ascending:true });
 
-      if (error) {
-        alert("Load failed: " + (error.message || "error"));
+      if (error){
+        pmStatus.textContent = "Error: " + (error.message || "Failed to load");
         return;
       }
 
-      const map = {};
-      (data || []).forEach(r => map[r.key] = r.value);
-
-      hcTitle.value = map.home_hero_title || "";
-      hcSubtitle.value = map.home_hero_subtitle || "";
-      hcDealTitle.value = map.home_deal_title || "";
-      hcItems.value = map.home_deal_items || '["Fresh and hygienic food","Tiffin service"]';
-    }
-
-    async function saveHomeContentForm(){
-      let itemsArr = [];
-      try {
-        itemsArr = normalizeItemsInput(hcItems.value);
-      } catch (e) {
-        alert("Deal Items error: " + (e.message || "Invalid JSON"));
+      if (!data || data.length === 0){
+        pmStatus.textContent = "No menu items yet.";
         return;
       }
 
-      const nowIso = new Date().toISOString();
+      pmTbody.innerHTML = data.map(row => `
+        <tr>
+          <td>${escapeHtml(row.week)}</td>
+          <td>${escapeHtml(row.day)}</td>
+          <td>${escapeHtml(row.dish)}</td>
+          <td>${escapeHtml(row.side || "—")}</td>
+          <td>${row.is_active ? "Active" : "Disabled"}</td>
+          <td>
+            <div class="adm-actions">
+              <button class="adm-btn" data-pm-act="edit" data-id="${row.id}">Edit</button>
+              <button class="adm-btn" data-pm-act="toggle" data-id="${row.id}">${row.is_active ? "Disable" : "Enable"}</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
 
-      const payload = [
-        { key: "home_hero_title", value: (hcTitle.value || "").trim(), updated_at: nowIso },
-        { key: "home_hero_subtitle", value: (hcSubtitle.value || "").trim(), updated_at: nowIso },
-        { key: "home_deal_title", value: (hcDealTitle.value || "").trim(), updated_at: nowIso },
-        { key: "home_deal_items", value: JSON.stringify(itemsArr), updated_at: nowIso },
-      ];
+      pmStatus.style.display = "none";
+      pmTable.style.display = "table";
 
-      const { error } = await supabase
-        .from("site_content")
-        .upsert(payload, { onConflict: "key" });
+      // actions
+      pmTbody.querySelectorAll("button[data-pm-act]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const act = btn.getAttribute("data-pm-act");
+          const id = btn.getAttribute("data-id");
+          const row = (data || []).find(x => x.id === id);
+          if (!row) return;
 
-      if (error) {
-        alert("Save failed: " + (error.message || "error"));
+          if (act === "edit"){
+            pmEditingId = row.id;
+            pmMode.textContent = "Mode: Edit";
+            pmWeek.value = String(row.week);
+            pmDay.value = row.day;
+            pmDish.value = row.dish || "";
+            pmSide.value = row.side || "";
+            pmSort.value = String(row.sort_order ?? 0);
+            toast("Edit mode ✅", "Now Save");
+          }
+
+          if (act === "toggle"){
+            const { error: e2 } = await supabase
+              .from(PLAN_MENU_TABLE)
+              .update({ is_active: !row.is_active, updated_at: new Date().toISOString() })
+              .eq("id", row.id);
+
+            if (e2){ toast("Update failed", e2.message || "error"); return; }
+            toast("Updated ✅");
+            loadPlanMenu();
+          }
+        });
+      });
+    }
+
+    async function savePlanMenu(){
+      const dish = (pmDish.value || "").trim();
+      if (!dish){
+        alert("Dish name required");
         return;
       }
 
-      hcItems.value = JSON.stringify(itemsArr);
-      alert("Saved ✅ Ab home page refresh karo.");
-    }
+      const payload = {
+        week: Number(pmWeek.value) || 1,
+        day: (pmDay.value || "Mon").trim(),
+        dish,
+        side: (pmSide.value || "").trim() || null,
+        sort_order: Number(pmSort.value) || 0,
+        updated_at: new Date().toISOString(),
+        is_active: true
+      };
 
-    function showHomeView(){
-      showOnly("home");
-      pageTitle.textContent = "Home Content";
-      pageSub.textContent = "Edit home page side card text & list.";
-      currentTab = "home";
-      setActiveTab(tabHome);
-      loadHomeContentForm();
-    }
-
-    // ---------------- MEALS ----------------
-    function setMealStatus(msg){
-      if (!msg){
-        mStatus.style.display = "none";
-        return;
+      let q = supabase.from(PLAN_MENU_TABLE);
+      if (pmEditingId){
+        const { error } = await q.update(payload).eq("id", pmEditingId);
+        if (error){ toast("Save failed", error.message || "error"); return; }
+        toast("Saved ✅", "plans.html refresh karo");
+      }else{
+        const { error } = await q.insert(payload);
+        if (error){ toast("Add failed", error.message || "error"); return; }
+        toast("Added ✅");
       }
-      mStatus.style.display = "block";
-      mStatus.textContent = msg;
+
+      pmClear();
+      loadPlanMenu();
     }
+
+    function showPlanMenuView(){
+      showOnly("planmenu");
+      pageTitle.textContent = "Plan Menu";
+      pageSub.textContent = "Edit weekly rotation menu for plans.html.";
+      currentTab = "planmenu";
+      setActiveTab(tabPlanMenu);
+      pmClear();
+      loadPlanMenu();
+    }
+
+    // ===== MEALS =====
+    const mMode = document.getElementById("mMode");
+    const mName = document.getElementById("m_name");
+    const mPrice = document.getElementById("m_price");
+    const mSort = document.getElementById("m_sort");
+    const mTags = document.getElementById("m_tags");
+    const mImageUrl = document.getElementById("m_image_url");
+    const mFile = document.getElementById("m_file");
+    const mPreview = document.getElementById("mPreview");
+
+    const mStatus = document.getElementById("mStatus");
+    const mTable  = document.getElementById("mTable");
+    const mTbody  = document.getElementById("mTbody");
+
+    let mEditingId = null;
 
     function parseTags(txt){
-      const raw = String(txt || "").trim();
-      if (!raw) return [];
-      return raw.split(",").map(s => s.trim()).filter(Boolean);
+      return String(txt || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
     }
 
-    function resetMealForm(){
-      mId.value = "";
+    function setPreview(url){
+      if (url){
+        mPreview.innerHTML = `<img src="${escapeHtml(url)}" alt="preview">`;
+        mPreview.style.opacity = "1";
+      }else{
+        mPreview.textContent = "No image";
+        mPreview.style.opacity = ".75";
+      }
+    }
+
+    function mClear(){
+      mEditingId = null;
+      mMode.textContent = "Mode: Add";
       mName.value = "";
       mPrice.value = "";
       mSort.value = "";
       mTags.value = "";
       mImageUrl.value = "";
-      mImageFile.value = "";
-      mPreview.innerHTML = "No image";
-      mFormMode.textContent = "Mode: Add";
-      setMealStatus("");
+      mFile.value = "";
+      setPreview("");
     }
 
-    function setPreview(url){
-      const u = String(url || "").trim();
-      if (!u){
-        mPreview.innerHTML = "No image";
-        return;
-      }
-      mPreview.innerHTML = `<img src="${u}" alt="preview">`;
-    }
-
-    mImageUrl.addEventListener("input", () => setPreview(mImageUrl.value));
-    mImageFile.addEventListener("change", () => {
-      const f = mImageFile.files && mImageFile.files[0];
-      if (!f) return;
-      const tmp = URL.createObjectURL(f);
-      setPreview(tmp);
-    });
-
-    async function uploadMealImageIfAny(){
-      const f = mImageFile.files && mImageFile.files[0];
-      if (!f) return null;
-
-      // bucket: meals
-      const ext = (f.name.split(".").pop() || "png").toLowerCase();
-      const safe = (mName.value || "meal").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
-      const path = `meals/${Date.now()}-${safe}.${ext}`;
+    async function uploadImage(bucket, file, prefix){
+      const ext = (file.name.split(".").pop() || "png").toLowerCase();
+      const safe = String(prefix || "img").replace(/[^\w\-]/g,"_").toLowerCase();
+      const path = `${safe}_${Date.now()}.${ext}`;
 
       const { error: upErr } = await supabase
         .storage
-        .from("meals")
-        .upload(path, f, { upsert: true, cacheControl: "3600" });
+        .from(bucket)
+        .upload(path, file, { upsert: true });
 
-      if (upErr){
-        throw new Error(upErr.message || "Upload failed");
-      }
+      if (upErr) throw upErr;
 
-      const { data: pub } = supabase.storage.from("meals").getPublicUrl(path);
-      return pub?.publicUrl || null;
+      const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+      return data?.publicUrl || "";
     }
 
     async function loadMeals(){
-      mealsStatus.textContent = "Loading meals...";
-      mealsTbody.innerHTML = "";
+      mTable.style.display = "none";
+      mStatus.style.display = "block";
+      mStatus.textContent = "Loading...";
 
       const { data, error } = await supabase
-        .from("meals")
-        .select("id,name,price,tags,image_url,is_active,sort_order,created_at")
-        .order("sort_order", { ascending: true, nullsFirst: true })
-        .order("created_at", { ascending: false });
+        .from(MEALS_TABLE)
+        .select("id, name, price, tags, image_url, sort_order, is_active, updated_at")
+        .order("is_active", { ascending:false })
+        .order("sort_order", { ascending:true })
+        .order("name", { ascending:true });
 
       if (error){
-        mealsStatus.textContent = "Error: " + (error.message || "Failed");
+        mStatus.textContent = "Error: " + (error.message || "Failed to load");
         return;
       }
 
-      if (!data || !data.length){
-        mealsStatus.textContent = "No meals yet. Add new from left form ✅";
+      if (!data || data.length === 0){
+        mStatus.textContent = "No meals yet.";
         return;
       }
 
-      mealsStatus.textContent = "";
-      mealsTbody.innerHTML = data.map(m => {
-        const tags = Array.isArray(m.tags) ? m.tags.join(", ") : "";
-        const img = (m.image_url || "").trim();
-        const active = !!m.is_active;
+      mTbody.innerHTML = data.map(row => `
+        <tr>
+          <td>${escapeHtml(row.name)}</td>
+          <td>${escapeHtml((row.tags || []).join(", "))}</td>
+          <td>Rs ${escapeHtml(row.price)}</td>
+          <td>${row.is_active ? "Active" : "Disabled"}</td>
+          <td>
+            <div class="adm-actions">
+              <button class="adm-btn" data-m-act="edit" data-id="${row.id}">Edit</button>
+              <button class="adm-btn" data-m-act="toggle" data-id="${row.id}">${row.is_active ? "Disable" : "Enable"}</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
 
-        return `
-          <tr>
-            <td>
-              <div style="display:flex; gap:10px; align-items:flex-start;">
-                <div class="adm-img-prev" style="width:72px;height:48px;">
-                  ${img ? `<img src="${img}" alt="img">` : `No img`}
-                </div>
-                <div>
-                  <div style="font-weight:1000;">${m.name || "Meal"}</div>
-                  <div class="adm-mini">ID: ${m.id}</div>
-                  <div class="adm-mini">Sort: ${m.sort_order ?? "—"}</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="adm-pill">${tags || "—"}</span></td>
-            <td>Rs ${(Number(m.price||0)).toLocaleString("en-PK")}</td>
-            <td>
-              <span class="adm-pill" style="${active ? "opacity:1;" : "opacity:.55;"}">
-                ${active ? "Active" : "Disabled"}
-              </span>
-            </td>
-            <td>
-              <div class="adm-row-actions">
-                <button class="adm-btn" data-act="edit" data-id="${m.id}">Edit</button>
-                <button class="adm-btn" data-act="toggle" data-id="${m.id}" data-active="${active ? "1" : "0"}">
-                  ${active ? "Disable" : "Enable"}
-                </button>
-                <button class="adm-btn" data-act="delete" data-id="${m.id}">Delete</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join("");
+      mStatus.style.display = "none";
+      mTable.style.display = "table";
 
-      // attach actions
-      mealsTbody.querySelectorAll("button[data-act]").forEach(btn => {
+      // actions
+      mTbody.querySelectorAll("button[data-m-act]").forEach(btn => {
         btn.addEventListener("click", async () => {
-          const act = btn.getAttribute("data-act");
+          const act = btn.getAttribute("data-m-act");
           const id = btn.getAttribute("data-id");
-
-          if (!id) return;
+          const row = (data || []).find(x => x.id === id);
+          if (!row) return;
 
           if (act === "edit"){
-            const { data: row, error: e } = await supabase
-              .from("meals")
-              .select("id,name,price,tags,image_url,is_active,sort_order")
-              .eq("id", id)
-              .single();
-
-            if (e){
-              alert("Load meal failed: " + (e.message || "error"));
-              return;
-            }
-
-            mId.value = row.id;
+            mEditingId = row.id;
+            mMode.textContent = "Mode: Edit";
             mName.value = row.name || "";
-            mPrice.value = row.price ?? "";
-            mSort.value = row.sort_order ?? "";
-            mTags.value = Array.isArray(row.tags) ? row.tags.join(", ") : "";
+            mPrice.value = String(row.price ?? 0);
+            mSort.value = String(row.sort_order ?? 0);
+            mTags.value = (row.tags || []).join(", ");
             mImageUrl.value = row.image_url || "";
-            mImageFile.value = "";
             setPreview(row.image_url || "");
-            mFormMode.textContent = "Mode: Edit";
-            setMealStatus("Editing loaded ✅");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            return;
+            toast("Edit mode ✅", "Now Save");
           }
 
           if (act === "toggle"){
-            const isNowActive = btn.getAttribute("data-active") === "1";
-            const next = !isNowActive;
+            const { error: e2 } = await supabase
+              .from(MEALS_TABLE)
+              .update({ is_active: !row.is_active, updated_at: new Date().toISOString() })
+              .eq("id", row.id);
 
-            const { error: e } = await supabase
-              .from("meals")
-              .update({ is_active: next })
-              .eq("id", id);
-
-            if (e){
-              alert("Update failed: " + (e.message || "error"));
-              return;
-            }
-
-            await loadMeals();
-            return;
-          }
-
-          if (act === "delete"){
-            const ok = confirm("Delete this meal permanently?");
-            if (!ok) return;
-
-            const { error: e } = await supabase
-              .from("meals")
-              .delete()
-              .eq("id", id);
-
-            if (e){
-              alert("Delete failed: " + (e.message || "error"));
-              return;
-            }
-
-            if (mId.value === id) resetMealForm();
-            await loadMeals();
+            if (e2){ toast("Update failed", e2.message || "error"); return; }
+            toast("Updated ✅");
+            loadMeals();
           }
         });
       });
@@ -824,73 +1060,140 @@
 
     async function saveMeal(){
       const name = (mName.value || "").trim();
-      const price = Number(mPrice.value || 0) || 0;
-      const sortOrder = mSort.value === "" ? null : (Number(mSort.value) || null);
-      const tagsArr = parseTags(mTags.value);
+      const price = Number(mPrice.value) || 0;
+      if (!name){ alert("Name required"); return; }
+      if (price < 0){ alert("Price invalid"); return; }
+
       let imageUrl = (mImageUrl.value || "").trim();
 
-      if (!name){
-        setMealStatus("Name required.");
-        return;
-      }
-
-      setMealStatus("Saving...");
-
-      // upload if file selected
-      try{
-        const uploaded = await uploadMealImageIfAny();
-        if (uploaded){
-          imageUrl = uploaded;
-          mImageUrl.value = uploaded;
-          setPreview(uploaded);
+      // if file selected -> upload
+      const file = mFile.files && mFile.files[0];
+      if (file){
+        try{
+          toast("Uploading...", file.name);
+          imageUrl = await uploadImage(MEALS_BUCKET, file, name);
+          mImageUrl.value = imageUrl;
+          setPreview(imageUrl);
+        }catch(e){
+          alert("Upload failed: " + (e.message || "error"));
+          return;
         }
-      }catch(err){
-        setMealStatus("Upload error: " + (err.message || "failed"));
-        return;
       }
 
       const payload = {
         name,
         price,
-        tags: tagsArr,
+        tags: parseTags(mTags.value),
         image_url: imageUrl || null,
-        sort_order: sortOrder
+        sort_order: Number(mSort.value) || 0,
+        updated_at: new Date().toISOString(),
+        is_active: true
       };
 
-      // add or update
-      const id = (mId.value || "").trim();
-
-      if (!id){
-        const { error } = await supabase.from("meals").insert([{ ...payload, is_active: true }]);
-        if (error){
-          setMealStatus("Insert failed: " + (error.message || "error"));
-          return;
-        }
-        setMealStatus("Added ✅");
-        resetMealForm();
-        await loadMeals();
+      if (mEditingId){
+        const { error } = await supabase.from(MEALS_TABLE).update(payload).eq("id", mEditingId);
+        if (error){ toast("Save failed", error.message || "error"); return; }
+        toast("Saved ✅", "meals.html refresh karo");
       }else{
-        const { error } = await supabase.from("meals").update(payload).eq("id", id);
-        if (error){
-          setMealStatus("Update failed: " + (error.message || "error"));
-          return;
-        }
-        setMealStatus("Updated ✅");
-        await loadMeals();
+        const { error } = await supabase.from(MEALS_TABLE).insert(payload);
+        if (error){ toast("Add failed", error.message || "error"); return; }
+        toast("Added ✅");
       }
+
+      mClear();
+      loadMeals();
     }
 
     function showMealsView(){
       showOnly("meals");
       pageTitle.textContent = "Meals";
-      pageSub.textContent = "Add/Edit meals and tags (public meals page updates on refresh).";
+      pageSub.textContent = "Add/Edit meals and tags.";
       currentTab = "meals";
       setActiveTab(tabMeals);
-      resetMealForm();
+      mClear();
       loadMeals();
     }
 
-    // ---------------- COMING SOON ----------------
+    // live preview on url change
+    mImageUrl.addEventListener("input", () => setPreview(mImageUrl.value.trim()));
+
+    // ===== BANNERS =====
+    const bFile = document.getElementById("b_file");
+    const bUrl  = document.getElementById("b_url");
+    const bPreview = document.getElementById("bPreview");
+
+    function setBannerPreview(url){
+      if (url){
+        bPreview.innerHTML = `<img src="${escapeHtml(url)}" alt="banner">`;
+        bPreview.style.opacity = "1";
+      }else{
+        bPreview.textContent = "No image";
+        bPreview.style.opacity = ".75";
+      }
+    }
+    bUrl.addEventListener("input", () => setBannerPreview(bUrl.value.trim()));
+
+    async function loadBanner(){
+      const { data, error } = await supabase
+        .from(SITE_CONTENT_TABLE)
+        .select("key,value")
+        .eq("key","home_hero_banner_url")
+        .maybeSingle();
+
+      if (error){
+        toast("Load failed", error.message || "error");
+        return;
+      }
+      const url = data?.value || "";
+      bUrl.value = url;
+      setBannerPreview(url);
+      toast("Loaded ✅");
+    }
+
+    async function saveBanner(){
+      let url = (bUrl.value || "").trim();
+      const file = bFile.files && bFile.files[0];
+
+      if (file){
+        try{
+          toast("Uploading...", file.name);
+          url = await uploadImage(BANNERS_BUCKET, file, "hero_banner");
+          bUrl.value = url;
+          setBannerPreview(url);
+        }catch(e){
+          alert("Upload failed: " + (e.message || "error"));
+          return;
+        }
+      }
+
+      if (!url){
+        alert("Please upload or paste a banner URL.");
+        return;
+      }
+
+      const nowIso = new Date().toISOString();
+      const { error } = await supabase
+        .from(SITE_CONTENT_TABLE)
+        .upsert([{ key:"home_hero_banner_url", value:url, updated_at: nowIso }], { onConflict:"key" });
+
+      if (error){
+        toast("Save failed", error.message || "error");
+        return;
+      }
+
+      toast("Saved ✅", "index.html refresh karo");
+    }
+
+    function showBannersView(){
+      showOnly("banners");
+      pageTitle.textContent = "Banners";
+      pageSub.textContent = "Upload hero banner or paste URL.";
+      currentTab = "banners";
+      setActiveTab(tabBanners);
+      loadBanner();
+    }
+
+    // ===== COMING SOON =====
     function showComingSoon(title){
       showOnly("soon");
       pageTitle.textContent = title;
@@ -899,42 +1202,57 @@
       currentTab = title.toLowerCase();
     }
 
-    // Sidebar tab events
-    tabHome.addEventListener("click", () => showHomeView());
-    tabUsers.addEventListener("click", () => showUsersView());
-    tabMeals.addEventListener("click", () => showMealsView());
+    // ===== EVENTS =====
+    // Tabs
+    tabHome.addEventListener("click", showHomeView);
+    tabUsers.addEventListener("click", showUsersView);
+    tabPlanMenu.addEventListener("click", showPlanMenuView);
+    tabMeals.addEventListener("click", showMealsView);
+    tabBanners.addEventListener("click", showBannersView);
 
-    tabProducts.addEventListener("click", () => { setActiveTab(tabProducts); showComingSoon("Products"); });
-    tabBanners.addEventListener("click", () => { setActiveTab(tabBanners); showComingSoon("Banners"); });
-    tabOrders.addEventListener("click", () => { setActiveTab(tabOrders); showComingSoon("Orders"); });
+    tabProducts.addEventListener("click", () => showComingSoon("Products"));
+    tabOrders.addEventListener("click", () => showComingSoon("Orders"));
 
     // Home buttons
-    document.getElementById("loadHomeBtn")?.addEventListener("click", loadHomeContentForm);
-    document.getElementById("saveHomeBtn")?.addEventListener("click", saveHomeContentForm);
+    document.getElementById("loadHomeBtn").addEventListener("click", loadHomeContentForm);
+    document.getElementById("saveHomeBtn").addEventListener("click", saveHomeContentForm);
+
+    // Plan menu buttons
+    document.getElementById("pmSaveBtn").addEventListener("click", savePlanMenu);
+    document.getElementById("pmClearBtn").addEventListener("click", pmClear);
+    document.getElementById("pmReloadBtn").addEventListener("click", loadPlanMenu);
+    document.getElementById("pmReloadBtn2").addEventListener("click", loadPlanMenu);
 
     // Meals buttons
-    mSaveBtn.addEventListener("click", saveMeal);
-    mResetBtn.addEventListener("click", resetMealForm);
-    mReloadBtn.addEventListener("click", loadMeals);
+    document.getElementById("mSaveBtn").addEventListener("click", saveMeal);
+    document.getElementById("mClearBtn").addEventListener("click", mClear);
+    document.getElementById("mReloadBtn").addEventListener("click", loadMeals);
+    document.getElementById("mReloadBtn2").addEventListener("click", loadMeals);
 
-    // Refresh button
-    document.getElementById("refreshBtn").addEventListener("click", () => {
+    // Banner buttons
+    document.getElementById("bLoadBtn").addEventListener("click", loadBanner);
+    document.getElementById("bSaveBtn").addEventListener("click", saveBanner);
+
+    // Refresh (current tab)
+    refreshBtn.addEventListener("click", () => {
       if (currentTab === "users") loadUsers();
       else if (currentTab === "home") loadHomeContentForm();
+      else if (currentTab === "planmenu") loadPlanMenu();
       else if (currentTab === "meals") loadMeals();
+      else if (currentTab === "banners") loadBanner();
       else comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
     });
 
     // Logout
-    document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
+    logoutBtn.addEventListener("click", async () => {
       await forceLogoutToLogin();
     });
 
-    // ✅ Live auth changes
+    // Auth state changes
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "INITIAL_SESSION") return;
 
-      if (!session) {
+      if (!session){
         window.location.href = "login.html";
         return;
       }
@@ -942,19 +1260,20 @@
       const email = (session.user?.email || "").trim();
       adminEmailBadge.textContent = email || "Admin";
 
-      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+      if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()){
         alert("Admin only!");
         await forceLogoutToLogin();
       }
     });
 
-    // init
+    // ===== INIT =====
     (async () => {
       const session = await requireAdmin();
       if (!session) return;
-      showUsersView(); // default screen
+
+      // default
+      showUsersView();
     })();
   </script>
-
 </body>
 </html>
