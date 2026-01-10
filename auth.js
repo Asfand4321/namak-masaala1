@@ -1,4 +1,4 @@
-// auth.js (Supabase session based + navbar/guard logic) - FIXED to avoid loops
+// auth.js (Supabase session based + navbar/guard logic) + ✅ Admin Guard added
 import { supabase } from "./supabaseClient.js";
 
 (function () {
@@ -142,3 +142,36 @@ async function nmLogout() {
 }
 
 window.nmLogout = nmLogout;
+
+// =====================================================
+// ✅ ADMIN GUARD (profiles.is_admin)
+// Use on admin.html:
+//   <script type="module" src="auth.js"></script>
+//   <script>document.addEventListener("DOMContentLoaded",()=>window.requireAdmin?.());</script>
+// =====================================================
+async function requireAdmin() {
+  // 1) Must be logged in
+  const { data: userRes, error: userErr } = await supabase.auth.getUser();
+  const user = userRes?.user;
+
+  if (userErr || !user) {
+    window.location.href = "login.html";
+    return false;
+  }
+
+  // 2) Must have profiles.is_admin = true
+  const { data: prof, error: profErr } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  if (profErr || !prof || prof.is_admin !== true) {
+    window.location.href = "index.html";
+    return false;
+  }
+
+  return true;
+}
+
+window.requireAdmin = requireAdmin;
