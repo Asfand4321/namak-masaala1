@@ -29,7 +29,6 @@
     }
 
     .adm-side{ padding: 14px; }
-
     .adm-brand{
       display:flex; align-items:center; gap:10px;
       padding: 10px 10px 14px;
@@ -38,7 +37,6 @@
     }
     .adm-brand img{ width:34px; height:34px; border-radius:10px; }
     .adm-brand b{ font-weight: 1000; }
-
     .adm-nav{
       display:grid;
       gap:6px;
@@ -63,7 +61,6 @@
     }
 
     .adm-main{ padding: 14px; }
-
     .adm-top{
       display:flex;
       align-items:center;
@@ -104,14 +101,13 @@
       text-align:left;
       border-bottom: 1px solid rgba(0,0,0,.06);
       font-weight: 800;
+      vertical-align: top;
     }
     .adm-table th{
       font-weight: 1000;
       background: rgba(0,0,0,.03);
     }
-
     .adm-muted{ opacity:.75; font-weight: 900; }
-
     .adm-badge{
       display:inline-flex;
       padding: 6px 10px;
@@ -125,7 +121,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     .adm-empty{
       padding: 14px;
       border:1px dashed rgba(0,0,0,.18);
@@ -155,30 +150,58 @@
       outline:none;
     }
 
-    /* menu editor */
-    .nm-menu-grid{
+    .adm-grid-2{
       display:grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 10px;
-    }
-    .nm-menu-row{
-      display:grid;
-      grid-template-columns: 80px 1fr 1fr;
-      gap: 10px;
-      align-items:center;
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 12px;
-      padding: 10px;
-      background: #fff;
-    }
-    .nm-menu-day{
-      font-weight: 1000;
-      opacity: .8;
     }
     @media (max-width: 720px){
-      .nm-menu-row{ grid-template-columns: 70px 1fr; }
-      .nm-menu-row .side-col{ grid-column: 2 / -1; }
+      .adm-grid-2{ grid-template-columns: 1fr; }
+    }
+
+    .adm-row-actions{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+
+    .adm-mini{
+      font-size:.85rem;
+      opacity:.8;
+      font-weight:800;
+      margin-top:6px;
+    }
+
+    .adm-pill{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(0,0,0,.02);
+      font-weight: 900;
+      font-size: .85rem;
+      max-width: 380px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .adm-img-prev{
+      width: 84px;
+      height: 56px;
+      border-radius: 12px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.02);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      opacity:.75;
+    }
+    .adm-img-prev img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
     }
   </style>
 </head>
@@ -198,10 +221,7 @@
       <div class="adm-nav">
         <button class="adm-link" id="tabHome">Home Content <span>›</span></button>
         <button class="adm-link active" id="tabUsers">Users <span>›</span></button>
-
-        <!-- ✅ NEW -->
-        <button class="adm-link" id="tabMenu">Menu <span>›</span></button>
-
+        <button class="adm-link" id="tabMeals">Meals <span>›</span></button>
         <button class="adm-link" id="tabProducts">Products <span>›</span></button>
         <button class="adm-link" id="tabBanners">Banners <span>›</span></button>
         <button class="adm-link" id="tabOrders">Orders <span>›</span></button>
@@ -261,35 +281,6 @@
         </div>
       </div>
 
-      <!-- ✅ MENU VIEW -->
-      <div id="menuView" style="display:none;">
-        <div class="adm-empty" style="margin-bottom:12px;">
-          Weekly Menu (Week 1–4) — Admin can edit dishes + sides
-        </div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
-          <div class="adm-field-label" style="margin:0;">Select Week</div>
-          <select id="menuWeek" class="adm-input" style="max-width:180px;">
-            <option value="1">Week 1</option>
-            <option value="2">Week 2</option>
-            <option value="3">Week 3</option>
-            <option value="4">Week 4</option>
-          </select>
-
-          <button class="adm-btn" id="menuLoadBtn">Load Week</button>
-          <button class="adm-btn" id="menuSaveBtn">Save Week</button>
-        </div>
-
-        <div class="nm-menu-grid" id="menuGrid">
-          <!-- rows injected -->
-        </div>
-
-        <div class="adm-empty" style="margin-top:12px; opacity:.9;">
-          Day order fixed: Mon–Sat ✅<br/>
-          Save karne ke baad plans page refresh karo — public ko update show ho jayega.
-        </div>
-      </div>
-
       <!-- USERS VIEW -->
       <div id="usersView">
         <div class="adm-empty" id="usersStatus">Loading users...</div>
@@ -304,6 +295,94 @@
             </thead>
             <tbody id="usersTbody"></tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- MEALS VIEW -->
+      <div id="mealsView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">
+          Meals (Public will see on meals.html) — Add/Edit/Disable
+        </div>
+
+        <div class="adm-grid-2">
+          <!-- form -->
+          <div class="adm-card" style="box-shadow:none; border:1px solid rgba(0,0,0,.10); border-radius:16px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+              <div style="font-weight:1000;">Meal Form</div>
+              <span class="adm-pill" id="mealFormMode">Mode: Add</span>
+            </div>
+
+            <input type="hidden" id="m_id" />
+
+            <div class="adm-field-label">Name</div>
+            <input id="m_name" class="adm-input" placeholder="Chicken Qorma" />
+
+            <div class="adm-grid-2">
+              <div>
+                <div class="adm-field-label">Price (Rs)</div>
+                <input id="m_price" class="adm-input" type="number" min="0" placeholder="320" />
+              </div>
+              <div>
+                <div class="adm-field-label">Sort Order (optional)</div>
+                <input id="m_sort" class="adm-input" type="number" placeholder="1" />
+              </div>
+            </div>
+
+            <div class="adm-field-label">Tags (comma separated)</div>
+            <input id="m_tags" class="adm-input" placeholder="non-veg, roti, raita" />
+            <div class="adm-mini">Example: <b>veg</b>, <b>non-veg</b>, <b>raita</b>, <b>roti</b>, <b>salad</b>, <b>chapati</b> ...</div>
+
+            <div class="adm-field-label">Image URL (optional)</div>
+            <input id="m_image_url" class="adm-input" placeholder="https://...png" />
+
+            <div class="adm-grid-2" style="margin-top:10px;">
+              <div>
+                <div class="adm-field-label">Upload Image (optional)</div>
+                <input id="m_image_file" class="adm-input" type="file" accept="image/*" />
+                <div class="adm-mini">Upload requires Storage bucket: <b>meals</b> + policies.</div>
+              </div>
+              <div>
+                <div class="adm-field-label">Preview</div>
+                <div class="adm-img-prev" id="m_preview">No image</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+              <button class="adm-btn" id="m_saveBtn" type="button">Save</button>
+              <button class="adm-btn" id="m_resetBtn" type="button">Reset</button>
+            </div>
+
+            <div class="adm-empty" id="m_status" style="margin-top:12px; display:none;"></div>
+          </div>
+
+          <!-- list -->
+          <div class="adm-card" style="box-shadow:none; border:1px solid rgba(0,0,0,.10); border-radius:16px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+              <div style="font-weight:1000;">Meals List</div>
+              <button class="adm-btn" id="m_reloadBtn" type="button">Reload</button>
+            </div>
+
+            <div class="adm-mini" style="margin-top:6px;">
+              Tip: “Disable” karein to public ko show nahi hoga (is_active = false).
+            </div>
+
+            <div style="overflow:auto; margin-top:10px;">
+              <table class="adm-table" id="mealsTable">
+                <thead>
+                  <tr>
+                    <th>Meal</th>
+                    <th>Tags</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th style="min-width:230px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="mealsTbody"></tbody>
+              </table>
+            </div>
+
+            <div class="adm-empty" id="mealsStatus" style="margin-top:10px;">Loading meals...</div>
+          </div>
         </div>
       </div>
 
@@ -325,8 +404,8 @@
     const pageSub = document.getElementById("pageSub");
 
     const homeView = document.getElementById("homeView");
-    const menuView = document.getElementById("menuView");
     const usersView = document.getElementById("usersView");
+    const mealsView = document.getElementById("mealsView");
     const comingSoonView = document.getElementById("comingSoonView");
     const comingSoonText = document.getElementById("comingSoonText");
 
@@ -338,7 +417,7 @@
     // Tabs
     const tabHome = document.getElementById("tabHome");
     const tabUsers = document.getElementById("tabUsers");
-    const tabMenu = document.getElementById("tabMenu");
+    const tabMeals = document.getElementById("tabMeals");
     const tabProducts = document.getElementById("tabProducts");
     const tabBanners = document.getElementById("tabBanners");
     const tabOrders = document.getElementById("tabOrders");
@@ -349,13 +428,22 @@
     const hcDealTitle = document.getElementById("hc_deal_title");
     const hcItems = document.getElementById("hc_items");
 
-    // Menu fields
-    const menuWeek = document.getElementById("menuWeek");
-    const menuGrid = document.getElementById("menuGrid");
-    const menuLoadBtn = document.getElementById("menuLoadBtn");
-    const menuSaveBtn = document.getElementById("menuSaveBtn");
-
-    const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat"];
+    // Meals fields
+    const mId = document.getElementById("m_id");
+    const mName = document.getElementById("m_name");
+    const mPrice = document.getElementById("m_price");
+    const mSort = document.getElementById("m_sort");
+    const mTags = document.getElementById("m_tags");
+    const mImageUrl = document.getElementById("m_image_url");
+    const mImageFile = document.getElementById("m_image_file");
+    const mPreview = document.getElementById("m_preview");
+    const mSaveBtn = document.getElementById("m_saveBtn");
+    const mResetBtn = document.getElementById("m_resetBtn");
+    const mReloadBtn = document.getElementById("m_reloadBtn");
+    const mFormMode = document.getElementById("mealFormMode");
+    const mStatus = document.getElementById("m_status");
+    const mealsTbody = document.getElementById("mealsTbody");
+    const mealsStatus = document.getElementById("mealsStatus");
 
     let currentTab = "users";
 
@@ -369,19 +457,19 @@
     }
 
     function setActiveTab(btn){
-      [tabHome, tabUsers, tabMenu, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
+      [tabHome, tabUsers, tabMeals, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
     }
 
     function showOnly(viewName){
       homeView.style.display = "none";
-      menuView.style.display = "none";
       usersView.style.display = "none";
+      mealsView.style.display = "none";
       comingSoonView.style.display = "none";
 
       if (viewName === "home") homeView.style.display = "block";
-      if (viewName === "menu") menuView.style.display = "block";
       if (viewName === "users") usersView.style.display = "block";
+      if (viewName === "meals") mealsView.style.display = "block";
       if (viewName === "soon") comingSoonView.style.display = "block";
     }
 
@@ -495,8 +583,12 @@
 
     async function saveHomeContentForm(){
       let itemsArr = [];
-      try { itemsArr = normalizeItemsInput(hcItems.value); }
-      catch (e) { alert("Deal Items error: " + (e.message || "Invalid JSON")); return; }
+      try {
+        itemsArr = normalizeItemsInput(hcItems.value);
+      } catch (e) {
+        alert("Deal Items error: " + (e.message || "Invalid JSON"));
+        return;
+      }
 
       const nowIso = new Date().toISOString();
 
@@ -511,7 +603,10 @@
         .from("site_content")
         .upsert(payload, { onConflict: "key" });
 
-      if (error) { alert("Save failed: " + (error.message || "error")); return; }
+      if (error) {
+        alert("Save failed: " + (error.message || "error"));
+        return;
+      }
 
       hcItems.value = JSON.stringify(itemsArr);
       alert("Saved ✅ Ab home page refresh karo.");
@@ -526,102 +621,273 @@
       loadHomeContentForm();
     }
 
-    // ---------------- MENU (Weekly) ----------------
-    function buildMenuGrid(rowsMap){
-      menuGrid.innerHTML = "";
-      DAYS.forEach((day, idx) => {
-        const row = rowsMap[day] || { dish:"", side:"" };
-
-        const wrap = document.createElement("div");
-        wrap.className = "nm-menu-row";
-
-        const dDay = document.createElement("div");
-        dDay.className = "nm-menu-day";
-        dDay.textContent = day;
-
-        const dish = document.createElement("input");
-        dish.className = "adm-input";
-        dish.placeholder = "Dish name (e.g. Chicken Qorma)";
-        dish.value = row.dish || "";
-        dish.dataset.day = day;
-        dish.dataset.field = "dish";
-
-        const side = document.createElement("input");
-        side.className = "adm-input side-col";
-        side.placeholder = "Side (e.g. + 2 Chapati / + Raita)";
-        side.value = row.side || "";
-        side.dataset.day = day;
-        side.dataset.field = "side";
-
-        wrap.appendChild(dDay);
-        wrap.appendChild(dish);
-        wrap.appendChild(side);
-
-        menuGrid.appendChild(wrap);
-      });
+    // ---------------- MEALS ----------------
+    function setMealStatus(msg){
+      if (!msg){
+        mStatus.style.display = "none";
+        return;
+      }
+      mStatus.style.display = "block";
+      mStatus.textContent = msg;
     }
 
-    async function loadMenuWeek(){
-      const weekNo = Number(menuWeek.value || 1);
+    function parseTags(txt){
+      const raw = String(txt || "").trim();
+      if (!raw) return [];
+      return raw.split(",").map(s => s.trim()).filter(Boolean);
+    }
+
+    function resetMealForm(){
+      mId.value = "";
+      mName.value = "";
+      mPrice.value = "";
+      mSort.value = "";
+      mTags.value = "";
+      mImageUrl.value = "";
+      mImageFile.value = "";
+      mPreview.innerHTML = "No image";
+      mFormMode.textContent = "Mode: Add";
+      setMealStatus("");
+    }
+
+    function setPreview(url){
+      const u = String(url || "").trim();
+      if (!u){
+        mPreview.innerHTML = "No image";
+        return;
+      }
+      mPreview.innerHTML = `<img src="${u}" alt="preview">`;
+    }
+
+    mImageUrl.addEventListener("input", () => setPreview(mImageUrl.value));
+    mImageFile.addEventListener("change", () => {
+      const f = mImageFile.files && mImageFile.files[0];
+      if (!f) return;
+      const tmp = URL.createObjectURL(f);
+      setPreview(tmp);
+    });
+
+    async function uploadMealImageIfAny(){
+      const f = mImageFile.files && mImageFile.files[0];
+      if (!f) return null;
+
+      // bucket: meals
+      const ext = (f.name.split(".").pop() || "png").toLowerCase();
+      const safe = (mName.value || "meal").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+      const path = `meals/${Date.now()}-${safe}.${ext}`;
+
+      const { error: upErr } = await supabase
+        .storage
+        .from("meals")
+        .upload(path, f, { upsert: true, cacheControl: "3600" });
+
+      if (upErr){
+        throw new Error(upErr.message || "Upload failed");
+      }
+
+      const { data: pub } = supabase.storage.from("meals").getPublicUrl(path);
+      return pub?.publicUrl || null;
+    }
+
+    async function loadMeals(){
+      mealsStatus.textContent = "Loading meals...";
+      mealsTbody.innerHTML = "";
 
       const { data, error } = await supabase
-        .from("weekly_menu")
-        .select("week_no, day_code, dish, side, sort")
-        .eq("week_no", weekNo)
-        .order("sort", { ascending: true });
+        .from("meals")
+        .select("id,name,price,tags,image_url,is_active,sort_order,created_at")
+        .order("sort_order", { ascending: true, nullsFirst: true })
+        .order("created_at", { ascending: false });
 
-      if (error) {
-        alert("Menu load failed: " + (error.message || "error"));
+      if (error){
+        mealsStatus.textContent = "Error: " + (error.message || "Failed");
         return;
       }
 
-      const map = {};
-      (data || []).forEach(r => {
-        map[r.day_code] = { dish: r.dish || "", side: r.side || "" };
-      });
-
-      buildMenuGrid(map);
-    }
-
-    async function saveMenuWeek(){
-      const weekNo = Number(menuWeek.value || 1);
-
-      // collect UI values
-      const payload = DAYS.map((day, idx) => {
-        const dishEl = menuGrid.querySelector(`input[data-day="${day}"][data-field="dish"]`);
-        const sideEl = menuGrid.querySelector(`input[data-day="${day}"][data-field="side"]`);
-
-        return {
-          week_no: weekNo,
-          day_code: day,
-          dish: (dishEl?.value || "").trim(),
-          side: (sideEl?.value || "").trim(),
-          sort: idx + 1,
-          is_active: true,
-          updated_at: new Date().toISOString()
-        };
-      });
-
-      const { error } = await supabase
-        .from("weekly_menu")
-        .upsert(payload, { onConflict: "week_no,day_code" });
-
-      if (error) {
-        alert("Menu save failed: " + (error.message || "error"));
+      if (!data || !data.length){
+        mealsStatus.textContent = "No meals yet. Add new from left form ✅";
         return;
       }
 
-      alert("Menu Saved ✅ Ab plans page refresh karo.");
+      mealsStatus.textContent = "";
+      mealsTbody.innerHTML = data.map(m => {
+        const tags = Array.isArray(m.tags) ? m.tags.join(", ") : "";
+        const img = (m.image_url || "").trim();
+        const active = !!m.is_active;
+
+        return `
+          <tr>
+            <td>
+              <div style="display:flex; gap:10px; align-items:flex-start;">
+                <div class="adm-img-prev" style="width:72px;height:48px;">
+                  ${img ? `<img src="${img}" alt="img">` : `No img`}
+                </div>
+                <div>
+                  <div style="font-weight:1000;">${m.name || "Meal"}</div>
+                  <div class="adm-mini">ID: ${m.id}</div>
+                  <div class="adm-mini">Sort: ${m.sort_order ?? "—"}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="adm-pill">${tags || "—"}</span></td>
+            <td>Rs ${(Number(m.price||0)).toLocaleString("en-PK")}</td>
+            <td>
+              <span class="adm-pill" style="${active ? "opacity:1;" : "opacity:.55;"}">
+                ${active ? "Active" : "Disabled"}
+              </span>
+            </td>
+            <td>
+              <div class="adm-row-actions">
+                <button class="adm-btn" data-act="edit" data-id="${m.id}">Edit</button>
+                <button class="adm-btn" data-act="toggle" data-id="${m.id}" data-active="${active ? "1" : "0"}">
+                  ${active ? "Disable" : "Enable"}
+                </button>
+                <button class="adm-btn" data-act="delete" data-id="${m.id}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      // attach actions
+      mealsTbody.querySelectorAll("button[data-act]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const act = btn.getAttribute("data-act");
+          const id = btn.getAttribute("data-id");
+
+          if (!id) return;
+
+          if (act === "edit"){
+            const { data: row, error: e } = await supabase
+              .from("meals")
+              .select("id,name,price,tags,image_url,is_active,sort_order")
+              .eq("id", id)
+              .single();
+
+            if (e){
+              alert("Load meal failed: " + (e.message || "error"));
+              return;
+            }
+
+            mId.value = row.id;
+            mName.value = row.name || "";
+            mPrice.value = row.price ?? "";
+            mSort.value = row.sort_order ?? "";
+            mTags.value = Array.isArray(row.tags) ? row.tags.join(", ") : "";
+            mImageUrl.value = row.image_url || "";
+            mImageFile.value = "";
+            setPreview(row.image_url || "");
+            mFormMode.textContent = "Mode: Edit";
+            setMealStatus("Editing loaded ✅");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+
+          if (act === "toggle"){
+            const isNowActive = btn.getAttribute("data-active") === "1";
+            const next = !isNowActive;
+
+            const { error: e } = await supabase
+              .from("meals")
+              .update({ is_active: next })
+              .eq("id", id);
+
+            if (e){
+              alert("Update failed: " + (e.message || "error"));
+              return;
+            }
+
+            await loadMeals();
+            return;
+          }
+
+          if (act === "delete"){
+            const ok = confirm("Delete this meal permanently?");
+            if (!ok) return;
+
+            const { error: e } = await supabase
+              .from("meals")
+              .delete()
+              .eq("id", id);
+
+            if (e){
+              alert("Delete failed: " + (e.message || "error"));
+              return;
+            }
+
+            if (mId.value === id) resetMealForm();
+            await loadMeals();
+          }
+        });
+      });
     }
 
-    function showMenuView(){
-      showOnly("menu");
-      pageTitle.textContent = "Menu";
-      pageSub.textContent = "Edit weekly menu (Week 1–4).";
-      currentTab = "menu";
-      setActiveTab(tabMenu);
-      buildMenuGrid({});   // empty first
-      loadMenuWeek();
+    async function saveMeal(){
+      const name = (mName.value || "").trim();
+      const price = Number(mPrice.value || 0) || 0;
+      const sortOrder = mSort.value === "" ? null : (Number(mSort.value) || null);
+      const tagsArr = parseTags(mTags.value);
+      let imageUrl = (mImageUrl.value || "").trim();
+
+      if (!name){
+        setMealStatus("Name required.");
+        return;
+      }
+
+      setMealStatus("Saving...");
+
+      // upload if file selected
+      try{
+        const uploaded = await uploadMealImageIfAny();
+        if (uploaded){
+          imageUrl = uploaded;
+          mImageUrl.value = uploaded;
+          setPreview(uploaded);
+        }
+      }catch(err){
+        setMealStatus("Upload error: " + (err.message || "failed"));
+        return;
+      }
+
+      const payload = {
+        name,
+        price,
+        tags: tagsArr,
+        image_url: imageUrl || null,
+        sort_order: sortOrder
+      };
+
+      // add or update
+      const id = (mId.value || "").trim();
+
+      if (!id){
+        const { error } = await supabase.from("meals").insert([{ ...payload, is_active: true }]);
+        if (error){
+          setMealStatus("Insert failed: " + (error.message || "error"));
+          return;
+        }
+        setMealStatus("Added ✅");
+        resetMealForm();
+        await loadMeals();
+      }else{
+        const { error } = await supabase.from("meals").update(payload).eq("id", id);
+        if (error){
+          setMealStatus("Update failed: " + (error.message || "error"));
+          return;
+        }
+        setMealStatus("Updated ✅");
+        await loadMeals();
+      }
+    }
+
+    function showMealsView(){
+      showOnly("meals");
+      pageTitle.textContent = "Meals";
+      pageSub.textContent = "Add/Edit meals and tags (public meals page updates on refresh).";
+      currentTab = "meals";
+      setActiveTab(tabMeals);
+      resetMealForm();
+      loadMeals();
     }
 
     // ---------------- COMING SOON ----------------
@@ -633,29 +899,29 @@
       currentTab = title.toLowerCase();
     }
 
-    // Sidebar events
-    tabHome.addEventListener("click", showHomeView);
-    tabUsers.addEventListener("click", showUsersView);
-    tabMenu.addEventListener("click", showMenuView);
+    // Sidebar tab events
+    tabHome.addEventListener("click", () => showHomeView());
+    tabUsers.addEventListener("click", () => showUsersView());
+    tabMeals.addEventListener("click", () => showMealsView());
 
     tabProducts.addEventListener("click", () => { setActiveTab(tabProducts); showComingSoon("Products"); });
     tabBanners.addEventListener("click", () => { setActiveTab(tabBanners); showComingSoon("Banners"); });
     tabOrders.addEventListener("click", () => { setActiveTab(tabOrders); showComingSoon("Orders"); });
 
     // Home buttons
-    document.getElementById("loadHomeBtn").addEventListener("click", loadHomeContentForm);
-    document.getElementById("saveHomeBtn").addEventListener("click", saveHomeContentForm);
+    document.getElementById("loadHomeBtn")?.addEventListener("click", loadHomeContentForm);
+    document.getElementById("saveHomeBtn")?.addEventListener("click", saveHomeContentForm);
 
-    // Menu buttons
-    menuLoadBtn.addEventListener("click", loadMenuWeek);
-    menuSaveBtn.addEventListener("click", saveMenuWeek);
-    menuWeek.addEventListener("change", loadMenuWeek);
+    // Meals buttons
+    mSaveBtn.addEventListener("click", saveMeal);
+    mResetBtn.addEventListener("click", resetMealForm);
+    mReloadBtn.addEventListener("click", loadMeals);
 
     // Refresh button
     document.getElementById("refreshBtn").addEventListener("click", () => {
       if (currentTab === "users") loadUsers();
       else if (currentTab === "home") loadHomeContentForm();
-      else if (currentTab === "menu") loadMenuWeek();
+      else if (currentTab === "meals") loadMeals();
       else comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
     });
 
@@ -664,11 +930,14 @@
       await forceLogoutToLogin();
     });
 
-    // Live auth changes
+    // ✅ Live auth changes
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "INITIAL_SESSION") return;
 
-      if (!session) { window.location.href = "login.html"; return; }
+      if (!session) {
+        window.location.href = "login.html";
+        return;
+      }
 
       const email = (session.user?.email || "").trim();
       adminEmailBadge.textContent = email || "Admin";
@@ -683,8 +952,9 @@
     (async () => {
       const session = await requireAdmin();
       if (!session) return;
-      showUsersView(); // default
+      showUsersView(); // default screen
     })();
   </script>
+
 </body>
 </html>
