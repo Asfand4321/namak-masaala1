@@ -104,12 +104,12 @@
       text-align:left;
       border-bottom: 1px solid rgba(0,0,0,.06);
       font-weight: 800;
-      vertical-align: top;
     }
     .adm-table th{
       font-weight: 1000;
       background: rgba(0,0,0,.03);
     }
+
     .adm-muted{ opacity:.75; font-weight: 900; }
 
     .adm-badge{
@@ -135,17 +135,15 @@
       opacity: .85;
     }
 
-    /* forms */
+    /* inputs */
     .adm-field-label{ font-weight:1000; margin-top: 6px; }
-    .adm-input, .adm-select{
+    .adm-input{
       width:100%;
       border:1px solid rgba(0,0,0,.12);
       border-radius: 12px;
       padding: 10px 12px;
       font-weight: 900;
       outline:none;
-      background:#fff;
-      font: inherit;
     }
     .adm-textarea{
       width:100%;
@@ -153,58 +151,34 @@
       border-radius: 12px;
       padding: 10px 12px;
       font-weight: 900;
-      min-height: 120px;
+      min-height: 140px;
       outline:none;
-      resize: vertical;
-      font: inherit;
-    }
-    code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
-    /* plans editor */
-    .adm-row{
+    /* menu editor */
+    .nm-menu-grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 10px;
+      margin-top: 10px;
     }
-    @media (max-width: 820px){
-      .adm-row{ grid-template-columns: 1fr; }
-    }
-    .adm-plan-card{
-      border:1px solid rgba(0,0,0,.10);
-      border-radius: 16px;
-      padding: 12px;
-      background:#fff;
-      box-shadow: 0 10px 22px rgba(0,0,0,.04);
-      margin-bottom: 12px;
-    }
-    .adm-plan-head{
-      display:flex;
+    .nm-menu-row{
+      display:grid;
+      grid-template-columns: 80px 1fr 1fr;
+      gap: 10px;
       align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
     }
-    .adm-plan-id{
+    .nm-menu-day{
       font-weight: 1000;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      opacity:.85;
+      opacity: .8;
     }
-    .adm-inline{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .adm-check{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      font-weight:900;
-      opacity:.9;
-      user-select:none;
+    @media (max-width: 720px){
+      .nm-menu-row{ grid-template-columns: 70px 1fr; }
+      .nm-menu-row .side-col{ grid-column: 2 / -1; }
     }
   </style>
 </head>
@@ -224,7 +198,11 @@
       <div class="adm-nav">
         <button class="adm-link" id="tabHome">Home Content <span>›</span></button>
         <button class="adm-link active" id="tabUsers">Users <span>›</span></button>
-        <button class="adm-link" id="tabPlans">Plans <span>›</span></button>
+
+        <!-- ✅ NEW -->
+        <button class="adm-link" id="tabMenu">Menu <span>›</span></button>
+
+        <button class="adm-link" id="tabProducts">Products <span>›</span></button>
         <button class="adm-link" id="tabBanners">Banners <span>›</span></button>
         <button class="adm-link" id="tabOrders">Orders <span>›</span></button>
       </div>
@@ -283,6 +261,35 @@
         </div>
       </div>
 
+      <!-- ✅ MENU VIEW -->
+      <div id="menuView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">
+          Weekly Menu (Week 1–4) — Admin can edit dishes + sides
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+          <div class="adm-field-label" style="margin:0;">Select Week</div>
+          <select id="menuWeek" class="adm-input" style="max-width:180px;">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <option value="3">Week 3</option>
+            <option value="4">Week 4</option>
+          </select>
+
+          <button class="adm-btn" id="menuLoadBtn">Load Week</button>
+          <button class="adm-btn" id="menuSaveBtn">Save Week</button>
+        </div>
+
+        <div class="nm-menu-grid" id="menuGrid">
+          <!-- rows injected -->
+        </div>
+
+        <div class="adm-empty" style="margin-top:12px; opacity:.9;">
+          Day order fixed: Mon–Sat ✅<br/>
+          Save karne ke baad plans page refresh karo — public ko update show ho jayega.
+        </div>
+      </div>
+
       <!-- USERS VIEW -->
       <div id="usersView">
         <div class="adm-empty" id="usersStatus">Loading users...</div>
@@ -300,28 +307,6 @@
         </div>
       </div>
 
-      <!-- PLANS VIEW -->
-      <div id="plansView" style="display:none;">
-        <div class="adm-empty" style="margin-bottom:12px;">
-          Plans Editor — yahan se prices, titles, bullets update karo ✅
-        </div>
-
-        <div class="adm-inline" style="margin-bottom:12px;">
-          <button class="adm-btn" id="loadPlansBtn">Load Plans</button>
-          <button class="adm-btn" id="savePlansBtn">Save All</button>
-          <span class="adm-muted" id="plansMsg"></span>
-        </div>
-
-        <div id="plansList"></div>
-
-        <div class="adm-empty" style="opacity:.9;">
-          Bullets me tum JSON array ya lines dono use kar sakte ho.<br/>
-          <code style="display:block; margin-top:8px;">["Bullet 1","Bullet 2"]</code>
-          <div style="margin-top:8px;">ya</div>
-          <code style="display:block; margin-top:8px;">Bullet 1&#10;Bullet 2</code>
-        </div>
-      </div>
-
       <!-- COMING SOON VIEW -->
       <div id="comingSoonView" style="display:none;">
         <div class="adm-empty" id="comingSoonText">Coming soon ✅</div>
@@ -332,7 +317,7 @@
   <script type="module">
     import { supabase } from "./supabaseClient.js";
 
-    // ✅ Admin email (same as SQL policy + is_admin() function)
+    // ✅ Admin email (same as SQL policy)
     const ADMIN_EMAIL = "yar37934@gmail.com";
 
     // UI refs
@@ -340,8 +325,8 @@
     const pageSub = document.getElementById("pageSub");
 
     const homeView = document.getElementById("homeView");
+    const menuView = document.getElementById("menuView");
     const usersView = document.getElementById("usersView");
-    const plansView = document.getElementById("plansView");
     const comingSoonView = document.getElementById("comingSoonView");
     const comingSoonText = document.getElementById("comingSoonText");
 
@@ -353,7 +338,8 @@
     // Tabs
     const tabHome = document.getElementById("tabHome");
     const tabUsers = document.getElementById("tabUsers");
-    const tabPlans = document.getElementById("tabPlans");
+    const tabMenu = document.getElementById("tabMenu");
+    const tabProducts = document.getElementById("tabProducts");
     const tabBanners = document.getElementById("tabBanners");
     const tabOrders = document.getElementById("tabOrders");
 
@@ -363,14 +349,15 @@
     const hcDealTitle = document.getElementById("hc_deal_title");
     const hcItems = document.getElementById("hc_items");
 
-    // Plans UI
-    const plansList = document.getElementById("plansList");
-    const plansMsg = document.getElementById("plansMsg");
-    const loadPlansBtn = document.getElementById("loadPlansBtn");
-    const savePlansBtn = document.getElementById("savePlansBtn");
+    // Menu fields
+    const menuWeek = document.getElementById("menuWeek");
+    const menuGrid = document.getElementById("menuGrid");
+    const menuLoadBtn = document.getElementById("menuLoadBtn");
+    const menuSaveBtn = document.getElementById("menuSaveBtn");
+
+    const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat"];
 
     let currentTab = "users";
-    let plansCache = []; // loaded plans
 
     function fmtDate(iso){
       try{
@@ -382,19 +369,19 @@
     }
 
     function setActiveTab(btn){
-      [tabHome, tabUsers, tabPlans, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
+      [tabHome, tabUsers, tabMenu, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
     }
 
     function showOnly(viewName){
       homeView.style.display = "none";
+      menuView.style.display = "none";
       usersView.style.display = "none";
-      plansView.style.display = "none";
       comingSoonView.style.display = "none";
 
       if (viewName === "home") homeView.style.display = "block";
+      if (viewName === "menu") menuView.style.display = "block";
       if (viewName === "users") usersView.style.display = "block";
-      if (viewName === "plans") plansView.style.display = "block";
       if (viewName === "soon") comingSoonView.style.display = "block";
     }
 
@@ -473,13 +460,16 @@
     function normalizeItemsInput(raw){
       const txt = String(raw || "").trim();
       if (!txt) return [];
+
       if (txt.startsWith("[")) {
         const arr = JSON.parse(txt);
         if (!Array.isArray(arr)) throw new Error("Items JSON must be an array.");
         return arr.map(x => String(x).trim()).filter(Boolean);
       }
+
       const lines = txt.split("\n").map(s => s.trim()).filter(Boolean);
       if (lines.length) return lines;
+
       return txt.split(",").map(s => s.trim()).filter(Boolean);
     }
 
@@ -489,7 +479,10 @@
         .select("key,value")
         .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"]);
 
-      if (error) { alert("Load failed: " + (error.message || "error")); return; }
+      if (error) {
+        alert("Load failed: " + (error.message || "error"));
+        return;
+      }
 
       const map = {};
       (data || []).forEach(r => map[r.key] = r.value);
@@ -506,6 +499,7 @@
       catch (e) { alert("Deal Items error: " + (e.message || "Invalid JSON")); return; }
 
       const nowIso = new Date().toISOString();
+
       const payload = [
         { key: "home_hero_title", value: (hcTitle.value || "").trim(), updated_at: nowIso },
         { key: "home_hero_subtitle", value: (hcSubtitle.value || "").trim(), updated_at: nowIso },
@@ -513,7 +507,10 @@
         { key: "home_deal_items", value: JSON.stringify(itemsArr), updated_at: nowIso },
       ];
 
-      const { error } = await supabase.from("site_content").upsert(payload, { onConflict: "key" });
+      const { error } = await supabase
+        .from("site_content")
+        .upsert(payload, { onConflict: "key" });
+
       if (error) { alert("Save failed: " + (error.message || "error")); return; }
 
       hcItems.value = JSON.stringify(itemsArr);
@@ -529,183 +526,102 @@
       loadHomeContentForm();
     }
 
-    // ---------------- PLANS ----------------
-    function normalizeBullets(raw){
-      const txt = String(raw || "").trim();
-      if (!txt) return [];
-      if (txt.startsWith("[")) {
-        const arr = JSON.parse(txt);
-        if (!Array.isArray(arr)) throw new Error("Bullets JSON must be an array.");
-        return arr.map(x => String(x).trim()).filter(Boolean);
-      }
-      const lines = txt.split("\n").map(s => s.trim()).filter(Boolean);
-      if (lines.length) return lines;
-      return txt.split(",").map(s => s.trim()).filter(Boolean);
-    }
+    // ---------------- MENU (Weekly) ----------------
+    function buildMenuGrid(rowsMap){
+      menuGrid.innerHTML = "";
+      DAYS.forEach((day, idx) => {
+        const row = rowsMap[day] || { dish:"", side:"" };
 
-    function planEditorHTML(p){
-      const bulletsText = (() => {
-        try { return JSON.stringify(p.bullets || []); } catch(e){ return "[]"; }
-      })();
+        const wrap = document.createElement("div");
+        wrap.className = "nm-menu-row";
 
-      return `
-        <div class="adm-plan-card" data-plan-id="${p.id}">
-          <div class="adm-plan-head">
-            <div class="adm-plan-id">${p.id}</div>
-            <label class="adm-check">
-              <input type="checkbox" data-k="is_active" ${p.is_active ? "checked": ""} />
-              Active
-            </label>
-          </div>
+        const dDay = document.createElement("div");
+        dDay.className = "nm-menu-day";
+        dDay.textContent = day;
 
-          <div class="adm-row">
-            <div>
-              <div class="adm-field-label">Pill</div>
-              <input class="adm-input" data-k="pill" value="${escapeHtml(p.pill || "")}" placeholder="Weekly • 1 Meal" />
-            </div>
-            <div>
-              <div class="adm-field-label">Title</div>
-              <input class="adm-input" data-k="title" value="${escapeHtml(p.title || "")}" placeholder="Weekly 1 Meal Plan" />
-            </div>
-          </div>
+        const dish = document.createElement("input");
+        dish.className = "adm-input";
+        dish.placeholder = "Dish name (e.g. Chicken Qorma)";
+        dish.value = row.dish || "";
+        dish.dataset.day = day;
+        dish.dataset.field = "dish";
 
-          <div class="adm-row" style="margin-top:10px;">
-            <div>
-              <div class="adm-field-label">Billing period</div>
-              <select class="adm-select" data-k="billing_period">
-                <option value="week" ${p.billing_period==="week"?"selected":""}>week</option>
-                <option value="month" ${p.billing_period==="month"?"selected":""}>month</option>
-              </select>
-            </div>
-            <div>
-              <div class="adm-field-label">Meals per day</div>
-              <select class="adm-select" data-k="meals_per_day">
-                <option value="1" ${String(p.meals_per_day) === "1" ? "selected":""}>1</option>
-                <option value="2" ${String(p.meals_per_day) === "2" ? "selected":""}>2</option>
-              </select>
-            </div>
-          </div>
+        const side = document.createElement("input");
+        side.className = "adm-input side-col";
+        side.placeholder = "Side (e.g. + 2 Chapati / + Raita)";
+        side.value = row.side || "";
+        side.dataset.day = day;
+        side.dataset.field = "side";
 
-          <div class="adm-row" style="margin-top:10px;">
-            <div>
-              <div class="adm-field-label">Price (number)</div>
-              <input class="adm-input" data-k="price" type="number" min="0" value="${Number(p.price||0)}" />
-            </div>
-            <div>
-              <div class="adm-field-label">Sort</div>
-              <input class="adm-input" data-k="sort" type="number" value="${Number(p.sort||0)}" />
-            </div>
-          </div>
+        wrap.appendChild(dDay);
+        wrap.appendChild(dish);
+        wrap.appendChild(side);
 
-          <div style="margin-top:10px;">
-            <div class="adm-field-label">Days text</div>
-            <input class="adm-input" data-k="days_text" value="${escapeHtml(p.days_text || "")}" placeholder="Mon–Sat (6 days)" />
-          </div>
-
-          <div style="margin-top:10px;">
-            <div class="adm-field-label">Description</div>
-            <textarea class="adm-textarea" data-k="description" placeholder="Short description...">${escapeHtml(p.description || "")}</textarea>
-          </div>
-
-          <div style="margin-top:10px;">
-            <div class="adm-field-label">Bullets (JSON array OR one per line)</div>
-            <textarea class="adm-textarea" data-k="bullets" placeholder='["Bullet 1","Bullet 2"]'>${escapeHtml(bulletsText)}</textarea>
-          </div>
-        </div>
-      `;
-    }
-
-    function escapeHtml(s){
-      return String(s ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    async function loadPlans(){
-      plansMsg.textContent = "Loading...";
-      plansList.innerHTML = "";
-
-      const { data, error } = await supabase
-        .from("plans")
-        .select("id,pill,title,billing_period,meals_per_day,price,days_text,description,bullets,is_active,sort,updated_at")
-        .order("sort", { ascending: true });
-
-      if (error) {
-        plansMsg.textContent = "Error: " + (error.message || "Failed");
-        return;
-      }
-
-      plansCache = data || [];
-      if (!plansCache.length) {
-        plansMsg.textContent = "No plans found.";
-        plansList.innerHTML = `<div class="adm-empty">No plans rows. (Seed data phir check karo)</div>`;
-        return;
-      }
-
-      plansList.innerHTML = plansCache.map(planEditorHTML).join("");
-      plansMsg.textContent = `Loaded: ${plansCache.length}`;
-    }
-
-    function collectPlansFromUI(){
-      const cards = Array.from(plansList.querySelectorAll(".adm-plan-card"));
-      return cards.map(card => {
-        const id = card.getAttribute("data-plan-id");
-        const get = (k) => card.querySelector(`[data-k="${k}"]`);
-        const isActive = !!get("is_active")?.checked;
-
-        let bulletsArr = [];
-        try { bulletsArr = normalizeBullets(get("bullets")?.value); }
-        catch(e){ throw new Error(`${id}: Bullets invalid JSON/format`); }
-
-        return {
-          id,
-          pill: (get("pill")?.value || "").trim(),
-          title: (get("title")?.value || "").trim(),
-          billing_period: get("billing_period")?.value || "week",
-          meals_per_day: Number(get("meals_per_day")?.value || 1),
-          price: Number(get("price")?.value || 0),
-          sort: Number(get("sort")?.value || 0),
-          days_text: (get("days_text")?.value || "").trim(),
-          description: (get("description")?.value || "").trim(),
-          bullets: bulletsArr,
-          is_active: isActive,
-          updated_at: new Date().toISOString()
-        };
+        menuGrid.appendChild(wrap);
       });
     }
 
-    async function savePlans(){
-      try{
-        const payload = collectPlansFromUI();
-        plansMsg.textContent = "Saving...";
+    async function loadMenuWeek(){
+      const weekNo = Number(menuWeek.value || 1);
 
-        const { error } = await supabase
-          .from("plans")
-          .upsert(payload, { onConflict: "id" });
+      const { data, error } = await supabase
+        .from("weekly_menu")
+        .select("week_no, day_code, dish, side, sort")
+        .eq("week_no", weekNo)
+        .order("sort", { ascending: true });
 
-        if (error) {
-          plansMsg.textContent = "Save failed: " + (error.message || "error");
-          return;
-        }
-
-        plansMsg.textContent = "Saved ✅ (Ab plans.html refresh karo)";
-        alert("Saved ✅ Ab plans page refresh karo.");
-      }catch(e){
-        plansMsg.textContent = "Error: " + (e.message || "Invalid input");
-        alert(e.message || "Invalid input");
+      if (error) {
+        alert("Menu load failed: " + (error.message || "error"));
+        return;
       }
+
+      const map = {};
+      (data || []).forEach(r => {
+        map[r.day_code] = { dish: r.dish || "", side: r.side || "" };
+      });
+
+      buildMenuGrid(map);
     }
 
-    function showPlansView(){
-      showOnly("plans");
-      pageTitle.textContent = "Plans";
-      pageSub.textContent = "Edit plan cards, prices, bullets.";
-      currentTab = "plans";
-      setActiveTab(tabPlans);
-      loadPlans();
+    async function saveMenuWeek(){
+      const weekNo = Number(menuWeek.value || 1);
+
+      // collect UI values
+      const payload = DAYS.map((day, idx) => {
+        const dishEl = menuGrid.querySelector(`input[data-day="${day}"][data-field="dish"]`);
+        const sideEl = menuGrid.querySelector(`input[data-day="${day}"][data-field="side"]`);
+
+        return {
+          week_no: weekNo,
+          day_code: day,
+          dish: (dishEl?.value || "").trim(),
+          side: (sideEl?.value || "").trim(),
+          sort: idx + 1,
+          is_active: true,
+          updated_at: new Date().toISOString()
+        };
+      });
+
+      const { error } = await supabase
+        .from("weekly_menu")
+        .upsert(payload, { onConflict: "week_no,day_code" });
+
+      if (error) {
+        alert("Menu save failed: " + (error.message || "error"));
+        return;
+      }
+
+      alert("Menu Saved ✅ Ab plans page refresh karo.");
+    }
+
+    function showMenuView(){
+      showOnly("menu");
+      pageTitle.textContent = "Menu";
+      pageSub.textContent = "Edit weekly menu (Week 1–4).";
+      currentTab = "menu";
+      setActiveTab(tabMenu);
+      buildMenuGrid({});   // empty first
+      loadMenuWeek();
     }
 
     // ---------------- COMING SOON ----------------
@@ -717,11 +633,12 @@
       currentTab = title.toLowerCase();
     }
 
-    // Sidebar tab events
-    tabHome.addEventListener("click", () => showHomeView());
-    tabUsers.addEventListener("click", () => showUsersView());
-    tabPlans.addEventListener("click", () => showPlansView());
+    // Sidebar events
+    tabHome.addEventListener("click", showHomeView);
+    tabUsers.addEventListener("click", showUsersView);
+    tabMenu.addEventListener("click", showMenuView);
 
+    tabProducts.addEventListener("click", () => { setActiveTab(tabProducts); showComingSoon("Products"); });
     tabBanners.addEventListener("click", () => { setActiveTab(tabBanners); showComingSoon("Banners"); });
     tabOrders.addEventListener("click", () => { setActiveTab(tabOrders); showComingSoon("Orders"); });
 
@@ -729,15 +646,16 @@
     document.getElementById("loadHomeBtn").addEventListener("click", loadHomeContentForm);
     document.getElementById("saveHomeBtn").addEventListener("click", saveHomeContentForm);
 
-    // Plans buttons
-    loadPlansBtn.addEventListener("click", loadPlans);
-    savePlansBtn.addEventListener("click", savePlans);
+    // Menu buttons
+    menuLoadBtn.addEventListener("click", loadMenuWeek);
+    menuSaveBtn.addEventListener("click", saveMenuWeek);
+    menuWeek.addEventListener("change", loadMenuWeek);
 
     // Refresh button
     document.getElementById("refreshBtn").addEventListener("click", () => {
       if (currentTab === "users") loadUsers();
       else if (currentTab === "home") loadHomeContentForm();
-      else if (currentTab === "plans") loadPlans();
+      else if (currentTab === "menu") loadMenuWeek();
       else comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
     });
 
@@ -750,10 +668,7 @@
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "INITIAL_SESSION") return;
 
-      if (!session) {
-        window.location.href = "login.html";
-        return;
-      }
+      if (!session) { window.location.href = "login.html"; return; }
 
       const email = (session.user?.email || "").trim();
       adminEmailBadge.textContent = email || "Admin";
@@ -768,9 +683,8 @@
     (async () => {
       const session = await requireAdmin();
       if (!session) return;
-      showUsersView();
+      showUsersView(); // default
     })();
   </script>
-
 </body>
 </html>
