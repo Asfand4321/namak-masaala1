@@ -133,6 +133,32 @@
       font-weight: 900;
       opacity: .85;
     }
+
+    /* home content inputs look better */
+    .adm-field-label{
+      font-weight:1000;
+      margin-top: 6px;
+    }
+    .adm-input{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 900;
+      outline:none;
+    }
+    .adm-textarea{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 900;
+      min-height: 140px;
+      outline:none;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
   </style>
 </head>
 
@@ -175,6 +201,41 @@
         </div>
       </div>
 
+      <!-- HOME CONTENT VIEW -->
+      <div id="homeView" style="display:none;">
+        <div class="adm-empty" style="margin-bottom:12px;">
+          Home Page Content (Admin can update)
+        </div>
+
+        <div style="display:grid; gap:10px;">
+          <div class="adm-field-label">Hero Title</div>
+          <input id="hc_title" class="adm-input" placeholder="We proudly prepare and deliver" />
+
+          <div class="adm-field-label">Hero Subtitle</div>
+          <input id="hc_subtitle" class="adm-input" placeholder="fresh, homemade meals..." />
+
+          <div class="adm-field-label">Deal Title</div>
+          <input id="hc_deal_title" class="adm-input" placeholder="WE DEAL IN" />
+
+          <div class="adm-field-label">Deal Items (JSON array OR one item per line)</div>
+          <textarea id="hc_items" class="adm-textarea"
+            placeholder='["Fresh and hygienic food","Tiffin service"]&#10;OR&#10;Fresh and hygienic food&#10;Tiffin service'></textarea>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="adm-btn" id="loadHomeBtn">Load</button>
+            <button class="adm-btn" id="saveHomeBtn">Save</button>
+          </div>
+
+          <div class="adm-empty" style="opacity:.9;">
+            Tip: Items JSON array me hon. Example:<br/>
+            <code style="display:block; margin-top:8px;">["Item 1","Item 2","Item 3"]</code>
+            <div style="margin-top:10px;">
+              Ya simple lines me bhi likh sakte ho (har line 1 item) — Save pe JSON ban jayega ✅
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- USERS VIEW -->
       <div id="usersView">
         <div class="adm-empty" id="usersStatus">Loading users...</div>
@@ -209,6 +270,7 @@
     const pageTitle = document.getElementById("pageTitle");
     const pageSub = document.getElementById("pageSub");
 
+    const homeView = document.getElementById("homeView");
     const usersView = document.getElementById("usersView");
     const comingSoonView = document.getElementById("comingSoonView");
     const comingSoonText = document.getElementById("comingSoonText");
@@ -218,10 +280,18 @@
     const usersTbody = document.getElementById("usersTbody");
     const adminEmailBadge = document.getElementById("adminEmailBadge");
 
+    // Tabs
+    const tabHome = document.getElementById("tabHome");
     const tabUsers = document.getElementById("tabUsers");
     const tabProducts = document.getElementById("tabProducts");
     const tabBanners = document.getElementById("tabBanners");
     const tabOrders = document.getElementById("tabOrders");
+
+    // Home fields
+    const hcTitle = document.getElementById("hc_title");
+    const hcSubtitle = document.getElementById("hc_subtitle");
+    const hcDealTitle = document.getElementById("hc_deal_title");
+    const hcItems = document.getElementById("hc_items");
 
     let currentTab = "users";
 
@@ -235,27 +305,18 @@
     }
 
     function setActiveTab(btn){
-      [tabUsers, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
+      [tabHome, tabUsers, tabProducts, tabBanners, tabOrders].forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
     }
 
-    function showUsersView(){
-      usersView.style.display = "block";
-      comingSoonView.style.display = "none";
-      pageTitle.textContent = "Users";
-      pageSub.textContent = "New signup/login users list.";
-      currentTab = "users";
-      setActiveTab(tabUsers);
-      loadUsers();
-    }
-
-    function showComingSoon(title){
+    function showOnly(viewName){
+      homeView.style.display = "none";
       usersView.style.display = "none";
-      comingSoonView.style.display = "block";
-      pageTitle.textContent = title;
-      pageSub.textContent = "Coming soon.";
-      comingSoonText.textContent = `${title} — Coming soon ✅`;
-      currentTab = title.toLowerCase();
+      comingSoonView.style.display = "none";
+
+      if (viewName === "home") homeView.style.display = "block";
+      if (viewName === "users") usersView.style.display = "block";
+      if (viewName === "soon") comingSoonView.style.display = "block";
     }
 
     async function forceLogoutToLogin(){
@@ -287,6 +348,7 @@
       return session;
     }
 
+    // ---------------- USERS ----------------
     async function loadUsers(){
       usersTable.style.display = "none";
       usersStatus.style.display = "block";
@@ -319,7 +381,112 @@
       usersTable.style.display = "table";
     }
 
+    function showUsersView(){
+      showOnly("users");
+      pageTitle.textContent = "Users";
+      pageSub.textContent = "New signup/login users list.";
+      currentTab = "users";
+      setActiveTab(tabUsers);
+      loadUsers();
+    }
+
+    // ---------------- HOME CONTENT ----------------
+    function normalizeItemsInput(raw){
+      const txt = String(raw || "").trim();
+      if (!txt) return [];
+
+      // if JSON array
+      if (txt.startsWith("[")) {
+        const arr = JSON.parse(txt);
+        if (!Array.isArray(arr)) throw new Error("Items JSON must be an array.");
+        return arr.map(x => String(x).trim()).filter(Boolean);
+      }
+
+      // else: one item per line (or comma separated)
+      const lines = txt
+        .split("\n")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      if (lines.length) return lines;
+
+      // fallback comma-separated
+      return txt.split(",").map(s => s.trim()).filter(Boolean);
+    }
+
+    async function loadHomeContentForm(){
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("key,value")
+        .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"]);
+
+      if (error) {
+        alert("Load failed: " + (error.message || "error"));
+        return;
+      }
+
+      const map = {};
+      (data || []).forEach(r => map[r.key] = r.value);
+
+      hcTitle.value = map.home_hero_title || "";
+      hcSubtitle.value = map.home_hero_subtitle || "";
+      hcDealTitle.value = map.home_deal_title || "";
+      hcItems.value = map.home_deal_items || '["Fresh and hygienic food","Tiffin service"]';
+    }
+
+    async function saveHomeContentForm(){
+      let itemsArr = [];
+      try {
+        itemsArr = normalizeItemsInput(hcItems.value);
+      } catch (e) {
+        alert("Deal Items error: " + (e.message || "Invalid JSON"));
+        return;
+      }
+
+      const nowIso = new Date().toISOString();
+
+      const payload = [
+        { key: "home_hero_title", value: (hcTitle.value || "").trim(), updated_at: nowIso },
+        { key: "home_hero_subtitle", value: (hcSubtitle.value || "").trim(), updated_at: nowIso },
+        { key: "home_deal_title", value: (hcDealTitle.value || "").trim(), updated_at: nowIso },
+        { key: "home_deal_items", value: JSON.stringify(itemsArr), updated_at: nowIso },
+      ];
+
+      const { error } = await supabase
+        .from("site_content")
+        .upsert(payload, { onConflict: "key" });
+
+      if (error) {
+        alert("Save failed: " + (error.message || "error"));
+        return;
+      }
+
+      // keep textarea consistent as JSON
+      hcItems.value = JSON.stringify(itemsArr);
+
+      alert("Saved ✅ Ab home page refresh karo.");
+    }
+
+    function showHomeView(){
+      showOnly("home");
+      pageTitle.textContent = "Home Content";
+      pageSub.textContent = "Edit home page side card text & list.";
+      currentTab = "home";
+      setActiveTab(tabHome);
+      loadHomeContentForm();
+    }
+
+    // ---------------- COMING SOON ----------------
+    function showComingSoon(title){
+      showOnly("soon");
+      pageTitle.textContent = title;
+      pageSub.textContent = "Coming soon.";
+      comingSoonText.textContent = `${title} — Coming soon ✅`;
+      currentTab = title.toLowerCase();
+    }
+
     // Sidebar tab events
+    tabHome.addEventListener("click", () => showHomeView());
     tabUsers.addEventListener("click", () => showUsersView());
 
     tabProducts.addEventListener("click", () => {
@@ -337,13 +504,15 @@
       showComingSoon("Orders");
     });
 
+    // Home buttons
+    document.getElementById("loadHomeBtn").addEventListener("click", loadHomeContentForm);
+    document.getElementById("saveHomeBtn").addEventListener("click", saveHomeContentForm);
+
     // Refresh button (refreshes current screen)
     document.getElementById("refreshBtn").addEventListener("click", () => {
       if (currentTab === "users") loadUsers();
-      else {
-        // just re-show coming soon text (no-op)
-        comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
-      }
+      else if (currentTab === "home") loadHomeContentForm();
+      else comingSoonText.textContent = `${pageTitle.textContent} — Coming soon ✅`;
     });
 
     // Logout
@@ -353,7 +522,6 @@
 
     // ✅ Live auth changes (session expire etc.)
     supabase.auth.onAuthStateChange(async (event, session) => {
-      // ignore initial
       if (event === "INITIAL_SESSION") return;
 
       if (!session) {
