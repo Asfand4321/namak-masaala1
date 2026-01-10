@@ -298,7 +298,7 @@
 
       <nav class="nav-links">
         <a href="index.html">Home</a>
-        <a href="plans.html">Plans</a>
+        <a href="plans.html" class="active">Plans</a>
         <a href="meals.html">Meals</a>
         <a href="referral.html">Referral</a>
         <a href="orders.html">My Orders</a>
@@ -393,7 +393,7 @@
       </div>
     </section>
 
-    <!-- WEEKLY MENU (UNDER 4 PLAN CARDS) -->
+    <!-- WEEKLY MENU (DB LOADED) -->
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -438,49 +438,29 @@
           <div class="nm-weeks-grid">
             <article class="nm-week-card">
               <header class="nm-week-head"><div class="nm-week-title">WEEK 1</div></header>
-              <ul class="nm-week-list">
-                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Qorma</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Tue</span><span class="nm-dish">Vegetable Rice</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Wed</span><span class="nm-dish">Aloo Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Biryani</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              <ul class="nm-week-list" id="nmWeek1List">
+                <li><span class="nm-day">…</span><span class="nm-dish">Loading…</span><span class="nm-side"></span></li>
               </ul>
             </article>
 
             <article class="nm-week-card">
               <header class="nm-week-head"><div class="nm-week-title">WEEK 2</div></header>
-              <ul class="nm-week-list">
-                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Achari</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Tue</span><span class="nm-dish">Chana Pulao</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Wed</span><span class="nm-dish">Chicken Haleem</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Thu</span><span class="nm-dish">Kari Pakora</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Fri</span><span class="nm-dish">Tikka Biryani</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              <ul class="nm-week-list" id="nmWeek2List">
+                <li><span class="nm-day">…</span><span class="nm-dish">Loading…</span><span class="nm-side"></span></li>
               </ul>
             </article>
 
             <article class="nm-week-card">
               <header class="nm-week-head"><div class="nm-week-title">WEEK 3</div></header>
-              <ul class="nm-week-list">
-                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Nehari</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Tue</span><span class="nm-dish">Masar</span><span class="nm-side">+ Rice</span></li>
-                <li><span class="nm-day">Wed</span><span class="nm-dish">Anda Kofta</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Thu</span><span class="nm-dish">Aloo Palak</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Fri</span><span class="nm-dish">Sindhi Biryani</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              <ul class="nm-week-list" id="nmWeek3List">
+                <li><span class="nm-day">…</span><span class="nm-dish">Loading…</span><span class="nm-side"></span></li>
               </ul>
             </article>
 
             <article class="nm-week-card">
               <header class="nm-week-head"><div class="nm-week-title">WEEK 4</div></header>
-              <ul class="nm-week-list">
-                <li><span class="nm-day">Mon</span><span class="nm-dish">Chicken Karahi</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Tue</span><span class="nm-dish">Matar Pulao</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Wed</span><span class="nm-dish">Palak Chicken</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Thu</span><span class="nm-dish">Daal Mash</span><span class="nm-side">+ 2 Chapati</span></li>
-                <li><span class="nm-day">Fri</span><span class="nm-dish">Chicken Pulao</span><span class="nm-side">+ Raita</span></li>
-                <li><span class="nm-day">Sat</span><span class="nm-dish">Seasonal Vegetable</span><span class="nm-side">+ 2 Chapati</span></li>
+              <ul class="nm-week-list" id="nmWeek4List">
+                <li><span class="nm-day">…</span><span class="nm-dish">Loading…</span><span class="nm-side"></span></li>
               </ul>
             </article>
           </div>
@@ -632,10 +612,7 @@
     </div>
   </footer>
 
-  <!-- ✅ AUTH -->
-  <script src="auth.js"></script>
-
-  <!-- ✅ Plans logic (updated) -->
+  <!-- ✅ Plans logic (same as before) -->
   <script>
     const PLAN_KEY = 'nm_selected_plan';
     const TIMINGS_KEY = 'nm_delivery_timings';
@@ -742,7 +719,6 @@
       setActiveCard(plan.id);
       timingMsg.textContent = '';
 
-      // ✅ Auto-scroll to Selected Plan (great for mobile)
       setTimeout(() => {
         const box = document.getElementById("nmSelectedBox");
         if (box) box.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -785,7 +761,6 @@
       }
 
       localStorage.setItem(TIMINGS_KEY, JSON.stringify(payload));
-
       window.location.href = 'checkout.html';
     });
 
@@ -804,7 +779,91 @@
       }catch(e){}
     })();
   </script>
-<script type="module" src="auth.js"></script>
+
+  <!-- ✅ Load weekly menu from Supabase (public read) -->
+  <script type="module">
+    import { supabase } from "./supabaseClient.js";
+
+    const lists = {
+      1: document.getElementById("nmWeek1List"),
+      2: document.getElementById("nmWeek2List"),
+      3: document.getElementById("nmWeek3List"),
+      4: document.getElementById("nmWeek4List"),
+    };
+
+    const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
+
+    function liRow(day, dish, side){
+      const li = document.createElement("li");
+
+      const sDay = document.createElement("span");
+      sDay.className = "nm-day";
+      sDay.textContent = day;
+
+      const sDish = document.createElement("span");
+      sDish.className = "nm-dish";
+      sDish.textContent = dish || "—";
+
+      const sSide = document.createElement("span");
+      sSide.className = "nm-side";
+      sSide.textContent = side || "";
+
+      li.appendChild(sDay);
+      li.appendChild(sDish);
+      li.appendChild(sSide);
+      return li;
+    }
+
+    async function loadWeeklyMenu(){
+      try{
+        const { data, error } = await supabase
+          .from("weekly_menu")
+          .select("week_no, day_code, dish, side, sort")
+          .eq("is_active", true)
+          .order("week_no", { ascending: true })
+          .order("sort", { ascending: true });
+
+        if (error) throw error;
+
+        // clear lists
+        Object.values(lists).forEach(ul => { if (ul) ul.innerHTML = ""; });
+
+        // group by week
+        const byWeek = {1:{},2:{},3:{},4:{}};
+        (data || []).forEach(r => {
+          if (!byWeek[r.week_no]) byWeek[r.week_no] = {};
+          byWeek[r.week_no][r.day_code] = r;
+        });
+
+        // render fixed day order
+        [1,2,3,4].forEach(weekNo => {
+          const ul = lists[weekNo];
+          if (!ul) return;
+
+          dayOrder.forEach(day => {
+            const row = byWeek[weekNo]?.[day];
+            const dish = row?.dish || "—";
+            const side = row?.side || "";
+            ul.appendChild(liRow(day, dish, side));
+          });
+        });
+      }catch(e){
+        console.error("weekly_menu load error:", e?.message || e);
+        // fallback: show error row
+        [1,2,3,4].forEach(weekNo => {
+          const ul = lists[weekNo];
+          if (!ul) return;
+          ul.innerHTML = "";
+          ul.appendChild(liRow("—", "Menu failed to load", ""));
+        });
+      }
+    }
+
+    loadWeeklyMenu();
+  </script>
+
+  <!-- ✅ Auth (only once) -->
+  <script type="module" src="auth.js"></script>
 
 </body>
 </html>
