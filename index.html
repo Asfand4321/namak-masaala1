@@ -6,54 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="stylesheet" href="style.css?v=3" />
-  <!-- favicon (optional) -->
   <link rel="icon" href="images/logo.png" type="image/png" />
 
-  <!-- PAGE-ONLY CSS (Hero + Side Card) -->
   <style>
-    /* HERO: image left + card right */
     .nm-hero-layout{
       display: flex;
       gap: 22px;
-      align-items: stretch;          /* ✅ card same height as image */
+      align-items: stretch;
       justify-content: space-between;
       flex-wrap: nowrap;
       margin-bottom: 16px;
     }
 
-    /* Left image container (rectangle, NO CROP) */
     .nm-hero-layout .nm-hero-media{
       flex: 1 1 auto;
       min-width: 0;
-
-      aspect-ratio: 16 / 12;         /* tall enough for full logo */
+      aspect-ratio: 16 / 12;
       overflow: hidden;
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.08);
       background: #fff;
     }
 
-    /* Image itself (NO CROP) */
     .nm-hero-layout .nm-hero-img{
       width: 100%;
       height: 100%;
-      object-fit: contain;           /* ✅ shows full image */
+      object-fit: contain;
       object-position: center;
       display: block;
       background: #fff;
     }
 
-    /* Right card (stretch to image height) */
     .nm-side-card{
       flex: 0 0 360px;
       width: 360px;
-
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.06);
       padding: 16px;
-
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -65,7 +56,6 @@
       margin-bottom: 12px;
     }
 
-    /* Spaced look via CSS */
     .nm-spaced{
       font-size: 12px;
       line-height: 1.65;
@@ -87,7 +77,7 @@
       color: #111827;
       padding-left: 12px;
       position: relative;
-      font-weight: 800;              /* ✅ make list bold */
+      font-weight: 800;
     }
 
     .nm-side-item::before{
@@ -96,7 +86,6 @@
       left: 0;
     }
 
-    /* Navbar logo use the new file */
     .logo-mark{
       width: 44px;
       height: 44px;
@@ -105,59 +94,37 @@
       display: block;
     }
 
-    /* Responsive: stack on small screens */
     @media (max-width: 980px){
       .nm-hero-layout{ flex-wrap: wrap; }
       .nm-side-card{ width: 100%; flex: 1 1 100%; height: auto; }
       .nm-hero-layout .nm-hero-media{ width: 100%; aspect-ratio: 16 / 12; }
     }
-    /* FORCE card to reach image bottom */
-    .nm-hero-layout{
-      align-items: stretch !important;
-    }
+
+    .nm-hero-layout{ align-items: stretch !important; }
+    .nm-side-card{ align-self: stretch !important; height: auto !important; }
 
     .nm-side-card{
-      align-self: stretch !important;
-      height: auto !important;
-    }
-
-    /* ===== THEME COLORS FOR SIDE CARD ===== */
-    .nm-side-card{
-      background: #fffaf1 !important;              /* warm cream */
-      border: 1px solid #e7ddcf !important;        /* soft beige border */
+      background: #fffaf1 !important;
+      border: 1px solid #e7ddcf !important;
       box-shadow: 0 16px 40px rgba(0,0,0,0.08) !important;
     }
 
-    .nm-side-card-top{
-      border-bottom: 1px solid #e7ddcf !important;
-    }
+    .nm-side-card-top{ border-bottom: 1px solid #e7ddcf !important; }
+    .nm-spaced{ color: #3a2a1a !important; }
+    .nm-side-item{ color: #1b3a2a !important; }
+    .nm-side-item::before{ color: #1b3a2a !important; }
 
-    .nm-spaced{
-      color: #3a2a1a !important;                   /* warm brown text */
-    }
-
-    .nm-side-item{
-      color: #1b3a2a !important;                   /* deep green */
-    }
-
-    /* bullet color (same green) */
-    .nm-side-item::before{
-      color: #1b3a2a !important;
-    }
-
-    /* OPTIONAL: little top accent line */
     .nm-side-card-top::before{
       content: "";
       display: block;
       height: 4px;
       width: 64px;
       border-radius: 999px;
-      background: #1b3a2a;                         /* green accent */
+      background: #1b3a2a;
       margin-bottom: 10px;
       opacity: 0.9;
     }
 
-    /* ===== MAKE SIDE CARD TEXT BIG + BOLD + FILL HEIGHT ===== */
     .nm-side-card{
       height: 100% !important;
       display: flex !important;
@@ -169,77 +136,49 @@
       margin-bottom: 14px !important;
     }
 
-    /* Top paragraph bigger + bold */
-    .nm-spaced{
-      font-size: 14px !important;       /* bigger */
-      line-height: 1.85 !important;     /* airy */
-      font-weight: 800 !important;      /* bold */
-      letter-spacing: 0.18em !important;
-    }
-
-    /* List takes remaining height + spreads items */
-    .nm-side-list{
-      flex: 1 !important;               /* fill remaining space */
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: space-between !important; /* push items to fill */
-      gap: 0 !important;
-      margin-top: 10px !important;
-    }
-
-    /* Each list item bigger + bold */
-    .nm-side-item{
-      font-size: 14px !important;       /* bigger */
-      font-weight: 900 !important;      /* extra bold */
-      letter-spacing: 0.16em !important;
-      line-height: 1.6 !important;
-      padding-left: 16px !important;
-    }
-
-    /* Bullet bigger too */
-    .nm-side-item::before{
-      font-size: 18px !important;
-      top: -1px !important;
-    }
-
-    /* EXTRA BIG TEXT */
     .nm-spaced{
       font-size: 16px !important;
       line-height: 1.9 !important;
       letter-spacing: 0.16em !important;
+      font-weight: 800 !important;
+    }
+
+    .nm-side-list{
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      gap: 0 !important;
+      margin-top: 10px !important;
     }
 
     .nm-side-item{
       font-size: 16px !important;
-      line-height: 1.75 !important;
+      font-weight: 900 !important;
       letter-spacing: 0.14em !important;
+      line-height: 1.75 !important;
+      padding-left: 16px !important;
     }
 
     .nm-side-item::before{
       font-size: 20px !important;
+      top: -1px !important;
     }
 
     .nm-side-heading{
-      font-weight: 1000 !important;   /* extra bold */
-    }
-
-    /* Move WE DEAL IN a bit up + adjust spacing */
-    .nm-side-heading{
-      margin-top: -6px !important;   /* upar aa jayega */
-      margin-bottom: 10px !important; /* thora gap list se */
-      padding-top: 2px !important;    /* line se thora sa neechy */
+      font-weight: 1000 !important;
+      margin-top: -6px !important;
+      margin-bottom: 10px !important;
+      padding-top: 2px !important;
     }
   </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <header class="navbar">
   <div class="container nav-inner">
-
     <a href="index.html" class="brand-link">
-      <!-- ✅ UPDATED LOGO -->
       <img src="images/logo.png" alt="Namak Masaala" class="logo-mark" />
       <div class="brand-text">
         <strong>NAMAK MASAALA</strong>
@@ -261,28 +200,24 @@
       <a href="login.html" class="btn btn-outline">Login</a>
       <a href="signup.html" class="btn btn-primary">Sign up</a>
     </div>
-
   </div>
 </header>
 
-<!-- ================= MAIN ================= -->
 <main>
-
-  <!-- ===== HERO (IMAGE LEFT + SIDE CARD RIGHT, TEXT BELOW) ===== -->
   <section class="nm-hero">
     <div class="container">
 
       <div class="nm-hero-layout">
-        <!-- Left: Image -->
         <div class="nm-hero-media nm-hero-media-center">
+          <!-- ✅ id added so JS can update banner src -->
           <img
+            id="homeHeroBanner"
             class="nm-hero-img nm-hero-logo"
             src="images/hero-banner.png"
             alt="Namak Masaala - Cloud Kitchen"
           />
         </div>
 
-        <!-- Right: Side Card -->
         <aside class="nm-side-card">
           <div class="nm-side-card-top">
             <div class="nm-spaced">
@@ -294,9 +229,7 @@
           <div class="nm-side-list">
             <div class="nm-side-heading" id="homeDealTitle">WE DEAL IN</div>
 
-            <!-- ✅ items container (admin se update hoga) -->
             <div id="homeDealList">
-              <!-- fallback items (agar DB load na ho to ye show rahen) -->
               <div class="nm-side-item">Fresh and hygienic food</div>
               <div class="nm-side-item">Tiffin service</div>
               <div class="nm-side-item">Weekly / Monthly packages</div>
@@ -329,14 +262,11 @@
     </div>
   </section>
 
-  <!-- ============ CTA SECTION ============ -->
   <section class="section">
     <div class="container cta-strip">
       <div>
         <div class="section-kicker">Ready to start?</div>
-        <h2 class="section-title">
-          Lock your slot for next week’s tiffin.
-        </h2>
+        <h2 class="section-title">Lock your slot for next week’s tiffin.</h2>
         <p class="section-subtitle">
           Pick a plan now and finalize exact dishes &amp; timing with our team.
         </p>
@@ -348,10 +278,8 @@
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="container footer-inner">
     <div>© 2025 Namak Masaala. All rights reserved.</div>
@@ -364,20 +292,16 @@
   </div>
 </footer>
 
-<!-- ✅ Customer Care hide/show script (auth.js se pehle) -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const customerCare = document.getElementById("customerCareNav");
     if (!customerCare) return;
-
-    // ✅ SAME KEY as auth.js (nm_logged_in)
     const isLoggedIn = localStorage.getItem("nm_logged_in") === "1";
-
     customerCare.style.display = isLoggedIn ? "inline-block" : "none";
   });
 </script>
 
-<!-- ✅ Supabase site_content loader (Home side card texts) -->
+<!-- ✅ Supabase site_content loader (texts + banner URL) -->
 <script type="module">
   import { supabase } from "./supabaseClient.js";
 
@@ -406,35 +330,52 @@
     }
   }
 
+  function looksLikeUrl(s){
+    const t = String(s || "").trim();
+    return t.startsWith("http://") || t.startsWith("https://");
+  }
+
   (async () => {
-    const keys = ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"];
+    const keys = [
+      "home_hero_title",
+      "home_hero_subtitle",
+      "home_deal_title",
+      "home_deal_items",
+      "home_hero_image_url"  // ✅ banner URL key
+    ];
+
     const c = await getSiteContent(keys);
 
     const heroTitle = document.getElementById("homeHeroTitle");
     const heroSub = document.getElementById("homeHeroSubtitle");
     const dealTitle = document.getElementById("homeDealTitle");
     const dealList = document.getElementById("homeDealList");
+    const bannerImg = document.getElementById("homeHeroBanner");
 
     if (heroTitle && c.home_hero_title) heroTitle.textContent = c.home_hero_title;
     if (heroSub && c.home_hero_subtitle) heroSub.textContent = c.home_hero_subtitle;
     if (dealTitle && c.home_deal_title) dealTitle.textContent = c.home_deal_title;
 
+    // ✅ banner update
+    if (bannerImg && looksLikeUrl(c.home_hero_image_url)) {
+      bannerImg.src = c.home_hero_image_url.trim();
+    }
+
     if (dealList && c.home_deal_items) {
       const items = safeJsonArray(c.home_deal_items);
-
-      // replace list items safely
-      dealList.innerHTML = "";
-      items.forEach((t) => {
-        const div = document.createElement("div");
-        div.className = "nm-side-item";
-        div.textContent = t;
-        dealList.appendChild(div);
-      });
+      if (items.length) {
+        dealList.innerHTML = "";
+        items.forEach((t) => {
+          const div = document.createElement("div");
+          div.className = "nm-side-item";
+          div.textContent = t;
+          dealList.appendChild(div);
+        });
+      }
     }
   })();
 </script>
 
-<!-- ✅ auth.js only ONCE -->
 <script type="module" src="auth.js"></script>
 
 </body>
