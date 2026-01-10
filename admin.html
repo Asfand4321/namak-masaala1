@@ -221,6 +221,22 @@
           <textarea id="hc_items" class="adm-textarea"
             placeholder='["Fresh and hygienic food","Tiffin service"]&#10;OR&#10;Fresh and hygienic food&#10;Tiffin service'></textarea>
 
+          <!-- ✅ Banner upload -->
+          <div class="adm-field-label">Hero Banner (Upload from gallery)</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <input type="file" id="bannerFile" accept="image/*" />
+            <button class="adm-btn" id="uploadBannerBtn" type="button">Upload Banner</button>
+            <span class="adm-muted" id="bannerUploadStatus"></span>
+          </div>
+
+          <div class="adm-field-label">Hero Banner Image URL</div>
+          <input id="hc_banner" class="adm-input" placeholder="https://.../storage/v1/object/public/banners/hero-banner.png" />
+
+          <div style="margin-top:6px;">
+            <img id="bannerPreview" src="" alt="Banner preview"
+              style="max-width:100%;border-radius:14px;border:1px solid rgba(0,0,0,.10);display:none;" />
+          </div>
+
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button class="adm-btn" id="loadHomeBtn">Load</button>
             <button class="adm-btn" id="saveHomeBtn">Save</button>
@@ -292,6 +308,13 @@
     const hcSubtitle = document.getElementById("hc_subtitle");
     const hcDealTitle = document.getElementById("hc_deal_title");
     const hcItems = document.getElementById("hc_items");
+    const hcBanner = document.getElementById("hc_banner");
+
+    // Banner UI
+    const bannerFile = document.getElementById("bannerFile");
+    const uploadBannerBtn = document.getElementById("uploadBannerBtn");
+    const bannerUploadStatus = document.getElementById("bannerUploadStatus");
+    const bannerPreview = document.getElementById("bannerPreview");
 
     let currentTab = "users";
 
@@ -402,7 +425,7 @@
         return arr.map(x => String(x).trim()).filter(Boolean);
       }
 
-      // else: one item per line (or comma separated)
+      // else: one item per line
       const lines = txt
         .split("\n")
         .map(s => s.trim())
@@ -414,11 +437,71 @@
       return txt.split(",").map(s => s.trim()).filter(Boolean);
     }
 
+    function showBannerPreview(url){
+      if (!bannerPreview) return;
+      const u = String(url || "").trim();
+      if (!u) {
+        bannerPreview.style.display = "none";
+        bannerPreview.src = "";
+        return;
+      }
+      bannerPreview.src = u;
+      bannerPreview.style.display = "block";
+    }
+
+    async function uploadBannerToSupabase(file){
+      const ext = (file.name.split(".").pop() || "png").toLowerCase();
+      const safeExt = ext.replace(/[^a-z0-9]/g,"") || "png";
+      const fileName = `hero-${Date.now()}.${safeExt}`;
+
+      const { error } = await supabase
+        .storage
+        .from("banners")
+        .upload(fileName, file, { upsert: true });
+
+      if (error) throw error;
+
+      const { data } = supabase
+        .storage
+        .from("banners")
+        .getPublicUrl(fileName);
+
+      return data?.publicUrl || "";
+    }
+
+    if (uploadBannerBtn) {
+      uploadBannerBtn.addEventListener("click", async () => {
+        try {
+          bannerUploadStatus.textContent = "";
+          const file = bannerFile?.files?.[0];
+          if (!file) {
+            alert("Please choose an image first.");
+            return;
+          }
+
+          bannerUploadStatus.textContent = "Uploading...";
+          uploadBannerBtn.disabled = true;
+
+          const url = await uploadBannerToSupabase(file);
+
+          hcBanner.value = url;
+          showBannerPreview(url);
+          bannerUploadStatus.textContent = "Uploaded ✅ (Now click Save)";
+
+        } catch (e) {
+          bannerUploadStatus.textContent = "Upload failed ❌";
+          alert(e?.message || "Upload failed");
+        } finally {
+          uploadBannerBtn.disabled = false;
+        }
+      });
+    }
+
     async function loadHomeContentForm(){
       const { data, error } = await supabase
         .from("site_content")
         .select("key,value")
-        .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items"]);
+        .in("key", ["home_hero_title","home_hero_subtitle","home_deal_title","home_deal_items","home_hero_image_url"]);
 
       if (error) {
         alert("Load failed: " + (error.message || "error"));
@@ -432,6 +515,10 @@
       hcSubtitle.value = map.home_hero_subtitle || "";
       hcDealTitle.value = map.home_deal_title || "";
       hcItems.value = map.home_deal_items || '["Fresh and hygienic food","Tiffin service"]';
+      hcBanner.value = map.home_hero_image_url || "";
+
+      showBannerPreview(hcBanner.value);
+      if (bannerUploadStatus) bannerUploadStatus.textContent = "";
     }
 
     async function saveHomeContentForm(){
@@ -450,6 +537,7 @@
         { key: "home_hero_subtitle", value: (hcSubtitle.value || "").trim(), updated_at: nowIso },
         { key: "home_deal_title", value: (hcDealTitle.value || "").trim(), updated_at: nowIso },
         { key: "home_deal_items", value: JSON.stringify(itemsArr), updated_at: nowIso },
+        { key: "home_hero_image_url", value: (hcBanner.value || "").trim(), updated_at: nowIso },
       ];
 
       const { error } = await supabase
@@ -461,8 +549,8 @@
         return;
       }
 
-      // keep textarea consistent as JSON
       hcItems.value = JSON.stringify(itemsArr);
+      showBannerPreview(hcBanner.value);
 
       alert("Saved ✅ Ab home page refresh karo.");
     }
@@ -470,7 +558,7 @@
     function showHomeView(){
       showOnly("home");
       pageTitle.textContent = "Home Content";
-      pageSub.textContent = "Edit home page side card text & list.";
+      pageSub.textContent = "Edit home page side card text + banner.";
       currentTab = "home";
       setActiveTab(tabHome);
       loadHomeContentForm();
