@@ -8,12 +8,12 @@
   <link rel="icon" href="namak-logo.png" type="image/png" />
 
   <style>
-    /* If your style.css already has these, no issue */
     .nm-orders-topbar{
       display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
       margin-top: 8px;
     }
     .nm-orders-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
     .nm-empty{
       background:#fff;
       border:1px solid rgba(0,0,0,.10);
@@ -21,6 +21,7 @@
       padding:18px;
       box-shadow: 0 10px 26px rgba(0,0,0,.06);
     }
+
     .nm-badge{
       display:inline-flex;
       align-items:center;
@@ -42,6 +43,7 @@
       margin-top: 10px;
     }
     .nm-muted{ opacity:.75; }
+
     .nm-order-details{
       margin-top: 12px;
       padding-top: 12px;
@@ -55,6 +57,7 @@
 
     .card-grid{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
     @media (max-width: 980px){ .card-grid{ grid-template-columns: 1fr; } }
+
     .card{
       background:#fff;
       border:1px solid rgba(0,0,0,.10);
@@ -65,6 +68,7 @@
     .card-title{ font-weight:900; font-size:1.05rem; }
     .card-meta{ margin-top:6px; opacity:.75; font-size:.92rem; }
     .card-line{ margin:10px 0 0; opacity:.85; }
+
     .card-footer{
       margin-top:12px;
       display:flex;
@@ -112,11 +116,7 @@
       margin-top:10px;
       flex-wrap:wrap;
     }
-    .step{
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
+    .step{ display:flex; align-items:center; gap:8px; }
     .step-dot{
       width:18px;
       height:18px;
@@ -136,19 +136,10 @@
       background: rgba(0,0,0,.12);
       border-radius:2px;
     }
-    .step.done .step-dot{
-      border-color: transparent;
-      background: #16a34a;
-    }
-    .step.active .step-dot{
-      border-color: #f97316;
-      background:#fff;
-    }
-    .step.done .step-label,
-    .step.active .step-label{ opacity:1; }
-    @media (max-width:560px){
-      .step-line{ width:22px; }
-    }
+    .step.done .step-dot{ border-color: transparent; background: #16a34a; }
+    .step.active .step-dot{ border-color: #f97316; background:#fff; }
+    .step.done .step-label, .step.active .step-label{ opacity:1; }
+    @media (max-width:560px){ .step-line{ width:22px; } }
 
     /* ===== Plan delivery days ===== */
     .nm-days{
@@ -244,12 +235,12 @@
 
             <div class="nm-orders-actions">
               <button class="btn btn-outline" type="button" id="nmRefreshOrders">Refresh</button>
-              <button class="btn btn-outline" type="button" id="nmClearOrders">Clear All</button>
+              <!-- ✅ Clear All removed -->
             </div>
           </div>
 
           <p class="section-subtitle">
-            Your plan and meal orders will appear here. Meal orders show delivery progress.
+            Your plan and meal orders will appear here.
           </p>
         </div>
 
@@ -264,7 +255,7 @@
       <div class="footer-links">
         <a href="plans.html">Plans</a>
         <a href="meals.html">Meals</a>
-        <a href="customer-care.html">Customer Care</a>
+        <a href="customercare.html">Customer Care</a>
       </div>
     </div>
   </footer>
@@ -306,353 +297,343 @@
   </div>
 
   <script>
-    // ===== Orders render from checkout localStorage =====
-    const ORDERS_KEY = 'nm_orders';
-
-    function money(n){ return 'Rs ' + Number(n || 0).toLocaleString('en-PK'); }
-
-    function formatDate(iso){
-      try{
-        const d = new Date(iso);
-        return d.toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-      }catch(e){
-        return '';
-      }
-    }
-
-    function badgeClass(status){
-      const s = String(status || '').toLowerCase();
-      if (s.includes('pending')) return 'nm-badge nm-badge-pending';
-      if (s.includes('paid') || s.includes('active') || s.includes('delivered')) return 'nm-badge nm-badge-paid';
-      if (s.includes('cancel') || s.includes('refund')) return 'nm-badge nm-badge-cancel';
-      return 'nm-badge nm-badge-other';
-    }
-
-    function safeText(t){ return (t == null) ? '' : String(t); }
-
-    function loadOrders(){
-      let arr = [];
-      try{
-        arr = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-        if (!Array.isArray(arr)) arr = [];
-      }catch(e){
-        arr = [];
-      }
-      return arr;
-    }
-
-    function saveOrders(arr){
-      localStorage.setItem(ORDERS_KEY, JSON.stringify(arr || []));
-    }
-
-    function orderHasType(order, type){
-      const items = Array.isArray(order?.items) ? order.items : [];
-      return items.some(it => String(it.type || it.kind || it.category || '').toLowerCase() === String(type).toLowerCase());
-    }
-
-    function getOrderTitle(order){
-      const items = Array.isArray(order?.items) ? order.items : [];
-      if (!items.length) return 'Order';
-      // If plan exists, show plan name first
-      const plan = items.find(it => String(it.type || '').toLowerCase() === 'plan');
-      if (plan) return safeText(plan.name || 'Plan');
-      // Otherwise show first meal name
-      return safeText(items[0].name || 'Order');
-    }
-
-    // ===== Meals stepper =====
-    const MEAL_FLOW = ["Placed","Confirmed","Out for delivery","Delivered"];
-
-    function mealStatusIndex(status){
-      const idx = MEAL_FLOW.indexOf(status);
-      return idx === -1 ? 0 : idx;
-    }
-
-    function buildMealStepperHTML(status){
-      const idx = mealStatusIndex(status || "Placed");
-      let html = `<div class="order-stepper">`;
-      MEAL_FLOW.forEach((label, i) => {
-        const cls = i < idx ? "done" : (i === idx ? "active" : "");
-        html += `
-          <div class="step ${cls}">
-            <span class="step-dot"></span>
-            <span class="step-label">${i+1}. ${label}</span>
-          </div>
-        `;
-        if (i !== MEAL_FLOW.length - 1) html += `<span class="step-line"></span>`;
-      });
-      html += `</div>`;
-      return html;
-    }
-
-    // Auto progress meals (demo)
-    // 0-3 min: Placed, 3-12 min: Confirmed, 12-35 min: Out, 35+ min: Delivered
-    function autoMealStatus(createdAtISO){
-      const created = new Date(createdAtISO || Date.now()).getTime();
-      const now = Date.now();
-      const mins = Math.max(0, (now - created) / 60000);
-
-      if (mins < 3) return "Placed";
-      if (mins < 12) return "Confirmed";
-      if (mins < 35) return "Out for delivery";
-      return "Delivered";
-    }
-
-    // ===== Plan "days" after verification =====
-    function getNextDeliveryDays(count=7){
-      const days = [];
-      const d = new Date();
-      d.setHours(0,0,0,0);
-
-      // start from tomorrow
-      d.setDate(d.getDate() + 1);
-
-      while(days.length < count){
-        const dayName = d.toLocaleDateString('en-GB', { weekday:'short' });
-        const dateStr = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
-        // Example: avoid Sunday deliveries (optional)
-        const isSunday = d.getDay() === 0;
-        if (!isSunday){
-          days.push(`${dayName} • ${dateStr}`);
-        }
-        d.setDate(d.getDate() + 1);
-      }
-      return days;
-    }
-
-    function buildPlanDaysHTML(){
-      const days = getNextDeliveryDays(7);
-      return `
-        <div class="card-line"><strong>Upcoming delivery days</strong></div>
-        <div class="nm-days">
-          ${days.map(x => `<span class="nm-daypill">${x}</span>`).join('')}
-        </div>
-      `;
-    }
-
-    // ===== Render items list =====
-    function buildItemsHTML(order){
-      const items = Array.isArray(order?.items) ? order.items : [];
-      if (!items.length) return '';
-
-      let html = `<div class="nm-items">`;
-      items.forEach(it => {
-        const name = safeText(it.name || 'Item');
-        const qty = Number(it.quantity || it.qty || 1) || 1;
-        const price = Number(it.price || 0) || 0;
-        const line = price * qty;
-
-        const type = String(it.type || it.kind || it.category || '').toLowerCase();
-        const meta = type === 'meal' ? `Qty: ${qty}` : `Qty: ${qty}`;
-
-        html += `
-          <div class="nm-item-row">
-            <div>
-              <div class="nm-item-name">${name}</div>
-              <div class="nm-item-sub">${meta}</div>
-            </div>
-            <div class="nm-item-price">${money(line)}</div>
-          </div>
-        `;
-      });
-      html += `</div>`;
-      return html;
-    }
-
-    // ===== Admin status dropdown (optional, safe) =====
-    // Show only if URL has ?admin=1
-    function isAdminMode(){
-      try{
-        return new URLSearchParams(window.location.search).get('admin') === '1';
-      }catch(e){
-        return false;
-      }
-    }
-
-    function buildAdminStatusUI(order, idx){
-      if (!isAdminMode()) return '';
-
-      const isMeal = orderHasType(order, 'meal');
-      const options = isMeal
-        ? ["Placed","Confirmed","Out for delivery","Delivered","Cancelled"]
-        : ["Pending Verification","Paid","Active","Cancelled"];
-
-      const current = safeText(order.status || (isMeal ? "Placed" : "Pending Verification"));
-
-      return `
-        <div class="nm-admin">
-          <span class="nm-muted"><strong>Admin:</strong></span>
-          <select onchange="nmSetStatus(${idx}, this.value)">
-            ${options.map(op => `<option value="${op}" ${op===current?'selected':''}>${op}</option>`).join('')}
-          </select>
-        </div>
-      `;
-    }
-
-    // Global setter
-    function nmSetStatus(idx, newStatus){
-      const orders = loadOrders();
-      if (!orders[idx]) return;
-
-      orders[idx].status = newStatus;
-
-      // If meal delivered now, store deliveredAt
-      if (orderHasType(orders[idx], 'meal') && newStatus === 'Delivered'){
-        orders[idx].deliveredAt = new Date().toISOString();
-      }
-
-      saveOrders(orders);
-      renderOrders();
-    }
-    window.nmSetStatus = nmSetStatus;
-
-    function renderOrders(){
+    // ===== Orders render from localStorage (temporary) =====
+    // Later we will swap this to Supabase table orders.
+    (function(){
+      const ORDERS_KEY = 'nm_orders';
       const wrap = document.getElementById('nmOrdersWrap');
-      const orders = loadOrders();
+      const refreshBtn = document.getElementById('nmRefreshOrders');
 
-      if (!orders.length){
-        wrap.innerHTML = `
-          <div class="nm-empty">
-            <div class="card-title">No orders yet</div>
-            <p class="card-line">Select a plan from Plans or add meals from Meals, then checkout. Your order will appear here.</p>
-            <div style="margin-top:12px;">
-              <a href="plans.html" class="btn btn-primary">Go to Plans</a>
-              <a href="meals.html" class="btn btn-outline" style="margin-left:10px;">Go to Meals</a>
+      const MEAL_FLOW = ["Placed","Confirmed","Out for delivery","Delivered"];
+
+      function money(n){ return 'Rs ' + Number(n || 0).toLocaleString('en-PK'); }
+
+      function formatDate(iso){
+        try{
+          const d = new Date(iso);
+          if (isNaN(d.getTime())) return '';
+          return d.toLocaleString('en-GB', {
+            day:'2-digit', month:'short', year:'numeric',
+            hour:'2-digit', minute:'2-digit'
+          });
+        }catch(e){ return ''; }
+      }
+
+      function safeText(t){ return (t == null) ? '' : String(t); }
+
+      function badgeClass(status){
+        const s = String(status || '').toLowerCase();
+        if (s.includes('pending')) return 'nm-badge nm-badge-pending';
+        if (s.includes('paid') || s.includes('active') || s.includes('delivered')) return 'nm-badge nm-badge-paid';
+        if (s.includes('cancel') || s.includes('refund')) return 'nm-badge nm-badge-cancel';
+        return 'nm-badge nm-badge-other';
+      }
+
+      function loadOrders(){
+        try{
+          const raw = localStorage.getItem(ORDERS_KEY) || '[]';
+          const arr = JSON.parse(raw);
+          return Array.isArray(arr) ? arr : [];
+        }catch(e){
+          return [];
+        }
+      }
+
+      function saveOrders(arr){
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(arr || []));
+      }
+
+      function isAdminMode(){
+        try{
+          return new URLSearchParams(window.location.search).get('admin') === '1';
+        }catch(e){
+          return false;
+        }
+      }
+
+      function orderHasType(order, type){
+        const items = Array.isArray(order?.items) ? order.items : [];
+        return items.some(it => String(it.type || it.kind || it.category || '').toLowerCase() === String(type).toLowerCase());
+      }
+
+      function getOrderTitle(order){
+        const items = Array.isArray(order?.items) ? order.items : [];
+        if (!items.length) return 'Order';
+        const plan = items.find(it => String(it.type || '').toLowerCase() === 'plan');
+        if (plan) return safeText(plan.name || 'Plan');
+        return safeText(items[0].name || 'Order');
+      }
+
+      function mealStatusIndex(status){
+        const idx = MEAL_FLOW.indexOf(status);
+        return idx === -1 ? 0 : idx;
+      }
+
+      function buildMealStepperHTML(status){
+        const idx = mealStatusIndex(status || "Placed");
+        let html = `<div class="order-stepper">`;
+        MEAL_FLOW.forEach((label, i) => {
+          const cls = i < idx ? "done" : (i === idx ? "active" : "");
+          html += `
+            <div class="step ${cls}">
+              <span class="step-dot"></span>
+              <span class="step-label">${i+1}. ${label}</span>
             </div>
+          `;
+          if (i !== MEAL_FLOW.length - 1) html += `<span class="step-line"></span>`;
+        });
+        html += `</div>`;
+        return html;
+      }
+
+      // DEMO auto-progress for meal orders (only when not admin mode)
+      function autoMealStatus(createdAtISO){
+        const created = new Date(createdAtISO || Date.now()).getTime();
+        const now = Date.now();
+        const mins = Math.max(0, (now - created) / 60000);
+
+        if (mins < 3) return "Placed";
+        if (mins < 12) return "Confirmed";
+        if (mins < 35) return "Out for delivery";
+        return "Delivered";
+      }
+
+      function getNextDeliveryDays(count=7){
+        const days = [];
+        const d = new Date();
+        d.setHours(0,0,0,0);
+        d.setDate(d.getDate() + 1); // start tomorrow
+
+        while(days.length < count){
+          const isSunday = d.getDay() === 0;
+          if (!isSunday){
+            const dayName = d.toLocaleDateString('en-GB', { weekday:'short' });
+            const dateStr = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+            days.push(`${dayName} • ${dateStr}`);
+          }
+          d.setDate(d.getDate() + 1);
+        }
+        return days;
+      }
+
+      function buildPlanDaysHTML(){
+        const days = getNextDeliveryDays(7);
+        return `
+          <div class="card-line"><strong>Upcoming delivery days</strong></div>
+          <div class="nm-days">
+            ${days.map(x => `<span class="nm-daypill">${x}</span>`).join('')}
           </div>
         `;
-        return;
       }
 
-      // Auto-update meal statuses (demo) ONLY if not admin mode
-      if (!isAdminMode()){
-        let changed = false;
-        orders.forEach(o => {
-          const isMeal = orderHasType(o, 'meal');
-          if (!isMeal) return;
+      function buildItemsHTML(order){
+        const items = Array.isArray(order?.items) ? order.items : [];
+        if (!items.length) return '';
 
-          const current = safeText(o.status || "Placed");
-          // Do not override if cancelled
-          if (String(current).toLowerCase().includes('cancel')) return;
+        let html = `<div class="nm-items">`;
+        items.forEach(it => {
+          const name = safeText(it.name || 'Item');
+          const qty = Number(it.quantity || it.qty || 1) || 1;
+          const price = Number(it.price || 0) || 0;
+          const line = price * qty;
 
-          const auto = autoMealStatus(o.createdAt);
-          if (auto && auto !== current){
-            o.status = auto;
-            changed = true;
-
-            if (auto === "Delivered" && !o.deliveredAt){
-              o.deliveredAt = new Date().toISOString();
-            }
-          }
+          html += `
+            <div class="nm-item-row">
+              <div>
+                <div class="nm-item-name">${name}</div>
+                <div class="nm-item-sub">Qty: ${qty}</div>
+              </div>
+              <div class="nm-item-price">${money(line)}</div>
+            </div>
+          `;
         });
-        if (changed) saveOrders(orders);
+        html += `</div>`;
+        return html;
       }
 
-      let html = `<div class="card-grid">`;
+      function buildAdminStatusUI(order, idx){
+        if (!isAdminMode()) return '';
 
-      orders.forEach((o, idx) => {
-        const id = safeText(o.id || ('NM-' + (idx+1)));
-        const created = formatDate(o.createdAt);
-        const isMeal = orderHasType(o, 'meal');
-        const isPlan = orderHasType(o, 'plan') || (!isMeal); // fallback if older plan orders didn't tag type
+        const isMeal = orderHasType(order, 'meal');
+        const options = isMeal
+          ? ["Placed","Confirmed","Out for delivery","Delivered","Cancelled"]
+          : ["Pending Verification","Paid","Active","Cancelled"];
 
-        // Status defaults
-        let status = safeText(o.status || (isMeal ? "Placed" : "Pending Verification"));
+        const current = safeText(order.status || (isMeal ? "Placed" : "Pending Verification"));
 
-        // Totals
-        const totalNum = Number(o?.totals?.total ?? o?.totals?.subtotal ?? o?.payment?.amount ?? 0) || 0;
-        const amount = money(totalNum);
+        return `
+          <div class="nm-admin">
+            <span class="nm-muted"><strong>Admin:</strong></span>
+            <select data-admin-status="1" data-idx="${idx}">
+              ${options.map(op => `<option value="${op}" ${op===current?'selected':''}>${op}</option>`).join('')}
+            </select>
+          </div>
+        `;
+      }
 
-        // Payment
-        const method = safeText(o?.payment?.methodLabel || o?.payment?.method || '');
-        const trx = safeText(o?.payment?.trx || '');
+      function renderOrders(){
+        const orders = loadOrders();
 
-        // Customer/Delivery (compatible with your checkout.html)
-        const phone = safeText(o?.customer?.phone || '');
-        const fullName = safeText(o?.customer?.name || '');
-        const address =
-          [
+        if (!orders.length){
+          wrap.innerHTML = `
+            <div class="nm-empty">
+              <div class="card-title">No orders yet</div>
+              <p class="card-line">Select a plan from Plans or add meals from Meals, then checkout. Your order will appear here.</p>
+              <div style="margin-top:12px;">
+                <a href="plans.html" class="btn btn-primary">Go to Plans</a>
+                <a href="meals.html" class="btn btn-outline" style="margin-left:10px;">Go to Meals</a>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        // Auto-update meal statuses (demo) ONLY if not admin mode
+        if (!isAdminMode()){
+          let changed = false;
+          orders.forEach(o => {
+            const isMeal = orderHasType(o, 'meal');
+            if (!isMeal) return;
+
+            const current = safeText(o.status || "Placed");
+            if (String(current).toLowerCase().includes('cancel')) return;
+
+            const auto = autoMealStatus(o.createdAt);
+            if (auto && auto !== current){
+              o.status = auto;
+              changed = true;
+              if (auto === "Delivered" && !o.deliveredAt){
+                o.deliveredAt = new Date().toISOString();
+              }
+            }
+          });
+          if (changed) saveOrders(orders);
+        }
+
+        let html = `<div class="card-grid">`;
+
+        orders.forEach((o, idx) => {
+          const id = safeText(o.id || ('NM-' + (idx+1)));
+          const created = formatDate(o.createdAt);
+          const isMeal = orderHasType(o, 'meal');
+          const isPlan = orderHasType(o, 'plan') || (!isMeal);
+
+          let status = safeText(o.status || (isMeal ? "Placed" : "Pending Verification"));
+
+          const totalNum = Number(o?.totals?.total ?? o?.totals?.subtotal ?? o?.payment?.amount ?? 0) || 0;
+          const amount = money(totalNum);
+
+          const method = safeText(o?.payment?.methodLabel || o?.payment?.method || '');
+          const trx = safeText(o?.payment?.trx || '');
+
+          const phone = safeText(o?.customer?.phone || '');
+          const fullName = safeText(o?.customer?.name || '');
+          const address = [
             safeText(o?.delivery?.address1 || ''),
             safeText(o?.delivery?.address2 || ''),
             safeText(o?.delivery?.area || ''),
             safeText(o?.delivery?.city || '')
           ].filter(Boolean).join(', ');
 
-        const instr = safeText(o?.delivery?.instructions || '');
+          const instr = safeText(o?.delivery?.instructions || '');
 
-        const title = getOrderTitle(o);
+          const title = getOrderTitle(o);
 
-        // Delivered date
-        const deliveredAt = o?.deliveredAt ? formatDate(o.deliveredAt) : '';
-        const deliveredLine = (isMeal && String(status).toLowerCase() === 'delivered')
-          ? `<div class="card-line"><strong>Delivered on:</strong> <span class="nm-muted">${deliveredAt || '—'}</span></div>`
-          : '';
+          const deliveredAt = o?.deliveredAt ? formatDate(o.deliveredAt) : '';
+          const deliveredLine = (isMeal && String(status).toLowerCase() === 'delivered')
+            ? `<div class="card-line"><strong>Delivered on:</strong> <span class="nm-muted">${deliveredAt || '—'}</span></div>`
+            : '';
 
-        // Plan days only after verification
-        const showPlanDays = isPlan && (String(status).toLowerCase().includes('paid') || String(status).toLowerCase().includes('active'));
-        const planDaysHTML = showPlanDays ? buildPlanDaysHTML() : (isPlan ? `<div class="card-line nm-muted">Plan delivery days will appear after payment verification.</div>` : '');
+          const showPlanDays = isPlan && (String(status).toLowerCase().includes('paid') || String(status).toLowerCase().includes('active'));
+          const planDaysHTML = showPlanDays
+            ? buildPlanDaysHTML()
+            : (isPlan ? `<div class="card-line nm-muted">Plan delivery days will appear after payment verification.</div>` : '');
 
-        // Meals stepper
-        const stepperHTML = isMeal ? buildMealStepperHTML(status) : '';
+          const stepperHTML = isMeal ? buildMealStepperHTML(status) : '';
 
-        html += `
-          <div class="card" data-idx="${idx}">
-            <div class="card-title">Order #${id}</div>
-            <div class="card-meta">${created || ''}</div>
+          html += `
+            <div class="card" data-order-card="1" data-idx="${idx}">
+              <div class="card-title">Order #${id}</div>
+              <div class="card-meta">${created || ''}</div>
 
-            <p class="card-line"><strong>${title}</strong></p>
+              <p class="card-line"><strong>${title}</strong></p>
 
-            ${buildItemsHTML(o)}
+              ${buildItemsHTML(o)}
 
-            <div class="nm-order-meta-row">
-              <span class="${badgeClass(status)}">Status: ${status}</span>
-              <span class="nm-muted"><strong>Total:</strong> ${amount}</span>
-            </div>
+              <div class="nm-order-meta-row">
+                <span class="${badgeClass(status)}">Status: ${status}</span>
+                <span class="nm-muted"><strong>Total:</strong> ${amount}</span>
+              </div>
 
-            ${stepperHTML}
-            ${deliveredLine}
-            ${planDaysHTML}
+              ${stepperHTML}
+              ${deliveredLine}
+              ${planDaysHTML}
 
-            ${buildAdminStatusUI(o, idx)}
+              ${buildAdminStatusUI(o, idx)}
 
-            <div class="card-footer">
-              <span class="nm-muted">${method ? ('Payment: ' + method) : ''}</span>
-              <button class="nm-linkbtn" type="button" onclick="toggleDetails(${idx})">View details</button>
-            </div>
+              <div class="card-footer">
+                <span class="nm-muted">${method ? ('Payment: ' + method) : ''}</span>
+                <button class="nm-linkbtn" type="button" data-toggle-details="1" data-idx="${idx}">View details</button>
+              </div>
 
-            <div class="nm-order-details" id="nmDetails_${idx}">
-              <div class="nm-kv">
-                <div class="nm-k">Customer</div><div class="nm-v">${fullName || '-'}</div>
-                <div class="nm-k">Phone</div><div class="nm-v">${phone || '-'}</div>
-                <div class="nm-k">Address</div><div class="nm-v">${address || '-'}</div>
-                <div class="nm-k">Instructions</div><div class="nm-v">${instr || '-'}</div>
-                <div class="nm-k">TRX ID</div><div class="nm-v">${trx || '-'}</div>
+              <div class="nm-order-details" id="nmDetails_${idx}">
+                <div class="nm-kv">
+                  <div class="nm-k">Customer</div><div class="nm-v">${fullName || '-'}</div>
+                  <div class="nm-k">Phone</div><div class="nm-v">${phone || '-'}</div>
+                  <div class="nm-k">Address</div><div class="nm-v">${address || '-'}</div>
+                  <div class="nm-k">Instructions</div><div class="nm-v">${instr || '-'}</div>
+                  <div class="nm-k">TRX ID</div><div class="nm-v">${trx || '-'}</div>
+                </div>
               </div>
             </div>
-          </div>
-        `;
+          `;
+        });
+
+        html += `</div>`;
+        wrap.innerHTML = html;
+      }
+
+      // Delegated clicks (no global functions)
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-toggle-details="1"]');
+        if (!btn) return;
+
+        const idx = btn.getAttribute('data-idx');
+        const el = document.getElementById('nmDetails_' + idx);
+        if (!el) return;
+
+        const isOpen = el.style.display === 'block';
+        el.style.display = isOpen ? 'none' : 'block';
+        btn.textContent = isOpen ? 'View details' : 'Hide details';
       });
 
-      html += `</div>`;
-      wrap.innerHTML = html;
-    }
+      // Admin status change (only if present)
+      document.addEventListener('change', (e) => {
+        const sel = e.target.closest('select[data-admin-status="1"]');
+        if (!sel) return;
 
-    function toggleDetails(i){
-      const el = document.getElementById('nmDetails_' + i);
-      if (!el) return;
-      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-    }
-    window.toggleDetails = toggleDetails;
+        const idx = Number(sel.getAttribute('data-idx'));
+        const newStatus = sel.value;
 
-    // Buttons
-    document.getElementById('nmRefreshOrders')?.addEventListener('click', renderOrders);
-    document.getElementById('nmClearOrders')?.addEventListener('click', () => {
-      localStorage.removeItem(ORDERS_KEY);
+        const orders = loadOrders();
+        if (!orders[idx]) return;
+
+        orders[idx].status = newStatus;
+
+        // store deliveredAt if meal delivered
+        if (orderHasType(orders[idx], 'meal') && newStatus === 'Delivered'){
+          orders[idx].deliveredAt = new Date().toISOString();
+        }
+
+        saveOrders(orders);
+        renderOrders();
+      });
+
+      refreshBtn?.addEventListener('click', renderOrders);
+
+      // init
       renderOrders();
-    });
-
-    // Initial render
-    renderOrders();
+    })();
   </script>
 
   <!-- WhatsApp widget script -->
@@ -683,6 +664,5 @@
   </script>
 
   <script type="module" src="auth.js"></script>
-
 </body>
 </html>
