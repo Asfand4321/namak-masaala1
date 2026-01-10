@@ -1302,14 +1302,17 @@ create table if not exists public.meals (
       }
     });
 
-    // ===== INIT =====
+        // ===== INIT =====
     (async () => {
-      const session = await requireAdmin();
+      // ✅ if auth.js provided window.requireAdmin then use it, else use local requireAdmin()
+      const session = (window.requireAdmin ? await window.requireAdmin() : await requireAdmin());
       if (!session) return;
 
       // default
       showUsersView();
     })();
+
+    
   </script>
 </body>
 </html>
