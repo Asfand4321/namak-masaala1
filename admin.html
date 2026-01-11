@@ -251,6 +251,31 @@
     height: 44px !important;
     resize: none !important;
   }
+    /* ✅ ADMIN: meals table ko break hone se bachao */
+.adm-table{ table-layout: fixed; }
+
+.adm-table th, .adm-table td{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Columns widths (aap apni table columns ke hisaab se adjust kar sakte ho) */
+.adm-table th:nth-child(1), .adm-table td:nth-child(1){ width: 28%; } /* Meal */
+.adm-table th:nth-child(2), .adm-table td:nth-child(2){ width: 26%; } /* Tags */
+.adm-table th:nth-child(3), .adm-table td:nth-child(3){ width: 10%; } /* Price */
+.adm-table th:nth-child(4), .adm-table td:nth-child(4){ width: 12%; } /* Status */
+.adm-table th:nth-child(5), .adm-table td:nth-child(5){
+  width: 24%;             /* Actions */
+  overflow: visible;      /* buttons cut na hon */
+  white-space: nowrap;
+}
+
+/* Buttons ko right side pe rakh do */
+.adm-actions{
+  justify-content: flex-end;
+}
+
 </style>
 
 </head>
