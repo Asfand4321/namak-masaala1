@@ -74,7 +74,7 @@
     }
     .payment-option input{ width:auto; margin:0; }
 
-    /* ✅ UPDATED ICON BOX (logos won’t crop now) */
+    /* icon box */
     .pay-icon{
       width:44px;
       height:44px;
@@ -130,9 +130,7 @@
       border-radius:12px;
       padding:10px 12px;
       background:#fff;
-
-      /* ✅ prevent layout break from long text */
-      overflow:hidden;
+      overflow:hidden; /* prevent layout break */
     }
     .order-item-row > div:first-child{ min-width:0; }
 
@@ -311,7 +309,7 @@
                   <span>Direct bank transfer</span>
                 </label>
 
-                <!-- ✅ COD (Meals only) -->
+                <!-- COD -->
                 <label class="payment-option" id="codOptionWrap">
                   <input type="radio" name="paymentMethod" value="cod" />
                   <span class="pay-icon">
@@ -322,7 +320,7 @@
 
               </div>
 
-              <!-- Manual transfer section (hidden when COD selected) -->
+              <!-- Manual transfer section -->
               <div id="manual-section" class="payment-section">
                 <p class="form-note">
                   Send payment (JazzCash / Easypaisa / Bank) to the account below, then paste your TRX / Transaction ID.
@@ -431,32 +429,26 @@
       return "Rs " + Number(n || 0).toLocaleString("en-PK");
     }
 
-    function readCart(){
+    function readJSON(key){
       try{
-        const raw = localStorage.getItem(CART_KEY);
-        const items = raw ? JSON.parse(raw) : [];
-        return Array.isArray(items) ? items : [];
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
       }catch(e){
-        return [];
+        return null;
       }
+    }
+
+    function readCart(){
+      const items = readJSON(CART_KEY);
+      return Array.isArray(items) ? items : [];
     }
 
     function readSelectedPlan(){
-      try{
-        const raw = localStorage.getItem(PLAN_KEY);
-        return raw ? JSON.parse(raw) : null;
-      }catch(e){
-        return null;
-      }
+      return readJSON(PLAN_KEY);
     }
 
     function readTimings(){
-      try{
-        const raw = localStorage.getItem(TIMINGS_KEY);
-        return raw ? JSON.parse(raw) : null;
-      }catch(e){
-        return null;
-      }
+      return readJSON(TIMINGS_KEY);
     }
 
     function cartHasPlan(items){
@@ -475,6 +467,18 @@
       return s;
     }
 
+    function getPlanName(plan){
+      if (!plan) return "";
+      return String(plan.name || plan.title || plan.plan_name || "Plan").trim();
+    }
+
+    function getPlanPrice(plan){
+      if (!plan) return 0;
+      const p = plan.price ?? plan.amount ?? plan.plan_price ?? plan.total ?? 0;
+      const n = Number(p);
+      return Number.isFinite(n) ? n : 0;
+    }
+
     function updateSelectedMethod(){
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
       const field = document.getElementById("selectedMethod");
@@ -490,7 +494,7 @@
       const selectedPlan = readSelectedPlan();
       const items = readCart();
 
-      const hasPlan = !!selectedPlan || cartHasPlan(items);
+      const hasPlan = !!selectedPlan && getPlanPrice(selectedPlan) > 0 || cartHasPlan(items);
       const hasMeals = cartHasMeals(items);
 
       const codWrap = document.getElementById("codOptionWrap");
@@ -506,7 +510,8 @@
 
         const checked = document.querySelector('input[name="paymentMethod"]:checked');
         if (!checked || checked.value === "cod"){
-          document.querySelector('input[name="paymentMethod"][value="jazzcash"]').checked = true;
+          const jc = document.querySelector('input[name="paymentMethod"][value="jazzcash"]');
+          if (jc) jc.checked = true;
         }
 
         if (manualSection) manualSection.style.display = "block";
@@ -555,8 +560,11 @@
       const timings = readTimings();
       const cartItems = readCart();
 
-      // Plan selected from plans.html
-      if (selectedPlan && selectedPlan.name && selectedPlan.price){
+      // ✅ Plan selected from plans.html (robust)
+      if (selectedPlan && getPlanPrice(selectedPlan) > 0){
+        const planPrice = getPlanPrice(selectedPlan);
+        const planName = getPlanName(selectedPlan);
+
         itemsContainer.innerHTML = "";
 
         const row = document.createElement("div");
@@ -572,24 +580,24 @@
 
         row.innerHTML = `
           <div>
-            <div class="order-item-name">${selectedPlan.name}</div>
+            <div class="order-item-name">${planName}</div>
             <div class="order-item-meta">${timingText ? timingText : "Timing not selected"}</div>
           </div>
-          <div class="order-item-price">${money(selectedPlan.price)}</div>
+          <div class="order-item-price">${money(planPrice)}</div>
         `;
         itemsContainer.appendChild(row);
 
-        subtotalEl.textContent = money(selectedPlan.price);
-        totalEl.textContent = money(selectedPlan.price);
-        if (payAmountInput) payAmountInput.value = String(selectedPlan.price);
+        subtotalEl.textContent = money(planPrice);
+        totalEl.textContent = money(planPrice);
+        if (payAmountInput) payAmountInput.value = String(planPrice);
 
         return {
-          items: [{ type:"plan", name:selectedPlan.name, price:Number(selectedPlan.price), quantity:1 }],
-          subtotal: Number(selectedPlan.price)
+          items: [{ type:"plan", name:planName, price:planPrice, quantity:1 }],
+          subtotal: planPrice
         };
       }
 
-      // Cart fallback
+      // ✅ Cart fallback
       if (!cartItems.length){
         itemsContainer.innerHTML = '<p class="card-meta">No items found. Please select a plan or add meals before checkout.</p>';
         subtotalEl.textContent = "Rs 0";
@@ -632,105 +640,94 @@
       return "NMK-" + Math.floor(100000 + Math.random() * 900000);
     }
 
+    function getPaymentLabels(method){
+      const methodLabel =
+        method === "jazzcash" ? "JazzCash (wallet → bank)" :
+        method === "easypaisa" ? "Easypaisa (wallet → bank)" :
+        method === "bank" ? "Direct bank transfer" :
+        "Cash on Delivery";
+      return { methodLabel };
+    }
+
+    // ✅ Insert order with fallback (schema cache column errors)
     async function createOrderInSupabase({ userId, items, subtotal }){
-  const selectedPlan = readSelectedPlan();
-  const hasPlan = !!selectedPlan || cartHasPlan(items);
+      const selectedPlan = readSelectedPlan();
+      const hasPlan = (selectedPlan && getPlanPrice(selectedPlan) > 0) || cartHasPlan(items);
 
-  const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-  const trx = document.getElementById("transactionId")?.value?.trim() || "";
+      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
+      const trx = (document.getElementById("transactionId")?.value || "").trim();
 
-  const methodLabel =
-    method === "jazzcash" ? "JazzCash (wallet → bank)" :
-    method === "easypaisa" ? "Easypaisa (wallet → bank)" :
-    method === "bank" ? "Direct bank transfer" :
-    "Cash on Delivery";
+      const status = hasPlan
+        ? "pending_verification"
+        : (method === "cod" ? "pending_cod" : "pending_verification");
 
-  const status = hasPlan
-    ? "pending_verification"
-    : (method === "cod" ? "pending_cod" : "pending_verification");
+      const orderNo = genOrderNo();
+      const { methodLabel } = getPaymentLabels(method);
 
-  const orderNo = genOrderNo();
+      // full payload (agar columns exist karte hon)
+      const fullPayload = {
+        order_no: orderNo,
+        user_id: userId,
+        status,
+        source: "web",
 
-  // ✅ IMPORTANT: orders table me ab "subtotal/total/payment_amount" nahi bhejna
-  // ✅ Sirf woh columns bhejo jo table me exist karte hain
-  const payload = {
-    order_no: orderNo,
-    user_id: userId,
-    status,
-    source: "web",
+        // optional columns (may or may not exist)
+        amount: Number(subtotal) || 0,
+        currency: "PKR",
+        payment_method: method,
+        payment_method_label: methodLabel,
+        payment_trx: (method === "cod" ? "" : trx),
 
-    amount: Number(subtotal) || 0,
-    currency: "PKR",
+        customer_name: (document.getElementById("fullName")?.value || "").trim(),
+        customer_phone: (document.getElementById("phone")?.value || "").trim(),
+        address1: (document.getElementById("address1")?.value || "").trim(),
+        address2: (document.getElementById("address2")?.value || "").trim(),
+        area: (document.getElementById("area")?.value || "").trim(),
+        city: (document.getElementById("city")?.value || "").trim(),
+        instructions: (document.getElementById("instructions")?.value || "").trim()
+      };
 
-    payment_method: method,
-    payment_method_label: methodLabel,
-    payment_trx: (method === "cod" ? "" : trx),
+      // minimal payload (always safe with your shown columns)
+      const minimalPayload = {
+        order_no: orderNo,
+        user_id: userId,
+        status,
+        source: "web"
+      };
 
-    customer_name: document.getElementById("fullName")?.value?.trim() || "",
-    customer_phone: document.getElementById("phone")?.value?.trim() || "",
+      // 1) try full
+      let orderRow = null;
+      {
+        const { data, error } = await supabase
+          .from("orders")
+          .insert(fullPayload)
+          .select("id, order_no, status, created_at")
+          .single();
 
-    address1: document.getElementById("address1")?.value?.trim() || "",
-    address2: document.getElementById("address2")?.value?.trim() || "",
-    area: document.getElementById("area")?.value?.trim() || "",
-    city: document.getElementById("city")?.value?.trim() || "",
-    instructions: document.getElementById("instructions")?.value?.trim() || ""
-  };
+        if (!error){
+          orderRow = data;
+        } else {
+          const msg = String(error.message || "");
+          const looksLikeColumnIssue =
+            msg.includes("Could not find the") ||
+            msg.includes("schema cache") ||
+            msg.includes("column") && msg.includes("does not exist");
 
-  const { data: orderRow, error: orderErr } = await supabase
-    .from("orders")
-    .insert(payload)
-    .select("id, order_no, status, created_at")
-    .single();
+          if (!looksLikeColumnIssue) throw error;
 
-  if (orderErr) throw orderErr;
+          // 2) fallback minimal
+          const { data: data2, error: error2 } = await supabase
+            .from("orders")
+            .insert(minimalPayload)
+            .select("id, order_no, status, created_at")
+            .single();
 
-  const itemsPayload = (items || []).map(it => ({
-    order_id: orderRow.id,
-    item_type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
-    name: safeItemName(it),
-    price: Number(it.price) || 0,
-    quantity: Number(it.quantity || it.qty || 1) || 1
-  }));
+          if (error2) throw error2;
+          orderRow = data2;
+        }
+      }
 
-  if (itemsPayload.length){
-    const { error: itemsErr } = await supabase
-      .from("order_items")
-      .insert(itemsPayload);
-
-    if (itemsErr) throw itemsErr;
-  }
-
-  return orderRow;
-}
-
-      // ✅ keep this payload minimal (NO subtotal/total/currency/payment_method_label/payment_trx)
-     const payload = {
-  user_id: userId,
-  status,
-  amount: subtotal,
-  payment_method: method,
-  payment_trx: method === "cod" ? "" : trx,
-
-  customer_name: document.getElementById("fullName")?.value?.trim() || "",
-  customer_phone: document.getElementById("phone")?.value?.trim() || "",
-
-  address1: document.getElementById("address1")?.value?.trim() || "",
-  address2: document.getElementById("address2")?.value?.trim() || "",
-  area: document.getElementById("area")?.value?.trim() || "",
-  city: document.getElementById("city")?.value?.trim() || "",
-  instructions: document.getElementById("instructions")?.value?.trim() || ""
-};
-
-
-      const { data: orderRow, error: orderErr } = await supabase
-        .from("orders")
-        .insert(payload)
-        .select("id, order_no, status, created_at")
-        .single();
-
-      if (orderErr) throw orderErr;
-
-      // ✅ Try to insert items (if order_items table exists). If not, ignore.
+      // try insert order items (ignore if table missing)
       const itemsPayload = (items || []).map(it => ({
         order_id: orderRow.id,
         item_type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
@@ -741,9 +738,7 @@
 
       if (itemsPayload.length){
         try{
-          const { error: itemsErr } = await supabase
-            .from("order_items")
-            .insert(itemsPayload);
+          const { error: itemsErr } = await supabase.from("order_items").insert(itemsPayload);
           if (itemsErr) console.warn("order_items insert failed:", itemsErr.message);
         }catch(e){
           console.warn("order_items table not available:", e?.message || e);
@@ -756,6 +751,7 @@
     function cacheOrderLocally(orderRow, items, subtotal){
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
       const trx = (document.getElementById("transactionId")?.value || "").trim();
+      const { methodLabel } = getPaymentLabels(method);
 
       const local = {
         id: orderRow.order_no || orderRow.id,
@@ -763,7 +759,7 @@
         status:
           orderRow.status === "pending_cod" ? "Pending (COD)" :
           orderRow.status === "pending_verification" ? "Pending Verification" :
-          orderRow.status,
+          (orderRow.status || "pending"),
         items: (items || []).map(it => ({
           type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
           name: safeItemName(it),
@@ -771,7 +767,7 @@
           quantity: Number(it.quantity || it.qty || 1) || 1
         })),
         totals: { subtotal, total: subtotal, currency: "PKR" },
-        payment: { method, amount: subtotal, trx: method === "cod" ? "" : trx }
+        payment: { method, methodLabel, amount: subtotal, trx: method === "cod" ? "" : trx }
       };
 
       let all = [];
@@ -813,14 +809,15 @@
         }
 
         const selectedPlan = readSelectedPlan();
-        const hasPlan = !!selectedPlan || cartHasPlan(items);
+        const hasPlan = (selectedPlan && getPlanPrice(selectedPlan) > 0) || cartHasPlan(items);
 
         const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-        const fullName = document.getElementById("fullName").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const address1 = document.getElementById("address1").value.trim();
-        const area = document.getElementById("area").value.trim();
-        const city = document.getElementById("city").value.trim();
+
+        const fullName = (document.getElementById("fullName")?.value || "").trim();
+        const phone = (document.getElementById("phone")?.value || "").trim();
+        const address1 = (document.getElementById("address1")?.value || "").trim();
+        const area = (document.getElementById("area")?.value || "").trim();
+        const city = (document.getElementById("city")?.value || "").trim();
 
         if (!fullName || !phone || !address1 || !area || !city){
           errorEl.textContent = "Please fill in all required delivery fields.";
@@ -852,7 +849,7 @@
 
         cacheOrderLocally(orderRow, items, subtotal);
 
-        // clear cart + plan selection
+        // clear cart + plan selection AFTER success
         localStorage.removeItem(CART_KEY);
         localStorage.removeItem(PLAN_KEY);
         localStorage.removeItem(TIMINGS_KEY);
