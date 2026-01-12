@@ -130,10 +130,27 @@
       border-radius:12px;
       padding:10px 12px;
       background:#fff;
+
+      /* ✅ NEW: prevent layout break from long text */
+      overflow:hidden;
     }
-    .order-item-name{ font-weight:800; }
-    .order-item-meta{ opacity:.75; font-size:.9rem; margin-top:2px; }
-    .order-item-price{ font-weight:900; white-space:nowrap; }
+    /* ✅ NEW: allow left column to shrink so price stays visible */
+    .order-item-row > div:first-child{ min-width:0; }
+
+    /* ✅ NEW: ellipsis for long names */
+    .order-item-name{
+      font-weight:800;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+    .order-item-meta{
+      opacity:.75; font-size:.9rem; margin-top:2px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .order-item-price{ font-weight:900; white-space:nowrap; flex:0 0 auto; }
 
     .order-totals{
       margin-top:12px;
@@ -408,7 +425,7 @@
     import { supabase } from "./supabaseClient.js";
 
     const CART_KEY = "nm_cart_items";
-    const ORDERS_KEY = "nm_orders"; // (temporary local cache — optional)
+    const ORDERS_KEY = "nm_orders"; // local cache optional
     const PLAN_KEY = "nm_selected_plan";
     const TIMINGS_KEY = "nm_delivery_timings";
 
@@ -450,6 +467,18 @@
 
     function cartHasMeals(items){
       return items.some(it => String(it.type || it.kind || it.category || "").toLowerCase() === "meal");
+    }
+
+    function safeItemName(item){
+      const raw = item?.name ?? "Item";
+      const s = String(raw);
+
+      // ✅ If someone accidentally stored base64 data URL in name
+      if (s.startsWith("data:image")) return "Meal item";
+
+      // also avoid super long nonsense
+      if (s.length > 80) return s.slice(0, 80) + "…";
+      return s;
     }
 
     function updateSelectedMethod(){
@@ -532,7 +561,7 @@
       const timings = readTimings();
       const cartItems = readCart();
 
-      // If plan selected from plans.html -> show it even if cart empty
+      // Plan selected from plans.html
       if (selectedPlan && selectedPlan.name && selectedPlan.price){
         itemsContainer.innerHTML = "";
 
@@ -566,7 +595,7 @@
         };
       }
 
-      // Fallback to cart behavior
+      // Cart fallback
       if (!cartItems.length){
         itemsContainer.innerHTML = '<p class="card-meta">No items found. Please select a plan or add meals before checkout.</p>';
         subtotalEl.textContent = "Rs 0";
@@ -582,7 +611,7 @@
         const row = document.createElement("div");
         row.className = "order-item-row";
 
-        const name = item.name || "Item";
+        const name = safeItemName(item);
         const price = Number(item.price) || 0;
         const qty = Number(item.quantity || item.qty || 1) || 1;
         const lineTotal = price * qty;
@@ -609,7 +638,6 @@
       return "NMK-" + Math.floor(100000 + Math.random() * 900000);
     }
 
-    // ✅ Supabase: create order + items
     async function createOrderInSupabase({ userId, items, subtotal }){
       const selectedPlan = readSelectedPlan();
       const hasPlan = !!selectedPlan || cartHasPlan(items);
@@ -632,9 +660,7 @@
       const payload = {
         order_no: orderNo,
         user_id: userId,
-
         status,
-
         subtotal: subtotal,
         total: subtotal,
         currency: "PKR",
@@ -665,7 +691,7 @@
       const itemsPayload = (items || []).map(it => ({
         order_id: orderRow.id,
         item_type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
-        name: it.name || "Item",
+        name: safeItemName(it),
         price: Number(it.price) || 0,
         quantity: Number(it.quantity || it.qty || 1) || 1
       }));
@@ -681,7 +707,6 @@
       return orderRow;
     }
 
-    // Optional: keep local orders list (so your current orders.html still works)
     function cacheOrderLocally(orderRow, items, subtotal){
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
       const trx = document.getElementById("transactionId")?.value?.trim() || "";
@@ -701,7 +726,7 @@
           orderRow.status,
         items: (items || []).map(it => ({
           type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
-          name: it.name || "Item",
+          name: safeItemName(it),
           price: Number(it.price) || 0,
           quantity: Number(it.quantity || it.qty || 1) || 1
         })),
@@ -744,7 +769,6 @@
       btn.textContent = "Placing order...";
 
       try{
-        // ✅ must be logged in
         const { data: sessData } = await supabase.auth.getSession();
         const session = sessData?.session;
         if (!session){
@@ -778,34 +802,28 @@
 
         const trx = document.getElementById("transactionId")?.value?.trim() || "";
 
-        // Plans => always require TRX
         if (hasPlan && !trx){
           errorEl.textContent = "Please enter TRX / Transaction ID for plan payment.";
           errorEl.style.display = "block";
           return false;
         }
 
-        // Meals-only online => require TRX
         if (!hasPlan && method !== "cod" && !trx){
           errorEl.textContent = "Please enter TRX / Transaction ID from your payment receipt.";
           errorEl.style.display = "block";
           return false;
         }
 
-        // ✅ Save to Supabase
         const orderRow = await createOrderInSupabase({
           userId: session.user.id,
           items,
           subtotal
         });
 
-        // ✅ optional local cache (so orders.html works now)
         cacheOrderLocally(orderRow, items, subtotal);
 
         // clear cart + plan selection
         localStorage.removeItem(CART_KEY);
-
-        // (optional) clear plan keys after successful order
         localStorage.removeItem(PLAN_KEY);
         localStorage.removeItem(TIMINGS_KEY);
 
@@ -823,8 +841,8 @@
       }
     }
 
-    // expose to inline onsubmit
     window.handleCheckout = handleCheckout;
+    window.loadOrderSummary = loadOrderSummary; // safe (debug/compat)
 
     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
       radio.addEventListener("change", () => {
@@ -833,13 +851,12 @@
       });
     });
 
-    // init
     loadOrderSummary();
     applyPaymentRules();
     updateSelectedMethod();
   </script>
 
-   <!-- WhatsApp floating chat widget (global) -->
+  <!-- WhatsApp floating chat widget (global) -->
   <div class="nm-whatsapp-container">
     <div class="nm-whatsapp-popup" id="nmWhatsAppPopup">
       <div class="nm-whatsapp-header">
@@ -889,121 +906,17 @@
         popup.style.display = isVisible ? 'none' : 'block';
       });
 
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          popup.style.display = 'none';
-        });
-      }
+      if (closeBtn) closeBtn.addEventListener('click', () => popup.style.display = 'none');
 
       if (startBtn) {
         startBtn.addEventListener('click', function () {
           const phone = '923247477704';
           const text = encodeURIComponent('Hi Namak Masaala, I want to ask about tiffin plans.');
-          const url = 'https://wa.me/' + phone + '?text=' + text;
-          window.open(url, '_blank');
+          window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
         });
       }
     })();
   </script>
-<script type="module">
-  import { supabase } from "./supabaseClient.js";
-
-  // NOTE: tumhari existing functions ko touch nahi kar raha,
-  // sirf saveOrder ko override kar rahe hain DB insert ke liye.
-
-  async function saveOrderToDB({ items, subtotal }) {
-    const { data: sess } = await supabase.auth.getSession();
-    const session = sess?.session;
-    if (!session) {
-      window.location.href = "login.html";
-      return null;
-    }
-
-    const selectedPlan = (() => {
-      try { return JSON.parse(localStorage.getItem("nm_selected_plan") || "null"); } catch(e){ return null; }
-    })();
-
-    const hasPlan = !!selectedPlan || items.some(it => String(it.type||"").toLowerCase() === "plan");
-    const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-    const trx = (document.getElementById("transactionId")?.value || "").trim();
-
-    const status =
-      hasPlan ? "pending_verification" :
-      (method === "cod" ? "pending_cod" : "pending_verification");
-
-    const order_code = "NMK-" + Math.floor(100000 + Math.random() * 900000);
-
-    const payload = {
-      user_id: session.user.id,
-      order_code,
-      status,
-      payment_method: method,
-      trx_id: (method === "cod" ? null : (trx || null)),
-      amount: Number(subtotal) || 0,
-      items,
-      customer: {
-        name: (document.getElementById("fullName")?.value || "").trim(),
-        phone: (document.getElementById("phone")?.value || "").trim()
-      },
-      delivery: {
-        address1: (document.getElementById("address1")?.value || "").trim(),
-        address2: (document.getElementById("address2")?.value || "").trim(),
-        area: (document.getElementById("area")?.value || "").trim(),
-        city: (document.getElementById("city")?.value || "").trim(),
-        instructions: (document.getElementById("instructions")?.value || "").trim()
-      }
-    };
-
-    const { data, error } = await supabase
-      .from("orders")
-      .insert(payload)
-      .select("id, order_code")
-      .single();
-
-    if (error) throw error;
-    return data; // {id, order_code}
-  }
-
-  // Override handleCheckout to use DB
-  const oldHandleCheckout = window.handleCheckout;
-
-  window.handleCheckout = async function (event) {
-    event.preventDefault();
-
-    const errorEl = document.getElementById("checkout-error");
-    errorEl.style.display = "none";
-    errorEl.textContent = "";
-
-    // use your existing summary function
-    const summary = window.loadOrderSummary ? window.loadOrderSummary() : null;
-    const items = summary?.items || [];
-    const subtotal = summary?.subtotal || 0;
-
-    if (!items.length || subtotal <= 0) {
-      errorEl.textContent = "No plan/meals found. Please select a plan or add meals before checkout.";
-      errorEl.style.display = "block";
-      return false;
-    }
-
-    try {
-      await saveOrderToDB({ items, subtotal });
-
-      // clear cart after success
-      localStorage.removeItem("nm_cart_items");
-
-      // OPTIONAL: plan keys clear after success
-      // localStorage.removeItem("nm_selected_plan");
-      // localStorage.removeItem("nm_delivery_timings");
-
-      window.location.href = "orders.html";
-      return false;
-    } catch (e) {
-      errorEl.textContent = "Order save failed: " + (e?.message || "Unknown error");
-      errorEl.style.display = "block";
-      return false;
-    }
-  };
-</script>
 
   <script type="module" src="auth.js"></script>
 </body>
