@@ -647,23 +647,23 @@
       const orderNo = genOrderNo();
 
       // ✅ keep this payload minimal (NO subtotal/total/currency/payment_method_label/payment_trx)
-      const payload = {
-        user_id: userId,
-        order_no: orderNo,
-        status: status,
-        amount: Number(subtotal) || 0,
-        payment_method: method,
-        trx_id: (method === "cod" ? null : (trx || null)),
+     const payload = {
+  user_id: userId,
+  status,
+  amount: subtotal,
+  payment_method: method,
+  payment_trx: method === "cod" ? "" : trx,
 
-        customer_name: (document.getElementById("fullName")?.value || "").trim(),
-        customer_phone: (document.getElementById("phone")?.value || "").trim(),
+  customer_name: document.getElementById("fullName")?.value?.trim() || "",
+  customer_phone: document.getElementById("phone")?.value?.trim() || "",
 
-        address1: (document.getElementById("address1")?.value || "").trim(),
-        address2: (document.getElementById("address2")?.value || "").trim(),
-        area: (document.getElementById("area")?.value || "").trim(),
-        city: (document.getElementById("city")?.value || "").trim(),
-        instructions: (document.getElementById("instructions")?.value || "").trim()
-      };
+  address1: document.getElementById("address1")?.value?.trim() || "",
+  address2: document.getElementById("address2")?.value?.trim() || "",
+  area: document.getElementById("area")?.value?.trim() || "",
+  city: document.getElementById("city")?.value?.trim() || "",
+  instructions: document.getElementById("instructions")?.value?.trim() || ""
+};
+
 
       const { data: orderRow, error: orderErr } = await supabase
         .from("orders")
