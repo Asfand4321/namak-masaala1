@@ -905,6 +905,105 @@
       }
     })();
   </script>
+<script type="module">
+  import { supabase } from "./supabaseClient.js";
+
+  // NOTE: tumhari existing functions ko touch nahi kar raha,
+  // sirf saveOrder ko override kar rahe hain DB insert ke liye.
+
+  async function saveOrderToDB({ items, subtotal }) {
+    const { data: sess } = await supabase.auth.getSession();
+    const session = sess?.session;
+    if (!session) {
+      window.location.href = "login.html";
+      return null;
+    }
+
+    const selectedPlan = (() => {
+      try { return JSON.parse(localStorage.getItem("nm_selected_plan") || "null"); } catch(e){ return null; }
+    })();
+
+    const hasPlan = !!selectedPlan || items.some(it => String(it.type||"").toLowerCase() === "plan");
+    const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
+    const trx = (document.getElementById("transactionId")?.value || "").trim();
+
+    const status =
+      hasPlan ? "pending_verification" :
+      (method === "cod" ? "pending_cod" : "pending_verification");
+
+    const order_code = "NMK-" + Math.floor(100000 + Math.random() * 900000);
+
+    const payload = {
+      user_id: session.user.id,
+      order_code,
+      status,
+      payment_method: method,
+      trx_id: (method === "cod" ? null : (trx || null)),
+      amount: Number(subtotal) || 0,
+      items,
+      customer: {
+        name: (document.getElementById("fullName")?.value || "").trim(),
+        phone: (document.getElementById("phone")?.value || "").trim()
+      },
+      delivery: {
+        address1: (document.getElementById("address1")?.value || "").trim(),
+        address2: (document.getElementById("address2")?.value || "").trim(),
+        area: (document.getElementById("area")?.value || "").trim(),
+        city: (document.getElementById("city")?.value || "").trim(),
+        instructions: (document.getElementById("instructions")?.value || "").trim()
+      }
+    };
+
+    const { data, error } = await supabase
+      .from("orders")
+      .insert(payload)
+      .select("id, order_code")
+      .single();
+
+    if (error) throw error;
+    return data; // {id, order_code}
+  }
+
+  // Override handleCheckout to use DB
+  const oldHandleCheckout = window.handleCheckout;
+
+  window.handleCheckout = async function (event) {
+    event.preventDefault();
+
+    const errorEl = document.getElementById("checkout-error");
+    errorEl.style.display = "none";
+    errorEl.textContent = "";
+
+    // use your existing summary function
+    const summary = window.loadOrderSummary ? window.loadOrderSummary() : null;
+    const items = summary?.items || [];
+    const subtotal = summary?.subtotal || 0;
+
+    if (!items.length || subtotal <= 0) {
+      errorEl.textContent = "No plan/meals found. Please select a plan or add meals before checkout.";
+      errorEl.style.display = "block";
+      return false;
+    }
+
+    try {
+      await saveOrderToDB({ items, subtotal });
+
+      // clear cart after success
+      localStorage.removeItem("nm_cart_items");
+
+      // OPTIONAL: plan keys clear after success
+      // localStorage.removeItem("nm_selected_plan");
+      // localStorage.removeItem("nm_delivery_timings");
+
+      window.location.href = "orders.html";
+      return false;
+    } catch (e) {
+      errorEl.textContent = "Order save failed: " + (e?.message || "Unknown error");
+      errorEl.style.display = "block";
+      return false;
+    }
+  };
+</script>
 
   <script type="module" src="auth.js"></script>
 </body>
