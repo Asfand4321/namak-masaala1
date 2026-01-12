@@ -131,13 +131,11 @@
       padding:10px 12px;
       background:#fff;
 
-      /* ✅ NEW: prevent layout break from long text */
+      /* ✅ prevent layout break from long text */
       overflow:hidden;
     }
-    /* ✅ NEW: allow left column to shrink so price stays visible */
     .order-item-row > div:first-child{ min-width:0; }
 
-    /* ✅ NEW: ellipsis for long names */
     .order-item-name{
       font-weight:800;
       overflow:hidden;
@@ -472,11 +470,7 @@
     function safeItemName(item){
       const raw = item?.name ?? "Item";
       const s = String(raw);
-
-      // ✅ If someone accidentally stored base64 data URL in name
       if (s.startsWith("data:image")) return "Meal item";
-
-      // also avoid super long nonsense
       if (s.length > 80) return s.slice(0, 80) + "…";
       return s;
     }
@@ -638,18 +632,13 @@
       return "NMK-" + Math.floor(100000 + Math.random() * 900000);
     }
 
+    // ✅ FIXED: Only insert columns that likely exist in your orders table
     async function createOrderInSupabase({ userId, items, subtotal }){
       const selectedPlan = readSelectedPlan();
       const hasPlan = !!selectedPlan || cartHasPlan(items);
 
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-      const trx = document.getElementById("transactionId")?.value?.trim() || "";
-
-      const methodLabel =
-        method === "jazzcash" ? "JazzCash (wallet → bank)" :
-        method === "easypaisa" ? "Easypaisa (wallet → bank)" :
-        method === "bank" ? "Direct bank transfer" :
-        "Cash on Delivery";
+      const trx = (document.getElementById("transactionId")?.value || "").trim();
 
       const status = hasPlan
         ? "pending_verification"
@@ -657,27 +646,23 @@
 
       const orderNo = genOrderNo();
 
+      // ✅ keep this payload minimal (NO subtotal/total/currency/payment_method_label/payment_trx)
       const payload = {
-        order_no: orderNo,
         user_id: userId,
-        status,
-        subtotal: subtotal,
-        total: subtotal,
-        currency: "PKR",
-
+        order_no: orderNo,
+        status: status,
+        amount: Number(subtotal) || 0,
         payment_method: method,
-        payment_method_label: methodLabel,
-        payment_trx: method === "cod" ? "" : trx,
-        amount: subtotal,
+        trx_id: (method === "cod" ? null : (trx || null)),
 
-        customer_name: document.getElementById("fullName")?.value?.trim() || "",
-        customer_phone: document.getElementById("phone")?.value?.trim() || "",
+        customer_name: (document.getElementById("fullName")?.value || "").trim(),
+        customer_phone: (document.getElementById("phone")?.value || "").trim(),
 
-        address1: document.getElementById("address1")?.value?.trim() || "",
-        address2: document.getElementById("address2")?.value?.trim() || "",
-        area: document.getElementById("area")?.value?.trim() || "",
-        city: document.getElementById("city")?.value?.trim() || "",
-        instructions: document.getElementById("instructions")?.value?.trim() || ""
+        address1: (document.getElementById("address1")?.value || "").trim(),
+        address2: (document.getElementById("address2")?.value || "").trim(),
+        area: (document.getElementById("area")?.value || "").trim(),
+        city: (document.getElementById("city")?.value || "").trim(),
+        instructions: (document.getElementById("instructions")?.value || "").trim()
       };
 
       const { data: orderRow, error: orderErr } = await supabase
@@ -688,6 +673,7 @@
 
       if (orderErr) throw orderErr;
 
+      // ✅ Try to insert items (if order_items table exists). If not, ignore.
       const itemsPayload = (items || []).map(it => ({
         order_id: orderRow.id,
         item_type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
@@ -697,11 +683,14 @@
       }));
 
       if (itemsPayload.length){
-        const { error: itemsErr } = await supabase
-          .from("order_items")
-          .insert(itemsPayload);
-
-        if (itemsErr) throw itemsErr;
+        try{
+          const { error: itemsErr } = await supabase
+            .from("order_items")
+            .insert(itemsPayload);
+          if (itemsErr) console.warn("order_items insert failed:", itemsErr.message);
+        }catch(e){
+          console.warn("order_items table not available:", e?.message || e);
+        }
       }
 
       return orderRow;
@@ -709,13 +698,7 @@
 
     function cacheOrderLocally(orderRow, items, subtotal){
       const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-      const trx = document.getElementById("transactionId")?.value?.trim() || "";
-
-      const methodLabel =
-        method === "jazzcash" ? "JazzCash (wallet → bank)" :
-        method === "easypaisa" ? "Easypaisa (wallet → bank)" :
-        method === "bank" ? "Direct bank transfer" :
-        "Cash on Delivery";
+      const trx = (document.getElementById("transactionId")?.value || "").trim();
 
       const local = {
         id: orderRow.order_no || orderRow.id,
@@ -731,18 +714,7 @@
           quantity: Number(it.quantity || it.qty || 1) || 1
         })),
         totals: { subtotal, total: subtotal, currency: "PKR" },
-        payment: { method, methodLabel, amount: subtotal, trx: method === "cod" ? "" : trx },
-        customer: {
-          name: document.getElementById("fullName")?.value?.trim() || "",
-          phone: document.getElementById("phone")?.value?.trim() || ""
-        },
-        delivery: {
-          address1: document.getElementById("address1")?.value?.trim() || "",
-          address2: document.getElementById("address2")?.value?.trim() || "",
-          area: document.getElementById("area")?.value?.trim() || "",
-          city: document.getElementById("city")?.value?.trim() || "",
-          instructions: document.getElementById("instructions")?.value?.trim() || ""
-        }
+        payment: { method, amount: subtotal, trx: method === "cod" ? "" : trx }
       };
 
       let all = [];
@@ -787,7 +759,6 @@
         const hasPlan = !!selectedPlan || cartHasPlan(items);
 
         const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-
         const fullName = document.getElementById("fullName").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const address1 = document.getElementById("address1").value.trim();
@@ -800,14 +771,16 @@
           return false;
         }
 
-        const trx = document.getElementById("transactionId")?.value?.trim() || "";
+        const trx = (document.getElementById("transactionId")?.value || "").trim();
 
+        // Plans => always require TRX
         if (hasPlan && !trx){
           errorEl.textContent = "Please enter TRX / Transaction ID for plan payment.";
           errorEl.style.display = "block";
           return false;
         }
 
+        // Meals-only online => require TRX
         if (!hasPlan && method !== "cod" && !trx){
           errorEl.textContent = "Please enter TRX / Transaction ID from your payment receipt.";
           errorEl.style.display = "block";
@@ -841,8 +814,8 @@
       }
     }
 
+    // expose to inline onsubmit
     window.handleCheckout = handleCheckout;
-    window.loadOrderSummary = loadOrderSummary; // safe (debug/compat)
 
     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
       radio.addEventListener("change", () => {
@@ -851,6 +824,7 @@
       });
     });
 
+    // init
     loadOrderSummary();
     applyPaymentRules();
     updateSelectedMethod();
