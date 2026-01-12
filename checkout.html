@@ -632,19 +632,76 @@
       return "NMK-" + Math.floor(100000 + Math.random() * 900000);
     }
 
-    // ✅ FIXED: Only insert columns that likely exist in your orders table
     async function createOrderInSupabase({ userId, items, subtotal }){
-      const selectedPlan = readSelectedPlan();
-      const hasPlan = !!selectedPlan || cartHasPlan(items);
+  const selectedPlan = readSelectedPlan();
+  const hasPlan = !!selectedPlan || cartHasPlan(items);
 
-      const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
-      const trx = (document.getElementById("transactionId")?.value || "").trim();
+  const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || "jazzcash";
+  const trx = document.getElementById("transactionId")?.value?.trim() || "";
 
-      const status = hasPlan
-        ? "pending_verification"
-        : (method === "cod" ? "pending_cod" : "pending_verification");
+  const methodLabel =
+    method === "jazzcash" ? "JazzCash (wallet → bank)" :
+    method === "easypaisa" ? "Easypaisa (wallet → bank)" :
+    method === "bank" ? "Direct bank transfer" :
+    "Cash on Delivery";
 
-      const orderNo = genOrderNo();
+  const status = hasPlan
+    ? "pending_verification"
+    : (method === "cod" ? "pending_cod" : "pending_verification");
+
+  const orderNo = genOrderNo();
+
+  // ✅ IMPORTANT: orders table me ab "subtotal/total/payment_amount" nahi bhejna
+  // ✅ Sirf woh columns bhejo jo table me exist karte hain
+  const payload = {
+    order_no: orderNo,
+    user_id: userId,
+    status,
+    source: "web",
+
+    amount: Number(subtotal) || 0,
+    currency: "PKR",
+
+    payment_method: method,
+    payment_method_label: methodLabel,
+    payment_trx: (method === "cod" ? "" : trx),
+
+    customer_name: document.getElementById("fullName")?.value?.trim() || "",
+    customer_phone: document.getElementById("phone")?.value?.trim() || "",
+
+    address1: document.getElementById("address1")?.value?.trim() || "",
+    address2: document.getElementById("address2")?.value?.trim() || "",
+    area: document.getElementById("area")?.value?.trim() || "",
+    city: document.getElementById("city")?.value?.trim() || "",
+    instructions: document.getElementById("instructions")?.value?.trim() || ""
+  };
+
+  const { data: orderRow, error: orderErr } = await supabase
+    .from("orders")
+    .insert(payload)
+    .select("id, order_no, status, created_at")
+    .single();
+
+  if (orderErr) throw orderErr;
+
+  const itemsPayload = (items || []).map(it => ({
+    order_id: orderRow.id,
+    item_type: String(it.type || it.kind || it.category || "").toLowerCase() || "item",
+    name: safeItemName(it),
+    price: Number(it.price) || 0,
+    quantity: Number(it.quantity || it.qty || 1) || 1
+  }));
+
+  if (itemsPayload.length){
+    const { error: itemsErr } = await supabase
+      .from("order_items")
+      .insert(itemsPayload);
+
+    if (itemsErr) throw itemsErr;
+  }
+
+  return orderRow;
+}
 
       // ✅ keep this payload minimal (NO subtotal/total/currency/payment_method_label/payment_trx)
      const payload = {
